@@ -62,6 +62,31 @@ function updates(depName){
 				}			
                });
   }
+  
+   function printAllMarks(){
+	
+	   $.ajax({ 
+               url : "servlet/PrintAllMarkSerlvet",
+               type : 'post',
+               contentType : "application/json;charset=utf-8",
+			   dataType : 'json',
+               success : function(json) {
+               
+				 alert("成功生成此文档，请点击连接下载word附件");
+				 var inhtml = "";
+				   
+				 for(i=0;i<json.contents.length;i++)	
+				 {		
+				   alert(json.contents[i].fileName1);
+				   inhtml = "<a href='download.jsp?file="+json.contents[i].file+"&fileName="+ encodeURIComponent(encodeURIComponent(json.contents[i].fileName1)) +"'>"+ json.contents[i].fileName1 +"</a>";
+                   $("#aOfUpload").html(inhtml);
+                 }  
+               }, 
+               error : function(xhr, status, errorThrown) {
+					alert("服务器连接出错了");
+				}			
+               });
+  }
 </script>
 </head>
 <body>
@@ -113,6 +138,7 @@ function updates(depName){
  </table>
 
  <input value="打印积分" type="button" onclick="printMarks()"/>
+ <input value="打印总积分" type="button" onclick="printAllMarks()"/>
  <div id="aOfUpload"></div>
 </body>
 </html>

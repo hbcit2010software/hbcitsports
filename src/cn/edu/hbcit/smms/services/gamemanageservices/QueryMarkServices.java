@@ -6,6 +6,7 @@ import java.util.List;
 import com.lowagie.text.DocumentException;
 
 import cn.edu.hbcit.smms.dao.gamemanagedao.QueryMark;
+import cn.edu.hbcit.smms.pojo.QueryAllMarksPlayerMsg;
 import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
 
 
@@ -33,5 +34,17 @@ public class QueryMarkServices {
 	 
 	 public void createMarksDocContext(String file,List<QueryMarkPoJo> depNameList,List<QueryMarkPoJo> studentsMarkList,List<QueryMarkPoJo> teacherMarkList,List<QueryMarkPoJo> studentsFinalMarkList,List<QueryMarkPoJo> teacherFinalMarkList)throws DocumentException, IOException{   
 		  new QueryMark().createMarksDocContext(file, depNameList, studentsMarkList, teacherMarkList, studentsFinalMarkList, teacherFinalMarkList);
+	 }
+	 
+	 public List<QueryAllMarksPlayerMsg> getStudentsMarks(String depName){
+		 return new QueryMark().getStudentsMarks(depName);
+	 }
+	 
+	 public List<QueryAllMarksPlayerMsg> getTeacherMarks(String depName){
+		 return new QueryMark().getTeacherMarks(depName);
+	 }
+	 
+	 public void printAllPlayerMarksMessage(String file,List<QueryMarkPoJo> depNameList)throws DocumentException, IOException{   
+		 new QueryMark().printAllPlayerMarksMessage(file, depNameList);
 	 }
 }

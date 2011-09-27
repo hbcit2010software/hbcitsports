@@ -7,6 +7,7 @@
     <link href="css/subcss.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript">
+var reg ;
 //隔行变色
 	$(document).ready(function(){
 			
@@ -203,37 +204,34 @@
 		});
 	
 	}
-	
+	//获取成绩的正则表达式 
+	function getCheckFormat(){
+		var item = $("#item").find("option:selected").text();
+			$.ajax({
+				url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=checkFormat",
+				type : 'get',
+				data : {finalitemname:item},
+				success : function(mm) {
+					reg = new RegExp(eval(mm));
+				},
+				error : function(xhr, status, errorThrown) {
+						alert("errorThrown=" + errorThrown);
+					}
+			});
+	}
 	//验证 成绩格式 
 	function checkFormat(){
-		var item = $("#item").find("option:selected").text();
 		if( curInput!=null){
-		var score = curInput.value;
-			if( score == ''){
-			return false;
-			}
-		}
-		$.ajax({
-			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=checkFormat",
-			type : 'get',
-			data : {finalitemname:item},
-			success : function(mm) {
-				var reg = new RegExp(eval(mm));
-				if( curInput!=null){
-						var score = curInput.value;
-						if( score != ''){
-							if( !reg.test(score) ){
-								alert("格式不正确！");
-								//curInput.focus();
-								return false;
-							}
-						}
-					} 
-			},
-			error : function(xhr, status, errorThrown) {
-					alert("errorThrown=" + errorThrown);
-				}
-		});
+			var score = curInput.value;
+			if( score != ''){
+				if( !reg.test(score) ){
+					alert("格式不正确！");
+					//curInput.focus();
+					return false;			
+							}			
+						}						
+					} 		
+		
 	}
 	
 	
@@ -287,9 +285,9 @@
                     	<option>--请选择--</option> 
                     </select>
                 </td>
-                <td width='20%' height="20"><input type="button" value="录入成绩"  onclick="getItemType(),getPlayerMessage(),getFormat(),getFormat();"/></td>
+                <td width='20%' height="20"><input type="button" value="录入成绩"  onclick="getItemType(),getPlayerMessage(),getFormat(),getCheckFormat(),getCheckFormat(),getGpIt();"/></td>
             </tr>
-       		<tr id="title"></tr>
+       		<tr id="title" class='tableTitle'></tr>
         </table>
         <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce"  class="stripe_tb" id="content"> 
         </table>

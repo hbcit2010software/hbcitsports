@@ -27,6 +27,7 @@ import com.lowagie.text.rtf.RtfWriter2;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
+import cn.edu.hbcit.smms.pojo.QueryAllMarksPlayerMsg;
 import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
 
 
@@ -144,7 +145,7 @@ public class QueryMark {
 		  try{
 			  conn = dbc.getConn(); 
 			  String sql = "SELECT SUM(stusum) FROM t_mark "+
-			   "WHERE sp2dpid=(SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid=" +
+			   "WHERE sp2dpid IN (SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid=" +
 			   "(SELECT id FROM t_department WHERE t_department.departname=?))";
 			  pstmt = conn.prepareStatement(sql);
 			  System.out.println("==============++++"+depNameList.size());
@@ -176,7 +177,7 @@ public class QueryMark {
 		  try{
 			  conn = dbc.getConn(); 
 			  String sql = "SELECT SUM(teasum) FROM t_mark "+
-			   "WHERE sp2dpid=(SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid=" +
+			   "WHERE sp2dpid IN (SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid=" +
 			   "(SELECT id FROM t_department WHERE t_department.departname=?))";
 			  pstmt = conn.prepareStatement(sql);
 			  System.out.println("==============++++"+depNameList.size());
@@ -229,6 +230,17 @@ public class QueryMark {
 		  return flag;
 	  }
 	  
+	  /**
+	   * 生成运动会部门积分表
+	   * @param file
+	   * @param depNameList
+	   * @param studentsMarkList
+	   * @param teacherMarkList
+	   * @param studentsFinalMarkList
+	   * @param teacherFinalMarkList
+	   * @throws DocumentException
+	   * @throws IOException
+	   */
 	public void createMarksDocContext(String file,List<QueryMarkPoJo> depNameList,List<QueryMarkPoJo> studentsMarkList,List<QueryMarkPoJo> teacherMarkList,List<QueryMarkPoJo> studentsFinalMarkList,List<QueryMarkPoJo> teacherFinalMarkList)throws DocumentException, IOException{   
 
 		  LoginDAO ld = new LoginDAO();
@@ -301,8 +313,235 @@ public class QueryMark {
           }catch (Exception e) {
 			log.debug(e);
 		}
-				
 			}
+			
+	/**
+	 * 获取学生总积分
+	 * @return studentsMarksList
+	 */
+	public List<QueryAllMarksPlayerMsg> getStudentsMarks(String depName){
+		  LoginDAO ld = new LoginDAO();
+		  int sportsid = ld.selectCurrentSportsId();
+		  List<QueryAllMarksPlayerMsg> studentsMarksList = new ArrayList<QueryAllMarksPlayerMsg>();
+		  try{
+			  conn = dbc.getConn();
+			  String sql = "SELECT t_group.groupname,t_item.itemname,t_player.playername,t_player.playersex, " +
+			  		"t_position.score,t_position.marks,t_position.position,t_match.recordlevel " +
+			  		"FROM t_player " +
+			  		"JOIN t_position ON t_player.id=t_position.playerid " +
+			  		"JOIN t_match ON t_player.id=t_match.playerid " +
+			  		"JOIN t_finalitem ON t_match.finalitemid=t_finalitem.id " +
+			  		"JOIN t_group2item ON t_finalitem.gp2itid=t_group2item.id " +
+			  		"JOIN t_item ON t_group2item.itemid=t_item.id " +
+			  		"JOIN t_sports2department ON t_player.sp2dpid=t_sports2department.id " +
+			  		"JOIN t_department ON t_sports2department.departid=t_department.id JOIN t_group ON t_player.groupid=t_group.id WHERE t_sports2department.sportsid=? AND t_department.departname=? " +
+			  		"AND t_player.playertype='1'";
+			  
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setInt(1, sportsid);
+			  pstmt.setString(2, depName);
+			  rs = pstmt.executeQuery();
+			  while(rs.next()){
+				 QueryAllMarksPlayerMsg qamp = new QueryAllMarksPlayerMsg();
+				 qamp.setGroupname(rs.getString(1));
+				 qamp.setItemname(rs.getString(2));
+				 qamp.setPlayername(rs.getString(3));
+				 if(rs.getInt(4)==1){
+					 qamp.setPlayersex("男");
+				 }
+				 qamp.setPlayersex("女");
+				 qamp.setScore(rs.getString(5));
+				 qamp.setMarks(rs.getInt(6));
+				 qamp.setPosition(rs.getInt(7));
+				 if(rs.getInt(8)==0){
+					 qamp.setRecordlevel("院记录");
+				 }
+				 qamp.setRecordlevel("省记录");
+				 studentsMarksList.add(qamp);
+				  System.out.println("dep========="+studentsMarksList.size());
+			  }		
+			  conn.close();
+		  }catch (Exception e) {
+			log.debug(e);
+		}
+		  return studentsMarksList;
+	  }
+	
+	/**
+	 * 获取教工总积分
+	 * @return teacherMarksList
+	 */
+	public List<QueryAllMarksPlayerMsg> getTeacherMarks(String depName){
+		  LoginDAO ld = new LoginDAO();
+		  int sportsid = ld.selectCurrentSportsId();
+		  List<QueryAllMarksPlayerMsg> teacherMarksList = new ArrayList<QueryAllMarksPlayerMsg>();
+		  try{
+			  conn = dbc.getConn();
+			  String sql = "SELECT t_group.groupname,t_item.itemname,t_player.playername,t_player.playersex, " +
+			  		"t_position.score,t_position.marks,t_position.position,t_match.recordlevel " +
+			  		"FROM t_player " +
+			  		"JOIN t_position ON t_player.id=t_position.playerid " +
+			  		"JOIN t_match ON t_player.id=t_match.playerid " +
+			  		"JOIN t_finalitem ON t_match.finalitemid=t_finalitem.id " +
+			  		"JOIN t_group2item ON t_finalitem.gp2itid=t_group2item.id " +
+			  		"JOIN t_item ON t_group2item.itemid=t_item.id " +
+			  		"JOIN t_sports2department ON t_player.sp2dpid=t_sports2department.id " +
+			  		"JOIN t_department ON t_sports2department.departid=t_department.id JOIN t_group ON t_player.groupid=t_group.id WHERE t_sports2department.sportsid=? AND t_department.departname=? " +
+			  		"AND t_player.playertype='0'";
+			  
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setInt(1, sportsid);
+			  pstmt.setString(2, depName);
+			  rs = pstmt.executeQuery();
+			  while(rs.next()){
+				 QueryAllMarksPlayerMsg qamp = new QueryAllMarksPlayerMsg();
+				 qamp.setGroupname(rs.getString(1));
+				 qamp.setItemname(rs.getString(2));
+				 qamp.setPlayername(rs.getString(3));
+				 if(rs.getInt(4)==1){
+					 qamp.setPlayersex("男");
+				 }
+				 qamp.setPlayersex("女");
+				 qamp.setScore(rs.getString(5));
+				 qamp.setMarks(rs.getInt(6));
+				 qamp.setPosition(rs.getInt(7));
+				 if(rs.getInt(8)==0){
+					 qamp.setRecordlevel("院记录");
+				 }
+				 qamp.setRecordlevel("省记录");
+				 teacherMarksList.add(qamp);
+				  System.out.println("dep========="+teacherMarksList.size());
+			  }	
+			  conn.close();
+		  }catch (Exception e) {
+			log.debug(e);
+		}
+		  return teacherMarksList;
+	  }
+	
+	/**
+	 * 打印总积分表
+	 * @param file
+	 * @param depNameList
+	 * @throws DocumentException
+	 * @throws IOException
+	 */
+	public void printAllPlayerMarksMessage(String file,List<QueryMarkPoJo> depNameList)throws DocumentException, IOException{   
+  
+		LoginDAO ld = new LoginDAO();
+		  int sportsid = ld.selectCurrentSportsId();
+		  System.out.println(sportsid);
+		  String sportsname = "";
+        try{
+			  
+			  conn = dbc.getConn();
+			  pstmt = conn.prepareStatement("select sportsname from t_sports where id=?");
+			  pstmt.setInt(1, sportsid);
+			  rs = pstmt.executeQuery();
+			  System.out.println(rs.next());
+			  while(rs.next()){
+				  sportsname = rs.getString(1);
+				  System.out.println(rs.getString(1));
+				}
 				
+			  
+		        Document document = new Document(PageSize.A4);   
+		        //建立一个书写器，与document对象关联   
+		        RtfWriter2.getInstance(document, new FileOutputStream(file + "总积分表.doc"));   
+		        document.open();   
+		        //设置中文字体   
+		        BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);   
+		        //标题字体风格   
+		        Font titleFont = new Font(bfChinese,16,Font.BOLD);   
+		        //正文字体风格   
+		        Font contextFont = new Font(bfChinese,10,Font.NORMAL);   
+		        Paragraph title = new Paragraph(sportsname+"总积分表");   
+		        //设置标题格式对齐方式   
+		        title.setAlignment(Element.ALIGN_CENTER);   
+		        title.setFont(titleFont);   
+		        document.add(title);
+		        
+		      //设置Table表格,创建一个5列的表格   
+		        Table table = new Table(8);   
+		        int width[] = {10,15,15,10,15,10,15,10};//设置每列宽度比例   
+		        table.setWidths(width);   
+		        table.setWidth(90);//占页面宽度比例   
+		        table.setAlignment(Element.ALIGN_CENTER);//居中   
+		        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中   
+		        table.setAutoFillEmptyCells(true);//自动填满   
+		        table.setBorderWidth(1);//边框宽度   
+		        Cell cell = new Cell();
+		        cell.setVerticalAlignment(Element.ALIGN_CENTER);   
+		        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);   
+		        table.addCell(new Cell("组别"));
+		        table.addCell(new Cell("项目名称"));
+		        table.addCell(new Cell("姓名"));
+		        table.addCell(new Cell("性别"));
+		        table.addCell(new Cell("成绩"));
+		        table.addCell(new Cell("积分"));
+		        table.addCell(new Cell("名次"));
+		        table.addCell(new Cell("破纪录"));
+		        for(int i = 0;i<depNameList.size();i++)
+		        {
+		        	 List<QueryAllMarksPlayerMsg> studentsMarksList = (List<QueryAllMarksPlayerMsg>)getStudentsMarks(depNameList.get(i)+"");
+		        	 List<QueryAllMarksPlayerMsg> teacherMarksList = (List<QueryAllMarksPlayerMsg>)getTeacherMarks(depNameList.get(i)+"");
+		        	 for(int j = 0;j<studentsMarksList.size();j++){
+		        		 QueryAllMarksPlayerMsg allMarksPlayerMsg = studentsMarksList.get(j);
+		        		 Cell cell1 = new Cell("学生");
+		        		 cell1.setRowspan(studentsMarksList.size());
+		        		 table.addCell(cell1);
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getItemname()));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getPlayername()));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getPlayersex()));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getScore()));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getMarks()+""));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getPosition()+""));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getRecordlevel()));
+		        	 }
+		        	 for(int j = 0;j<teacherMarksList.size();j++){
+		        		 QueryAllMarksPlayerMsg allMarksPlayerMsg = teacherMarksList.get(j);
+		        		 Cell cell1 = new Cell("教工");
+		        		 cell1.setRowspan(teacherMarksList.size());
+		        		 table.addCell(cell1);
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getItemname()));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getPlayername()));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getPlayersex()));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getScore()));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getMarks()+""));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getPosition()+""));
+		        		 table.addCell(new Cell( allMarksPlayerMsg.getRecordlevel()));
+		        	 }
+		        	 
+		        }
+		        
+		        document.add(table);
+		        document.close();
+		        
+        }catch (Exception e) {
+			log.debug(e);
+		}
+			}
 }
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
