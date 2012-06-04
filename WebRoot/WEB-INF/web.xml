@@ -4,6 +4,37 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.loginservlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>     
+   <servlet-name>ServletConfigurator</servlet-name>     
+   <servlet-class>     
+     org.logicalcobwebs.proxool.configuration.ServletConfigurator</servlet-class>     
+   <init-param>     
+     <param-name>xmlFile</param-name>     
+     <param-value>WEB-INF/proxool.xml</param-value>     
+   </init-param>     
+   <load-on-startup>1</load-on-startup>     
+</servlet>
+<servlet>     
+   <servlet-name>Admin</servlet-name>     
+   <servlet-class>     
+     org.logicalcobwebs.proxool.admin.servlet.AdminServlet       
+   </servlet-class>     
+</servlet>
+
+  <servlet-mapping>     
+   <servlet-name>Admin</servlet-name>     
+   <url-pattern>/admin</url-pattern>     
+</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/servlet/LoginServlet</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
