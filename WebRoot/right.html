@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="css/subcss.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+<script type="text/javascript">
+//隔行变色
+	$(document).ready(function(){
+			
+			 $(".stripe_tb tr").mouseover(function(){ //如果鼠标移到class为stripe_tb的表格的tr上时，执行函数
+			 $(this).addClass("over");}).mouseout(function(){ //给这行添加class值为over，并且当鼠标一出该行时执行函数
+			 $(this).removeClass("over");}) //移除该行的class
+			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
+			
+		});
+</script>
+</head>
+
+<body>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="24" bgcolor="#353c44"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->赛会纪录</span></td>
+              </tr>
+            </table></td>
+            <td>
+            <div align="right"><span class="pageTitle">
+              <input type="checkbox" name="checkbox11" id="checkbox11" />全选      &nbsp;&nbsp;
+              <img src="images/add.gif" width="10" height="10" /> 添加   &nbsp; 
+              <img src="images/del.gif" width="10" height="10" /> 删除    &nbsp;&nbsp;
+              <img src="images/edit.gif" width="10" height="10" /> 编辑   &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+            </div>
+            </td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td>
+    <!--内嵌表格begin-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
+      <tr class="tableTitle">
+        <td width="4%" height="20"><div align="center">
+          <input type="checkbox" name="checkbox" id="checkbox" />
+        </div></td>
+        <td width="10%" height="20" ><div align="center"><span>用户名</span></div></td>
+        <td width="15%" height="20" ><div align="center"><span>用户角色</span></div></td>
+        <td width="14%" height="20" ><div align="center"><span>联系方式</span></div></td>
+        <td width="16%" height="20" ><div align="center"><span>IP地址</span></div></td>
+        <td width="27%" height="20" ><div align="center"><span>详细描述</span></div></td>
+        <td width="14%" height="20"><div align="center"><span>基本操作</span></div></td>
+      </tr>
+       <tr class="tableContent">
+        <td><div align="center"><input type="checkbox" name="checkbox2" id="checkbox2" /></div></td>
+        <td><div>admin</div></td>
+        <td><div>系统管理员</div></td>
+        <td><div>13913612548</div></td>
+        <td><div>192.168.0.124</div></td>
+        <td><div>用户可以对系统的所有操作进行管理...</div></td>
+        <td><div>删除 | 查看</div></td>
+      </tr>
+       <tr class="tableContent">
+        <td><div align="center"><input type="checkbox" name="checkbox2" id="checkbox2" /></div></td>
+        <td><div>admin</div></td>
+        <td><div>系统管理员</div></td>
+        <td><div>13913612548</div></td>
+        <td><div>192.168.0.124</div></td>
+        <td><div>用户可以对系统的所有操作进行管理...</div></td>
+        <td><div>删除 | 查看</div></td>
+      </tr>
+       <tr class="tableContent">
+        <td><div align="center"><input type="checkbox" name="checkbox2" id="checkbox2" /></div></td>
+        <td><div>admin</div></td>
+        <td><div>系统管理员</div></td>
+        <td><div>13913612548</div></td>
+        <td><div>192.168.0.124</div></td>
+        <td><div>用户可以对系统的所有操作进行管理...</div></td>
+        <td><div>删除 | 查看</div></td>
+      </tr>
+       <tr class="tableContent">
+        <td><div align="center"><input type="checkbox" name="checkbox2" id="checkbox2" /></div></td>
+        <td><div>admin</div></td>
+        <td><div>系统管理员</div></td>
+        <td><div>13913612548</div></td>
+        <td><div>192.168.0.124</div></td>
+        <td><div>用户可以对系统的所有操作进行管理...</div></td>
+        <td><div>删除 | 查看</div></td>
+      </tr>
+    </table>
+     <!--内嵌表格end-->
+    </td>
+  </tr>
+</table>
+<br />
+<div align="center"><span class="pageJump">共有&nbsp;<b>243</b>&nbsp;条记录，当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>10</b>&nbsp;页&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</span></div>
+</body>
+</html>
