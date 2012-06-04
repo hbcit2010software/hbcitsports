@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import org.logicalcobwebs.proxool.ProxoolException;       
 import org.logicalcobwebs.proxool.ProxoolFacade;       
 import org.logicalcobwebs.proxool.admin.SnapshotIF;
@@ -22,6 +24,7 @@ public class DBConn {
 	private static String driverClass = "org.logicalcobwebs.proxool.ProxoolDriver";//proxool驱动类
 	//private static String url = "jdbc:mysql://localhost:3306/bbs?user=root&password=123";
 	private static int activeCount = 0; //活动连接数
+	protected final Logger log = Logger.getLogger(DBConn.class.getName());
 	
     /**
      * 获取数据库连接
@@ -33,8 +36,10 @@ public class DBConn {
 			conn = DriverManager.getConnection("proxool.smms"); //此处的smms是在proxool.xml中配置的连接池别名
 			this.showSnapshotInfo(); //查看连接池信息
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("数据库连接错误！");
+			log.error(e.getMessage());
+			log.debug("数据库连接错误！");
+			//System.out.println(e.getMessage());
+			//System.out.println("数据库连接错误！");
 		}
 		return conn;
 	}
@@ -85,8 +90,9 @@ public class DBConn {
             int availableCount=snapshot.getAvailableConnectionCount();//获得可得到的连接数       
             int maxCount=snapshot.getMaximumConnectionCount() ;//获得总连接数       
             if(curActiveCount!=activeCount)//当活动连接数变化时输出的信息       
-            {       
-             System.out.println("活动连接数:"+curActiveCount+"(active)；可得到的连接数:"+availableCount+"(available)；总连接数:"+maxCount+"(max)");                    
+            {
+            	log.debug("活动连接数:"+curActiveCount+"(active)；可得到的连接数:"+availableCount+"(available)；总连接数:"+maxCount+"(max)");
+             //System.out.println("活动连接数:"+curActiveCount+"(active)；可得到的连接数:"+availableCount+"(available)；总连接数:"+maxCount+"(max)");                    
              activeCount=curActiveCount;       
             }
         }catch(ProxoolException e){       

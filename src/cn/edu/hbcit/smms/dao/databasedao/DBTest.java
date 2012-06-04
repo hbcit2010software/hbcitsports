@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.apache.log4j.Logger;
 
 /*
  * Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
@@ -25,6 +26,7 @@ import java.sql.Statement;
  *
  */
 public class DBTest {
+	protected final Logger log = Logger.getLogger(DBTest.class.getName());
 
 	/**
 	 * 数据库测试类
@@ -41,12 +43,13 @@ public class DBTest {
             Connection conn = db.getConn();
             if(conn != null){
                 Statement statement = conn.createStatement(); 
-                ResultSet rs = statement.executeQuery("select * from t_sysadmin"); 
+                ResultSet rs = statement.executeQuery("select * from tptitle"); 
                 int c = rs.getMetaData().getColumnCount();
                 while(rs.next()){
                     System.out.println(); 
-                    for(int i=1;i<=c;i++){       
-                        System.out.print(rs.getObject(i));
+                    for(int i=1;i<=c;i++){
+                    	log.debug(rs.getObject(i));
+                        //System.out.print(rs.getObject(i));
                     }
                 }
                 rs.close();

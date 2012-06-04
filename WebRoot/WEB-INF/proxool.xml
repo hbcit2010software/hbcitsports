@@ -2,7 +2,7 @@
 <something-else-entirely>
      <proxool>
                 <alias>smms</alias>
-                <driver-url>jdbc:mysql://127.0.0.1:3306/smms</driver-url>
+                <driver-url>jdbc:mysql://127.0.0.1:3306/hbcit</driver-url>
                 <driver-class>com.mysql.jdbc.Driver</driver-class>
                 <driver-properties>
                         <property name="user" value="root" />
