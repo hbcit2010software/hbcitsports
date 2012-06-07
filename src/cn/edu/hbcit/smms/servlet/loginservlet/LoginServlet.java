@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBTest;
 
@@ -74,9 +75,28 @@ public class LoginServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		DBTest db = new DBTest();
-		db.getQuery();
+		//response.setContentType("text/html");
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-control", "no-cache");
+		response.setDateHeader("Expires", 0);
+		response.setContentType("text/html;utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out =response.getWriter();
+		
+		String chknumber = request.getParameter("chknumber");
+		String username = request.getParameter("user");
+		String password = request.getParameter("pwd");
+		HttpSession session = request.getSession();
+		String captcha = (String)session.getAttribute("captcha");
+		if( captcha!= null && chknumber != null){
+			if(captcha.equals(chknumber)){
+				
+			}else{
+				out.print("captchaerr");
+				out.flush();
+		        out.close();
+			}
+		}
 	}
 
 	/**
