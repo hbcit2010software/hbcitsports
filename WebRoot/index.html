@@ -50,6 +50,9 @@ function check() {
 				Dialog.alert("验证码输入错误！！");
 				//alert("无此用户，请核对输入值!!");
 				return false;
+			}else if(resu == "loginerr"){
+				Dialog.alert("用户名或密码错误，请重新输入！！");
+				return false;
 			}
 			//
 			//document.login.action = "${pageContext.request.contextPath }/servlet/GotoMainWebServlet";

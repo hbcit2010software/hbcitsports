@@ -1,8 +1,13 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>SMMS运动会综合管理系统</title>
+<%
+java.util.Date utildate=new java.util.Date();
+java.sql.Date date=new java.sql.Date(utildate.getTime());
+ %>
 <style type="text/css">
 <!--
 body {
@@ -53,16 +58,16 @@ a img {
         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td width="21"><img src="images/main_13.gif" width="19" height="14" /></td>
-            <td width="35" class="STYLE7"><div align="center"><a href="main.html" target="rightFrame">首页</a></div></td>
+            <td width="35" class="STYLE7"><div align="center"><a href="main.jsp" target="rightFrame">首页</a></div></td>
             <td width="21" class="STYLE7"><img src="images/main_17.gif" width="19" height="14" /></td>
-            <td class="STYLE7"><div align="left">&nbsp;当前运动会是：</div></td>
+            <td class="STYLE7"><div align="left">&nbsp;当前运动会是：${sessionScope.currSportsName }</div></td>
             <td>&nbsp;</td>
           </tr>
         </table></td>
         <td width="248" background="images/main_11.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td width="16%"><span class="STYLE5"></span></td>
-            <td width="75%"><div align="center"><span class="STYLE7">当前时间：</span></div></td>
+            <td width="75%"><div align="center"><span class="STYLE7">当前日期：<%=date %></span></div></td>
             <td width="9%">&nbsp;</td>
           </tr>
         </table></td>
@@ -83,7 +88,7 @@ a img {
         <td width="39"><img src="images/main_30.gif" width="39" height="30" /></td>
         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td height="20" valign="bottom"><span class="STYLE1">当前登录用户：admin &nbsp;用户角色：管理员</span></td>
+            <td height="20" valign="bottom"><span class="STYLE1">当前登录用户：${sessionScope.username } </span></td>
             <td valign="bottom" class="STYLE1"><div align="right"></div></td>
           </tr>
         </table></td>

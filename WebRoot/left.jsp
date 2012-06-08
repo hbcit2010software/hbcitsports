@@ -1,4 +1,5 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*" errorPage="" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
@@ -135,7 +136,7 @@ body {
     <!--系统管理begin-->
     <li> <a class="head">系统管理</a>
       <ul>
-        <li><a href="#" target="rightFrame">权限管理</a></li>
+        <li><a href="admin_right.jsp" target="rightFrame">帐号及权限管理</a></li>
         <li><a href="#" target="rightFrame">帐号管理</a></li>
         <li><a href="#" target="rightFrame">数据库备份</a></li>
         <li><a href="#" target="rightFrame">数据库恢复</a></li>
