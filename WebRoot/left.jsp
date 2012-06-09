@@ -136,7 +136,7 @@ body {
     <!--系统管理begin-->
     <li> <a class="head">系统管理</a>
       <ul>
-        <li><a href="admin_right.jsp" target="rightFrame">帐号及权限管理</a></li>
+        <li><a href="servlet/GetAccountInfoServlet" target="rightFrame">帐号及权限管理</a></li>
         <li><a href="#" target="rightFrame">帐号管理</a></li>
         <li><a href="#" target="rightFrame">数据库备份</a></li>
         <li><a href="#" target="rightFrame">数据库恢复</a></li>

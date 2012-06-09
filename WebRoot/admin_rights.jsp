@@ -1,11 +1,15 @@
-<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*" errorPage="" %>
+<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*,cn.edu.hbcit.smms.dao.systemmanagedao.RightsDAO" errorPage="" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	RightsDAO rd = new RightsDAO();
+ %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>权限管理模块</title>
-<link href="css/subcss.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
+<script type="${pageContext.request.contextPath }/text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){
@@ -28,13 +32,13 @@
           <tr>
             <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
+                <td width="6%" height="19" valign="bottom"><div align="center"><img src="${pageContext.request.contextPath }/images/tb.gif" width="14" height="14" /></div></td>
                 <td width="94%" valign="bottom"><span class="pageTitle">系统管理-->帐号及权限管理</span></td>
               </tr>
             </table></td>
             <td>
             <div align="right"><span class="pageTitle">
-              <img src="images/add.gif" width="10" height="10" /> 添加帐号   &nbsp; 
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> 添加帐号   &nbsp; </span>
             </div>
             </td>
           </tr>
@@ -57,17 +61,20 @@
         <td width="10%" height="20"><div align="center"><span>赛事报名权限</span></div></td>
         <td width="15%" height="20"><div align="center"><span>管理操作</span></div></td>
       </tr>
+      <c:forEach var="myaccount" items="${account}" varStatus="countItem"> 
        <tr class="tableContent">
-        <td><div>admin</div></td>
-        <td><div>计算机技术系</div></td>
-        <td><div>张三丰</div></td>
-        <td><div><input type="checkbox" name="" value="" /></div></td>
-        <td><div><input type="checkbox" name="" value="" /></div></td>
-        <td><div><input type="checkbox" name="" value="" /></div></td>
-        <td><div><input type="checkbox" name="" value="" /></div></td>
-        <td><div><input type="checkbox" name="" value="" /></div></td>
+        <td><div>${myaccount.username }</div></td>
+        <td><div>${myaccount.departShortName }</div></td>
+        <td><div>${myaccount.realname }</div></td>
+        <td><div><input type="checkbox" name="${myaccount.id}" value="0" /></div></td>
+        <td><div><input type="checkbox" name="${myaccount.id}" value="1" /></div></td>
+        <td><div><input type="checkbox" name="${myaccount.id}" value="2" /></div></td>
+        <td><div><input type="checkbox" name="${myaccount.id}" value="3" /></div></td>
+        <td><div><input type="checkbox" name="${myaccount.id}" value="4" /></div></td>
         <td><div><a href="#">密码初始化</a> | <a href="#">删除</a>| <a href="#">修改</a></div></td>
       </tr>
+      </c:forEach>
+      
     </table>
      <!--内嵌表格end-->
     </td>

@@ -10,7 +10,7 @@
 * 时间			版本号		姓名			修改内容
 * 2012-06-06	V1.0		李玮			新建
 */
-package cn.edu.hbcit.smms.dao.rightsdao;
+package cn.edu.hbcit.smms.dao.systemmanagedao;
 
 import cn.edu.hbcit.smms.util.UtilTools;
 /**
