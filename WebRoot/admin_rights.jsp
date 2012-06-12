@@ -6,9 +6,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>权限管理模块</title>
 <link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
+<!--link href="${pageContext.request.contextPath }/js/jquery.alerts.css" rel="stylesheet" type="text/css" /-->
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
+<!--script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.draggable.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.alerts.js"></script-->
 <script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){
@@ -43,6 +46,23 @@ function setrights(obj){
 				}
 			});
 }
+//
+function initpwd(uid){
+		$.ajax({
+			url :"${pageContext.request.contextPath }/servlet/InitUserPasswordServlet",
+			type : 'get',
+			data : 'uid='+uid,
+			success :function(mm){
+					var revalue=mm.replace(/\r\n/g,'');
+					if(revalue=="error"){
+						Dialog.alert("密码初始化失败！可能是该帐号的密码已为111111。",function(){window.location.reload();});
+					}
+					if(revalue=="success"){
+						Dialog.alert("密码初始化成功！",function(){window.location.reload();});
+					}
+				}
+			});
+	}
 </script>
 </head>
 
@@ -97,7 +117,7 @@ function setrights(obj){
         <td><div><input type="checkbox" name="${myaccount.id}" value="3" id="right_${myaccount.id}_3"/></div></td>
         <td><div><input type="checkbox" name="${myaccount.id}" value="4" id="right_${myaccount.id}_4"/></div></td>
          --> 
-        <td><div><a href="#">密码初始化</a> | <a href="#">删除</a>| <a href="#">修改</a></div></td>
+        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要将${myaccount.username }的密码初始化为111111吗？',function(){initpwd(${myaccount.id});});">密码初始化</a> | <a href="#" onclick="Dialog.alert('密码初始化成功！');">删除</a>| <a href="#">修改</a></div></td>
       </tr>
       </c:forEach>
       

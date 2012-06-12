@@ -12,9 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.dao.databasedao.DBTest;
 import cn.edu.hbcit.smms.services.loginservices.LoginService;
+import cn.edu.hbcit.smms.servlet.systemmanageservlet.UpdateAccountRightsServlet;
+import cn.edu.hbcit.smms.util.MD5;
 
 /*
  * Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
@@ -34,6 +38,7 @@ import cn.edu.hbcit.smms.services.loginservices.LoginService;
  */
 public class LoginServlet extends HttpServlet {
 
+	protected final Logger log = Logger.getLogger(LoginServlet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
@@ -93,11 +98,13 @@ public class LoginServlet extends HttpServlet {
 		int userRights = 0, currSportsId = 0;
 		String currSportsName = "";
 		LoginService ls = new LoginService();
+		MD5 md5 = new MD5();
 		HttpSession session = request.getSession();
 		String captcha = (String)session.getAttribute("captcha");
 		if( captcha!= null && chknumber != null){
 			if(captcha.equals(chknumber)){
-				flag = ls.canLogin(username, password);	//登录验证
+				log.debug(md5.MD5Encode(password));
+				flag = ls.canLogin(username, md5.MD5Encode(password));	//登录验证
 				if(flag){
 					userRights = ls.selectUserRights(username);		//获取用户权限
 					currSportsId = ls.selectCurrentSportsId();		//获取当前运动会id

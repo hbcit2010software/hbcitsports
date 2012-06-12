@@ -120,5 +120,29 @@ public class AccountDAO {
 		}
 		return rst;
 	}
+	
+	/**
+	 * 初始化用户密码为111111
+	 * @param userId
+	 * @return
+	 */
+	public int initializeUserPassword(int userId){
+		String md_111111 = "96e79218965eb72c92a549dd5a330112";
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "UPDATE t_sysadmin SET password=? WHERE id=?";
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, md_111111);
+			pStatement.setInt(2, userId);
+			rst = pStatement.executeUpdate();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("初始化用户密码失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
+	}
 
 }

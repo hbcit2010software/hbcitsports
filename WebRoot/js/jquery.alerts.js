@@ -43,21 +43,21 @@
 		// Public methods
 		
 		alert: function(message, title, callback) {
-			if( title == null ) title = 'Alert';
+			if( title == null ) title = '提示';
 			$.alerts._show(title, message, null, 'alert', function(result) {
 				if( callback ) callback(result);
 			});
 		},
 		
 		confirm: function(message, title, callback) {
-			if( title == null ) title = 'Confirm';
+			if( title == null ) title = '对话';
 			$.alerts._show(title, message, null, 'confirm', function(result) {
 				if( callback ) callback(result);
 			});
 		},
 			
 		prompt: function(message, value, title, callback) {
-			if( title == null ) title = 'Prompt';
+			if( title == null ) title = '输入';
 			$.alerts._show(title, message, value, 'prompt', function(result) {
 				if( callback ) callback(result);
 			});

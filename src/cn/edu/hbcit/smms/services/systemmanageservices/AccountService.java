@@ -30,6 +30,7 @@ public class AccountService {
 
 	AccountDAO ad = new AccountDAO();
 	RightsDAO rd = new RightsDAO();
+	
 	public boolean checkPower(int userPurview, int optPurview){
 		return rd.checkPower(userPurview, optPurview);
 	}
@@ -41,5 +42,9 @@ public class AccountService {
 	}
 	public int updateAccountRights(int rightsValue, int userId){
 		return ad.updateAccountRights(rightsValue, userId);
+	}
+	
+	public int initializeUserPassword(int userId){
+		return ad.initializeUserPassword(userId);
 	}
 }
