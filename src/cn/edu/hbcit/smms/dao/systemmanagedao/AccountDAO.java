@@ -47,6 +47,8 @@ public class AccountDAO {
 		ArrayList list = new ArrayList();
 		String sql = "SELECT t_sysadmin.id,t_sysadmin.username,t_sysadmin.userright,t_sysadmin.realname,t_department.departshortname FROM t_sysadmin INNER JOIN t_department WHERE t_sysadmin.departid=t_department.id";
 		conn = db.getConn();
+		RightsDAO rd = new RightsDAO();
+		String rights = "";
 		try{
 			pStatement = conn.prepareStatement(sql);
 			rs = pStatement.executeQuery();
@@ -54,7 +56,34 @@ public class AccountDAO {
 				Account acc = new Account();
 				acc.setId(rs.getInt(1));
 				acc.setUsername(rs.getString(2));
-				acc.setUserright(rs.getInt(3));
+				//acc.setUserright(rs.getInt(3));
+				if( rd.checkPower(rs.getInt(3), 0) == true){
+					rights = "checked|";
+				}else{
+					rights = " |";
+				}
+				if( rd.checkPower(rs.getInt(3), 1) == true){
+					rights = rights + "checked|";
+				}else{
+					rights = rights + " |";
+				}
+				if( rd.checkPower(rs.getInt(3), 2) == true){
+					rights =  rights + "checked|";
+				}else{
+					rights =  rights + " |";
+				}
+				if( rd.checkPower(rs.getInt(3), 3) == true){
+					rights =  rights + "checked|";
+				}else{
+					rights =  rights + " |";
+				}
+				if( rd.checkPower(rs.getInt(3), 4) == true){
+					rights =  rights + "checked|";
+				}else{
+					rights =  rights + " |";
+				}
+				log.debug( rights );
+				acc.setEveryRight(rights);
 				acc.setRealname(rs.getString(4));
 				acc.setDepartShortName(rs.getString(5));
 				list.add(acc);
@@ -67,6 +96,29 @@ public class AccountDAO {
 			log.error(e.getMessage());
 		}
 		return list;
+	}
+	/**
+	 * 更改用户权限值
+	 * @param rightsValue
+	 * @param userId
+	 * @return
+	 */
+	public int updateAccountRights(int rightsValue, int userId){
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "UPDATE t_sysadmin SET userright=? WHERE id=?";
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, rightsValue);
+			pStatement.setInt(2, userId);
+			rst = pStatement.executeUpdate();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("更新用户权限值失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
 	}
 
 }

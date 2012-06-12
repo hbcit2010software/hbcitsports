@@ -1,15 +1,14 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*,cn.edu.hbcit.smms.dao.systemmanagedao.RightsDAO" errorPage="" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	RightsDAO rd = new RightsDAO();
- %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>权限管理模块</title>
 <link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
-<script type="${pageContext.request.contextPath }/text/javascript" src="js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){
@@ -20,6 +19,30 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
+</script>
+<script type="text/javascript">
+function setrights(obj){
+	var userid = obj.name;
+	var MyList = document.getElementsByName(userid);
+	var rightVal = 0;
+	for(var i=0; i<MyList.length; i++){
+		if((MyList[i].checked == true) && (!isNaN(MyList[i].value)) ){
+			rightVal += Math.pow(2,parseInt(MyList[i].value));
+		}
+	}
+	//alert(rightVal);
+	$.ajax({
+			url :"${pageContext.request.contextPath }/servlet/UpdateAccountRightsServlet",
+			type : 'post',
+			data : 'uid='+userid+'&rightsVal='+rightVal,
+			success :function(mm){
+					var revalue=mm.replace(/\r\n/g,'');
+					if(revalue=="error"){
+						Dialog.alert("修改权限失败!",function(){window.location.reload();});
+					}
+				}
+			});
+}
 </script>
 </head>
 
@@ -66,11 +89,14 @@
         <td><div>${myaccount.username }</div></td>
         <td><div>${myaccount.departShortName }</div></td>
         <td><div>${myaccount.realname }</div></td>
-        <td><div><input type="checkbox" name="${myaccount.id}" value="0" /></div></td>
-        <td><div><input type="checkbox" name="${myaccount.id}" value="1" /></div></td>
-        <td><div><input type="checkbox" name="${myaccount.id}" value="2" /></div></td>
-        <td><div><input type="checkbox" name="${myaccount.id}" value="3" /></div></td>
-        <td><div><input type="checkbox" name="${myaccount.id}" value="4" /></div></td>
+        <c:forTokens var="rights" items="${myaccount.everyRight }" delims="|" varStatus="rightsItem">
+        <td><div><input onclick="setrights(this);" type="checkbox" name="${myaccount.id}" value="${rightsItem.count - 1}" id="right_${myaccount.id}_${rightsItem.count - 1}" ${rights}/></div></td>
+        </c:forTokens>
+       <!-- <td><div><input type="checkbox" name="${myaccount.id}" value="1" id="right_${myaccount.id}_1"/></div></td>
+        <td><div><input type="checkbox" name="${myaccount.id}" value="2" id="right_${myaccount.id}_2"/></div></td>
+        <td><div><input type="checkbox" name="${myaccount.id}" value="3" id="right_${myaccount.id}_3"/></div></td>
+        <td><div><input type="checkbox" name="${myaccount.id}" value="4" id="right_${myaccount.id}_4"/></div></td>
+         --> 
         <td><div><a href="#">密码初始化</a> | <a href="#">删除</a>| <a href="#">修改</a></div></td>
       </tr>
       </c:forEach>

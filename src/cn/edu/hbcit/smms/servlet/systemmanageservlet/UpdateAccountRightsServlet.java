@@ -8,40 +8,40 @@
  *
  * 修改历史：
  * 时间			版本号		姓名			修改内容
- * 2012-6-9		V1.0		李玮			新建
+ * 2012-6-12	V1.0		李玮		新建
 */
 package cn.edu.hbcit.smms.servlet.systemmanageservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.systemmanagedao.AccountDAO;
-import cn.edu.hbcit.smms.dao.systemmanagedao.RightsDAO;
 import cn.edu.hbcit.smms.services.systemmanageservices.AccountService;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 /**
- * 获取帐号信息类
+ * 更改用户帐号权限类
  *
  * 本类的简要描述：
- * 获取帐号及权限信息，负责显示帐号管理页面
  *
  * @author 李玮
- * @version 1.00  2012-6-9 新建类
+ * @version 1.00  2012-6-12 新建类
  */
 
-public class GetAccountInfoServlet extends HttpServlet {
+public class UpdateAccountRightsServlet extends HttpServlet {
+	protected final Logger log = Logger.getLogger(UpdateAccountRightsServlet.class.getName());
 
 	/**
 	 * Constructor of the object.
 	 */
-	public GetAccountInfoServlet() {
+	public UpdateAccountRightsServlet() {
 		super();
 	}
 
@@ -83,20 +83,24 @@ public class GetAccountInfoServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
-		//RightsDAO rd = new RightsDAO();
+		PrintWriter out = response.getWriter();
 		AccountService as = new AccountService();
-		HttpSession session = request.getSession();
-		ArrayList list = new ArrayList();
-		
-		//获取登录时的用户权限
-		int userrights = ((Integer)session.getAttribute("userrights")).intValue();
-		if(!as.checkPower(userrights, 0)){
-			response.sendRedirect("../main.jsp");
-		}else{
-			list = as.selectAccountInfo();
-			request.setAttribute("account", list);
-			request.getRequestDispatcher("/admin_rights.jsp").forward(request, response);
+		UtilTools ut = new UtilTools();
+		int rst = 0;
+		String userId = request.getParameter("uid");
+		String rightsValue = request.getParameter("rightsVal");
+		log.debug("userId:"+userId+"|rightsValue:"+rightsValue);
+		if(ut.isNumeric(userId) && ut.isNumeric(rightsValue)){
+			rst = as.updateAccountRights(Integer.parseInt(rightsValue), Integer.parseInt(userId));
 		}
+		
+		if(rst > 0){
+			out.print("success");
+		}else{
+			out.print("error");
+		}
+		out.flush();
+		out.close();
 	}
 
 	/**

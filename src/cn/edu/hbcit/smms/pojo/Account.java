@@ -9,11 +9,24 @@ public class Account {
 	private int departid;
 	private String departname;
 	private String departShortName;
+	private String everyRight; //每个权限的值串，用|分割，如：checked||checked|checked|
 	/**
 	 * @return the departShortName
 	 */
 	public String getDepartShortName() {
 		return departShortName;
+	}
+	/**
+	 * @return the everyRight
+	 */
+	public String getEveryRight() {
+		return everyRight;
+	}
+	/**
+	 * @param everyRight the everyRight to set
+	 */
+	public void setEveryRight(String everyRight) {
+		this.everyRight = everyRight;
 	}
 	/**
 	 * @param departShortName the departShortName to set
