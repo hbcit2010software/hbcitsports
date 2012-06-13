@@ -81,4 +81,19 @@ public class AccountService {
 		}
 		return rst;
 	}
+	
+	/**
+	 * 修改帐号
+	 * @param userId
+	 * @param realname
+	 * @param departid
+	 * @return
+	 */
+	public int updateAccount(String userId, String realname, String departid){
+		int rst = 0;
+		if(ut.isNumeric(userId) && ut.isNumeric(departid)){
+			rst = ad.updateAccount(Integer.parseInt(userId), realname, Integer.parseInt(departid));
+		}
+		return rst;
+	}
 }

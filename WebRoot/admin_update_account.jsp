@@ -39,16 +39,16 @@
 		{
 			//ajax提交
 			$.ajax({
-			url :"${pageContext.request.contextPath }/servlet/AddAccountServlet",
+			url :"${pageContext.request.contextPath }/servlet/UpdateAccountInfoServlet",
 			type : 'post',
-			data : 'uname='+$('#uname').val()+'&realname='+$('#realname').val()+'&departid='+$('#depart').val(),
+			data : 'uid='+$('#uid').val()+'&realname='+$('#realname').val()+'&departid='+$('#depart').val(),
 			success :function(mm){
 					var revalue=mm.replace(/\r\n/g,'');
 					if(revalue=="error"){
-						Dialog.alert("添加新帐号失败!",function(){window.location.reload();});
+						Dialog.alert("修改帐号失败!",function(){window.location.reload();});
 					}
 					if(revalue=="success"){
-						Dialog.alert("添加新帐号成功!",function(){window.location.reload();});
+						Dialog.alert("修改帐号成功!",function(){window.location.reload();});
 					}
 				}
 			});
@@ -64,6 +64,7 @@
     <td align="right" width="150">用户名：</td>
     <td><label>
       <input type="text" name="uname" id="uname" disabled="disabled" value="${myaccount.username }" />
+      <input type="hidden" name="uid" id="uid" value="${myaccount.id }" />
     </label></td>
   </tr>
   <tr>

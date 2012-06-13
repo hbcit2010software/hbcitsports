@@ -225,6 +225,11 @@ public class AccountDAO {
 		return rst;
 	}
 	
+	/**
+	 * 获取帐号信息BY id
+	 * @param uid
+	 * @return
+	 */
 	public ArrayList selectAccountInfo(int uid){
 		ArrayList list = new ArrayList();
 		String sql = "SELECT t_sysadmin.id,t_sysadmin.username,t_sysadmin.realname,t_sysadmin.departid FROM t_sysadmin WHERE t_sysadmin.id=?";
@@ -245,10 +250,35 @@ public class AccountDAO {
 			pStatement.close();
 			db.freeConnection(conn);
 		}catch(Exception e){
-			log.error("获取部门信息失败！");
+			log.error("获取帐号信息失败！");
 			log.error(e.getMessage());
 		}
 		return list;
+	}
+	/**
+	 * 修改用户信息
+	 * @param userId
+	 * @param realname
+	 * @param departid
+	 * @return
+	 */
+	public int updateAccount(int userId, String realname, int departid){
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "UPDATE t_sysadmin SET realname=?,departid=? WHERE id=?";
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, realname);
+			pStatement.setInt(2, departid);
+			pStatement.setInt(3, userId);
+			rst = pStatement.executeUpdate();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("修改用户信息失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
 	}
 
 }

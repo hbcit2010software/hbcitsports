@@ -55,7 +55,7 @@
 						Dialog.alert("添加新帐号失败!",function(){window.location.reload();});
 					}
 					if(revalue=="success"){
-						Dialog.alert("添加新帐号成功!",function(){window.location.reload();});
+						Dialog.alert("添加新帐号成功!初始密码为111111",function(){window.location.reload();});
 					}
 				}
 			});
