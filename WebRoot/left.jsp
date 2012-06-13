@@ -1,4 +1,23 @@
-﻿<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*" errorPage="" %>
+﻿<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*,cn.edu.hbcit.smms.services.systemmanageservices.*" errorPage="" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+//根据登录时的userrights，判断5种权限
+	AccountService as = new AccountService();
+	int userrights = ((Integer)session.getAttribute("userrights")).intValue();
+	pageContext.setAttribute("r0",Boolean.valueOf(as.checkPower(userrights, 0)));
+	pageContext.setAttribute("r1",Boolean.valueOf(as.checkPower(userrights, 1)));
+	pageContext.setAttribute("r2",Boolean.valueOf(as.checkPower(userrights, 2)));
+	pageContext.setAttribute("r3",Boolean.valueOf(as.checkPower(userrights, 3)));
+	pageContext.setAttribute("r4",Boolean.valueOf(as.checkPower(userrights, 4)));
+	/**
+ 		* 控制系统权限
+ 		* 0-系统设置
+ 		* 1-赛前设置
+ 		* 2-秩序册生成
+ 		* 3-赛中管理
+ 		* 4-赛事报名
+	*/
+ %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -77,6 +96,7 @@ body {
 <body>
 <div  style="height:100%;">
   <ul id="navigation">
+  <c:if test="${r1 eq true}">
 	<!--赛前设置begin-->
     <li> <a class="head">赛前设置</a>
       <ul>
@@ -94,6 +114,8 @@ body {
       </ul>
     </li>
 	<!--赛前设置end-->
+  </c:if>
+  <c:if test="${r4 eq true}">
     <!--赛事报名begin-->
 	<li> <a class="head">赛事报名</a>
       <ul>
@@ -104,6 +126,8 @@ body {
       </ul>
     </li>
      <!--赛事报名end-->
+      </c:if>
+      <c:if test="${r2 eq true}">
 	<!--秩序册管理begin-->
     <li> <a class="head">秩序册管理</a>
       <ul>
@@ -114,6 +138,8 @@ body {
       </ul>
     </li>
     <!--秩序册管理end-->
+    </c:if>
+    <c:if test="${r3 eq true}">
     <!--赛中管理begin-->
     <li> <a class="head">赛中管理</a>
       <ul>
@@ -126,6 +152,7 @@ body {
       </ul>
     </li>
     <!--赛中管理end-->
+    </c:if>
     <!--综合查询begin-->
     <li> <a class="head">综合查询</a>
       <ul>
@@ -133,6 +160,7 @@ body {
       </ul>
     </li>
     <!--综合查询end-->
+    <c:if test="${r0 eq true}">
     <!--系统管理begin-->
     <li> <a class="head">系统管理</a>
       <ul>
@@ -142,6 +170,7 @@ body {
       </ul>
     </li>
     <!--系统管理end-->
+    </c:if>
     <li> <a class="head">版本信息</a>
       <ul>
         <li><a href="#" target="rightFrame">关于本系统</a></li>

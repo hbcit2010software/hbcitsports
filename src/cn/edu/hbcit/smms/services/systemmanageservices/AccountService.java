@@ -33,35 +33,74 @@ public class AccountService {
 	RightsDAO rd = new RightsDAO();
 	UtilTools ut = new UtilTools();
 	
+	/**
+	 * 检查用户权限
+	 * @param userPurview
+	 * @param optPurview
+	 * @return
+	 */
 	public boolean checkPower(int userPurview, int optPurview){
 		return rd.checkPower(userPurview, optPurview);
 	}
+	/**
+	 * 获取用户总权限
+	 * @param purviewStr
+	 * @return
+	 */
 	public int getPower(String[] purviewStr ){
 		return rd.getPower(purviewStr);
 	}
+	/**
+	 * 获取帐号信息
+	 * @return
+	 */
 	public ArrayList selectAccountInfo(){
 		return ad.selectAccountInfo();
 	}
+	/**
+	 * 获取帐号信息BY ID
+	 * @param uid
+	 * @return
+	 */
 	public ArrayList selectAccountInfo(String uid){
 		if(ut.isNumeric(uid)){
 			return ad.selectAccountInfo(Integer.parseInt(uid));
 		}else{
 			return null;
 		}
-		
 	}
+	/**
+	 * 修改用户权限
+	 * @param rightsValue
+	 * @param userId
+	 * @return
+	 */
 	public int updateAccountRights(int rightsValue, int userId){
 		return ad.updateAccountRights(rightsValue, userId);
 	}
 	
+	/**
+	 * 初始化密码 111111
+	 * @param userId
+	 * @return
+	 */
 	public int initializeUserPassword(int userId){
 		return ad.initializeUserPassword(userId);
 	}
 	
+	/**
+	 * 删除帐号
+	 * @param userId
+	 * @return
+	 */
 	public int removeAccount(int userId){
 		return ad.removeAccount(userId);
 	}
 	
+	/**
+	 * 获取部门列表
+	 * @return
+	 */
 	public ArrayList selectDepartment(){
 		return ad.selectDepartment();
 	}
