@@ -86,6 +86,13 @@
     <servlet-name>UpdateAccountInfoServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.UpdateAccountInfoServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>BackupRecoveryDatabaseServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.BackupRecoveryDatabaseServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -145,6 +152,10 @@
   <servlet-mapping>
     <servlet-name>UpdateAccountInfoServlet</servlet-name>
     <url-pattern>/servlet/UpdateAccountInfoServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BackupRecoveryDatabaseServlet</servlet-name>
+    <url-pattern>/servlet/BackupRecoveryDatabaseServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

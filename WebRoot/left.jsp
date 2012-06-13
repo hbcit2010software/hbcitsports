@@ -137,7 +137,7 @@ body {
     <li> <a class="head">系统管理</a>
       <ul>
         <li><a href="servlet/GetAccountInfoServlet" target="rightFrame">帐号及权限管理</a></li>
-        <li><a href="#" target="rightFrame">数据库备份与恢复</a></li>
+        <li><a href="admin_db.jsp" target="rightFrame">数据库备份与恢复</a></li>
         <li><a href="#" target="rightFrame">操作日志</a></li>
       </ul>
     </li>
