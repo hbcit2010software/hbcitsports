@@ -42,6 +42,14 @@ public class AccountService {
 	public ArrayList selectAccountInfo(){
 		return ad.selectAccountInfo();
 	}
+	public ArrayList selectAccountInfo(String uid){
+		if(ut.isNumeric(uid)){
+			return ad.selectAccountInfo(Integer.parseInt(uid));
+		}else{
+			return null;
+		}
+		
+	}
 	public int updateAccountRights(int rightsValue, int userId){
 		return ad.updateAccountRights(rightsValue, userId);
 	}

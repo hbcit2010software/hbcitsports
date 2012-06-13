@@ -99,6 +99,25 @@ function initpwd(uid){
 			diag.okButton.value="结果刷新";
 			diag.cancelButton.value="关闭";
 	}
+	//
+	function updateuser(uid){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 400;
+			diag.Height = 280;
+			diag.Title = "修改帐号信息";
+			diag.URL = "${pageContext.request.contextPath }/servlet/ViewUpdateAccountPageServlet?uid="+uid;
+			diag.OKEvent = function(){
+				window.location.reload();
+				//diag.close();
+			};
+			diag.ShowCloseButton=false;
+			diag.MessageTitle = "修改帐号提示：";
+			diag.Message = "填完各项内容后不要忘记先\"确认修改\"，然后才可关闭窗口";
+			diag.show();
+			diag.okButton.value="结果刷新";
+			diag.cancelButton.value="关闭";
+	}
 </script>
 </head>
 
@@ -153,7 +172,7 @@ function initpwd(uid){
         <td><div><input type="checkbox" name="${myaccount.id}" value="3" id="right_${myaccount.id}_3"/></div></td>
         <td><div><input type="checkbox" name="${myaccount.id}" value="4" id="right_${myaccount.id}_4"/></div></td>
          --> 
-        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要将${myaccount.username }的密码初始化为111111吗？',function(){initpwd(${myaccount.id});});">密码初始化</a> | <a href="#" onclick="Dialog.confirm('提示：您确认要将帐号${myaccount.username }删除吗？',function(){deluser(${myaccount.id});});">删除</a>| <a href="#">修改</a></div></td>
+        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要将${myaccount.username }的密码初始化为111111吗？',function(){initpwd(${myaccount.id});});">密码初始化</a> | <a href="#" onclick="Dialog.confirm('提示：您确认要将帐号${myaccount.username }删除吗？',function(){deluser(${myaccount.id});});">删除</a>| <a href="#" onclick="updateuser(${myaccount.id});">修改</a></div></td>
       </tr>
       </c:forEach>
       
@@ -163,6 +182,6 @@ function initpwd(uid){
   </tr>
 </table>
 <br />
-<div align="center"><span class="pageJump">共有&nbsp;<b>243</b>&nbsp;条记录，当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>10</b>&nbsp;页&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</span></div>
+<!--div align="center"><span class="pageJump">共有&nbsp;<b>243</b>&nbsp;条记录，当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>10</b>&nbsp;页&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</span></div-->
 </body>
 </html>

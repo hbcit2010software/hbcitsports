@@ -224,5 +224,31 @@ public class AccountDAO {
 		}
 		return rst;
 	}
+	
+	public ArrayList selectAccountInfo(int uid){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT t_sysadmin.id,t_sysadmin.username,t_sysadmin.realname,t_sysadmin.departid FROM t_sysadmin WHERE t_sysadmin.id=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, uid);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Account acc = new Account();
+				acc.setId(rs.getInt(1));
+				acc.setUsername(rs.getString(2));
+				acc.setRealname(rs.getString(3));
+				acc.setDepartid(rs.getInt(4));
+				list.add(acc);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取部门信息失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
 
 }
