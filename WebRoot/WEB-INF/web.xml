@@ -56,6 +56,13 @@
     <servlet-name>GetConditonServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GetConditonServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RemoveAccountServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.RemoveAccountServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -90,6 +97,10 @@
   <servlet-mapping>
     <servlet-name>GetConditonServlet</servlet-name>
     <url-pattern>/servlet/GetConditonServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RemoveAccountServlet</servlet-name>
+    <url-pattern>/servlet/RemoveAccountServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

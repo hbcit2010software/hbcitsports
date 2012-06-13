@@ -63,6 +63,23 @@ function initpwd(uid){
 				}
 			});
 	}
+	//
+	function deluser(uid){
+		$.ajax({
+			url :"${pageContext.request.contextPath }/servlet/RemoveAccountServlet",
+			type : 'get',
+			data : 'uid='+uid,
+			success :function(mm){
+					var revalue=mm.replace(/\r\n/g,'');
+					if(revalue=="error"){
+						Dialog.alert("帐号删除失败！",function(){window.location.reload();});
+					}
+					if(revalue=="success"){
+						Dialog.alert("帐号删除成功！",function(){window.location.reload();});
+					}
+				}
+			});
+	}
 </script>
 </head>
 
@@ -117,7 +134,7 @@ function initpwd(uid){
         <td><div><input type="checkbox" name="${myaccount.id}" value="3" id="right_${myaccount.id}_3"/></div></td>
         <td><div><input type="checkbox" name="${myaccount.id}" value="4" id="right_${myaccount.id}_4"/></div></td>
          --> 
-        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要将${myaccount.username }的密码初始化为111111吗？',function(){initpwd(${myaccount.id});});">密码初始化</a> | <a href="#" onclick="Dialog.alert('密码初始化成功！');">删除</a>| <a href="#">修改</a></div></td>
+        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要将${myaccount.username }的密码初始化为111111吗？',function(){initpwd(${myaccount.id});});">密码初始化</a> | <a href="#" onclick="Dialog.confirm('提示：您确认要将帐号${myaccount.username }删除吗？',function(){deluser(${myaccount.id});});">删除</a>| <a href="#">修改</a></div></td>
       </tr>
       </c:forEach>
       

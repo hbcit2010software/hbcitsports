@@ -144,5 +144,26 @@ public class AccountDAO {
 		}
 		return rst;
 	}
+	/**
+	 * 删除帐号
+	 * @param userId
+	 * @return
+	 */
+	public int removeAccount(int userId){
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_sysadmin WHERE id=?";
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, userId);
+			rst = pStatement.executeUpdate();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("初始化用户密码失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
+	}
 
 }

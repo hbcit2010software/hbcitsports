@@ -47,4 +47,8 @@ public class AccountService {
 	public int initializeUserPassword(int userId){
 		return ad.initializeUserPassword(userId);
 	}
+	
+	public int removeAccount(int userId){
+		return ad.removeAccount(userId);
+	}
 }
