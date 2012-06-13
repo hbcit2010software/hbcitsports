@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.Account;
+import cn.edu.hbcit.smms.pojo.Department;
 
 /**
  * 帐号处理类
@@ -162,6 +163,64 @@ public class AccountDAO {
 		}catch(Exception e){
 			log.error("初始化用户密码失败！");
 			log.error(e.getMessage());
+		}
+		return rst;
+	}
+	
+	/**
+	 * 获取部门信息
+	 * @return
+	 */
+	public ArrayList selectDepartment(){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,departshortname FROM t_department";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Department dp = new Department();
+				dp.setId(rs.getInt(1));
+				dp.setDepartmentShortName(rs.getString(2));
+				list.add(dp);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取部门信息失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	/**
+	 * 添加新帐号
+	 * @param uname
+	 * @param rightsVal
+	 * @param realname
+	 * @param departid
+	 * @return
+	 */
+	public int addAccount(String uname, int rightsVal, String realname, int departid){
+		int rst = 0;
+		String md_111111 = "96e79218965eb72c92a549dd5a330112";
+		String sql = "INSERT INTO t_sysadmin (username,password,userright,realname,departid) VALUES (?,?,?,?,?)";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, uname);
+			pStatement.setString(2, md_111111);
+			pStatement.setInt(3, rightsVal);
+			pStatement.setString(4, realname);
+			pStatement.setInt(5, departid);
+			rst = pStatement.executeUpdate();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("添加新账户失败！");
+			log.error(e.getMessage());
+			System.out.println(e);
 		}
 		return rst;
 	}

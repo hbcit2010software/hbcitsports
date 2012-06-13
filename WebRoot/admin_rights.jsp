@@ -80,6 +80,25 @@ function initpwd(uid){
 				}
 			});
 	}
+	//
+	function adduser(uid){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 400;
+			diag.Height = 280;
+			diag.Title = "添加新帐号";
+			diag.URL = "${pageContext.request.contextPath }/servlet/ViewAddAccountPageServlet";
+			diag.OKEvent = function(){
+				window.location.reload();
+				//diag.close();
+			};
+			diag.ShowCloseButton=false;
+			diag.MessageTitle = "添加帐号提示：";
+			diag.Message = "填完各项内容后不要忘记先\"确认添加\"，然后才可关闭窗口";
+			diag.show();
+			diag.okButton.value="结果刷新";
+			diag.cancelButton.value="关闭";
+	}
 </script>
 </head>
 
@@ -98,7 +117,7 @@ function initpwd(uid){
             </table></td>
             <td>
             <div align="right"><span class="pageTitle">
-              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> 添加帐号   &nbsp; </span>
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" onclick="adduser();" style="color:#FFF">添加帐号</a>   &nbsp; </span>
             </div>
             </td>
           </tr>

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import cn.edu.hbcit.smms.dao.systemmanagedao.AccountDAO;
 import cn.edu.hbcit.smms.dao.systemmanagedao.RightsDAO;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 /**
  * 账户管理类
@@ -30,6 +31,7 @@ public class AccountService {
 
 	AccountDAO ad = new AccountDAO();
 	RightsDAO rd = new RightsDAO();
+	UtilTools ut = new UtilTools();
 	
 	public boolean checkPower(int userPurview, int optPurview){
 		return rd.checkPower(userPurview, optPurview);
@@ -50,5 +52,25 @@ public class AccountService {
 	
 	public int removeAccount(int userId){
 		return ad.removeAccount(userId);
+	}
+	
+	public ArrayList selectDepartment(){
+		return ad.selectDepartment();
+	}
+	
+	/**
+	 * 添加新帐号
+	 * @param uname
+	 * @param rightsVal
+	 * @param realname
+	 * @param departid
+	 * @return
+	 */
+	public int addAccount(String uname, String rightsVal, String realname, String departid){
+		int rst = 0;
+		if(ut.isNumeric(rightsVal) && ut.isNumeric(departid)){
+			rst = ad.addAccount(uname, Integer.parseInt(rightsVal), realname, Integer.parseInt(departid));
+		}
+		return rst;
 	}
 }
