@@ -142,5 +142,4 @@ public class LoginDAO {
 		return name;
 	}
 	
-	
 }

@@ -149,15 +149,15 @@ function initpwd(uid){
     <!--内嵌表格begin-->
     <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
       <tr class="tableTitle">
-        <td width="8%" height="20" ><div align="center"><span>用户名</span></div></td>
+        <td width="8%"  height="20" ><div align="center"><span>用户名</span></div></td>
         <td width="15%" height="20" ><div align="center"><span>用户单位</span></div></td>
-        <td width="7%" height="20" ><div align="center"><span>真实姓名</span></div></td>
+        <td width="7%"  height="20" ><div align="center"><span>真实姓名</span></div></td>
         <td width="10%" height="20" ><div align="center"><span>系统设置权限</span></div></td>
         <td width="10%" height="20" ><div align="center"><span>赛前设置权限</span></div></td>
-        <td width="10%" height="20"><div align="center"><span>秩序册生成权限</span></div></td>
-        <td width="10%" height="20"><div align="center"><span>赛中管理权限</span></div></td>
-        <td width="10%" height="20"><div align="center"><span>赛事报名权限</span></div></td>
-        <td width="15%" height="20"><div align="center"><span>管理操作</span></div></td>
+        <td width="10%" height="20" ><div align="center"><span>秩序册生成权限</span></div></td>
+        <td width="10%" height="20" ><div align="center"><span>赛中管理权限</span></div></td>
+        <td width="10%" height="20" ><div align="center"><span>赛事报名权限</span></div></td>
+        <td width="15%" height="20" ><div align="center"><span>管理操作</span></div></td>
       </tr>
       <c:forEach var="myaccount" items="${account}" varStatus="countItem"> 
        <tr class="tableContent">
@@ -172,7 +172,17 @@ function initpwd(uid){
         <td><div><input type="checkbox" name="${myaccount.id}" value="3" id="right_${myaccount.id}_3"/></div></td>
         <td><div><input type="checkbox" name="${myaccount.id}" value="4" id="right_${myaccount.id}_4"/></div></td>
          --> 
-        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要将${myaccount.username }的密码初始化为111111吗？',function(){initpwd(${myaccount.id});});">密码初始化</a> | <a href="#" onclick="Dialog.confirm('提示：您确认要将帐号${myaccount.username }删除吗？',function(){deluser(${myaccount.id});});">删除</a>| <a href="#" onclick="updateuser(${myaccount.id});">修改</a></div></td>
+        <td>
+        <div>
+        <a href="#" onclick="Dialog.confirm('提示：您确认要将${myaccount.username }的密码初始化为111111吗？',function(){initpwd(${myaccount.id});});">密码初始化</a>
+        <c:if test="${myaccount.username ne sessionScope.username}">
+      | <a href="#" onclick="Dialog.confirm('提示：您确认要将帐号${myaccount.username }删除吗？',function(){deluser(${myaccount.id});});">删除</a>
+        </c:if> 
+ 		<c:if test="${myaccount.username eq sessionScope.username}">
+      | <span>删除</span>
+        </c:if> 
+      | <a href="#" onclick="updateuser(${myaccount.id});">修改</a>
+      	</div></td>
       </tr>
       </c:forEach>
       
