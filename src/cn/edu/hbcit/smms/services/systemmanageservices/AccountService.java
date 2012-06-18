@@ -35,8 +35,8 @@ public class AccountService {
 	
 	/**
 	 * 检查用户权限
-	 * @param userPurview
-	 * @param optPurview
+	 * @param userPurview 是用户具有的总权限
+	 * @param optPurview  是一个操作要求的权限为一个整数（没有经过权的！）
 	 * @return
 	 */
 	public boolean checkPower(int userPurview, int optPurview){
