@@ -30,8 +30,8 @@ System.out.println(rightsFlag);
 <script type="text/javascript">
 function changeSports()
 {
-	alert("跳！");
-	//location.replace("${pageContext.request.contextPath}/servlet/AdminNewsListServlet?cpage=1");
+	//alert("跳！");
+	location.replace("${pageContext.request.contextPath}/servlet/GetSportsInfoServlet");
 }
 </script>
 </head>

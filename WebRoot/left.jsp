@@ -100,7 +100,7 @@ body {
 	<!--赛前设置begin-->
     <li> <a class="head">赛前设置</a>
       <ul>
-        <li><a href="#" target="rightFrame">大会设置</a></li>
+        <li><a href="servlet/GetSportsInfoServlet" target="rightFrame">运动会管理</a></li>
         <li><a href="#" target="rightFrame">项目设置</a></li>
         <li><a href="#" target="rightFrame">组别设置</a></li>
         <li><a href="#" target="rightFrame">日程安排</a></li>
