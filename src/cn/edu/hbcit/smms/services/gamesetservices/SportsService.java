@@ -22,11 +22,24 @@ public class SportsService {
 	 * @param userId
 	 * @return boolean
 	 */
-	public boolean setCurrSports(String userId){
+	public boolean setCurrSports(String spId){
 		boolean flag = false;
-		if(ut.isNumeric(userId)){
-			flag = sp.setCurrSports(Integer.parseInt(userId));
+		if(ut.isNumeric(spId)){
+			flag = sp.setCurrSports(Integer.parseInt(spId));
 		}
 		return flag;
+	}
+	
+	/**
+	 * 新增运动会
+	 * @param sportsName
+	 * @param begin
+	 * @param end
+	 * @param registEnd
+	 * @param address
+	 * @return
+	 */
+	public boolean addSports(String sportsName, String begin, String end, String registEnd, String address){
+		return sp.addSports(sportsName, begin, end, registEnd, address);
 	}
 }

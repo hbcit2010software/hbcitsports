@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import cn.edu.hbcit.smms.services.gamesetservices.SportsService;
+
 
 /*
  * Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
  *
  * 模块名称：     赛前设置
- * 子模块名称：   运动会设置
+ * 子模块名称：   运动会管理
  *
  * 备注：
  *
@@ -26,12 +29,12 @@ import cn.edu.hbcit.smms.services.gamesetservices.SportsService;
  * @author 李玮
  *
  */
-public class SetCurrSportsServlet extends HttpServlet {
-
+public class AddSportsServlet extends HttpServlet {
+	protected final Logger log = Logger.getLogger(AddSportsServlet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
-	public SetCurrSportsServlet() {
+	public AddSportsServlet() {
 		super();
 	}
 
@@ -56,13 +59,22 @@ public class SetCurrSportsServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		SportsService ss = new SportsService();
-		boolean flag = false;
-		String spId = request.getParameter("uid");//运动会id
 		response.setContentType("text/html");
+		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		flag = ss.setCurrSports(spId);
-		//
+		SportsService ss = new SportsService();
+		String sportsName,  begin,  end,  registEnd,  address ;
+		boolean flag = false;
+		
+		sportsName = request.getParameter("spname");
+		begin = request.getParameter("begin");
+		end = request.getParameter("end");
+		registEnd = request.getParameter("registend");
+		address = request.getParameter("address");
+		
+		log.debug("sportsName,begin,end,registEnd,address："+sportsName+"~~"+begin+"~~"+end+"~~"+registEnd+"~~"+address);
+		flag = ss.addSports(sportsName, begin, end, registEnd, address);
+		
 		if(flag){
 			out.print("success");
 		}else{
@@ -103,6 +115,6 @@ public class SetCurrSportsServlet extends HttpServlet {
 	 * 简要说明:
 	 *
 	 * @author Administrator
-	 * @version 1.00  2012-6-20上午09:37:50	新建
+	 * @version 1.00  2012-6-20上午11:04:07	新建
 	 */
 }

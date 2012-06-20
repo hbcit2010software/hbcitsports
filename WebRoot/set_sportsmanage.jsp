@@ -36,6 +36,25 @@
 				}
 			});
 	}
+	//
+	function addSports(){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 400;
+			diag.Height = 200;
+			diag.Title = "添加新运动会";
+			diag.URL = "${pageContext.request.contextPath }/set_sportscreate.jsp";
+			diag.OKEvent = function(){
+				window.location.reload();
+				//diag.close();
+			};
+			diag.ShowCloseButton=false;
+			diag.MessageTitle = "添加运动会提示：";
+			diag.Message = "填完各项内容后不要忘记先\"确认添加\"，然后才可关闭窗口";
+			diag.show();
+			diag.okButton.value="结果刷新";
+			diag.cancelButton.value="关闭";
+	}
 </script>
 </head>
 
@@ -54,7 +73,7 @@
             </table></td>
             <td>
             <div align="right"><span class="pageTitle">
-              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF">添加新运动会</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addSports();">添加新运动会</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
             </div>
             </td>
           </tr>
@@ -91,7 +110,7 @@
         <td><div>否</div></td>
         </c:if>
         <td><div>
-        <c:if test="${sinfo.current eq 1}">当前运动会 | </c:if>
+        <c:if test="${sinfo.current eq 1}">已为当前 | </c:if>
         <c:if test="${sinfo.current ne 1}">
         <a href="#" onclick="Dialog.confirm('提示：您确认要将“${sinfo.sportsname }”设为当前运动会吗？如若更改，需重新登录系统。',function(){setCurrSports(${sinfo.id});});">设为当前</a> | 
         </c:if>

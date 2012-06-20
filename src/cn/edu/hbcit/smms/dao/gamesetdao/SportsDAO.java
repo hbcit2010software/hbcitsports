@@ -73,7 +73,7 @@ public class SportsDAO {
 	 * @param userId
 	 * @return
 	 */
-	public boolean setCurrSports(int userId){
+	public boolean setCurrSports(int spId){
 		boolean rst = false;
 		int flag_sql_1 = 0;
 		int flag_sql_2 = 0;
@@ -87,7 +87,7 @@ public class SportsDAO {
 			pStatement.close();
 			//将指定ID的记录设为1
 			pStatement = conn.prepareStatement(sql_2);
-			pStatement.setInt(1, userId);
+			pStatement.setInt(1, spId);
 			flag_sql_2 = pStatement.executeUpdate();
 			//
 			log.debug("flag_sql_1:"+flag_sql_1+"\t flag_sql_2:"+flag_sql_2);
@@ -101,5 +101,41 @@ public class SportsDAO {
 			log.error(e.getMessage());
 		}
 		return rst;
+	}
+	
+	/**
+	 * 新增运动会
+	 * @param sportsName
+	 * @param begin
+	 * @param end
+	 * @param registEnd
+	 * @param address
+	 * @return
+	 */
+	public boolean addSports(String sportsName, String begin, String end, String registEnd, String address){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "INSERT INTO t_sports (sportsname,sportsbegin,sportsend,registend,address,current) VALUES(?,?,?,?,?,?)"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, sportsName);
+			pStatement.setString(2, begin);
+			pStatement.setString(3, end);
+			pStatement.setString(4, registEnd);
+			pStatement.setString(5, address);
+			pStatement.setInt(6, 0);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("添加运动会失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
 	}
 }
