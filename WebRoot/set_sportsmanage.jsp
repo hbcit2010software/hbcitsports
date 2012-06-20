@@ -55,6 +55,42 @@
 			diag.okButton.value="结果刷新";
 			diag.cancelButton.value="关闭";
 	}
+	//
+	function updateSports(spid){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 400;
+			diag.Height = 200;
+			diag.Title = "修改运动会信息";
+			diag.URL = "${pageContext.request.contextPath }/servlet/GetSportsInfoByIdServlet?spid="+spid;
+			diag.OKEvent = function(){
+				window.location.reload();
+				//diag.close();
+			};
+			diag.ShowCloseButton=false;
+			diag.MessageTitle = "修改运动会提示：";
+			diag.Message = "填完各项内容后不要忘记先\"确认修改\"，然后才可关闭窗口";
+			diag.show();
+			diag.okButton.value="结果刷新";
+			diag.cancelButton.value="关闭";
+	}
+	//
+		function delSports(spid){
+		$.ajax({
+			url :"${pageContext.request.contextPath }/servlet/RemoveSportsServlet",
+			type : 'get',
+			data : 'spid='+spid,
+			success :function(mm){
+					var revalue=mm.replace(/\r\n/g,'');
+					if(revalue=="error"){
+						Dialog.alert("删除运动会失败！",function(){window.location.reload();});
+					}
+					if(revalue=="success"){
+						Dialog.alert("删除运动会成功！",function(){window.location.reload();});
+					}
+				}
+			});
+	}
 </script>
 </head>
 
@@ -112,10 +148,13 @@
         <td><div>
         <c:if test="${sinfo.current eq 1}">已为当前 | </c:if>
         <c:if test="${sinfo.current ne 1}">
-        <a href="#" onclick="Dialog.confirm('提示：您确认要将“${sinfo.sportsname }”设为当前运动会吗？如若更改，需重新登录系统。',function(){setCurrSports(${sinfo.id});});">设为当前</a> | 
+<a href="#" onclick="Dialog.confirm('提示：您确认要将“${sinfo.sportsname }”设为当前运动会吗？<br>如若更改，需重新登录系统。',function(){setCurrSports(${sinfo.id});});">设为当前</a> | 
         </c:if>
-            <a href="#${sinfo.id}">修改</a> | 
-            <a href="#${sinfo.id}">删除</a>
+<a href="#" onclick="Dialog.confirm('提示：您确认要修改“${sinfo.sportsname }”的信息吗？',function(){updateSports(${sinfo.id});});">修改</a> | 
+<c:if test="${sinfo.current eq 1}">删除</c:if>
+<c:if test="${sinfo.current ne 1}">
+<a href="#${sinfo.id}" onclick="Dialog.confirm('提示：您确认要删除“${sinfo.sportsname }”吗？<br>删除运动会将影响后续功能，请务必谨慎操作！',function(){delSports(${sinfo.id});});">删除</a>
+</c:if>
             </div></td>
       </tr>
      </c:forEach>

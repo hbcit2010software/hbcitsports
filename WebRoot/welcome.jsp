@@ -16,7 +16,7 @@ if(session != null && session.getAttribute("userrights")!=null){
 AccountService as = new AccountService();
 rightsFlag = as.checkPower(urights, 0);
 pageContext.setAttribute("rightsCheck",Boolean.valueOf(rightsFlag));
-System.out.println(rightsFlag);
+//System.out.println(rightsFlag);
  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,7 +36,7 @@ function changeSports()
 </script>
 </head>
 <c:if test="${rightsCheck eq true}">
-<body onload="Dialog.confirm('提示：当前运动会是“${sessionScope.currSportsName}”，您需要改变或新建一届运动会吗？',function(){changeSports();});">
+<body onload="Dialog.confirm('提示：当前运动会是“${sessionScope.currSportsName}”。<br>您需要改变或新建一届运动会吗？',function(){changeSports();});">
 </c:if> 
 <c:if test="${rightsCheck eq false}">
 <body>

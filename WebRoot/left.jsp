@@ -48,7 +48,9 @@ body {
 #navigation {
 	margin:0px;
 	padding:0px;
-	width:147px;
+	/*width:147px;*/
+	width:100%;
+	height:100%;
 }
 #navigation a.head {
 	cursor:pointer;
@@ -94,7 +96,7 @@ body {
 </style>
 </head>
 <body>
-<div  style="height:100%;">
+<div  style="height:100%; width:100%;">
   <ul id="navigation">
   <c:if test="${r1 eq true}">
 	<!--赛前设置begin-->

@@ -37,7 +37,7 @@ public class SportsDAO {
 	DBConn db = new DBConn();
 	
 	/**
-	 * 获取运动会信息
+	 * 获取所有运动会信息
 	 * @return
 	 */
 	public ArrayList selectSportsInfo(){
@@ -67,7 +67,39 @@ public class SportsDAO {
 		}
 		return list;
 	}
-	
+	/**
+	 * 获取指定ID的运动会信息
+	 * @param int sportsId
+	 * @return
+	 */
+	public ArrayList selectSportsInfoById(int sportsId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,sportsname,sportsbegin,sportsend,registend,address,current FROM t_sports WHERE id=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Sports sp = new Sports();
+				sp.setId(rs.getInt(1));
+				sp.setSportsname(rs.getString(2));
+				sp.setSportsbegin(rs.getString(3));
+				sp.setSportsend(rs.getString(4));
+				sp.setRegistend(rs.getString(5));
+				sp.setAddress(rs.getString(6));
+				sp.setCurrent(rs.getInt(7));
+				list.add(sp);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取运动会信息By ID失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
 	/**
 	 * 设置当前运动会
 	 * @param userId
@@ -138,4 +170,69 @@ public class SportsDAO {
 		}
 		return flag;
 	}
+	
+	/**
+	 * 修改运动会By id
+	 * @param id
+	 * @param sportsName
+	 * @param begin
+	 * @param end
+	 * @param registEnd
+	 * @param address
+	 * @return
+	 */
+	public boolean updateSports(int id,String sportsName, String begin, String end, String registEnd, String address){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "UPDATE t_sports SET sportsname=?,sportsbegin=?,sportsend=?,registend=?,address=? WHERE id=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, sportsName);
+			pStatement.setString(2, begin);
+			pStatement.setString(3, end);
+			pStatement.setString(4, registEnd);
+			pStatement.setString(5, address);
+			pStatement.setInt(6, id);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("添加运动会失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+
+	/**
+	 * 删除指定ID运动会
+	 * @param id
+	 * @return
+	 */
+	public boolean removeSports(int id){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_sports WHERE id=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, id);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("删除运动会失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+	
 }

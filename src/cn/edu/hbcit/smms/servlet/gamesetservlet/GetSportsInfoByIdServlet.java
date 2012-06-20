@@ -1,16 +1,4 @@
-/**
- * Copyright(C) 2012, 河北工业职业技术学院.
- *
- * 模块名称：	系统管理
- * 子模块名称：	帐号管理
- *
- * 备注：
- *
- * 修改历史：
- * 时间			版本号		姓名			修改内容
- * 2012-6-9		V1.0		李玮			新建
-*/
-package cn.edu.hbcit.smms.servlet.systemmanageservlet;
+package cn.edu.hbcit.smms.servlet.gamesetservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,26 +8,34 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.services.systemmanageservices.AccountService;
+import org.apache.log4j.Logger;
 
-/**
- * 获取帐号信息类
+import cn.edu.hbcit.smms.services.gamesetservices.SportsService;
+
+/*
+ * Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
  *
- * 本类的简要描述：
- * 获取帐号及权限信息，负责显示帐号管理页面
+ * 模块名称：     赛前设置
+ * 子模块名称：   运动会管理
  *
- * @author 李玮
- * @version 1.00  2012-6-9 新建类
+ * 备注：
+ *
+ * 修改历史：
+ * 时间			版本号	姓名		修改内容
+ * 2012/06/20	0.1		李玮		新建
  */
+/**
+ * @author 李玮
+ *
+ */
+public class GetSportsInfoByIdServlet extends HttpServlet {
 
-public class GetAccountInfoServlet extends HttpServlet {
-
+	protected final Logger log = Logger.getLogger(GetSportsInfoByIdServlet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
-	public GetAccountInfoServlet() {
+	public GetSportsInfoByIdServlet() {
 		super();
 	}
 
@@ -64,7 +60,19 @@ public class GetAccountInfoServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		this.doPost(request, response);
+		response.setContentType("text/html");
+		SportsService ss = new SportsService();
+		ArrayList list = new ArrayList();
+		String sportsId = request.getParameter("spid");
+		log.debug("spid:"+sportsId);
+		list = ss.selectSportsInfoById(sportsId);
+		if( list != null){
+			//log.debug("list not NULL !!!");
+			request.setAttribute("spinfo", list);
+			request.getRequestDispatcher("/set_sportsupdate.jsp").forward(request, response);
+		}else{
+			log.debug("list为null");
+		}
 	}
 
 	/**
@@ -80,21 +88,7 @@ public class GetAccountInfoServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		//RightsDAO rd = new RightsDAO();
-		AccountService as = new AccountService();
-		HttpSession session = request.getSession();
-		ArrayList list = new ArrayList();
-		
-		//获取登录时的用户权限
-		int userrights = ((Integer)session.getAttribute("userrights")).intValue();
-		if(!as.checkPower(userrights, 0)){
-			response.sendRedirect("../main.jsp");
-		}else{
-			list = as.selectAccountInfo();
-			request.setAttribute("account", list);
-			request.getRequestDispatcher("/admin_rights.jsp").forward(request, response);
-		}
+		this.doGet(request, response);
 	}
 
 	/**

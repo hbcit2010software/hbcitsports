@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -35,7 +36,7 @@
 			
 		</style>
         <script language="JavaScript">
-        function addSports()
+        function updateSports(spid)
 		{
 			var reg=/["']/;
 			if($('#spname').val() == "")
@@ -87,16 +88,16 @@
 			}
 			//ajax提交
 			$.ajax({
-			url :"${pageContext.request.contextPath }/servlet/AddSportsServlet",
+			url :"${pageContext.request.contextPath }/servlet/UpdateSportsServlet",
 			type : 'post',
-			data : 'spname='+$('#spname').val()+'&begin='+$('#begin').val()+'&end='+$('#end').val()+'&registend='+$('#registend').val()+'&address='+$('#address').val(),
+			data : 'spname='+$('#spname').val()+'&begin='+$('#begin').val()+'&end='+$('#end').val()+'&registend='+$('#registend').val()+'&address='+$('#address').val()+'&spid='+spid,
 			success :function(mm){
 					var revalue=mm.replace(/\r\n/g,'');
 					if(revalue=="error"){
-						Dialog.alert("添加新运动会失败!",function(){window.location.reload();});
+						Dialog.alert("修改运动会失败!",function(){window.location.reload();});
 					}
 					if(revalue=="success"){
-						Dialog.alert("添加新运动会成功!",function(){window.location.reload();});
+						Dialog.alert("修改运动会成功!",function(){window.location.reload();});
 					}
 				}
 			});
@@ -107,31 +108,33 @@
 <body style="margin-top:30px">
 
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="2" style="border-collapse: collapse" bordercolor="#C0C0C0">
+<c:forEach var="mysp" items="${spinfo}" varStatus="countItem"> 
   <tr>
     <td align="right" width="150">运动会名称：</td>
-    <td><label><input name="spname" type="text" id="spname" size="30" />
+    <td><label><input name="spname" type="text" id="spname" size="30" value="${mysp.sportsname}" />
     </label></td>
   </tr>
   <tr>
     <td align="right">起始日期：</td>
-    <td><input name="begin" class="Wdate" type="text" id="begin" onClick="WdatePicker()"></td>
+    <td><input name="begin" class="Wdate" type="text" id="begin" onClick="WdatePicker()" value="${mysp.sportsbegin}"></td>
   </tr>
   <tr>
     <td align="right">结束日期：</td>
-    <td><input name="end" class="Wdate" type="text" id="end" onClick="WdatePicker()"></td>
+    <td><input name="end" class="Wdate" type="text" id="end" onClick="WdatePicker()" value="${mysp.sportsend}"></td>
   </tr>
   <tr>
     <td align="right">报名截止日期：</td>
-    <td><input name="registend" class="Wdate" type="text" id="registend" onClick="WdatePicker()"></td>
+    <td><input name="registend" class="Wdate" type="text" id="registend" onClick="WdatePicker()" value="${mysp.registend}"></td>
   </tr>
     <tr>
     <td align="right" width="150">运动会地点：</td>
-    <td><label><input id="address" name="address" type="text" size="30" />
+    <td><label><input id="address" name="address" type="text" size="30" value="${mysp.address}"/>
     </label></td>
   </tr>
   <tr>
-    <td colspan="2" align="center"><input name="" type="button" value="确认添加" onclick="addSports();"/></td>
+    <td colspan="2" align="center"><input name="" type="button" value="确认修改" onclick="updateSports(${mysp.id});"/></td>
   </tr>
+</c:forEach>
 </table>
 </body>
 </html>

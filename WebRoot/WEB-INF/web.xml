@@ -126,6 +126,27 @@
     <servlet-name>AddSportsServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.AddSportsServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetSportsInfoByIdServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.GetSportsInfoByIdServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.UpdateSportsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RemoveSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.RemoveSportsServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -210,6 +231,18 @@
   <servlet-mapping>
     <servlet-name>AddSportsServlet</servlet-name>
     <url-pattern>/servlet/AddSportsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetSportsInfoByIdServlet</servlet-name>
+    <url-pattern>/servlet/GetSportsInfoByIdServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateSportsServlet</servlet-name>
+    <url-pattern>/servlet/UpdateSportsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RemoveSportsServlet</servlet-name>
+    <url-pattern>/servlet/RemoveSportsServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
