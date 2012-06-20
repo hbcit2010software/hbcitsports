@@ -7,6 +7,8 @@
 <title>无标题文档</title>
 <link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){
@@ -17,6 +19,23 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
+		//
+		function setCurrSports(uid){
+		$.ajax({
+			url :"${pageContext.request.contextPath }/servlet/SetCurrSportsServlet",
+			type : 'get',
+			data : 'uid='+uid,
+			success :function(mm){
+					var revalue=mm.replace(/\r\n/g,'');
+					if(revalue=="error"){
+						Dialog.alert("设置当前运动会失败！请检查网络设置。",function(){window.location.reload();});
+					}
+					if(revalue=="success"){
+						Dialog.alert("设置当前运动会成功！请重新登录系统，以使您的设置生效。",function(){top.location.replace("${pageContext.request.contextPath }/servlet/LogoutServlet");});
+					}
+				}
+			});
+	}
 </script>
 </head>
 
@@ -72,7 +91,10 @@
         <td><div>否</div></td>
         </c:if>
         <td><div>
-        	<a href="#${sinfo.id}">设为当前</a> | 
+        <c:if test="${sinfo.current eq 1}">当前运动会 | </c:if>
+        <c:if test="${sinfo.current ne 1}">
+        <a href="#" onclick="Dialog.confirm('提示：您确认要将“${sinfo.sportsname }”设为当前运动会吗？如若更改，需重新登录系统。',function(){setCurrSports(${sinfo.id});});">设为当前</a> | 
+        </c:if>
             <a href="#${sinfo.id}">修改</a> | 
             <a href="#${sinfo.id}">删除</a>
             </div></td>

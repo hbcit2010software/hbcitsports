@@ -36,7 +36,7 @@ function changeSports()
 </script>
 </head>
 <c:if test="${rightsCheck eq true}">
-<body onload="Dialog.confirm('提示：当前运动会是${sessionScope.currSportsName}，您需要改变或新建一届运动会吗？',function(){changeSports();});">
+<body onload="Dialog.confirm('提示：当前运动会是“${sessionScope.currSportsName}”，您需要改变或新建一届运动会吗？',function(){changeSports();});">
 </c:if> 
 <c:if test="${rightsCheck eq false}">
 <body>

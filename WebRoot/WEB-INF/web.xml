@@ -114,6 +114,13 @@
     <servlet-name>GetSportsInfoServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.GetSportsInfoServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SetCurrSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.SetCurrSportsServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -188,6 +195,10 @@
   <servlet-mapping>
     <servlet-name>GetSportsInfoServlet</servlet-name>
     <url-pattern>/servlet/GetSportsInfoServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SetCurrSportsServlet</servlet-name>
+    <url-pattern>/servlet/SetCurrSportsServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
