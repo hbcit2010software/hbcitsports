@@ -1,25 +1,24 @@
-/*
-SQLyog 企业版 - MySQL GUI v8.14 
-MySQL - 5.5.25 : Database - smms
-*********************************************************************
-*/
+﻿# MySQL-Front 5.1  (Build 4.2)
 
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE */;
+/*!40101 SET SQL_MODE='STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES */;
+/*!40103 SET SQL_NOTES='ON' */;
 
-/*!40101 SET SQL_MODE=''*/;
 
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`smms` /*!40100 DEFAULT CHARACTER SET utf8 */;
+# Host: 127.0.0.1    Database: smms
+# ------------------------------------------------------
+# Server version 5.5.15
 
+DROP DATABASE IF EXISTS `smms`;
+CREATE DATABASE `smms` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `smms`;
 
-/*Table structure for table `t_department` */
+#
+# Source for table t_department
+#
 
 DROP TABLE IF EXISTS `t_department`;
-
 CREATE TABLE `t_department` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `departname` varchar(50) NOT NULL COMMENT '部门名称',
@@ -28,14 +27,20 @@ CREATE TABLE `t_department` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='参赛部门表';
 
-/*Data for the table `t_department` */
+#
+# Dumping data for table t_department
+#
 
-insert  into `t_department`(`id`,`departname`,`departshortname`,`departtype`) values (1,'河北工业职业技术学院运动会组委会','组委会',0),(2,'计算机技术系','计算机系',1),(3,'材料工程系','材料系',1),(4,'机电工程系','机电系',1);
+INSERT INTO `t_department` VALUES (1,'思想政治与公共体育教学部','政体部',0);
+INSERT INTO `t_department` VALUES (2,'计算机技术系','计算机系',1);
+INSERT INTO `t_department` VALUES (3,'材料工程系','材料系',1);
+INSERT INTO `t_department` VALUES (4,'机电工程系','机电系',1);
 
-/*Table structure for table `t_fieldjudge` */
+#
+# Source for table t_fieldjudge
+#
 
 DROP TABLE IF EXISTS `t_fieldjudge`;
-
 CREATE TABLE `t_fieldjudge` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gp2itid` int(11) NOT NULL COMMENT 'group2item表的id',
@@ -45,12 +50,16 @@ CREATE TABLE `t_fieldjudge` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='田赛裁判表';
 
-/*Data for the table `t_fieldjudge` */
+#
+# Dumping data for table t_fieldjudge
+#
 
-/*Table structure for table `t_finalitem` */
+
+#
+# Source for table t_finalitem
+#
 
 DROP TABLE IF EXISTS `t_finalitem`;
-
 CREATE TABLE `t_finalitem` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gp2itid` int(11) NOT NULL COMMENT '组别与项目关系id group2item',
@@ -63,25 +72,34 @@ CREATE TABLE `t_finalitem` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分项竞赛项目表（预赛与决赛分离后的）';
 
-/*Data for the table `t_finalitem` */
+#
+# Dumping data for table t_finalitem
+#
 
-/*Table structure for table `t_group` */
+
+#
+# Source for table t_group
+#
 
 DROP TABLE IF EXISTS `t_group`;
-
 CREATE TABLE `t_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `groupname` varchar(50) NOT NULL COMMENT '组别名称：如学生男、教工老年男',
   `grouptype` tinyint(1) NOT NULL COMMENT '组别类型：true学生，false教工',
+  `groupsex` tinyint(3) DEFAULT NULL COMMENT '组别的性别类型true男；false女',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组别表';
 
-/*Data for the table `t_group` */
+#
+# Dumping data for table t_group
+#
 
-/*Table structure for table `t_group2item` */
+
+#
+# Source for table t_group2item
+#
 
 DROP TABLE IF EXISTS `t_group2item`;
-
 CREATE TABLE `t_group2item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gp2spid` int(11) NOT NULL COMMENT '组别与运动会关系group2sports id',
@@ -90,12 +108,16 @@ CREATE TABLE `t_group2item` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分组与项目对应关系表';
 
-/*Data for the table `t_group2item` */
+#
+# Dumping data for table t_group2item
+#
 
-/*Table structure for table `t_group2sports` */
+
+#
+# Source for table t_group2sports
+#
 
 DROP TABLE IF EXISTS `t_group2sports`;
-
 CREATE TABLE `t_group2sports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sportsid` int(11) NOT NULL COMMENT '运动会id',
@@ -103,25 +125,34 @@ CREATE TABLE `t_group2sports` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组别与运动会关系表';
 
-/*Data for the table `t_group2sports` */
+#
+# Dumping data for table t_group2sports
+#
 
-/*Table structure for table `t_item` */
+
+#
+# Source for table t_item
+#
 
 DROP TABLE IF EXISTS `t_item`;
-
 CREATE TABLE `t_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `itemname` varchar(50) NOT NULL COMMENT '项目名称',
   `itemtype` varchar(1) NOT NULL COMMENT '项目类型：1径赛；2田赛；3接力',
+  `scoreformatid` int(11) DEFAULT NULL COMMENT '成绩格式ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='项目表';
 
-/*Data for the table `t_item` */
+#
+# Dumping data for table t_item
+#
 
-/*Table structure for table `t_mark` */
+
+#
+# Source for table t_mark
+#
 
 DROP TABLE IF EXISTS `t_mark`;
-
 CREATE TABLE `t_mark` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sp2dpid` int(11) NOT NULL COMMENT '运动会与部门关系表id',
@@ -129,12 +160,16 @@ CREATE TABLE `t_mark` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分表';
 
-/*Data for the table `t_mark` */
+#
+# Dumping data for table t_mark
+#
 
-/*Table structure for table `t_match` */
+
+#
+# Source for table t_match
+#
 
 DROP TABLE IF EXISTS `t_match`;
-
 CREATE TABLE `t_match` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `finalitemid` int(11) NOT NULL COMMENT '拆分后组别id',
@@ -143,15 +178,20 @@ CREATE TABLE `t_match` (
   `playerid` int(11) DEFAULT NULL COMMENT '运动员id',
   `score` varchar(50) DEFAULT NULL,
   `foul` tinyint(1) DEFAULT NULL COMMENT '是否犯规违纪：true违纪；false正常状态',
+  `recordlevel` int(11) NOT NULL DEFAULT '0' COMMENT '记录级别',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='竞赛表（赛道分组）';
 
-/*Data for the table `t_match` */
+#
+# Dumping data for table t_match
+#
 
-/*Table structure for table `t_official` */
+
+#
+# Source for table t_official
+#
 
 DROP TABLE IF EXISTS `t_official`;
-
 CREATE TABLE `t_official` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sportsid` int(11) NOT NULL COMMENT '运动会id',
@@ -201,12 +241,16 @@ CREATE TABLE `t_official` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作人员表';
 
-/*Data for the table `t_official` */
+#
+# Dumping data for table t_official
+#
 
-/*Table structure for table `t_player` */
+
+#
+# Source for table t_player
+#
 
 DROP TABLE IF EXISTS `t_player`;
-
 CREATE TABLE `t_player` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sp2dpid` int(11) NOT NULL COMMENT '运动会-部门联系表id',
@@ -218,12 +262,16 @@ CREATE TABLE `t_player` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运动员表';
 
-/*Data for the table `t_player` */
+#
+# Dumping data for table t_player
+#
 
-/*Table structure for table `t_playernum` */
+
+#
+# Source for table t_playernum
+#
 
 DROP TABLE IF EXISTS `t_playernum`;
-
 CREATE TABLE `t_playernum` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sp2dpid` int(11) NOT NULL COMMENT '运动会2部门表id sports2department',
@@ -233,12 +281,16 @@ CREATE TABLE `t_playernum` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运动员号码分布表';
 
-/*Data for the table `t_playernum` */
+#
+# Dumping data for table t_playernum
+#
 
-/*Table structure for table `t_position` */
+
+#
+# Source for table t_position
+#
 
 DROP TABLE IF EXISTS `t_position`;
-
 CREATE TABLE `t_position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `finalitemid` int(11) DEFAULT NULL COMMENT '具体组别id',
@@ -248,12 +300,16 @@ CREATE TABLE `t_position` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='比赛名次表';
 
-/*Data for the table `t_position` */
+#
+# Dumping data for table t_position
+#
 
-/*Table structure for table `t_record` */
+
+#
+# Source for table t_record
+#
 
 DROP TABLE IF EXISTS `t_record`;
-
 CREATE TABLE `t_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `itemid` int(11) NOT NULL COMMENT '项目id',
@@ -267,12 +323,16 @@ CREATE TABLE `t_record` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='竞赛记录表';
 
-/*Data for the table `t_record` */
+#
+# Dumping data for table t_record
+#
 
-/*Table structure for table `t_rule` */
+
+#
+# Source for table t_rule
+#
 
 DROP TABLE IF EXISTS `t_rule`;
-
 CREATE TABLE `t_rule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sportsid` int(11) NOT NULL COMMENT '运动会id',
@@ -285,12 +345,33 @@ CREATE TABLE `t_rule` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='大赛规则';
 
-/*Data for the table `t_rule` */
+#
+# Dumping data for table t_rule
+#
 
-/*Table structure for table `t_sports` */
+
+#
+# Source for table t_scoreformat
+#
+
+DROP TABLE IF EXISTS `t_scoreformat`;
+CREATE TABLE `t_scoreformat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `format` varchar(20) NOT NULL DEFAULT '' COMMENT '成绩格式',
+  `reg` varchar(10) NOT NULL DEFAULT '' COMMENT '成绩正则（JavaScript）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='成绩格式表';
+
+#
+# Dumping data for table t_scoreformat
+#
+
+
+#
+# Source for table t_sports
+#
 
 DROP TABLE IF EXISTS `t_sports`;
-
 CREATE TABLE `t_sports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sportsname` varchar(50) NOT NULL COMMENT '运动会名称',
@@ -302,14 +383,19 @@ CREATE TABLE `t_sports` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='运动会表';
 
-/*Data for the table `t_sports` */
+#
+# Dumping data for table t_sports
+#
 
-insert  into `t_sports`(`id`,`sportsname`,`sportsbegin`,`sportsend`,`registend`,`address`,`current`) values (1,'河北工院第12届运动会','2012-02-01','2012-02-02','2012-01-30','南校区操场',0),(2,'河北工院第13届运动会','2012-09-01','2012-09-02','2012-08-18','南校区风雨操场',1),(3,'河北工院第11届运动会','2010-01-10','2010-01-11','2010-01-01','学院田径场（南校区）',0);
+INSERT INTO `t_sports` VALUES (1,'河北工院第12届运动会','2012-02-01','2012-02-02','2012-01-30','南校区操场',0);
+INSERT INTO `t_sports` VALUES (2,'河北工院第13届运动会','2012-09-01','2012-09-02','2012-08-18','南校区风雨操场',1);
+INSERT INTO `t_sports` VALUES (3,'河北工院第11届运动会','2010-01-10','2010-01-11','2010-01-01','学院田径场（南校区）',0);
 
-/*Table structure for table `t_sports2department` */
+#
+# Source for table t_sports2department
+#
 
 DROP TABLE IF EXISTS `t_sports2department`;
-
 CREATE TABLE `t_sports2department` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sportsid` int(11) NOT NULL COMMENT '运动会id',
@@ -320,12 +406,16 @@ CREATE TABLE `t_sports2department` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运动会与部门对应表';
 
-/*Data for the table `t_sports2department` */
+#
+# Dumping data for table t_sports2department
+#
 
-/*Table structure for table `t_stujudge` */
+
+#
+# Source for table t_stujudge
+#
 
 DROP TABLE IF EXISTS `t_stujudge`;
-
 CREATE TABLE `t_stujudge` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sp2dpid` int(11) NOT NULL COMMENT '运动会与部门关系id sports2department',
@@ -335,12 +425,16 @@ CREATE TABLE `t_stujudge` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生裁判表';
 
-/*Data for the table `t_stujudge` */
+#
+# Dumping data for table t_stujudge
+#
 
-/*Table structure for table `t_sysadmin` */
+
+#
+# Source for table t_sysadmin
+#
 
 DROP TABLE IF EXISTS `t_sysadmin`;
-
 CREATE TABLE `t_sysadmin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL COMMENT '用户名',
@@ -349,15 +443,24 @@ CREATE TABLE `t_sysadmin` (
   `realname` varchar(50) NOT NULL COMMENT '用户真实姓名',
   `departid` int(11) NOT NULL COMMENT '单位id。各部门报名账号的departid应对应t_department表的id，管理员和裁判员不对应。',
   PRIMARY KEY (`id`),
-  KEY `FK_department2sysadmin` (`departid`),
-  CONSTRAINT `FK_department2sysadmin` FOREIGN KEY (`departid`) REFERENCES `t_department` (`id`)
+  KEY `FK_department2sysadmin` (`departid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='账号表';
 
-/*Data for the table `t_sysadmin` */
+#
+# Dumping data for table t_sysadmin
+#
 
-insert  into `t_sysadmin`(`id`,`username`,`password`,`userright`,`realname`,`departid`) values (2,'liwei','96e79218965eb72c92a549dd5a330112',19,'李玮',1),(5,'sohu','96e79218965eb72c92a549dd5a330112',22,'搜狐人',4),(6,'akak','96e79218965eb72c92a549dd5a330112',12,'阿卡',3);
+INSERT INTO `t_sysadmin` VALUES (2,'admin','96e79218965eb72c92a549dd5a330112',31,'系统管理员',1);
+INSERT INTO `t_sysadmin` VALUES (5,'sohu','96e79218965eb72c92a549dd5a330112',22,'搜狐人',4);
+INSERT INTO `t_sysadmin` VALUES (6,'sina','96e79218965eb72c92a549dd5a330112',12,'阿卡',3);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+#
+#  Foreign keys for table t_sysadmin
+#
+
+ALTER TABLE `t_sysadmin`
+ADD CONSTRAINT `FK_department2sysadmin` FOREIGN KEY (`departid`) REFERENCES `t_department` (`id`);
+
+
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
