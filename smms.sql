@@ -30,7 +30,7 @@ CREATE TABLE `t_department` (
 
 /*Data for the table `t_department` */
 
-insert  into `t_department`(`id`,`departname`,`departshortname`,`departtype`) values (1,'河北工业职业技术学院运动会组委会','组委会',0),(2,'计算机技术系','计算机系',1),(3,'材料工程系','材料系',1),(4,'机电工程系','机电系',1);
+insert  into `t_department`(`id`,`departname`,`departshortname`,`departtype`) values (1,'思想政治与公共体育教学部','政体部',0),(2,'计算机技术系','计算机系',1),(3,'材料工程系','材料系',1),(4,'机电工程系','机电系',1);
 
 /*Table structure for table `t_fieldjudge` */
 
@@ -73,6 +73,7 @@ CREATE TABLE `t_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `groupname` varchar(50) NOT NULL COMMENT '组别名称：如学生男、教工老年男',
   `grouptype` tinyint(1) NOT NULL COMMENT '组别类型：true学生，false教工',
+  `groupsex` tinyint(3) DEFAULT NULL COMMENT '组别的性别类型true男；false女',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组别表';
 
@@ -113,10 +114,13 @@ CREATE TABLE `t_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `itemname` varchar(50) NOT NULL COMMENT '项目名称',
   `itemtype` varchar(1) NOT NULL COMMENT '项目类型：1径赛；2田赛；3接力',
+  `scoreformatid` int(11) DEFAULT NULL COMMENT '成绩格式ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='项目表';
 
 /*Data for the table `t_item` */
+
+insert  into `t_item`(`id`,`itemname`,`itemtype`,`scoreformatid`) values (1,'100米','1',1),(2,'跳远','2',5),(3,'110米跨栏','1',1),(4,'200米','1',1),(5,'400米','1',2),(6,'800米','1',3),(7,'1500米','1',3),(8,'400米栏','1',2),(9,'跳高','2',4),(10,'三级跳远','2',4),(11,'铅球','2',4),(12,'铁饼','2',7),(13,'标枪','2',8),(14,'4*100米','3',2),(15,'4*400米','3',2);
 
 /*Table structure for table `t_mark` */
 
@@ -143,6 +147,7 @@ CREATE TABLE `t_match` (
   `playerid` int(11) DEFAULT NULL COMMENT '运动员id',
   `score` varchar(50) DEFAULT NULL,
   `foul` tinyint(1) DEFAULT NULL COMMENT '是否犯规违纪：true违纪；false正常状态',
+  `recordlevel` int(11) NOT NULL DEFAULT '0' COMMENT '记录级别',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='竞赛表（赛道分组）';
 
@@ -213,7 +218,7 @@ CREATE TABLE `t_player` (
   `playernum` varchar(10) DEFAULT NULL,
   `playername` varchar(10) DEFAULT NULL COMMENT '运动员姓名',
   `playersex` tinyint(1) DEFAULT NULL COMMENT '运动员性别：true男；false女',
-  `groupid` int(11) NOT NULL COMMENT '组别id',
+  `groupid` int(11) DEFAULT NULL COMMENT '组别id',
   `registitem` varchar(255) DEFAULT NULL COMMENT '该人所报的项目：用;隔开的itemid字符串。比如1;2;3代表报了1、2、3这三个项目',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运动员表';
@@ -287,6 +292,21 @@ CREATE TABLE `t_rule` (
 
 /*Data for the table `t_rule` */
 
+/*Table structure for table `t_scoreformat` */
+
+DROP TABLE IF EXISTS `t_scoreformat`;
+
+CREATE TABLE `t_scoreformat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `format` varchar(20) NOT NULL DEFAULT '' COMMENT '成绩格式',
+  `reg` varchar(10) NOT NULL DEFAULT '' COMMENT '成绩正则（JavaScript）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='成绩格式表';
+
+/*Data for the table `t_scoreformat` */
+
+insert  into `t_scoreformat`(`id`,`format`,`reg`) values (1,'##.##','/^[1-5]?\\d'),(2,'#.##.##','/^[1-9]?\\.'),(3,'##.##.##','/^[1-9]?\\d'),(4,'#.##','/^[1-2]\\.\\'),(5,'#.##','/^[4-9]\\.\\'),(6,'##.##','/^[1-2]?\\d'),(7,'##.##','/^[1-7]\\d\\'),(9,'##.##','/^\\d\\d\\.\\d');
+
 /*Table structure for table `t_sports` */
 
 DROP TABLE IF EXISTS `t_sports`;
@@ -355,7 +375,7 @@ CREATE TABLE `t_sysadmin` (
 
 /*Data for the table `t_sysadmin` */
 
-insert  into `t_sysadmin`(`id`,`username`,`password`,`userright`,`realname`,`departid`) values (2,'liwei','96e79218965eb72c92a549dd5a330112',19,'李玮',1),(5,'sohu','96e79218965eb72c92a549dd5a330112',22,'搜狐人',4),(6,'akak','96e79218965eb72c92a549dd5a330112',12,'阿卡',3);
+insert  into `t_sysadmin`(`id`,`username`,`password`,`userright`,`realname`,`departid`) values (2,'admin','96e79218965eb72c92a549dd5a330112',31,'系统管理员',1),(5,'sohu','96e79218965eb72c92a549dd5a330112',22,'搜狐人',4),(6,'sina','96e79218965eb72c92a549dd5a330112',12,'阿卡',3);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
