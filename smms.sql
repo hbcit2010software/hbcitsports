@@ -1,8 +1,9 @@
 /*
-SQLyog ä¼ä¸šç‰ˆ - MySQL GUI v8.14 
+SQLyog ÆóÒµ°æ - MySQL GUI v8.14 
 MySQL - 5.5.25 : Database - smms
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -22,15 +23,15 @@ DROP TABLE IF EXISTS `t_department`;
 
 CREATE TABLE `t_department` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `departname` varchar(50) NOT NULL COMMENT 'éƒ¨é—¨åç§°',
-  `departshortname` varchar(10) DEFAULT NULL COMMENT 'ç³»éƒ¨åç§°ç¼©å†™',
-  `departtype` tinyint(1) NOT NULL COMMENT 'éƒ¨é—¨ç±»å‹ï¼štrueè¡¨ç¤ºæœ‰å­¦ç”Ÿï¼Œfalseè¡¨ç¤ºæ— å­¦ç”Ÿ',
+  `departname` varchar(50) NOT NULL COMMENT '²¿ÃÅÃû³Æ',
+  `departshortname` varchar(10) DEFAULT NULL COMMENT 'Ïµ²¿Ãû³ÆËõĞ´',
+  `departtype` tinyint(1) NOT NULL COMMENT '²¿ÃÅÀàĞÍ£ºtrue±íÊ¾ÓĞÑ§Éú£¬false±íÊ¾ÎŞÑ§Éú',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='å‚èµ›éƒ¨é—¨è¡¨';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='²ÎÈü²¿ÃÅ±í';
 
 /*Data for the table `t_department` */
 
-insert  into `t_department`(`id`,`departname`,`departshortname`,`departtype`) values (1,'æ€æƒ³æ”¿æ²»ä¸å…¬å…±ä½“è‚²æ•™å­¦éƒ¨','æ”¿ä½“éƒ¨',0),(2,'è®¡ç®—æœºæŠ€æœ¯ç³»','è®¡ç®—æœºç³»',1),(3,'ææ–™å·¥ç¨‹ç³»','ææ–™ç³»',1),(4,'æœºç”µå·¥ç¨‹ç³»','æœºç”µç³»',1);
+insert  into `t_department`(`id`,`departname`,`departshortname`,`departtype`) values (1,'Ë¼ÏëÕşÖÎÓë¹«¹²ÌåÓı½ÌÑ§²¿','ÕşÌå²¿',0),(2,'¼ÆËã»ú¼¼ÊõÏµ','¼ÆËã»úÏµ',1),(3,'²ÄÁÏ¹¤³ÌÏµ','²ÄÁÏÏµ',1),(4,'»úµç¹¤³ÌÏµ','»úµçÏµ',1);
 
 /*Table structure for table `t_fieldjudge` */
 
@@ -38,12 +39,12 @@ DROP TABLE IF EXISTS `t_fieldjudge`;
 
 CREATE TABLE `t_fieldjudge` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `gp2itid` int(11) NOT NULL COMMENT 'group2itemè¡¨çš„id',
-  `judge_1` varchar(20) DEFAULT NULL COMMENT 'è£åˆ¤é•¿',
-  `judge_2` varchar(20) DEFAULT NULL COMMENT 'è£åˆ¤é•¿åŠ©ç†',
-  `judge_3` text COMMENT 'è£åˆ¤å‘˜',
+  `gp2itid` int(11) NOT NULL COMMENT 'group2item±íµÄid',
+  `judge_1` varchar(20) DEFAULT NULL COMMENT '²ÃÅĞ³¤',
+  `judge_2` varchar(20) DEFAULT NULL COMMENT '²ÃÅĞ³¤ÖúÀí',
+  `judge_3` text COMMENT '²ÃÅĞÔ±',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç”°èµ›è£åˆ¤è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÌïÈü²ÃÅĞ±í';
 
 /*Data for the table `t_fieldjudge` */
 
@@ -53,15 +54,15 @@ DROP TABLE IF EXISTS `t_finalitem`;
 
 CREATE TABLE `t_finalitem` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `gp2itid` int(11) NOT NULL COMMENT 'ç»„åˆ«ä¸é¡¹ç›®å…³ç³»id group2item',
-  `finalitemname` varchar(50) NOT NULL COMMENT 'æ‹†åˆ†åçš„é¡¹ç›®åç§°',
-  `finalitemtype` varchar(2) NOT NULL COMMENT 'æ‹†åˆ†åçš„é¡¹ç›®ç±»å‹ï¼š1é¢„èµ›ï¼›2å†³èµ›ï¼›3é¢„å†³èµ›',
-  `date` varchar(10) DEFAULT NULL COMMENT 'é¡¹ç›®æ¯”èµ›æ—¥æœŸ',
-  `time` varchar(5) DEFAULT NULL COMMENT 'é¡¹ç›®æ¯”èµ›æ—¶é—´',
-  `groupnum` int(11) DEFAULT NULL COMMENT 'åˆ†ç»„æ•°é‡',
-  `promotionnum` int(11) DEFAULT NULL COMMENT 'æ™‹çº§æ•°é‡',
+  `gp2itid` int(11) NOT NULL COMMENT '×é±ğÓëÏîÄ¿¹ØÏµid group2item',
+  `finalitemname` varchar(50) NOT NULL COMMENT '²ğ·ÖºóµÄÏîÄ¿Ãû³Æ',
+  `finalitemtype` varchar(2) NOT NULL COMMENT '²ğ·ÖºóµÄÏîÄ¿ÀàĞÍ£º1Ô¤Èü£»2¾öÈü£»3Ô¤¾öÈü',
+  `date` varchar(10) DEFAULT NULL COMMENT 'ÏîÄ¿±ÈÈüÈÕÆÚ',
+  `time` varchar(5) DEFAULT NULL COMMENT 'ÏîÄ¿±ÈÈüÊ±¼ä',
+  `groupnum` int(11) DEFAULT NULL COMMENT '·Ö×éÊıÁ¿',
+  `promotionnum` int(11) DEFAULT NULL COMMENT '½ú¼¶ÊıÁ¿',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='åˆ†é¡¹ç«èµ›é¡¹ç›®è¡¨ï¼ˆé¢„èµ›ä¸å†³èµ›åˆ†ç¦»åçš„ï¼‰';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='·ÖÏî¾ºÈüÏîÄ¿±í£¨Ô¤ÈüÓë¾öÈü·ÖÀëºóµÄ£©';
 
 /*Data for the table `t_finalitem` */
 
@@ -71,11 +72,11 @@ DROP TABLE IF EXISTS `t_group`;
 
 CREATE TABLE `t_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `groupname` varchar(50) NOT NULL COMMENT 'ç»„åˆ«åç§°ï¼šå¦‚å­¦ç”Ÿç”·ã€æ•™å·¥è€å¹´ç”·',
-  `grouptype` tinyint(1) NOT NULL COMMENT 'ç»„åˆ«ç±»å‹ï¼štrueå­¦ç”Ÿï¼Œfalseæ•™å·¥',
-  `groupsex` tinyint(3) DEFAULT NULL COMMENT 'ç»„åˆ«çš„æ€§åˆ«ç±»å‹trueç”·ï¼›falseå¥³',
+  `groupname` varchar(50) NOT NULL COMMENT '×é±ğÃû³Æ£ºÈçÑ§ÉúÄĞ¡¢½Ì¹¤ÀÏÄêÄĞ',
+  `grouptype` tinyint(1) NOT NULL COMMENT '×é±ğÀàĞÍ£ºtrueÑ§Éú£¬false½Ì¹¤',
+  `groupsex` tinyint(3) DEFAULT NULL COMMENT '×é±ğµÄĞÔ±ğÀàĞÍtrueÄĞ£»falseÅ®',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç»„åˆ«è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='×é±ğ±í';
 
 /*Data for the table `t_group` */
 
@@ -85,11 +86,11 @@ DROP TABLE IF EXISTS `t_group2item`;
 
 CREATE TABLE `t_group2item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `gp2spid` int(11) NOT NULL COMMENT 'ç»„åˆ«ä¸è¿åŠ¨ä¼šå…³ç³»group2sports id',
-  `itemid` int(11) NOT NULL COMMENT 'é¡¹ç›®id',
-  `matchtype` varchar(1) NOT NULL COMMENT 'æ¯”èµ›ç±»å‹ï¼š1é¢„å†³èµ›ï¼›2é¢„èµ›+å†³èµ›ï¼›3ä¹‹åç•™ä½œæ‰©å±•',
+  `gp2spid` int(11) NOT NULL COMMENT '×é±ğÓëÔË¶¯»á¹ØÏµgroup2sports id',
+  `itemid` int(11) NOT NULL COMMENT 'ÏîÄ¿id',
+  `matchtype` varchar(1) NOT NULL COMMENT '±ÈÈüÀàĞÍ£º1Ô¤¾öÈü£»2Ô¤Èü+¾öÈü£»3Ö®ºóÁô×÷À©Õ¹',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='åˆ†ç»„ä¸é¡¹ç›®å¯¹åº”å…³ç³»è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='·Ö×éÓëÏîÄ¿¶ÔÓ¦¹ØÏµ±í';
 
 /*Data for the table `t_group2item` */
 
@@ -99,10 +100,10 @@ DROP TABLE IF EXISTS `t_group2sports`;
 
 CREATE TABLE `t_group2sports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sportsid` int(11) NOT NULL COMMENT 'è¿åŠ¨ä¼šid',
+  `sportsid` int(11) NOT NULL COMMENT 'ÔË¶¯»áid',
   `groupid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç»„åˆ«ä¸è¿åŠ¨ä¼šå…³ç³»è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='×é±ğÓëÔË¶¯»á¹ØÏµ±í';
 
 /*Data for the table `t_group2sports` */
 
@@ -112,15 +113,15 @@ DROP TABLE IF EXISTS `t_item`;
 
 CREATE TABLE `t_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `itemname` varchar(50) NOT NULL COMMENT 'é¡¹ç›®åç§°',
-  `itemtype` varchar(1) NOT NULL COMMENT 'é¡¹ç›®ç±»å‹ï¼š1å¾„èµ›ï¼›2ç”°èµ›ï¼›3æ¥åŠ›',
-  `scoreformatid` int(11) DEFAULT NULL COMMENT 'æˆç»©æ ¼å¼ID',
+  `itemname` varchar(50) NOT NULL COMMENT 'ÏîÄ¿Ãû³Æ',
+  `itemtype` varchar(1) NOT NULL COMMENT 'ÏîÄ¿ÀàĞÍ£º1¾¶Èü£»2ÌïÈü£»3½ÓÁ¦',
+  `scoreformatid` int(11) DEFAULT NULL COMMENT '³É¼¨¸ñÊ½ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='é¡¹ç›®è¡¨';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='ÏîÄ¿±í';
 
 /*Data for the table `t_item` */
 
-insert  into `t_item`(`id`,`itemname`,`itemtype`,`scoreformatid`) values (1,'100ç±³','1',1),(2,'è·³è¿œ','2',5),(3,'110ç±³è·¨æ ','1',1),(4,'200ç±³','1',1),(5,'400ç±³','1',2),(6,'800ç±³','1',3),(7,'1500ç±³','1',3),(8,'400ç±³æ ','1',2),(9,'è·³é«˜','2',4),(10,'ä¸‰çº§è·³è¿œ','2',4),(11,'é“…çƒ','2',4),(12,'é“é¥¼','2',7),(13,'æ ‡æª','2',8),(14,'4*100ç±³','3',2),(15,'4*400ç±³','3',2);
+insert  into `t_item`(`id`,`itemname`,`itemtype`,`scoreformatid`) values (1,'100Ã×','1',1),(2,'ÌøÔ¶','2',5),(3,'110Ã×¿çÀ¸','1',1),(4,'200Ã×','1',1),(5,'400Ã×','1',2),(6,'800Ã×','1',3),(7,'1500Ã×','1',3),(8,'400Ã×À¸','1',2),(9,'Ìø¸ß','2',4),(10,'Èı¼¶ÌøÔ¶','2',4),(11,'Ç¦Çò','2',4),(12,'Ìú±ı','2',7),(13,'±êÇ¹','2',8),(14,'4*100Ã×','3',2),(15,'4*400Ã×','3',2);
 
 /*Table structure for table `t_mark` */
 
@@ -128,10 +129,10 @@ DROP TABLE IF EXISTS `t_mark`;
 
 CREATE TABLE `t_mark` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sp2dpid` int(11) NOT NULL COMMENT 'è¿åŠ¨ä¼šä¸éƒ¨é—¨å…³ç³»è¡¨id',
-  `sum` int(11) DEFAULT NULL COMMENT 'æ€»åˆ†',
+  `sp2dpid` int(11) NOT NULL COMMENT 'ÔË¶¯»áÓë²¿ÃÅ¹ØÏµ±íid',
+  `sum` int(11) DEFAULT NULL COMMENT '×Ü·Ö',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç§¯åˆ†è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='»ı·Ö±í';
 
 /*Data for the table `t_mark` */
 
@@ -141,15 +142,15 @@ DROP TABLE IF EXISTS `t_match`;
 
 CREATE TABLE `t_match` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `finalitemid` int(11) NOT NULL COMMENT 'æ‹†åˆ†åç»„åˆ«id',
-  `teamnum` int(11) DEFAULT NULL COMMENT 'ç¬¬å‡ å°ç»„',
-  `runway` int(11) DEFAULT NULL COMMENT 'è·‘é“å·',
-  `playerid` int(11) DEFAULT NULL COMMENT 'è¿åŠ¨å‘˜id',
+  `finalitemid` int(11) NOT NULL COMMENT '²ğ·Öºó×é±ğid',
+  `teamnum` int(11) DEFAULT NULL COMMENT 'µÚ¼¸Ğ¡×é',
+  `runway` int(11) DEFAULT NULL COMMENT 'ÅÜµÀºÅ',
+  `playerid` int(11) DEFAULT NULL COMMENT 'ÔË¶¯Ô±id',
   `score` varchar(50) DEFAULT NULL,
-  `foul` tinyint(1) DEFAULT NULL COMMENT 'æ˜¯å¦çŠ¯è§„è¿çºªï¼štrueè¿çºªï¼›falseæ­£å¸¸çŠ¶æ€',
-  `recordlevel` int(11) NOT NULL DEFAULT '0' COMMENT 'è®°å½•çº§åˆ«',
+  `foul` tinyint(1) DEFAULT NULL COMMENT 'ÊÇ·ñ·¸¹æÎ¥¼Í£ºtrueÎ¥¼Í£»falseÕı³£×´Ì¬',
+  `recordlevel` int(11) NOT NULL DEFAULT '0' COMMENT '¼ÇÂ¼¼¶±ğ',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç«èµ›è¡¨ï¼ˆèµ›é“åˆ†ç»„ï¼‰';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='¾ºÈü±í£¨ÈüµÀ·Ö×é£©';
 
 /*Data for the table `t_match` */
 
@@ -159,52 +160,52 @@ DROP TABLE IF EXISTS `t_official`;
 
 CREATE TABLE `t_official` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sportsid` int(11) NOT NULL COMMENT 'è¿åŠ¨ä¼šid',
-  `presidium` text COMMENT 'å¤§ä¼šä¸»å¸­å›¢',
-  `org_committee_1` varchar(10) DEFAULT NULL COMMENT 'å¤§ä¼šç»„å§”ä¼š-ä¸»ä»»',
-  `org_committee_2` varchar(20) DEFAULT NULL COMMENT 'å¤§ä¼šç»„å§”ä¼š-å‰¯ä¸»ä»»',
-  `org_committee_3` text COMMENT 'å¤§ä¼šç»„å§”ä¼š-å§”å‘˜',
-  `secretariat_1` varchar(10) DEFAULT NULL COMMENT 'å¤§ä¼šç§˜ä¹¦å¤„-ç§˜ä¹¦é•¿',
-  `secretariat_2` varchar(10) DEFAULT NULL COMMENT 'å¤§ä¼šç§˜ä¹¦å¤„-å‰¯ç§˜ä¹¦é•¿',
-  `secretariat_3` varchar(20) DEFAULT NULL COMMENT 'å¤§ä¼šç§˜ä¹¦å¤„-ä¼šåŠ¡ç»„è´Ÿè´£äºº',
-  `secretariat_4` varchar(20) DEFAULT NULL COMMENT 'å¤§ä¼šç§˜ä¹¦å¤„-å®£ä¼ ç»„è´Ÿè´£äºº',
-  `secretariat_5` varchar(20) DEFAULT NULL COMMENT 'å¤§ä¼šç§˜ä¹¦å¤„-å¥–å“ç»„è´Ÿè´£äºº',
-  `secretariat_6` varchar(20) DEFAULT NULL COMMENT 'å¤§ä¼šç§˜ä¹¦å¤„-ä¿å«ç»„è´Ÿè´£äºº',
-  `secretariat_7` varchar(20) DEFAULT NULL COMMENT 'å¤§ä¼šç§˜ä¹¦å¤„-åå‹¤ä¿éšœç»„è´Ÿè´£äºº',
-  `arbitration` text COMMENT 'ä»²è£å§”å‘˜ä¼š',
-  `chiefjudge_1` varchar(10) DEFAULT NULL COMMENT 'æ€»è£åˆ¤é•¿',
-  `chiefjudge_2` text COMMENT 'å‰¯æ€»è£åˆ¤é•¿',
-  `trackjudge` varchar(10) DEFAULT NULL COMMENT 'å¾„èµ›è£åˆ¤é•¿',
-  `trackjudge_rollcall_1` varchar(10) DEFAULT NULL COMMENT 'æ£€å½•è£åˆ¤é•¿',
-  `trackjudge_rollcall_2` varchar(10) DEFAULT NULL COMMENT 'æ£€å½•è£åˆ¤é•¿åŠ©ç†',
-  `trackjudge_rollcall_3` text COMMENT 'æ£€å½•å‘˜',
-  `startingpoint_1` varchar(10) DEFAULT NULL COMMENT 'èµ·ç‚¹è£åˆ¤é•¿',
-  `startingpoint_2` varchar(10) DEFAULT NULL COMMENT 'èµ·ç‚¹è£åˆ¤é•¿åŠ©ç†',
-  `startingpoint_3` text COMMENT 'å‘ä»¤å‘˜',
-  `timejudge_1` varchar(10) DEFAULT NULL COMMENT 'è®¡æ—¶é•¿',
-  `timejudge_2` text COMMENT 'è®¡æ—¶å‘˜',
-  `timejudge_3` varchar(20) DEFAULT NULL COMMENT 'å¸çº¿å‘˜',
-  `endpoint_1` varchar(10) DEFAULT NULL COMMENT 'ç»ˆç‚¹è£åˆ¤é•¿',
-  `endpoint_2` varchar(10) DEFAULT NULL COMMENT 'ç»ˆç‚¹è£åˆ¤é•¿åŠ©ç†',
-  `endpoint_3` text COMMENT 'ç»ˆç‚¹è£åˆ¤å‘˜',
-  `endpoint_4` varchar(10) DEFAULT NULL COMMENT 'ç»ˆç‚¹è®°å½•é•¿',
-  `endpoint_5` varchar(20) DEFAULT NULL COMMENT 'ç»ˆç‚¹è®°å½•å‘˜',
-  `fieldjudge` varchar(10) DEFAULT NULL COMMENT 'ç”°èµ›è£åˆ¤é•¿',
-  `fieldjudge_1` varchar(10) DEFAULT NULL COMMENT 'ç”°èµ›æ€»è®°å½•è£åˆ¤é•¿',
-  `fieldjudge_2` text COMMENT 'ç”°èµ›è®°å½•å‘˜',
-  `fieldjudge_3` varchar(10) DEFAULT NULL COMMENT 'ç”°èµ›æ£€æŸ¥é•¿',
-  `fieldjudge_4` text COMMENT 'ç”°èµ›æ£€æŸ¥å‘˜',
-  `fieldjudge_5` text COMMENT 'åœºåœ°å™¨æç»„é•¿',
-  `fieldjudge_6` text COMMENT 'åœºåœ°å™¨æå‘˜',
-  `remarks_1` text COMMENT 'å‚åŠ åŠæ³•',
-  `remarks_2` text COMMENT 'ç«èµ›è¯´æ˜',
-  `remarks_3` text COMMENT 'è®¡åˆ†æ–¹æ³•',
-  `remarks_4` text COMMENT 'å…¶ä»–',
-  `remarks_5` text COMMENT 'å¤§ä¼šçºªå¾‹',
-  `openingceremony` text COMMENT 'å¼€å¹•å¼',
+  `sportsid` int(11) NOT NULL COMMENT 'ÔË¶¯»áid',
+  `presidium` text COMMENT '´ó»áÖ÷Ï¯ÍÅ',
+  `org_committee_1` varchar(10) DEFAULT NULL COMMENT '´ó»á×éÎ¯»á-Ö÷ÈÎ',
+  `org_committee_2` varchar(20) DEFAULT NULL COMMENT '´ó»á×éÎ¯»á-¸±Ö÷ÈÎ',
+  `org_committee_3` text COMMENT '´ó»á×éÎ¯»á-Î¯Ô±',
+  `secretariat_1` varchar(10) DEFAULT NULL COMMENT '´ó»áÃØÊé´¦-ÃØÊé³¤',
+  `secretariat_2` varchar(10) DEFAULT NULL COMMENT '´ó»áÃØÊé´¦-¸±ÃØÊé³¤',
+  `secretariat_3` varchar(20) DEFAULT NULL COMMENT '´ó»áÃØÊé´¦-»áÎñ×é¸ºÔğÈË',
+  `secretariat_4` varchar(20) DEFAULT NULL COMMENT '´ó»áÃØÊé´¦-Ğû´«×é¸ºÔğÈË',
+  `secretariat_5` varchar(20) DEFAULT NULL COMMENT '´ó»áÃØÊé´¦-½±Æ·×é¸ºÔğÈË',
+  `secretariat_6` varchar(20) DEFAULT NULL COMMENT '´ó»áÃØÊé´¦-±£ÎÀ×é¸ºÔğÈË',
+  `secretariat_7` varchar(20) DEFAULT NULL COMMENT '´ó»áÃØÊé´¦-ºóÇÚ±£ÕÏ×é¸ºÔğÈË',
+  `arbitration` text COMMENT 'ÖÙ²ÃÎ¯Ô±»á',
+  `chiefjudge_1` varchar(10) DEFAULT NULL COMMENT '×Ü²ÃÅĞ³¤',
+  `chiefjudge_2` text COMMENT '¸±×Ü²ÃÅĞ³¤',
+  `trackjudge` varchar(10) DEFAULT NULL COMMENT '¾¶Èü²ÃÅĞ³¤',
+  `trackjudge_rollcall_1` varchar(10) DEFAULT NULL COMMENT '¼ìÂ¼²ÃÅĞ³¤',
+  `trackjudge_rollcall_2` varchar(10) DEFAULT NULL COMMENT '¼ìÂ¼²ÃÅĞ³¤ÖúÀí',
+  `trackjudge_rollcall_3` text COMMENT '¼ìÂ¼Ô±',
+  `startingpoint_1` varchar(10) DEFAULT NULL COMMENT 'Æğµã²ÃÅĞ³¤',
+  `startingpoint_2` varchar(10) DEFAULT NULL COMMENT 'Æğµã²ÃÅĞ³¤ÖúÀí',
+  `startingpoint_3` text COMMENT '·¢ÁîÔ±',
+  `timejudge_1` varchar(10) DEFAULT NULL COMMENT '¼ÆÊ±³¤',
+  `timejudge_2` text COMMENT '¼ÆÊ±Ô±',
+  `timejudge_3` varchar(20) DEFAULT NULL COMMENT 'Ë¾ÏßÔ±',
+  `endpoint_1` varchar(10) DEFAULT NULL COMMENT 'ÖÕµã²ÃÅĞ³¤',
+  `endpoint_2` varchar(10) DEFAULT NULL COMMENT 'ÖÕµã²ÃÅĞ³¤ÖúÀí',
+  `endpoint_3` text COMMENT 'ÖÕµã²ÃÅĞÔ±',
+  `endpoint_4` varchar(10) DEFAULT NULL COMMENT 'ÖÕµã¼ÇÂ¼³¤',
+  `endpoint_5` varchar(20) DEFAULT NULL COMMENT 'ÖÕµã¼ÇÂ¼Ô±',
+  `fieldjudge` varchar(10) DEFAULT NULL COMMENT 'ÌïÈü²ÃÅĞ³¤',
+  `fieldjudge_1` varchar(10) DEFAULT NULL COMMENT 'ÌïÈü×Ü¼ÇÂ¼²ÃÅĞ³¤',
+  `fieldjudge_2` text COMMENT 'ÌïÈü¼ÇÂ¼Ô±',
+  `fieldjudge_3` varchar(10) DEFAULT NULL COMMENT 'ÌïÈü¼ì²é³¤',
+  `fieldjudge_4` text COMMENT 'ÌïÈü¼ì²éÔ±',
+  `fieldjudge_5` text COMMENT '³¡µØÆ÷²Ä×é³¤',
+  `fieldjudge_6` text COMMENT '³¡µØÆ÷²ÄÔ±',
+  `remarks_1` text COMMENT '²Î¼Ó°ì·¨',
+  `remarks_2` text COMMENT '¾ºÈüËµÃ÷',
+  `remarks_3` text COMMENT '¼Æ·Ö·½·¨',
+  `remarks_4` text COMMENT 'ÆäËû',
+  `remarks_5` text COMMENT '´ó»á¼ÍÂÉ',
+  `openingceremony` text COMMENT '¿ªÄ»Ê½',
   `closingceremony` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å·¥ä½œäººå‘˜è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='¹¤×÷ÈËÔ±±í';
 
 /*Data for the table `t_official` */
 
@@ -214,14 +215,14 @@ DROP TABLE IF EXISTS `t_player`;
 
 CREATE TABLE `t_player` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sp2dpid` int(11) NOT NULL COMMENT 'è¿åŠ¨ä¼š-éƒ¨é—¨è”ç³»è¡¨id',
+  `sp2dpid` int(11) NOT NULL COMMENT 'ÔË¶¯»á-²¿ÃÅÁªÏµ±íid',
   `playernum` varchar(10) DEFAULT NULL,
-  `playername` varchar(10) DEFAULT NULL COMMENT 'è¿åŠ¨å‘˜å§“å',
-  `playersex` tinyint(1) DEFAULT NULL COMMENT 'è¿åŠ¨å‘˜æ€§åˆ«ï¼štrueç”·ï¼›falseå¥³',
-  `groupid` int(11) DEFAULT NULL COMMENT 'ç»„åˆ«id',
-  `registitem` varchar(255) DEFAULT NULL COMMENT 'è¯¥äººæ‰€æŠ¥çš„é¡¹ç›®ï¼šç”¨;éš”å¼€çš„itemidå­—ç¬¦ä¸²ã€‚æ¯”å¦‚1;2;3ä»£è¡¨æŠ¥äº†1ã€2ã€3è¿™ä¸‰ä¸ªé¡¹ç›®',
+  `playername` varchar(10) DEFAULT NULL COMMENT 'ÔË¶¯Ô±ĞÕÃû',
+  `playersex` tinyint(1) DEFAULT NULL COMMENT 'ÔË¶¯Ô±ĞÔ±ğ£ºtrueÄĞ£»falseÅ®',
+  `groupid` int(11) DEFAULT NULL COMMENT '×é±ğid',
+  `registitem` varchar(255) DEFAULT NULL COMMENT '¸ÃÈËËù±¨µÄÏîÄ¿£ºÓÃ;¸ô¿ªµÄitemid×Ö·û´®¡£±ÈÈç1;2;3´ú±í±¨ÁË1¡¢2¡¢3ÕâÈı¸öÏîÄ¿',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='è¿åŠ¨å‘˜è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÔË¶¯Ô±±í';
 
 /*Data for the table `t_player` */
 
@@ -231,12 +232,12 @@ DROP TABLE IF EXISTS `t_playernum`;
 
 CREATE TABLE `t_playernum` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sp2dpid` int(11) NOT NULL COMMENT 'è¿åŠ¨ä¼š2éƒ¨é—¨è¡¨id sports2department',
-  `beginnum` varchar(4) DEFAULT NULL COMMENT 'èµ·å§‹å·ç ',
+  `sp2dpid` int(11) NOT NULL COMMENT 'ÔË¶¯»á2²¿ÃÅ±íid sports2department',
+  `beginnum` varchar(4) DEFAULT NULL COMMENT 'ÆğÊ¼ºÅÂë',
   `endnum` varchar(4) DEFAULT NULL,
-  `numtype` tinyint(1) DEFAULT NULL COMMENT 'å·ç ç±»å‹ï¼štrueå­¦ç”Ÿï¼›falseæ•™å·¥',
+  `numtype` tinyint(1) DEFAULT NULL COMMENT 'ºÅÂëÀàĞÍ£ºtrueÑ§Éú£»false½Ì¹¤',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='è¿åŠ¨å‘˜å·ç åˆ†å¸ƒè¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÔË¶¯Ô±ºÅÂë·Ö²¼±í';
 
 /*Data for the table `t_playernum` */
 
@@ -246,12 +247,12 @@ DROP TABLE IF EXISTS `t_position`;
 
 CREATE TABLE `t_position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `finalitemid` int(11) DEFAULT NULL COMMENT 'å…·ä½“ç»„åˆ«id',
-  `playerid` int(11) DEFAULT NULL COMMENT 'è¿åŠ¨å‘˜id',
-  `position` int(11) DEFAULT NULL COMMENT 'åæ¬¡',
-  `score` varchar(50) DEFAULT NULL COMMENT 'æˆç»©ï¼šå‡ åˆ†å‡ ç§’æˆ–å¤šå°‘ç±³',
+  `finalitemid` int(11) DEFAULT NULL COMMENT '¾ßÌå×é±ğid',
+  `playerid` int(11) DEFAULT NULL COMMENT 'ÔË¶¯Ô±id',
+  `position` int(11) DEFAULT NULL COMMENT 'Ãû´Î',
+  `score` varchar(50) DEFAULT NULL COMMENT '³É¼¨£º¼¸·Ö¼¸Ãë»ò¶àÉÙÃ×',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='æ¯”èµ›åæ¬¡è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='±ÈÈüÃû´Î±í';
 
 /*Data for the table `t_position` */
 
@@ -261,16 +262,16 @@ DROP TABLE IF EXISTS `t_record`;
 
 CREATE TABLE `t_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `itemid` int(11) NOT NULL COMMENT 'é¡¹ç›®id',
-  `sex` tinyint(1) DEFAULT NULL COMMENT 'trueç”·ï¼›falseå¥³',
-  `score` varchar(50) DEFAULT NULL COMMENT 'æˆç»©',
-  `playername` varchar(10) DEFAULT NULL COMMENT 'è¿åŠ¨å‘˜å§“å',
-  `departname` varchar(50) DEFAULT NULL COMMENT 'ç³»åˆ«',
-  `sportsname` varchar(50) DEFAULT NULL COMMENT 'è¿åŠ¨ä¼šåç§°',
-  `recordtime` varchar(10) DEFAULT NULL COMMENT 'ç ´è®°å½•æ—¶é—´',
-  `recordlevel` varchar(2) DEFAULT NULL COMMENT 'è®°å½•çº§åˆ«ï¼š0é™¢çº§ï¼›1çœçº§',
+  `itemid` int(11) NOT NULL COMMENT 'ÏîÄ¿id',
+  `sex` tinyint(1) DEFAULT NULL COMMENT 'trueÄĞ£»falseÅ®',
+  `score` varchar(50) DEFAULT NULL COMMENT '³É¼¨',
+  `playername` varchar(10) DEFAULT NULL COMMENT 'ÔË¶¯Ô±ĞÕÃû',
+  `departname` varchar(50) DEFAULT NULL COMMENT 'Ïµ±ğ',
+  `sportsname` varchar(50) DEFAULT NULL COMMENT 'ÔË¶¯»áÃû³Æ',
+  `recordtime` varchar(10) DEFAULT NULL COMMENT 'ÆÆ¼ÇÂ¼Ê±¼ä',
+  `recordlevel` varchar(2) DEFAULT NULL COMMENT '¼ÇÂ¼¼¶±ğ£º0Ôº¼¶£»1Ê¡¼¶',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç«èµ›è®°å½•è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='¾ºÈü¼ÇÂ¼±í';
 
 /*Data for the table `t_record` */
 
@@ -280,15 +281,15 @@ DROP TABLE IF EXISTS `t_rule`;
 
 CREATE TABLE `t_rule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sportsid` int(11) NOT NULL COMMENT 'è¿åŠ¨ä¼šid',
-  `position` int(11) DEFAULT NULL COMMENT 'åæ¬¡ï¼šé»˜è®¤8',
-  `mark` varchar(50) DEFAULT NULL COMMENT 'ç§¯åˆ†ï¼šä¸­é—´ç”¨,éš”å¼€ï¼Œå¦‚ï¼š9,7,6,5,4,3,2,1',
-  `recordmark_low` int(11) DEFAULT NULL COMMENT 'ç ´é™¢è®°å½•çš„åŠ åˆ†æ•°ï¼Œé»˜è®¤9',
-  `recordmark_high` int(11) DEFAULT NULL COMMENT 'ç ´çœè®°å½•çš„åŠ åˆ†æ•°',
-  `perman` int(11) DEFAULT NULL COMMENT 'æ¯ç³»æ¯ä¸ªè¿åŠ¨å‘˜é™æŠ¥æ•°é‡ï¼ˆæ¥åŠ›é™¤å¤–ï¼‰',
-  `perdepartment` int(11) DEFAULT NULL COMMENT 'æ¯é¡¹æ¯ä¸ªç³»éƒ¨å•ä½é™æŠ¥æ•°é‡',
+  `sportsid` int(11) NOT NULL COMMENT 'ÔË¶¯»áid',
+  `position` int(11) DEFAULT NULL COMMENT 'Ãû´Î£ºÄ¬ÈÏ8',
+  `mark` varchar(50) DEFAULT NULL COMMENT '»ı·Ö£ºÖĞ¼äÓÃ,¸ô¿ª£¬Èç£º9,7,6,5,4,3,2,1',
+  `recordmark_low` int(11) DEFAULT NULL COMMENT 'ÆÆÔº¼ÇÂ¼µÄ¼Ó·ÖÊı£¬Ä¬ÈÏ9',
+  `recordmark_high` int(11) DEFAULT NULL COMMENT 'ÆÆÊ¡¼ÇÂ¼µÄ¼Ó·ÖÊı',
+  `perman` int(11) DEFAULT NULL COMMENT 'Ã¿ÏµÃ¿¸öÔË¶¯Ô±ÏŞ±¨ÊıÁ¿£¨½ÓÁ¦³ıÍâ£©',
+  `perdepartment` int(11) DEFAULT NULL COMMENT 'Ã¿ÏîÃ¿¸öÏµ²¿µ¥Î»ÏŞ±¨ÊıÁ¿',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å¤§èµ›è§„åˆ™';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='´óÈü¹æÔò';
 
 /*Data for the table `t_rule` */
 
@@ -298,10 +299,10 @@ DROP TABLE IF EXISTS `t_scoreformat`;
 
 CREATE TABLE `t_scoreformat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `format` varchar(20) NOT NULL DEFAULT '' COMMENT 'æˆç»©æ ¼å¼',
-  `reg` varchar(10) NOT NULL DEFAULT '' COMMENT 'æˆç»©æ­£åˆ™ï¼ˆJavaScriptï¼‰',
+  `format` varchar(20) NOT NULL DEFAULT '' COMMENT '³É¼¨¸ñÊ½',
+  `reg` varchar(10) NOT NULL DEFAULT '' COMMENT '³É¼¨ÕıÔò£¨JavaScript£©',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='æˆç»©æ ¼å¼è¡¨';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='³É¼¨¸ñÊ½±í';
 
 /*Data for the table `t_scoreformat` */
 
@@ -313,18 +314,18 @@ DROP TABLE IF EXISTS `t_sports`;
 
 CREATE TABLE `t_sports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sportsname` varchar(50) NOT NULL COMMENT 'è¿åŠ¨ä¼šåç§°',
-  `sportsbegin` varchar(10) NOT NULL COMMENT 'èµ·å§‹æ—¥æœŸ',
-  `sportsend` varchar(10) NOT NULL COMMENT 'ç»“æŸæ—¥æœŸ',
-  `registend` varchar(10) NOT NULL COMMENT 'æŠ¥åæˆªæ­¢æ—¥æœŸ',
-  `address` varchar(50) NOT NULL COMMENT 'å¤§ä¼šåœ°ç‚¹',
-  `current` tinyint(1) NOT NULL COMMENT 'æ˜¯å¦å½“å‰è¿åŠ¨ä¼š',
+  `sportsname` varchar(50) NOT NULL COMMENT 'ÔË¶¯»áÃû³Æ',
+  `sportsbegin` varchar(10) NOT NULL COMMENT 'ÆğÊ¼ÈÕÆÚ',
+  `sportsend` varchar(10) NOT NULL COMMENT '½áÊøÈÕÆÚ',
+  `registend` varchar(10) NOT NULL COMMENT '±¨Ãû½ØÖ¹ÈÕÆÚ',
+  `address` varchar(50) NOT NULL COMMENT '´ó»áµØµã',
+  `current` tinyint(1) NOT NULL COMMENT 'ÊÇ·ñµ±Ç°ÔË¶¯»á',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='è¿åŠ¨ä¼šè¡¨';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='ÔË¶¯»á±í';
 
 /*Data for the table `t_sports` */
 
-insert  into `t_sports`(`id`,`sportsname`,`sportsbegin`,`sportsend`,`registend`,`address`,`current`) values (1,'æ²³åŒ—å·¥é™¢ç¬¬12å±Šè¿åŠ¨ä¼š','2012-02-01','2012-02-02','2012-01-30','å—æ ¡åŒºæ“åœº',0),(2,'æ²³åŒ—å·¥é™¢ç¬¬13å±Šè¿åŠ¨ä¼š','2012-09-01','2012-09-02','2012-08-18','å—æ ¡åŒºé£é›¨æ“åœº',1),(3,'æ²³åŒ—å·¥é™¢ç¬¬11å±Šè¿åŠ¨ä¼š','2010-01-10','2010-01-11','2010-01-01','å­¦é™¢ç”°å¾„åœºï¼ˆå—æ ¡åŒºï¼‰',0);
+insert  into `t_sports`(`id`,`sportsname`,`sportsbegin`,`sportsend`,`registend`,`address`,`current`) values (1,'ºÓ±±¹¤ÔºµÚ12½ìÔË¶¯»á','2012-02-01','2012-02-02','2012-01-30','ÄÏĞ£Çø²Ù³¡',0),(2,'ºÓ±±¹¤ÔºµÚ13½ìÔË¶¯»á','2012-09-01','2012-09-02','2012-08-18','ÄÏĞ£Çø·çÓê²Ù³¡',1),(3,'ºÓ±±¹¤ÔºµÚ11½ìÔË¶¯»á','2010-01-10','2010-01-11','2010-01-01','Ñ§ÔºÌï¾¶³¡£¨ÄÏĞ£Çø£©',0);
 
 /*Table structure for table `t_sports2department` */
 
@@ -332,13 +333,13 @@ DROP TABLE IF EXISTS `t_sports2department`;
 
 CREATE TABLE `t_sports2department` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sportsid` int(11) NOT NULL COMMENT 'è¿åŠ¨ä¼šid',
-  `departid` int(11) NOT NULL COMMENT 'éƒ¨é—¨id',
-  `teamleader` varchar(50) DEFAULT NULL COMMENT 'é¢†é˜Ÿ',
-  `coach` varchar(50) DEFAULT NULL COMMENT 'æ•™ç»ƒ',
-  `doctor` varchar(50) DEFAULT NULL COMMENT 'é˜ŸåŒ»',
+  `sportsid` int(11) NOT NULL COMMENT 'ÔË¶¯»áid',
+  `departid` int(11) NOT NULL COMMENT '²¿ÃÅid',
+  `teamleader` varchar(50) DEFAULT NULL COMMENT 'Áì¶Ó',
+  `coach` varchar(50) DEFAULT NULL COMMENT '½ÌÁ·',
+  `doctor` varchar(50) DEFAULT NULL COMMENT '¶ÓÒ½',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='è¿åŠ¨ä¼šä¸éƒ¨é—¨å¯¹åº”è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÔË¶¯»áÓë²¿ÃÅ¶ÔÓ¦±í';
 
 /*Data for the table `t_sports2department` */
 
@@ -348,12 +349,12 @@ DROP TABLE IF EXISTS `t_stujudge`;
 
 CREATE TABLE `t_stujudge` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sp2dpid` int(11) NOT NULL COMMENT 'è¿åŠ¨ä¼šä¸éƒ¨é—¨å…³ç³»id sports2department',
-  `contact` varchar(20) DEFAULT NULL COMMENT 'è”ç³»äººå§“å',
-  `tel` varchar(50) DEFAULT NULL COMMENT 'è”ç³»ç”µè¯',
-  `member` text COMMENT 'è£åˆ¤æˆå‘˜',
+  `sp2dpid` int(11) NOT NULL COMMENT 'ÔË¶¯»áÓë²¿ÃÅ¹ØÏµid sports2department',
+  `contact` varchar(20) DEFAULT NULL COMMENT 'ÁªÏµÈËĞÕÃû',
+  `tel` varchar(50) DEFAULT NULL COMMENT 'ÁªÏµµç»°',
+  `member` text COMMENT '²ÃÅĞ³ÉÔ±',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å­¦ç”Ÿè£åˆ¤è¡¨';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Ñ§Éú²ÃÅĞ±í';
 
 /*Data for the table `t_stujudge` */
 
@@ -363,19 +364,19 @@ DROP TABLE IF EXISTS `t_sysadmin`;
 
 CREATE TABLE `t_sysadmin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL COMMENT 'ç”¨æˆ·å',
-  `password` varchar(255) NOT NULL COMMENT 'å¯†ç ',
-  `userright` int(11) NOT NULL COMMENT 'ç”¨æˆ·æƒé™',
-  `realname` varchar(50) NOT NULL COMMENT 'ç”¨æˆ·çœŸå®å§“å',
-  `departid` int(11) NOT NULL COMMENT 'å•ä½idã€‚å„éƒ¨é—¨æŠ¥åè´¦å·çš„departidåº”å¯¹åº”t_departmentè¡¨çš„idï¼Œç®¡ç†å‘˜å’Œè£åˆ¤å‘˜ä¸å¯¹åº”ã€‚',
+  `username` varchar(50) NOT NULL COMMENT 'ÓÃ»§Ãû',
+  `password` varchar(255) NOT NULL COMMENT 'ÃÜÂë',
+  `userright` int(11) NOT NULL COMMENT 'ÓÃ»§È¨ÏŞ',
+  `realname` varchar(50) NOT NULL COMMENT 'ÓÃ»§ÕæÊµĞÕÃû',
+  `departid` int(11) NOT NULL COMMENT 'µ¥Î»id¡£¸÷²¿ÃÅ±¨ÃûÕËºÅµÄdepartidÓ¦¶ÔÓ¦t_department±íµÄid£¬¹ÜÀíÔ±ºÍ²ÃÅĞÔ±²»¶ÔÓ¦¡£',
   PRIMARY KEY (`id`),
   KEY `FK_department2sysadmin` (`departid`),
   CONSTRAINT `FK_department2sysadmin` FOREIGN KEY (`departid`) REFERENCES `t_department` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='è´¦å·è¡¨';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='ÕËºÅ±í';
 
 /*Data for the table `t_sysadmin` */
 
-insert  into `t_sysadmin`(`id`,`username`,`password`,`userright`,`realname`,`departid`) values (2,'admin','96e79218965eb72c92a549dd5a330112',31,'ç³»ç»Ÿç®¡ç†å‘˜',1),(5,'sohu','96e79218965eb72c92a549dd5a330112',22,'æœç‹äºº',4),(6,'sina','96e79218965eb72c92a549dd5a330112',12,'é˜¿å¡',3);
+insert  into `t_sysadmin`(`id`,`username`,`password`,`userright`,`realname`,`departid`) values (2,'admin','96e79218965eb72c92a549dd5a330112',31,'ÏµÍ³¹ÜÀíÔ±',1),(5,'sohu','96e79218965eb72c92a549dd5a330112',22,'ËÑºüÈË',4),(6,'sina','96e79218965eb72c92a549dd5a330112',12,'°¢¿¨',3);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
