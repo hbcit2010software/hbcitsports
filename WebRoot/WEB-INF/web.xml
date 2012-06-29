@@ -144,7 +144,30 @@
     <servlet-name>RemoveSportsServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.RemoveSportsServlet</servlet-class>
   </servlet>
-
+<servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PageDataServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.PageDataServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectDepartNameInSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.SelectDepartNameInSportsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectItemByTypeServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.SelectItemByTypeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectByQuestionServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.SelectByQuestionServlet</servlet-class>
+  </servlet>
 
 
 
@@ -243,6 +266,22 @@
   <servlet-mapping>
     <servlet-name>RemoveSportsServlet</servlet-name>
     <url-pattern>/servlet/RemoveSportsServlet</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>PageDataServlet</servlet-name>
+    <url-pattern>/servlet/PageDataServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectDepartNameInSportsServlet</servlet-name>
+    <url-pattern>/servlet/SelectDepartNameInSportsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectItemByTypeServlet</servlet-name>
+    <url-pattern>/servlet/SelectItemByTypeServlet</url-pattern>
+   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectByQuestionServlet</servlet-name>
+    <url-pattern>/servlet/SelectByQuestionServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

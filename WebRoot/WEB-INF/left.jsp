@@ -48,9 +48,7 @@ body {
 #navigation {
 	margin:0px;
 	padding:0px;
-	/*width:147px;*/
-	width:100%;
-	height:100%;
+	width:147px;
 }
 #navigation a.head {
 	cursor:pointer;
@@ -96,13 +94,13 @@ body {
 </style>
 </head>
 <body>
-<div  style="height:100%; width:100%;">
+<div  style="height:100%;">
   <ul id="navigation">
   <c:if test="${r1 eq true}">
 	<!--赛前设置begin-->
     <li> <a class="head">赛前设置</a>
       <ul>
-        <li><a href="servlet/GetSportsInfoServlet" target="rightFrame">运动会管理</a></li>
+        <li><a href="#" target="rightFrame">大会设置</a></li>
         <li><a href="#" target="rightFrame">项目设置</a></li>
         <li><a href="#" target="rightFrame">组别设置</a></li>
         <li><a href="#" target="rightFrame">日程安排</a></li>
