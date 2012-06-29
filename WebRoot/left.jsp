@@ -121,9 +121,10 @@ body {
     <!--赛事报名begin-->
 	<li> <a class="head">赛事报名</a>
       <ul>
-        <li><a href="#" target="rightFrame">学生组报名</a></li>
-        <li><a href="#" target="rightFrame">教工组报名</a></li>
-        <li><a href="#" target="rightFrame">报名情况查询</a></li>
+        <li><a href="apply_teamleader.jsp" target="rightFrame">领队报名</a></li>
+        <li><a href="servlet/GetItemNameServlet" target="rightFrame">学生组报名</a></li>
+        <li><a href="servlet/GetPlayerServlet" target="rightFrame">教工组报名</a></li>
+         <li><a href="servlet/SelectGroupNameBySportsIdServlet" target="rightFrame">报名情况查询</a></li>
         <li><a href="#" target="rightFrame">报名审核</a></li>
       </ul>
     </li>
