@@ -81,15 +81,16 @@ public class GetItemNameServlet extends HttpServlet {
 		int flag = 0;
 		String username = (String)session.getAttribute("username");//获取用户名
 		flag = player.getDepartid(username);//根据用户名获取部门id
-		int flag1 = player.getSp2dpid(flag);//获取当前部门id及运动会的id
-		session.setAttribute("sp2dpid",""+flag1);
+		int sp2dpid = player.getSp2dpid(flag);//获取当前部门id及运动会的id
+		session.setAttribute("sp2dpid",""+sp2dpid);
 		//	
-		GetPlayerDAO getPlayerDao = new GetPlayerDAO();
+		//GetPlayerDAO getPlayerDao = new GetPlayerDAO();
+		GetPlayerService playernum = new GetPlayerService(); 
 		ArrayList list1 = new ArrayList();
-		list1 = getPlayerDao.getPlayerNum(flag1,1);//根据部门id及运动会id获取运动员号码布
+		list1 = playernum.getPlayerNum(sp2dpid,1);//根据部门id及运动会id获取运动员号码簿
 		session.setAttribute("playernum",list1);
 		// 
-		GetPlayerService playernum = new GetPlayerService(); 
+		
 		PlayerNum p = (PlayerNum)list1.get(0);
 		int begin = Integer.parseInt(p.getBeginnum());//得到起始号码
 		int end = Integer.parseInt(p.getEndnum());//得到终止号码
@@ -99,7 +100,7 @@ public class GetItemNameServlet extends HttpServlet {
 			if(i > begin){
 				sql = sql + ",";	
 			}
-			sql = sql + "(" + flag1 + "," + (i + "") + ")";
+			sql = sql + "(" + sp2dpid + "," + (i + "") + ")";
 		}
 		playernum.addPlayerBySql(sql);
 		//
