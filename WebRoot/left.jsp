@@ -133,7 +133,7 @@ body {
 	<!--秩序册管理begin-->
     <li> <a class="head">秩序册管理</a>
       <ul>
-        <li><a href="#" target="rightFrame">赛事编排</a></li>
+        <li><a href="servlet/SelectItemsServlet" target="rightFrame">赛事编排</a></li>
         <li><a href="#" target="rightFrame">秩序册预览</a></li>
         <li><a href="#" target="rightFrame">秩序册生成</a></li>
         <li><a href="#" target="rightFrame">赛事手工调整</a></li>

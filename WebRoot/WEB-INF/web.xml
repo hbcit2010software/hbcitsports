@@ -168,6 +168,83 @@
     <servlet-name>SelectByQuestionServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.SelectByQuestionServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AdjustByHandServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.AdjustByHandServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdatePlayerNumServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.UpdatePlayerNumServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>WordDemoServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.WordDemoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>WordCreateProgramServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.WordCreateProgramServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>FileLook</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.FileLook</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameGroupingServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.GameGroupingServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ReailyLook</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.ReailyLook</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TrackGameLook</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.TrackGameLook</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Update1500GroupServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.Update1500GroupServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectItemsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.SelectItemsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectPlayerServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.SelectPlayerServlet</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -282,6 +359,50 @@
   <servlet-mapping>
     <servlet-name>SelectByQuestionServlet</servlet-name>
     <url-pattern>/servlet/SelectByQuestionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdjustByHandServlet</servlet-name>
+    <url-pattern>/servlet/AdjustByHandServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePlayerNumServlet</servlet-name>
+    <url-pattern>/servlet/UpdatePlayerNumServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WordDemoServlet</servlet-name>
+    <url-pattern>/servlet/WordDemoServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WordCreateProgramServlet</servlet-name>
+    <url-pattern>/servlet/WordCreateProgramServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FileLook</servlet-name>
+    <url-pattern>/servlet/FileLook</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameGroupingServlet</servlet-name>
+    <url-pattern>/servlet/GameGroupingServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReailyLook</servlet-name>
+    <url-pattern>/servlet/ReailyLook</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TrackGameLook</servlet-name>
+    <url-pattern>/servlet/TrackGameLook</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Update1500GroupServlet</servlet-name>
+    <url-pattern>/servlet/Update1500GroupServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectItemsServlet</servlet-name>
+    <url-pattern>/servlet/SelectItemsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectPlayerServlet</servlet-name>
+    <url-pattern>/servlet/SelectPlayerServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
