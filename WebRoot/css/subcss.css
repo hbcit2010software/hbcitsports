@@ -14,11 +14,11 @@ body {
 	font-size: 12px;
 	color: #295568;
 }
-
-/*
-a:link       {text-decoration: none; font-family: AdobeSm; color: #000000 }
-a:visited    {text-decoration: none; color: #000000 }
+a:link       {text-decoration: none; font-family: AdobeSm; color: #344b50 }
+a:visited    {text-decoration: none; color: #344b50 }
 A:hover      {COLOR: green; FONT-FAMILY: "宋体,MingLiU"; TEXT-DECORATION: underline}
+/*
+
 body         {font-size: 9pt; font-family: "宋体,MingLiU, Arial";color: #000000}
 TD           {FONT-SIZE: 9pt; FONT-FAMILY: "宋体,MingLiU, Arial";color: #000000;table-layout:fixed;word-break:break-all}
 p            {FONT-SIZE: 9pt; FONT-FAMILY: "宋体,MingLiU, Arial";color: #000000}

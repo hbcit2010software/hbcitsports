@@ -4,6 +4,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  	 <!-- Login Check begin -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>cn.edu.hbcit.smms.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- Login Check end-->
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
@@ -86,7 +96,195 @@
     <servlet-name>GameManageCreateWordOfAthleteInfServle</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCreateWordOfAthleteInfServle</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>VerifyCodeServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.loginservlet.VerifyCodeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetAccountInfoServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.GetAccountInfoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateAccountRightsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.UpdateAccountRightsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>InitUserPasswordServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.InitUserPasswordServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetConditonServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GetConditonServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RemoveAccountServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.RemoveAccountServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ViewAddAccountPageServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.ViewAddAccountPageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddAccountServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.AddAccountServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ViewUpdateAccountPageServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.ViewUpdateAccountPageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateAccountInfoServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.UpdateAccountInfoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>BackupRecoveryDatabaseServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.systemmanageservlet.BackupRecoveryDatabaseServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.loginservlet.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetSportsInfoServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.GetSportsInfoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SetCurrSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.SetCurrSportsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.AddSportsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetSportsInfoByIdServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.GetSportsInfoByIdServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.UpdateSportsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RemoveSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.RemoveSportsServlet</servlet-class>
+  </servlet>
+<servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PageDataServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.PageDataServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectDepartNameInSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.SelectDepartNameInSportsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectItemByTypeServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.SelectItemByTypeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectByQuestionServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.SelectByQuestionServlet</servlet-class>
+  </servlet>
+  
+ <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetPlayerServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.GetPlayerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetItemNameServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.GetItemNameServlet</servlet-class>
+  </servlet>
 
+
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdatePlayerServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.UpdatePlayerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdatePlayerTeacherServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.UpdatePlayerTeacherServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddTeamleaderServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.AddTeamleaderServlet</servlet-class>
+  </servlet>
+<servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectGroupNameBySportsIdServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.SelectGroupNameBySportsIdServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectPlayerByGroupNameServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.SelectPlayerByGroupNameServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectAllPlayerByNumServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.SelectAllPlayerByNumServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdatePlayerByNumServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.UpdatePlayerByNumServlet</servlet-class>
+  </servlet>
 
 
 
@@ -145,7 +343,136 @@
     <servlet-name>GameManageCreateWordOfAthleteInfServle</servlet-name>
     <url-pattern>/servlet/GameManageCreateWordOfAthleteInfServle</url-pattern>
   </servlet-mapping>
+<servlet-mapping>
+    <servlet-name>VerifyCodeServlet</servlet-name>
+    <url-pattern>/patchca.png</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetAccountInfoServlet</servlet-name>
+    <url-pattern>/servlet/GetAccountInfoServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateAccountRightsServlet</servlet-name>
+    <url-pattern>/servlet/UpdateAccountRightsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InitUserPasswordServlet</servlet-name>
+    <url-pattern>/servlet/InitUserPasswordServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetConditonServlet</servlet-name>
+    <url-pattern>/servlet/GetConditonServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RemoveAccountServlet</servlet-name>
+    <url-pattern>/servlet/RemoveAccountServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewAddAccountPageServlet</servlet-name>
+    <url-pattern>/servlet/ViewAddAccountPageServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddAccountServlet</servlet-name>
+    <url-pattern>/servlet/AddAccountServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewUpdateAccountPageServlet</servlet-name>
+    <url-pattern>/servlet/ViewUpdateAccountPageServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateAccountInfoServlet</servlet-name>
+    <url-pattern>/servlet/UpdateAccountInfoServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BackupRecoveryDatabaseServlet</servlet-name>
+    <url-pattern>/servlet/BackupRecoveryDatabaseServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/servlet/LogoutServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetSportsInfoServlet</servlet-name>
+    <url-pattern>/servlet/GetSportsInfoServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SetCurrSportsServlet</servlet-name>
+    <url-pattern>/servlet/SetCurrSportsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddSportsServlet</servlet-name>
+    <url-pattern>/servlet/AddSportsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetSportsInfoByIdServlet</servlet-name>
+    <url-pattern>/servlet/GetSportsInfoByIdServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateSportsServlet</servlet-name>
+    <url-pattern>/servlet/UpdateSportsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RemoveSportsServlet</servlet-name>
+    <url-pattern>/servlet/RemoveSportsServlet</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>PageDataServlet</servlet-name>
+    <url-pattern>/servlet/PageDataServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectDepartNameInSportsServlet</servlet-name>
+    <url-pattern>/servlet/SelectDepartNameInSportsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectItemByTypeServlet</servlet-name>
+    <url-pattern>/servlet/SelectItemByTypeServlet</url-pattern>
+   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectByQuestionServlet</servlet-name>
+    <url-pattern>/servlet/SelectByQuestionServlet</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>GetPlayerServlet</servlet-name>
+    <url-pattern>/servlet/GetPlayerServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetItemNameServlet</servlet-name>
+    <url-pattern>/servlet/GetItemNameServlet</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>UpdatePlayerServlet</servlet-name>
+    <url-pattern>/servlet/UpdatePlayerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePlayerTeacherServlet</servlet-name>
+    <url-pattern>/servlet/UpdatePlayerTeacherServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddTeamleaderServlet</servlet-name>
+    <url-pattern>/servlet/AddTeamleaderServlet</url-pattern>
+  </servlet-mapping>
+<servlet-mapping>
+    <servlet-name>SelectGroupNameBySportsIdServlet</servlet-name>
+    <url-pattern>/servlet/SelectGroupNameBySportsIdServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectPlayerByGroupNameServlet</servlet-name>
+    <url-pattern>/servlet/SelectPlayerByGroupNameServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectAllPlayerByNumServlet</servlet-name>
+    <url-pattern>/servlet/SelectAllPlayerByNumServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePlayerByNumServlet</servlet-name>
+    <url-pattern>/servlet/UpdatePlayerByNumServlet</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
 </web-app>

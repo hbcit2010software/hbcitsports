@@ -59,7 +59,7 @@ body {
 	height:206px;
 	width:847px;
 }
-INPUT {
+.logininput {
 	width:100px;
 	height:17px;
 	background-color:#87adbf;
@@ -69,6 +69,11 @@ INPUT {
 }
 .chknumber_input {
 	width:40px;
+	height:17px;
+	background-color:#87adbf;
+	border:solid 1px #153966;
+	font-size:12px;
+	color:#283439;
 }
 .user {
 	margin: 6px auto;
