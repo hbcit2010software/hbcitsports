@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.dao.systemmanagedao.AccountDAO;
-import cn.edu.hbcit.smms.dao.systemmanagedao.RightsDAO;
 import cn.edu.hbcit.smms.services.systemmanageservices.AccountService;
 
 /**

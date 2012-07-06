@@ -220,7 +220,7 @@ public class AccountDAO {
 		}catch(Exception e){
 			log.error("添加新账户失败！");
 			log.error(e.getMessage());
-			System.out.println(e);
+			//System.out.println(e);
 		}
 		return rst;
 	}

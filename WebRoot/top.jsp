@@ -43,7 +43,7 @@ a img {
               <tr>
                 <td height="17"><div align="right"><a href="pwd.php" target="rightFrame"><img src="images/pass.gif" width="69" height="17" /></a></div></td>
                 <td><div align="right"><a href="user.php" target="rightFrame"><img src="images/user.gif" width="69" height="17" /></a></div></td>
-                <td><div align="right"><a href="exit.php" target="_parent"><img src="images/quit.gif" alt=" " width="69" height="17" /></a></div></td>
+                <td><div align="right"><a href="${pageContext.request.contextPath }/servlet/LogoutServlet" target="_parent"><img src="images/quit.gif" alt=" " width="69" height="17" /></a></div></td>
               </tr>
             </table></td>
           </tr>

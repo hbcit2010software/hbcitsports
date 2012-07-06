@@ -109,10 +109,10 @@ public class LoginServlet extends HttpServlet {
 					userRights = ls.selectUserRights(username);		//获取用户权限
 					currSportsId = ls.selectCurrentSportsId();		//获取当前运动会id
 					currSportsName = ls.selectCurrentSportsName();	//获取当前运动会名称
-					session.setAttribute("userrights", Integer.valueOf(userRights));
-					session.setAttribute("currSportsId", Integer.valueOf(currSportsId));
-					session.setAttribute("currSportsName", currSportsName);
-					session.setAttribute("username", username);
+					session.setAttribute("userrights", Integer.valueOf(userRights));	//用户权限
+					session.setAttribute("currSportsId", Integer.valueOf(currSportsId));//当前运动会id
+					session.setAttribute("currSportsName", currSportsName);				//当前运动会名称
+					session.setAttribute("username", username);							//用户名
 					response.sendRedirect("../main.jsp");
 				}else{
 					out.print("loginerr");

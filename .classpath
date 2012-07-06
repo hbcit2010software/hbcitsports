@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/iTextAsian.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/itext-2.1.5.jar" sourcepath="C:/Documents and Settings/Administrator/.m2/repository/com/lowagie/itext/2.1.5/itext-2.1.5-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/itext-rtf-2.1.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jspsmart.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

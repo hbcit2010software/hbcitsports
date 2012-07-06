@@ -18,10 +18,8 @@
  		* 4-赛事报名
 	*/
  %>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<!-- wuguofa -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
@@ -50,7 +48,9 @@ body {
 #navigation {
 	margin:0px;
 	padding:0px;
-	width:147px;
+	/*width:147px;*/
+	width:100%;
+	height:100%;
 }
 #navigation a.head {
 	cursor:pointer;
@@ -96,13 +96,13 @@ body {
 </style>
 </head>
 <body>
-<div  style="height:100%;">
+<div  style="height:100%; width:100%;">
   <ul id="navigation">
   <c:if test="${r1 eq true}">
 	<!--赛前设置begin-->
     <li> <a class="head">赛前设置</a>
       <ul>
-        <li><a href="#" target="rightFrame">大会设置</a></li>
+        <li><a href="servlet/GetSportsInfoServlet" target="rightFrame">运动会管理</a></li>
         <li><a href="#" target="rightFrame">项目设置</a></li>
         <li><a href="#" target="rightFrame">组别设置</a></li>
         <li><a href="#" target="rightFrame">日程安排</a></li>
@@ -121,9 +121,10 @@ body {
     <!--赛事报名begin-->
 	<li> <a class="head">赛事报名</a>
       <ul>
-        <li><a href="#" target="rightFrame">学生组报名</a></li>
-        <li><a href="#" target="rightFrame">教工组报名</a></li>
-        <li><a href="#" target="rightFrame">报名情况查询</a></li>
+        <li><a href="apply_teamleader.jsp" target="rightFrame">领队报名</a></li>
+        <li><a href="servlet/GetItemNameServlet" target="rightFrame">学生组报名</a></li>
+        <li><a href="servlet/GetPlayerServlet" target="rightFrame">教工组报名</a></li>
+        <li><a href="servlet/SelectGroupNameBySportsIdServlet" target="rightFrame">报名情况查询</a></li>
         <li><a href="#" target="rightFrame">报名审核</a></li>
       </ul>
     </li>
@@ -133,7 +134,7 @@ body {
 	<!--秩序册管理begin-->
     <li> <a class="head">秩序册管理</a>
       <ul>
-        <li><a href="#" target="rightFrame">赛事编排</a></li>
+        <li><a href="servlet/SelectItemsServlet" target="rightFrame">赛事编排</a></li>
         <li><a href="#" target="rightFrame">秩序册预览</a></li>
         <li><a href="#" target="rightFrame">秩序册生成</a></li>
         <li><a href="#" target="rightFrame">赛事手工调整</a></li>
@@ -147,7 +148,7 @@ body {
       <ul>
         <li><a href="#" target="rightFrame">生成检录表</a></li>
         <li><a href="servlet/GetConditonServlet?action=allcond" target="rightFrame">成绩录入</a></li>
-        <li><a href="#" target="rightFrame">违纪管理</a></li>
+        <li><a href="servlet/GameManageGetGroupServlet" target="rightFrame">违纪管理</a></li>
         <li><a href="#" target="rightFrame">生成决赛名单</a></li>
         <li><a href="mark.jsp" target="rightFrame">积分管理</a></li>
         <li><a href="#" target="rightFrame">成绩单管理</a></li>
@@ -158,7 +159,7 @@ body {
     <!--综合查询begin-->
     <li> <a class="head">综合查询</a>
       <ul>
-        <li><a href="#" target="rightFrame">综合查询</a></li>
+        <li><a href="servlet/PageDataServlet" target="rightFrame">综合查询</a></li>
       </ul>
     </li>
     <!--综合查询end-->
