@@ -2,7 +2,6 @@
 package cn.edu.hbcit.smms.servlet.createprogramservlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import cn.edu.hbcit.smms.dao.databasedao.CreateProgramGameGrouping;
+import cn.edu.hbcit.smms.dao.createprogramdao.CreateProgramGameGrouping;
 import cn.edu.hbcit.smms.pojo.GameLookPojo;
 import cn.edu.hbcit.smms.services.createprogramservices.CreateProgramGameGroupingServices;
 

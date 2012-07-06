@@ -22,14 +22,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import com.mysql.jdbc.log.Log;
-
-import cn.edu.hbcit.smms.dao.createprogramdao.GameGrouping;
-import cn.edu.hbcit.smms.dao.databasedao.CreateProgramGameGrouping;
 import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.pojo.Group2itemPojo;
 import cn.edu.hbcit.smms.services.createprogramservices.CreateProgramGameGroupingServices;

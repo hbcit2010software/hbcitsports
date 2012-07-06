@@ -3,7 +3,6 @@ package cn.edu.hbcit.smms.dao.createprogramdao;
 import java.util.ArrayList;
 import java.util.Random;
 
-import cn.edu.hbcit.smms.dao.databasedao.CreateProgramGameGrouping;
 
 /**
  * 径赛跑道分组

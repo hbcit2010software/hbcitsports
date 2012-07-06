@@ -1,5 +1,5 @@
 
-package cn.edu.hbcit.smms.dao.databasedao;
+package cn.edu.hbcit.smms.dao.createprogramdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.Group2itemPojo;
 import cn.edu.hbcit.smms.pojo.T_finalitemPojo;
 import cn.edu.hbcit.smms.pojo.T_groupPojo;

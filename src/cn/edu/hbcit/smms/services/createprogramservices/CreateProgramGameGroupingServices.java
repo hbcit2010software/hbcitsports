@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cn.edu.hbcit.smms.dao.databasedao.CreateProgramGameGrouping;
+import cn.edu.hbcit.smms.dao.createprogramdao.CreateProgramGameGrouping;
 
 
 /**
