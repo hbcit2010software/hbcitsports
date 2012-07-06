@@ -96,7 +96,8 @@ public class DBConn {
              activeCount=curActiveCount;       
             }
         }catch(ProxoolException e){       
-            e.printStackTrace();       
+            e.printStackTrace(); 
+            
         }       
     }  
 

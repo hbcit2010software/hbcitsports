@@ -14,6 +14,6 @@
                 <maximum-new-connections>10</maximum-new-connections>
                 <prototype-count>5</prototype-count>
                 <test-before-use>true</test-before-use>
-                <house-keeping-test-sql>select id from t_sysadmin</house-keeping-test-sql>
+                <house-keeping-test-sql>SELECT id FROM t_scoreformat</house-keeping-test-sql>
      </proxool>
 </something-else-entirely>
