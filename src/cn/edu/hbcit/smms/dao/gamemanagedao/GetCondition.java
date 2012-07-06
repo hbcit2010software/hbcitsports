@@ -20,10 +20,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
+import net.sf.json.JSONArray;
+
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.ManageGroupPJ;
-import cn.edu.hbcit.smms.pojo.ManageItemPJ;
+
 
 /**
  * 获取本次运动会的查询条件类
@@ -36,6 +40,7 @@ import cn.edu.hbcit.smms.pojo.ManageItemPJ;
  */
 
 public class GetCondition {
+	protected final Logger log = Logger.getLogger(GetCondition.class.getName());
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -61,7 +66,7 @@ public class GetCondition {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("getSportID"+e.getMessage());
+			log.debug("getSportID"+e.getMessage());
 		}
 		return flag ;
 	}
@@ -74,78 +79,45 @@ public class GetCondition {
 	* @return	ArrayList
 	 */
 	public ArrayList getAllGP( int sportsid ){
-		System.out.println("getAllGP");
 		ArrayList list = new ArrayList();
 		conn = dbc.getConn();
-		String sql = 
-			"SELECT groupname FROM t_group WHERE id IN (SELECT groupid FROM t_group2sports WHERE sportsid = ?)";	//获取组别名称
+		String sql ="SELECT groupname FROM t_group WHERE id IN " +
+			"(SELECT groupid FROM t_group2sports WHERE sportsid = ?)";	//获取组别名称
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sportsid);
 			rs = pstmt.executeQuery();
-			System.out.println(rs+"getAllGP");
 			while( rs.next() ){
-				
 				ManageGroupPJ mgpj = new ManageGroupPJ();
 				mgpj.setGroupname( rs.getString(1) );
-				System.out.println(rs.getString(1));
 				list.add(mgpj);
 			}
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("getAllGP"+e.getMessage());
+			log.debug("getAllGP"+e.getMessage());
 		}
 		return list;
 	}
+	
 	
 	/**
-	 * 
-	* 方法说明		获取项目
-	* 方法补充说明
-	* @param sportsid int
-	* @return	ArrayList
+	 * 获取对应组别的项目
+	 * @param groupname
+	 * @param sportsid
+	 * @return	JSONArray
 	 */
-	public ArrayList getAllItem( int sportsid ){
-		
-		ArrayList list = new ArrayList();
+	public JSONArray selectItemsByGroup( String groupname ,int sportsid ){
+		JSONArray finalJson = new JSONArray();
 		conn = dbc.getConn();
-		String sql = 
-			"SELECT itemname FROM t_item WHERE id IN ("+
-				"SELECT itemid FROM t_group2item WHERE gp2spid IN ("+
-					"SELECT id FROM t_group2sports WHERE sportsid = ?))";	//获取项目名称
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, sportsid);
-			rs = pstmt.executeQuery();
-			
-			while( rs.next() ){
-				System.out.println(rs+"getAllItemwhile");
-				ManageItemPJ mipj = new ManageItemPJ();
-				mipj.setItemname( rs.getString(1) );
-				System.out.println(rs.getString(1));
-				list.add(mipj);
-			}
-			dbc.freeConnection(conn);	//释放连接
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("getAllItem"+e.getMessage());
-		}
-		return list;
-	}
+		String sql = "SELECT finalitemname FROM t_finalitem WHERE gp2itid IN ("+
+
+						"SELECT id FROM t_group2item WHERE gp2spid IN ("+
 	
-	public ArrayList selectItemsByGroup( String groupname ,int sportsid ){
-		ArrayList list = new ArrayList();
-		conn = dbc.getConn();
-		String sql = "SELECT itemname FROM t_item WHERE id IN ("+
-
-			"SELECT itemid FROM t_group2item WHERE gp2spid IN ("+
-
-				"SELECT id FROM t_group2sports WHERE sportsid = ? AND groupid IN("+
+							"SELECT id FROM t_group2sports WHERE sportsid = ? AND groupid IN ("+
 		
-					"SELECT id FROM t_group WHERE groupname = ?)))";
+								"SELECT id FROM t_group WHERE groupname = ?)))";
 		
 		
 		try {
@@ -154,22 +126,19 @@ public class GetCondition {
 			pstmt.setString(2, groupname);
 			rs = pstmt.executeQuery();
 			while( rs.next() ){
-				ManageItemPJ mipj = new ManageItemPJ();
-				mipj.setItemname(rs.getString(1));
-				list.add(mipj);
+				JSONArray mipj = new JSONArray();
+				mipj.add(rs.getString(1));
+				finalJson.add(mipj);
 			}
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("selectItemsByGroup"+e.getMessage());
+			log.debug("selectItemsByGroup"+e.getMessage());
 		}
-		return list;
+		return finalJson;
 		
 	}
-	
-	
-	
 	
 	
 }

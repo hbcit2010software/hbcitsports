@@ -16,6 +16,8 @@ package cn.edu.hbcit.smms.services.gamemanageservices;
 
 import java.util.ArrayList;
 
+import net.sf.json.JSONArray;
+
 import cn.edu.hbcit.smms.dao.gamemanagedao.GetCondition;
 
 /**
@@ -38,11 +40,8 @@ public class GetConditonServices {
 		return new GetCondition().getAllGP(sportsid);
 	}
 	
-	public ArrayList getAllItem( int sportsid ){
-		return new GetCondition().getAllItem(sportsid);
+	public JSONArray selectItemsByGroup( String groupname ,int sportsid ){
+		return new GetCondition().selectItemsByGroup(groupname, sportsid);	
 	}
 	
-	public ArrayList selectItemsByGroup( String groupname ,int sportsid ){
-		return new GetCondition().selectItemsByGroup(groupname, sportsid);
-	}
 }

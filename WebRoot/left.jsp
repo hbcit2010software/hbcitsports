@@ -18,8 +18,10 @@
  		* 4-赛事报名
 	*/
  %>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<!-- wuguofa -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
@@ -126,7 +128,7 @@ body {
       </ul>
     </li>
      <!--赛事报名end-->
-      </c:if>
+     </c:if>
       <c:if test="${r2 eq true}">
 	<!--秩序册管理begin-->
     <li> <a class="head">秩序册管理</a>
@@ -138,16 +140,16 @@ body {
       </ul>
     </li>
     <!--秩序册管理end-->
-    </c:if>
+     </c:if>
     <c:if test="${r3 eq true}">
     <!--赛中管理begin-->
     <li> <a class="head">赛中管理</a>
       <ul>
         <li><a href="#" target="rightFrame">生成检录表</a></li>
-        <li><a href="#" target="rightFrame">成绩录入</a></li>
+        <li><a href="servlet/GetConditonServlet?action=allcond" target="rightFrame">成绩录入</a></li>
         <li><a href="#" target="rightFrame">违纪管理</a></li>
         <li><a href="#" target="rightFrame">生成决赛名单</a></li>
-        <li><a href="#" target="rightFrame">积分管理</a></li>
+        <li><a href="mark.jsp" target="rightFrame">积分管理</a></li>
         <li><a href="#" target="rightFrame">成绩单管理</a></li>
       </ul>
     </li>
@@ -160,7 +162,7 @@ body {
       </ul>
     </li>
     <!--综合查询end-->
-    <c:if test="${r0 eq true}">
+   <c:if test="${r0 eq true}">
     <!--系统管理begin-->
     <li> <a class="head">系统管理</a>
       <ul>
@@ -170,7 +172,7 @@ body {
       </ul>
     </li>
     <!--系统管理end-->
-    </c:if>
+   </c:if>
     <li> <a class="head">版本信息</a>
       <ul>
         <li><a href="#" target="rightFrame">关于本系统</a></li>

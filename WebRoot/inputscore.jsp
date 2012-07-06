@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="gb2312"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -7,105 +7,272 @@
     <link href="css/subcss.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript">
-//���б�ɫ
+//隔行变色
 	$(document).ready(function(){
 			
-			 $(".stripe_tb tr").mouseover(function(){ //�������Ƶ�classΪstripe_tb�ı����tr��ʱ��ִ�к���
-			 $(this).addClass("over");}).mouseout(function(){ //����������classֵΪover�����ҵ����һ������ʱִ�к���
-			 $(this).removeClass("over");}) //�Ƴ����е�class
-			 $(".stripe_tb tr:even").addClass("alt"); //��classΪstripe_tb�ı����ż��������classֵΪalt
+			 $(".stripe_tb tr").mouseover(function(){ //如果鼠标移到class为stripe_tb的表格的tr上时，执行函数
+			 $(this).addClass("over");}).mouseout(function(){ //给这行添加class值为over，并且当鼠标一出该行时执行函数
+			 $(this).removeClass("over");}) //移除该行的class
+			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
-		
-		function gpchange(){
-			var option = $("#group").find("option:selected").text()
-			$.ajax({
+	//检查输入的成绩格式 
+	function check(){
+	var i = 0;
+	var item = $("#item").find("option:selected").text();
+	
+		for( i = 0; i < num ; i++ ){
+			var score = $('.'+i).val();
 			
-				url:"${pageContext.request.contextPath}/servlet/GetConditonServlet?action=itmecondBygp",
-				type : "get",
+		}
+	}
+	//根据组别获取相应的项目 	
+	
+	function gpchange(){
+		var option = $("#group").find("option:selected").text();	//被选取的组别
+		$.ajax({
+			url : "${pageContext.request.contextPath}/servlet/GetConditonServlet?action=itmecondBygp",
+				type : 'get',
 				contentType : "application/json;charset=utf-8",
-				dataType : "json",
-				data:{option:option},
-				success :function(json){
-				
-				//var inhtml = "<option>";
-				for(int i = 0;i<json.contents.length;i++){
-				
-					inhtml += "<option>"+json.contents[i].option+"</option>";
-					
-				}
-				
-				$("#group").html(inhtml);
-				
-			},
+
+				dataType : 'json',
+				data : 'option=' + option,
+				success : function(json) {
+					var inhtml = "<option>--请选择--</option>";
+					for (i = 0; i < json.length; i++) {
+						inhtml += "<option>" + json[i] + "</option>";
+					}	
+					$('#item').html(inhtml);
+				},
 				error : function(xhr, status, errorThrown) {
-						alert("errorThrown=" + errorThrown);
+					alert("errorThrown=" + errorThrown);
+				}
+		});
+	}	
+	//根据项目获取项目类型
+	
+	function getItemType(){
+		var group = $("#group").find("option:selected").text();		//被选取的组别
+		var item = $("#item").find("option:selected").text();		//被选取的项目
+		if( group == "--请选择--" || item == "--请选择--"){
+			alert("项目或组别为选择，请检查！ ");
+			return false;
+		}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/servlet/GetMessageServlet?action=itemtype",
+				type : 'get',
+				contentType : "application/json;charset=utf-8",
+				dataType : 'json',
+				data : 'item=' + item,
+				success : function(json) {
+				
+				var tp = null;
+					for( i =0 ; i < json.length ; i++ ){
+					  	tp = json[i];  	
+					  		
 					}
 					
-			});
+					if( tp == "1"){
+					
+						tp = "<tr class='tableTitle' align='center'><td width='20%'>号码</td><td width='20%'>姓名</td><td width='20%'>道次</td><td width='20%'>成绩</td><td width='40%'>成绩格式</td></tr>";
+					}
+					
+					if( tp == "2" ){
+						tp = "<tr class='tableTitle' align='center'><td width='20%'>号码</td><td width='20%'>姓名</td><td width='20%'>出场顺序</td><td width='20%'>成绩</td><td width='40%'>成绩格式</td></tr>";
+					}
+					
+					if( tp == "3"){
+						tp = "<tr class='tableTitle' align='center'><td width='20%'>单位</td><td width='20%'>道次</td><td width='20%'>成绩</td><td width='20%'>成绩格式</td><td width='20%'></td></tr>";
+					}
+					 $('#content').html(tp);
+				},
+				error : function(xhr, status, errorThrown) {
+					alert("errorThrown=" + errorThrown);
+				}
+		});	
+	}
+	//根据项目获取运动员的信息
+	function getPlayerMessage(){
+		var item = $("#item").find("option:selected").text();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/servlet/GetMessageServlet?action=playermse",
+				type : 'get',
+				contentType : "application/json;charset=utf-8",
+				dataType : 'json',
+				data : 'item=' + item,
+				success : function(json) {	
+					var inhtml = "";	
+					for(i =0 ; i < json.length; i++){
+						inhtml += "<tr class='tableTitle'><td colspan='4'>第"+(i+1)+"组</td></tr>";
+						//inhtml += "<input class='tableTitle' value='第"+(i+1)+"组' style=' border-style:none;background-Color:#a8c7ce;' readonly='readonly'/>";
+						var json1 = json[i];
+						for( j = 0 ; j < json1.length; j++ ){
+								var json2 = json1[j];
+								inhtml += "<tr class='tableContent'>";
+								for( q = 0; q < json2.length; q++ ){
+									if( q == 0 ){
+										inhtml += "<td width='20%'>"+json2[0]+"</td>";	//运动员号码 
+									}
+									if( q == 1 ){
+										inhtml += "<td width='20%'><input name='playernum' value='"+json2[1]+"' style=' border-style:none' readonly='readonly'/></td>";	//运动员名字
+									}
+									if( q == 2 ){
+										inhtml += "<td width='20%'>"+json2[2]+"</td>";	//道次或出场顺序 
+									}
+								}
+								inhtml += "<td width='20%' align='left'><input name='score' /></td><td width='20%'><input type='text' name='format' style=' text-align:center; border-style:none' readonly='readonly' value=''/></td></tr>";						
+						}
+					}
+					$('#content1').html(inhtml);
+				},
+				error : function(xhr, status, errorThrown) {
+					alert("errorThrown=" + errorThrown);
+				}
+		});
+	}
+	 //提交成绩 
+	function saveScore(){
+		var item = $("#item").find("option:selected").text();
+		var group = $("#group").find("option:selected").text();
+		
+		var playernum="";var score="";
+		
+		var playernumobj = document.getElementsByName("playernum");
+		var scoreobj = document.getElementsByName("score");
+		
+		//alert("playernumobj="+playernumobj.length+","+"scoreobj="+scoreobj.length);
+		for(var i = 0; i < playernumobj.length; i++ ){
+				playernum += playernumobj[i].value;
+				score += scoreobj[i].value;
+				if(scoreobj[i].value.length== 0){
+					alert("成绩未录入！ ");
+					return false;
+				}
+				playernum += ",";
+				score += ",";	
 		}
+		alert(playernum);alert(score);
+		$.ajax({
+			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=addscore",
+				type : 'get',
+				data : {playername:playernum,score:score,item:item,group:group},
+				success : function(mm) {
+				alert(mm);	
+				},
+				error : function(xhr, status, errorThrown) {
+					alert("errorThrown=" + errorThrown);
+				}
+		});
+	}
+	
+	//获取成绩格式 
+	function getFormat(){
+	var item = $("#item").find("option:selected").text();
+	$.ajax({
+			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=getFormat",
+			type : 'get',
+			data : {finalitemname:item},
+			success : function(mm) {
+			alert("成绩格式为 ：" + mm );
+				$("input[name=format]").val(mm+"");
+			},
+			error : function(xhr, status, errorThrown) {
+					alert("errorThrown=" + errorThrown);
+				}
+		
+		});
+	
+	}
+	
+	//检查成绩格式 
+	function checkFormat(){
+		var item = $("#item").find("option:selected").text();
+		//var score = $().focus();
+		//alert( "checkFormat="+$("input[name=score]").length);
+		$.ajax({
+			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=checkFormat",
+			type : 'get',
+			data : {finalitemname:item},
+			success : function(mm) {
+				reg = new RegExp(mm);
+				var score = document.getElementsByName("score");
+				for( var i = 0 ; i < score.length ; i++ ){
+				
+					if( !reg.test(score[i].value) ){
+						alert("格式不正确！");
+						//var score = $("input[name=score]").focus();
+						
+						$("input[name=score]").focus(function(){
+  							$("input").css("background-color","#FFFFCC");
+						});
+						
+						break;
+						return false;
+					}
+				}
+			},
+			error : function(xhr, status, errorThrown) {
+					alert("errorThrown=" + errorThrown);
+				}
+		
+		});
+		
+	}
+	
+	
+	//清空所有成绩 
+	function empty(){
+		$("input[name=score]").val("");
+	}
 </script>
   </head>
   
   <body>
-    <div>
-    	<table  width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <form action="servlet/AddScoreServlet" method="post">
+    	<table  width="100%" border="0" align="center" cellpadding="0" cellspacing="1">
         	<tr>
             	<td bgcolor="#353c44" colspan="9"  height="19">
                     <table>
                     	<tr>
                          <td width="6%"  valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
-                         <td width="94%" valign="bottom"><span class="pageTitle">��ǰ����-->�ɼ�¼��</span></td>
+                         <td width="94%" valign="bottom"><span class="pageTitle">赛前管理-->成绩录入</span></td>
                          </tr>
                      </table>
                  </td>
             </tr>
             <tr>
-            	<td colspan="7" align="center"><b>�ɼ�¼��</b></td>
+            	<td colspan="7" align="center"><b>成绩录入</b></td>
             </tr>
             <tr class="tableTitle">
-            	<td height="20" colspan="7">��������</td>
+            	<td height="20" colspan="7">请选择条件</td>
             </tr>
-            <tr class="tableTitle" align="center">
-            	<td height="20">���</td>
+            <tr class="tableTitle" align="center" bgcolor="#a8c7ce">
+            	<td height="20">组别</td>
                 <td height="20">
-                	<select onChange="gpchange()">
-                    	<option>--��ѡ��--</option>
+                	<select id="group" onChange="gpchange()">
+                    	<option>--请选择--</option>
                     	<c:forEach items="${sessionScope.conditionlist}" var="gp">
                         	<option>${gp.groupname }</option>
                         </c:forEach>
                     </select>
                 </td>
-                <td height="20">��Ŀ����</td>
+                <td height="20">项目名称</td>
                 <td height="20">
-                	<select id="group">
-                    	<option>--��ѡ��--</option>
-                    	<c:forEach items="${sessionScope.conditionlist1}" var="item">
-                        	<option>${item.itemname}</option>
-                        </c:forEach>
+                	<select id="item" name="finalitem">
+                    	<option>--请选择--</option> 
                     </select>
                 </td>
-                <td height="20">����</td>
-                <td height="20"> 
-                	<select>
-                    	<option>--��ѡ��--</option>
-                        <option>Ԥ��</option>
-                        <option>����</option>
-                        <option>��/Ԥ��</option>
-                    </select>
-                </td>
-                <td><input type="button" value="¼��ɼ�"/></td>
+                <td><input type="button" value="录入成绩"  onclick="getItemType(),getPlayerMessage(),getFormat();"/></td>
             </tr>
+       
         </table>
-        <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce"  class="stripe_tb">
-            <tr class="tableTitle" align="center" >
-            	<td width="20%">����</td>
-                <td width="20%">����</td>
-                <td width="20%">����/����˳��</td>
-                <td width="40%">�ɼ�</td>
-            </tr>
-            <tr><td colspan="4"><input type="button" value="�ύ"/><input type="button" value="����"/></td></tr>
+        <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce"  class="stripe_tb" id="content"> 
         </table>
-    </div>
+        <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce"  class="stripe_tb" id="content1"> 
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" > 
+            <tr><td colspan="4"><input type="button" value="提交" onclick="checkFormat(),saveScore();"/><input type="button" value="清空所有成绩" onclick="empty();"/></td></tr>
+        </table>
+    </form>
   </body>
 </html>
