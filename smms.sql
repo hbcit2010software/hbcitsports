@@ -60,6 +60,7 @@ CREATE TABLE `t_finalitem` (
   `time` varchar(5) DEFAULT NULL COMMENT '项目比赛时间',
   `groupnum` int(11) DEFAULT NULL COMMENT '分组数量',
   `promotionnum` int(11) DEFAULT NULL COMMENT '晋级数量',
+  `sportsid` int(11) DEFAULT NULL COMMENT '运动会ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分项竞赛项目表（预赛与决赛分离后的）';
 
@@ -218,6 +219,7 @@ CREATE TABLE `t_player` (
   `playernum` varchar(10) DEFAULT NULL,
   `playername` varchar(10) DEFAULT NULL COMMENT '运动员姓名',
   `playersex` tinyint(1) DEFAULT NULL COMMENT '运动员性别：true男；false女',
+  `playertype` tinyint(4) DEFAULT NULL COMMENT '运动员类型：true学生；false教工',
   `groupid` int(11) DEFAULT NULL COMMENT '组别id',
   `registitem` varchar(255) DEFAULT NULL COMMENT '该人所报的项目：用;隔开的itemid字符串。比如1;2;3代表报了1、2、3这三个项目',
   PRIMARY KEY (`id`)

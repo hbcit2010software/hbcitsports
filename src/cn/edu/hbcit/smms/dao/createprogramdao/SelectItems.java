@@ -46,7 +46,6 @@ public class SelectItems {
 							+ "WHERE t_group2sports.sportsid = ? AND t_item.itemtype = ?");
 			ps.setInt(1, sportsid);
 			ps.setString(2, itemtype);
-			// System.out.print("333333333333333333333333333" + ps);
 			rs = ps.executeQuery();
 
 			while (rs.next()) {

@@ -51,7 +51,7 @@ public class SelectPlayerDAO {
 		return playerList;
 	}
 	
-	/**根据部门查询教工运动员
+	/**selectPlayersByDept1
 	 * 
 	 * @param departid
 	 * @param sportsid

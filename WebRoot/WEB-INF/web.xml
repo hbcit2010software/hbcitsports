@@ -234,6 +234,63 @@
     <servlet-name>SelectPlayerServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.createprogramservlet.SelectPlayerServlet</servlet-class>
   </servlet>
+  
+ <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetPlayerServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.GetPlayerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetItemNameServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.GetItemNameServlet</servlet-class>
+  </servlet>
+
+
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdatePlayerServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.UpdatePlayerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdatePlayerTeacherServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.UpdatePlayerTeacherServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddTeamleaderServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.AddTeamleaderServlet</servlet-class>
+  </servlet>
+<servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectGroupNameBySportsIdServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.SelectGroupNameBySportsIdServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectPlayerByGroupNameServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.SelectPlayerByGroupNameServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SelectAllPlayerByNumServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.SelectAllPlayerByNumServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdatePlayerByNumServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gameapplyservlet.UpdatePlayerByNumServlet</servlet-class>
+  </servlet>
 
 
 
@@ -403,6 +460,43 @@
   <servlet-mapping>
     <servlet-name>SelectPlayerServlet</servlet-name>
     <url-pattern>/servlet/SelectPlayerServlet</url-pattern>
+  </servlet-mapping>
+      <servlet-mapping>
+    <servlet-name>GetPlayerServlet</servlet-name>
+    <url-pattern>/servlet/GetPlayerServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetItemNameServlet</servlet-name>
+    <url-pattern>/servlet/GetItemNameServlet</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>UpdatePlayerServlet</servlet-name>
+    <url-pattern>/servlet/UpdatePlayerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePlayerTeacherServlet</servlet-name>
+    <url-pattern>/servlet/UpdatePlayerTeacherServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddTeamleaderServlet</servlet-name>
+    <url-pattern>/servlet/AddTeamleaderServlet</url-pattern>
+  </servlet-mapping>
+<servlet-mapping>
+    <servlet-name>SelectGroupNameBySportsIdServlet</servlet-name>
+    <url-pattern>/servlet/SelectGroupNameBySportsIdServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectPlayerByGroupNameServlet</servlet-name>
+    <url-pattern>/servlet/SelectPlayerByGroupNameServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectAllPlayerByNumServlet</servlet-name>
+    <url-pattern>/servlet/SelectAllPlayerByNumServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePlayerByNumServlet</servlet-name>
+    <url-pattern>/servlet/UpdatePlayerByNumServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
