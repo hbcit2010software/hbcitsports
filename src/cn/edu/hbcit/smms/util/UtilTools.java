@@ -14,6 +14,7 @@ package cn.edu.hbcit.smms.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.log4j.Logger;
 
 /**
  * 通用工具类
@@ -26,7 +27,7 @@ import java.util.regex.Pattern;
  */
 
 public class UtilTools {
-	
+	protected final Logger log = Logger.getLogger(UtilTools.class.getName());
 	/**
 	 * 判断字符串是否为数字类型
 	 * @param str
@@ -40,6 +41,20 @@ public class UtilTools {
 		}
 			return true;
 	} 
+	
+	/**
+	 * ISO-8859-1字符串转换为utf-8
+	 * @param text
+	 * @return
+	 */
+	public String toUTF8( String text ){
+		try{
+			text = new String(text.getBytes("ISO-8859-1"),"utf-8");
+		}catch(Exception e){
+			log.error("toChinese"+e.getMessage());
+		}
+		return text;
+	}
 	
 
 }

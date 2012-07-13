@@ -9,7 +9,7 @@ public class ChangeToChinese {
 		try{
 			text = new String(text.getBytes("ISO-8859-1"),"utf-8");
 		}catch(Exception e){
-			log.debug("toChinese"+e.getMessage());
+			log.error("toChinese"+e.getMessage());
 		}
 		return text;
 	}
