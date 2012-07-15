@@ -86,4 +86,18 @@ public class SportsService {
 			return false;
 		}
 	}
+	/**
+	 * 获取所有部门信息
+	 * @return
+	 */
+	public ArrayList selectDepartmentInfo(){
+		return sp.selectDepartmentInfo();
+	}
+	/**
+	 * 获取指定届次的参赛部门ID
+	 * @return
+	 */
+	public ArrayList selectDepartmentInfo(int sportsId){
+		return sp.selectDepartmentInfo(sportsId);
+	}
 }

@@ -8,7 +8,8 @@
  *
  * 修改历史：
  * 时间			版本号		姓名			修改内容
- * 2012-6-19		V1.0		李玮 		新建
+ * 2012-6-19	V1.0		李玮 		新建
+ * 2012-7-15	V1.1		李玮			添加功能
 */
 package cn.edu.hbcit.smms.dao.gamesetdao;
 import java.sql.Connection;
@@ -18,7 +19,9 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
+import cn.edu.hbcit.smms.pojo.Department;
 import cn.edu.hbcit.smms.pojo.Sports;
+import cn.edu.hbcit.smms.pojo.Sports2department;
 
 /**
  * 运动会管理类
@@ -235,4 +238,60 @@ public class SportsDAO {
 		return flag;
 	}
 	
+	/**
+	 * 获取所有部门信息
+	 * @return
+	 */
+	public ArrayList selectDepartmentInfo(){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,departname,departshortname,departtype FROM t_department";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Department dp = new Department();
+				dp.setId(rs.getInt(1));
+				dp.setDepartmentName(rs.getString(2));
+				dp.setDepartmentShortName(rs.getString(3));
+				dp.setDepartmentType(rs.getInt(4));
+				list.add(dp);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取部门信息失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	/**
+	 * 获取指定届次的参赛部门ID
+	 * @return
+	 */
+	public ArrayList selectDepartmentInfo(int sportsId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,groupid FROM t_group2sports WHERE sportsid=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Sports2department s2d = new Sports2department();
+				s2d.setId(rs.getInt(1));
+				s2d.setDepartid(rs.getInt(2));
+				list.add(s2d);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取指定届次的参赛部门ID失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
 }

@@ -103,10 +103,10 @@ body {
     <li> <a class="head">赛前设置</a>
       <ul>
         <li><a href="servlet/GetSportsInfoServlet" target="rightFrame">运动会管理</a></li>
-        <li><a href="#" target="rightFrame">项目设置</a></li>
+        <li><a href="servlet/GetDepartInfoServlet" target="rightFrame">参赛单位设置</a></li>
         <li><a href="#" target="rightFrame">组别设置</a></li>
+        <li><a href="#" target="rightFrame">项目设置</a></li>
         <li><a href="#" target="rightFrame">日程安排</a></li>
-        <li><a href="#" target="rightFrame">参赛单位设置</a></li>
         <li><a href="#" target="rightFrame">号段分配</a></li>
         <li><a href="#" target="rightFrame">赛事规程</a></li>
         <li><a href="#" target="rightFrame">会程设置</a></li>
