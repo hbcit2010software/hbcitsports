@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cn.edu.hbcit.smms.services.gamemanageservices.QueryMarkServices;
-import cn.edu.hbcit.smms.util.ChangeToChinese;
 
 public class QueryMarkServlet extends HttpServlet {
-	ChangeToChinese ctc = new ChangeToChinese();
+	
 	/**
 	 * Constructor of the object.
 	 */

@@ -12,11 +12,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.services.gamemanageservices.AddScoreServices;
-import cn.edu.hbcit.smms.util.ChangeToChinese;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 public class AddScoreServlet extends HttpServlet {
 	protected final Logger log = Logger.getLogger(AddScoreServlet.class.getName());
-	ChangeToChinese ctc = new ChangeToChinese();
+	UtilTools ctc = new UtilTools();
 	/**
 	 * Constructor of the object.
 	 */
@@ -83,7 +83,7 @@ public class AddScoreServlet extends HttpServlet {
 		String group = request.getParameter("group");
 		String item = null;
 		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());
-		item = ctc.toChinese(request.getParameter("item"));
+		item = ctc.toUTF8(request.getParameter("item"));
 		
 		log.debug(playername+","+score+","+item);
 		
@@ -114,7 +114,7 @@ public class AddScoreServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String finalitemname = null;
-		finalitemname = ctc.toChinese(request.getParameter("finalitemname"));
+		finalitemname = ctc.toUTF8(request.getParameter("finalitemname"));
 		log.debug("getFormat：finalitemname="+finalitemname);
 		AddScoreServices ass = new AddScoreServices();
 		String reg = null;
@@ -135,7 +135,7 @@ public class AddScoreServlet extends HttpServlet {
 	response.setContentType("text/html");
 	PrintWriter out = response.getWriter();
 	String finalitemname = null;
-	finalitemname = ctc.toChinese(request.getParameter("finalitemname"));
+	finalitemname = ctc.toUTF8(request.getParameter("finalitemname"));
 	log.debug("getFormat：finalitemname="+finalitemname);
 	AddScoreServices ass = new AddScoreServices();
 	String str = null;

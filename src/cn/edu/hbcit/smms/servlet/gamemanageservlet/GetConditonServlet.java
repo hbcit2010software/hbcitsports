@@ -30,7 +30,6 @@ import net.sf.json.JSONArray;
 
 
 import cn.edu.hbcit.smms.services.gamemanageservices.GetConditonServices;
-import cn.edu.hbcit.smms.util.ChangeToChinese;
 
 
 /**

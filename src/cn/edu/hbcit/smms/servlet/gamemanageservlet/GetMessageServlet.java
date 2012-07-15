@@ -14,11 +14,11 @@ import org.apache.log4j.Logger;
 import net.sf.json.JSONArray;
 
 import cn.edu.hbcit.smms.services.gamemanageservices.GetMessageservices;
-import cn.edu.hbcit.smms.util.ChangeToChinese;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 public class GetMessageServlet extends HttpServlet {
 	protected final Logger log = Logger.getLogger(GetMessageServlet.class.getName());
-	ChangeToChinese ctc = new ChangeToChinese();
+	UtilTools ctc = new UtilTools();
 	/**
 	 * Constructor of the object.
 	 */
@@ -87,7 +87,7 @@ public class GetMessageServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		JSONArray list = new JSONArray();
 		GetMessageservices gms = new GetMessageservices();
-		String finalitemname = ctc.toChinese(request.getParameter("item"));
+		String finalitemname = ctc.toUTF8(request.getParameter("item"));
 		list = gms.getPlayerMessage(finalitemname);
 		log.debug("getPlayerMessage="+list);
 		out.println(list);
@@ -102,7 +102,7 @@ public class GetMessageServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		JSONArray list = new JSONArray();
 		GetMessageservices gms = new GetMessageservices();
-		String finalitemname = ctc.toChinese(request.getParameter("item"));
+		String finalitemname = ctc.toUTF8(request.getParameter("item"));
 		list = gms.getItemType(finalitemname);
 		log.debug("getItemType="+list);
 		out.println(list);
