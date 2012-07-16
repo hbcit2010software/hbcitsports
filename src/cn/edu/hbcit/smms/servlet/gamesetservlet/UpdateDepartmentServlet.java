@@ -1,3 +1,14 @@
+/**
+* Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
+*
+* 模块名称：     赛前设置
+* 子模块名称：   部门管理
+*
+* 备注：
+*
+* 修改历史：
+* 2012-7-16	0.1		李玮		新建
+*/
 package cn.edu.hbcit.smms.servlet.gamesetservlet;
 
 import java.io.IOException;
@@ -8,33 +19,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import cn.edu.hbcit.smms.services.gamesetservices.SportsService;
 
-
-/*
- * Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
- *
- * 模块名称：     赛前设置
- * 子模块名称：   运动会管理
- *
- * 备注：
- *
- * 修改历史：
- * 时间			版本号	姓名		修改内容
- * 2012/06/20	0.1		李玮		新建
- */
 /**
+ * 修改部门信息类
+ * 简要说明:
  * @author 李玮
- *
+ * @version 1.00  2012-7-16下午10:37:31	新建
  */
-public class AddSportsServlet extends HttpServlet {
-	protected final Logger log = Logger.getLogger(AddSportsServlet.class.getName());
+
+public class UpdateDepartmentServlet extends HttpServlet {
+
 	/**
 	 * Constructor of the object.
 	 */
-	public AddSportsServlet() {
+	public UpdateDepartmentServlet() {
 		super();
 	}
 
@@ -59,29 +58,7 @@ public class AddSportsServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		request.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-		SportsService ss = new SportsService();
-		String sportsName,  begin,  end,  registEnd,  address ;//sportsName运动会名称,  begin运动会开始日期,  end运动会结束日期,  registEnd报名截止日期,  address运动会举办地点
-		boolean flag = false;
-		
-		sportsName = request.getParameter("spname");
-		begin = request.getParameter("begin");
-		end = request.getParameter("end");
-		registEnd = request.getParameter("registend");
-		address = request.getParameter("address");
-		
-		log.debug("sportsName,begin,end,registEnd,address："+sportsName+"~~"+begin+"~~"+end+"~~"+registEnd+"~~"+address);
-		flag = ss.addSports(sportsName, begin, end, registEnd, address);
-		
-		if(flag){
-			out.print("success");
-		}else{
-			out.print("error");
-		}
-		out.flush();
-		out.close();
+		this.doPost(request, response);
 	}
 
 	/**
@@ -97,7 +74,25 @@ public class AddSportsServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		this.doGet(request, response);
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		request.setCharacterEncoding("utf-8");
+		SportsService ss = new SportsService();
+		boolean flag = false;
+		String departId, departName, departShortName, departType; //departId部门ID, departName部门名称, departShortName部门简称, departType部门类型
+		departId = request.getParameter("dpid");
+		departName = request.getParameter("dpname");
+		departShortName = request.getParameter("dpsname");
+		departType = request.getParameter("dptype");
+		
+		flag = ss.updateDepartment(departId, departName, departShortName, departType);
+		if(flag){
+			out.print("success");
+		}else{
+			out.print("error");
+		}
+		out.flush();
+		out.close();
 	}
 
 	/**
@@ -109,12 +104,4 @@ public class AddSportsServlet extends HttpServlet {
 		// Put your code here
 	}
 
-	/**
-	 * XX类
-	 *
-	 * 简要说明:
-	 *
-	 * @author Administrator
-	 * @version 1.00  2012-6-20上午11:04:07	新建
-	 */
 }

@@ -19,6 +19,44 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
+		//添加部门
+	function addDepart(){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 400;
+			diag.Height = 200;
+			diag.Title = "添加新单位";
+			diag.URL = "${pageContext.request.contextPath }/set_departmentcreate.jsp";
+			diag.OKEvent = function(){
+				window.location.reload();
+				//diag.close();
+			};
+			diag.ShowCloseButton=false;
+			diag.MessageTitle = "添加新单位提示：";
+			diag.Message = "填完各项内容后不要忘记先\"确认添加\"，然后才可关闭窗口";
+			diag.show();
+			diag.okButton.value="结果刷新";
+			diag.cancelButton.value="关闭";
+	}
+	//修改部门信息
+	function updateDepart(dpid){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 400;
+			diag.Height = 200;
+			diag.Title = "修改部门信息";
+			diag.URL = "${pageContext.request.contextPath }/servlet/GetDepartInfoByIdServlet?dpid="+dpid;
+			diag.OKEvent = function(){
+				window.location.reload();
+				//diag.close();
+			};
+			diag.ShowCloseButton=false;
+			diag.MessageTitle = "修改部门信息提示：";
+			diag.Message = "填完各项内容后不要忘记先\"确认修改\"，然后才可关闭窗口";
+			diag.show();
+			diag.okButton.value="结果刷新";
+			diag.cancelButton.value="关闭";
+	}
 </script>
 </head>
 
@@ -37,7 +75,7 @@
             </table></td>
             <td>
             <div align="right"><span class="pageTitle">
-              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF">添加新单位</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addDepart();">添加新单位</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
             </div>
             </td>
           </tr>
@@ -55,8 +93,8 @@
       <tr class="tableTitle">
         <td width="5%" height="20"><div align="center">序号</div></td>
         <td width="10%" height="20" ><div align="center"><span>是否参赛</span></div></td>
-        <td width="30%" height="20" ><div align="center"><span>单位名称</span></div></td>
-        <td width="30%" height="20" ><div align="center"><span>名称缩写</span></div></td>
+        <td width="30%" height="20" ><div align="center"><span>单位全称</span></div></td>
+        <td width="30%" height="20" ><div align="center"><span>单位简称</span></div></td>
         <td width="10%" height="20" ><div align="center"><span>单位类型</span></div></td>
         <td width="15%" height="20"><div align="center"><span>基本操作</span></div></td>
       </tr>
@@ -83,7 +121,8 @@
 	        	<div style="color:#00FFFF">无学生</div>
 	        	</c:if>
 	        </td>
-	        <td><div>修改 | 删除</div></td>
+	        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要修改“${dinfo.departmentShortName }”的信息吗？',function(){updateDepart(${dinfo.id});});">修改</a> | 
+             <a href="#${sinfo.id}" onclick="Dialog.confirm('提示：您确认要删除“${dinfo.departmentShortName }”吗？',function(){delDepart(${dinfo.id});});">删除</a></div></td>
 	      </tr>
       </c:forEach>
     </table>

@@ -104,6 +104,36 @@ public class SportsDAO {
 		return list;
 	}
 	/**
+	 * 获取指定ID的部门信息
+	 * @param int departmentId
+	 * @return
+	 */
+	public ArrayList selectDepartmentInfoById(int departmentId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,departname,departshortname,departtype FROM t_department WHERE id=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, departmentId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Department dp = new Department();
+				dp.setId(rs.getInt(1));
+				dp.setDepartmentName(rs.getString(2));
+				dp.setDepartmentShortName(rs.getString(3));
+				dp.setDepartmentType(rs.getInt(4));
+				list.add(dp);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取部门信息By ID失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	/**
 	 * 设置当前运动会
 	 * @param userId
 	 * @return
@@ -173,6 +203,36 @@ public class SportsDAO {
 		}
 		return flag;
 	}
+	/**
+	 * 新增单位/部门
+	 * @param departName
+	 * @param departShortName
+	 * @param departType
+	 * @return
+	 */
+	public boolean addDepartment(String departName, String departShortName, int departType){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "INSERT INTO t_department (departname,departshortname,departtype) VALUES(?,?,?)"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, departName);
+			pStatement.setString(2, departShortName);
+			pStatement.setInt(3, departType);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("添加新单位部门失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 	
 	/**
 	 * 修改运动会By id
@@ -206,6 +266,38 @@ public class SportsDAO {
 			db.freeConnection(conn);
 		}catch(Exception e){
 			log.error("添加运动会失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+	/**
+	 * 修改部门信息By id
+	 * @param departId
+	 * @param departName
+	 * @param departShortName
+	 * @param departType
+	 * @return
+	 */
+	public boolean updateDepartment(int departId, String departName, String departShortName, int departType){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "UPDATE t_department SET departname=?,departshortname=?,departtype=? WHERE id=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, departName);
+			pStatement.setString(2, departShortName);
+			pStatement.setInt(3, departType);
+			pStatement.setInt(4, departId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("修改部门信息失败！");
 			log.error(e.getMessage());
 		}
 		return flag;
@@ -294,4 +386,6 @@ public class SportsDAO {
 		}
 		return list;
 	}
+	
+	
 }

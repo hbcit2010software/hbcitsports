@@ -29,7 +29,18 @@ public class SportsService {
 			return null;
 		}
 	}
-	
+	/**
+	 * 获取指定ID的部门信息
+	 * @param int departmentId
+	 * @return
+	 */
+	public ArrayList selectDepartmentInfoById(String departmentId){
+		if(ut.isNumeric(departmentId)){
+			return sp.selectDepartmentInfoById(Integer.parseInt(departmentId));
+		}else{
+			return null;
+		}
+	}
 	/**
 	 * 设置当前运动会
 	 * @param userId
@@ -73,6 +84,21 @@ public class SportsService {
 			return false;
 		}
 	}
+	/**
+	 * 修改部门信息By id
+	 * @param departId
+	 * @param departName
+	 * @param departShortName
+	 * @param departType
+	 * @return
+	 */
+	public boolean updateDepartment(String departId, String departName, String departShortName, String departType){
+		if(ut.isNumeric(departId) && ut.isNumeric(departType)){
+			return sp.updateDepartment(Integer.parseInt(departId), departName, departShortName, Integer.parseInt(departType));
+		}else{
+			return false;
+		}
+	}
 	
 	/**
 	 * 删除指定id的运动会
@@ -99,5 +125,21 @@ public class SportsService {
 	 */
 	public ArrayList selectDepartmentInfo(int sportsId){
 		return sp.selectDepartmentInfo(sportsId);
+	}
+	
+	/**
+	 * 新增单位/部门
+	 * @param departName
+	 * @param departShortName
+	 * @param departType
+	 * @return
+	 */
+	public boolean addDepartment(String departName, String departShortName, String departType){
+		if(ut.isNumeric(departType)){
+			return sp.addDepartment(departName, departShortName, Integer.parseInt(departType));
+		}else{
+			return false;
+		}
+		
 	}
 }

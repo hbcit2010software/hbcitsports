@@ -393,6 +393,27 @@
     <servlet-name>GetDepartInfoServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.GetDepartInfoServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddDepartmentServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.AddDepartmentServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateDepartmentServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.UpdateDepartmentServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetDepartInfoByIdServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.GetDepartInfoByIdServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -655,6 +676,18 @@
   <servlet-mapping>
     <servlet-name>GetDepartInfoServlet</servlet-name>
     <url-pattern>/servlet/GetDepartInfoServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddDepartmentServlet</servlet-name>
+    <url-pattern>/servlet/AddDepartmentServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateDepartmentServlet</servlet-name>
+    <url-pattern>/servlet/UpdateDepartmentServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetDepartInfoByIdServlet</servlet-name>
+    <url-pattern>/servlet/GetDepartInfoByIdServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
