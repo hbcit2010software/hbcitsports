@@ -113,6 +113,18 @@ public class SportsService {
 		}
 	}
 	/**
+	 * 删除指定ID部门
+	 * @param departmentId
+	 * @return
+	 */
+	public boolean removeDepartment(String departmentId){
+		if(ut.isNumeric(departmentId)){
+			return sp.removeDepartment(Integer.parseInt(departmentId));
+		}else{
+			return false;
+		}
+	}
+	/**
 	 * 获取所有部门信息
 	 * @return
 	 */
@@ -140,6 +152,31 @@ public class SportsService {
 		}else{
 			return false;
 		}
-		
+	}
+	/**
+	 * 将指定部门添加到指定运动会
+	 * @param sportsId
+	 * @param departmentId
+	 * @return
+	 */
+	public boolean addDepartmentToSports(String sportsId, String departmentId){
+		if(ut.isNumeric(sportsId) && ut.isNumeric(departmentId)){
+			return sp.addDepartmentToSports(Integer.parseInt(sportsId), Integer.parseInt(departmentId));
+		}else{
+			return false;
+		}
+	}
+	/**
+	 * 将指定部门从指定运动会移除
+	 * @param sportsId
+	 * @param departmentId
+	 * @return
+	 */
+	public boolean removeDepartmentToSports(String sportsId, String departmentId){
+		if(ut.isNumeric(sportsId) && ut.isNumeric(departmentId)){
+			return sp.removeDepartmentToSports(Integer.parseInt(sportsId), Integer.parseInt(departmentId));
+		}else{
+			return false;
+		}
 	}
 }

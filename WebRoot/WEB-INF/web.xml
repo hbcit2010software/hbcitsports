@@ -411,6 +411,20 @@
     <servlet-name>GetDepartInfoByIdServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.GetDepartInfoByIdServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RemoveDepartmentServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.RemoveDepartmentServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SetDepartToSportsServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.SetDepartToSportsServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -688,6 +702,14 @@
   <servlet-mapping>
     <servlet-name>GetDepartInfoByIdServlet</servlet-name>
     <url-pattern>/servlet/GetDepartInfoByIdServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RemoveDepartmentServlet</servlet-name>
+    <url-pattern>/servlet/RemoveDepartmentServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SetDepartToSportsServlet</servlet-name>
+    <url-pattern>/servlet/SetDepartToSportsServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

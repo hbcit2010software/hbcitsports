@@ -329,6 +329,32 @@ public class SportsDAO {
 		}
 		return flag;
 	}
+	/**
+	 * 删除指定ID部门
+	 * @param departmentId
+	 * @return
+	 */
+	public boolean removeDepartment(int departmentId){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_department WHERE id=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, departmentId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("删除单位部门失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 	
 	/**
 	 * 获取所有部门信息
@@ -387,5 +413,61 @@ public class SportsDAO {
 		return list;
 	}
 	
+	/**
+	 * 将指定部门添加到指定运动会
+	 * @param sportsId
+	 * @param departmentId
+	 * @return
+	 */
+	public boolean addDepartmentToSports(int sportsId, int departmentId){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "INSERT INTO t_sports2department (sportsid,departid) VALUES(?,?)"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			pStatement.setInt(2, departmentId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("将指定部门添加到指定运动会失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+	/**
+	 * 将指定部门从指定运动会移除
+	 * @param sportsId
+	 * @param departmentId
+	 * @return
+	 */
+	public boolean removeDepartmentToSports(int sportsId, int departmentId){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_sports2department WHERE sportsid=? AND departid=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			pStatement.setInt(2, departmentId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("将指定部门从指定运动会移除失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 	
 }

@@ -57,6 +57,47 @@
 			diag.okButton.value="结果刷新";
 			diag.cancelButton.value="关闭";
 	}
+	//删除部门信息
+		function delDepart(dpid){
+		$.ajax({
+			url :"${pageContext.request.contextPath }/servlet/RemoveDepartmentServlet",
+			type : 'post',
+			data : 'dpid='+dpid,
+			success :function(mm){
+					var revalue=mm.replace(/\r\n/g,'');
+					if(revalue=="error"){
+						Dialog.alert("删除单位信息失败！",function(){window.location.reload();});
+					}
+					if(revalue=="success"){
+						Dialog.alert("删除单位信息成功！",function(){window.location.reload();});
+					}
+				}
+			});
+	}
+	//设置部门与运动会关系
+		function setDp2Sp(obj,dpid){
+		var param;
+		if(obj.checked == true){
+			param = "add";
+		}else if(obj.checked == false){
+			param = "del";
+		}
+		//alert(param);
+		$.ajax({
+			url :"${pageContext.request.contextPath }/servlet/SetDepartToSportsServlet",
+			type : 'post',
+			data : 'dpid='+dpid+'&param='+param,
+			success :function(mm){
+					var revalue=mm.replace(/\r\n/g,'');
+					if(revalue=="error"){
+						Dialog.alert("设置失败！",function(){window.location.reload();});
+					}
+					if(revalue=="success"){
+						Dialog.alert("设置成功！",function(){window.location.reload();});
+					}
+				}
+			});
+	}
 </script>
 </head>
 
@@ -108,7 +149,7 @@
 	        		checked="checked" 
 	        		</c:if>
 	        		</c:forEach>
-	        		type="checkbox" name="depart" value="${dinfo.id }" onclick="" /></div>
+	        		type="checkbox" name="depart" value="${dinfo.id }" onclick="setDp2Sp(this,${dinfo.id});" /></div>
 	        		
 	        </td>
 	        <td><div>${dinfo.departmentName }</div></td>
