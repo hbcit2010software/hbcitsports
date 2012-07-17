@@ -132,11 +132,25 @@ public class SportsService {
 		return sp.selectDepartmentInfo();
 	}
 	/**
+	 * 获取所有组别信息
+	 * @return
+	 */
+	public ArrayList selectGroupInfo(){
+		return sp.selectGroupInfo();
+	}
+	/**
 	 * 获取指定届次的参赛部门ID
 	 * @return
 	 */
 	public ArrayList selectDepartmentInfo(int sportsId){
 		return sp.selectDepartmentInfo(sportsId);
+	}
+	/**
+	 * 获取指定届次的参赛组别ID
+	 * @return
+	 */
+	public ArrayList selectGroupInfo(int sportsId){
+		return sp.selectGroupInfo(sportsId);
 	}
 	
 	/**

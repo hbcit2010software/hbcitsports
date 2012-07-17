@@ -153,7 +153,7 @@
 <a href="#" onclick="Dialog.confirm('提示：您确认要修改“${sinfo.sportsname }”的信息吗？',function(){updateSports(${sinfo.id});});">修改</a> | 
 <c:if test="${sinfo.current eq 1}">删除</c:if>
 <c:if test="${sinfo.current ne 1}">
-<a href="#${sinfo.id}" onclick="Dialog.confirm('提示：您确认要删除“${sinfo.sportsname }”吗？<br>删除运动会将影响后续功能，请务必谨慎操作！',function(){delSports(${sinfo.id});});">删除</a>
+<a href="#" onclick="Dialog.confirm('提示：您确认要删除“${sinfo.sportsname }”吗？<br>删除运动会将影响后续功能，请务必谨慎操作！',function(){delSports(${sinfo.id});});">删除</a>
 </c:if>
             </div></td>
       </tr>

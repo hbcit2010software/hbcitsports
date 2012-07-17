@@ -111,12 +111,12 @@
             <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="6%" height="19" valign="bottom"><div align="center"><img src="${pageContext.request.contextPath }/images/tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->参赛单位设置</span></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->组别设置</span></td>
               </tr>
             </table></td>
             <td>
             <div align="right"><span class="pageTitle">
-              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addDepart();">添加新单位</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addDepart();">添加新分组</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
             </div>
             </td>
           </tr>
@@ -129,41 +129,48 @@
     <!--内嵌表格begin-->
     <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
     <tr class="tableTitle">
-        <td height="20" colspan="6"><div align="center" style="color:#FF0000; font-weight:bold">请为 ${sessionScope.currSportsName } 选择参赛单位</div></td>
+        <td height="20" colspan="6"><div align="center" style="color:#FF0000; font-weight:bold">请为 ${sessionScope.currSportsName } 选择参赛组别</div></td>
         </tr>
       <tr class="tableTitle">
         <td width="5%" height="20"><div align="center">序号</div></td>
         <td width="10%" height="20" ><div align="center"><span>是否参赛</span></div></td>
-        <td width="30%" height="20" ><div align="center"><span>单位全称</span></div></td>
-        <td width="30%" height="20" ><div align="center"><span>单位简称</span></div></td>
-        <td width="10%" height="20" ><div align="center"><span>单位类型</span></div></td>
+        <td width="30%" height="20" ><div align="center"><span>组别名称</span></div></td>
+        <td width="30%" height="20" ><div align="center"><span>组别类型</span></div></td>
+        <td width="10%" height="20" ><div align="center"><span>性别类型</span></div></td>
         <td width="15%" height="20"><div align="center"><span>基本操作</span></div></td>
       </tr>
-      <c:forEach var="dinfo" items="${departinfo}" varStatus="countItem">
+      <c:forEach var="ginfo" items="${groupinfo}" varStatus="countItem">
 	       <tr class="tableContent">
 	        <td><div align="center">${countItem.count}</div></td>
 	        <td>
 	        		<div><input 
-	        		<c:forEach var="checkit" items="${departinfobysportsid}" varStatus="myCountItem">
-	        		<c:if test="${dinfo.id eq checkit.departid}">
+	        		<c:forEach var="checkit" items="${groupinfobysportsid}" varStatus="myCountItem">
+	        		<c:if test="${ginfo.id eq checkit.groupid}">
 	        		checked="checked" 
 	        		</c:if>
 	        		</c:forEach>
-	        		type="checkbox" name="depart" value="${dinfo.id }" onclick="setDp2Sp(this,${dinfo.id});" /></div>
+	        		type="checkbox" name="depart" value="${ginfo.id }" onclick="setDp2Sp(this,${ginfo.id});" /></div>
 	        		
 	        </td>
-	        <td><div>${dinfo.departmentName }</div></td>
-	        <td><div>${dinfo.departmentShortName }</div></td>
+	        <td><div>${ginfo.groupname }</div></td>
 	        <td>
-	        	<c:if test="${dinfo.departmentType eq 1}">
-	        	<div style="color:#0000FF">有学生</div>
+            	<c:if test="${ginfo.grouptype eq 1}">
+            	<div>学生</div>
+                </c:if>
+                <c:if test="${ginfo.grouptype eq 0}">
+            	<div>教工</div>
+                </c:if>
+            </td>
+	        <td>
+	        	<c:if test="${ginfo.grouptype eq 1}">
+	        	<div>男</div>
 	        	</c:if>
-	        	<c:if test="${dinfo.departmentType eq 0}">
-	        	<div style="color:#00FFFF">无学生</div>
+	        	<c:if test="${ginfo.grouptype eq 0}">
+	        	<div>女</div>
 	        	</c:if>
 	        </td>
-	        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要修改“${dinfo.departmentShortName }”的信息吗？',function(){updateDepart(${dinfo.id});});">修改</a> | 
-             <a href="#" onclick="Dialog.confirm('提示：您确认要删除“${dinfo.departmentShortName }”吗？',function(){delDepart(${dinfo.id});});">删除</a></div></td>
+	        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要修改“${ginfo.groupname }”的信息吗？',function(){updateDepart(${ginfo.id});});">修改</a> | 
+             <a href="#" onclick="Dialog.confirm('提示：您确认要删除“${ginfo.groupname }”吗？',function(){delDepart(${ginfo.id});});">删除</a></div></td>
 	      </tr>
       </c:forEach>
     </table>

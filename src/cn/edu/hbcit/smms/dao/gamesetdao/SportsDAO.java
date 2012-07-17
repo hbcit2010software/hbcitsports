@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.Department;
+import cn.edu.hbcit.smms.pojo.Group;
+import cn.edu.hbcit.smms.pojo.Group2Sports;
 import cn.edu.hbcit.smms.pojo.Sports;
 import cn.edu.hbcit.smms.pojo.Sports2department;
 
@@ -384,14 +386,41 @@ public class SportsDAO {
 		}
 		return list;
 	}
-	
+	/**
+	 * 获取所有组别信息
+	 * @return
+	 */
+	public ArrayList selectGroupInfo(){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,groupname,grouptype,groupsex FROM t_group";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Group gp = new Group();
+				gp.setId(rs.getInt(1));
+				gp.setGroupname(rs.getString(2));
+				gp.setGrouptype(rs.getInt(3));
+				gp.setGroupsex(rs.getInt(4));
+				list.add(gp);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取组别信息失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
 	/**
 	 * 获取指定届次的参赛部门ID
 	 * @return
 	 */
 	public ArrayList selectDepartmentInfo(int sportsId){
 		ArrayList list = new ArrayList();
-		String sql = "SELECT id,groupid FROM t_group2sports WHERE sportsid=?";
+		String sql = "SELECT id,departid FROM t_sports2department WHERE sportsid=?";
 		conn = db.getConn();
 		try{
 			pStatement = conn.prepareStatement(sql);
@@ -412,7 +441,33 @@ public class SportsDAO {
 		}
 		return list;
 	}
-	
+	/**
+	 * 获取指定届次的参赛组别ID
+	 * @return
+	 */
+	public ArrayList selectGroupInfo(int sportsId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,groupid FROM t_group2sports WHERE sportsid=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Group2Sports g2s = new Group2Sports();
+				g2s.setId(rs.getInt(1));
+				g2s.setGroupid(rs.getInt(2));
+				list.add(g2s);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取指定届次的参赛组别ID失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
 	/**
 	 * 将指定部门添加到指定运动会
 	 * @param sportsId

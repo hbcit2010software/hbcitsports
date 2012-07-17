@@ -1,9 +1,10 @@
 package cn.edu.hbcit.smms.pojo;
 
 public class Group {
-	int id;
-	String groupname;
-	int groupsex;
+	private int id;
+	private String groupname;
+	private int groupsex;
+	private int grouptype;
 	public int getId() {
 		return id;
 	}
@@ -22,7 +23,7 @@ public class Group {
 	public void setGroupsex(int groupsex) {
 		this.groupsex = groupsex;
 	}
-	int grouptype;
+	
 	public int getGrouptype() {
 		return grouptype;
 	}
