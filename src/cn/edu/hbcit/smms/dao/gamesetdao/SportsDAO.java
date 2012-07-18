@@ -136,6 +136,36 @@ public class SportsDAO {
 		return list;
 	}
 	/**
+	 * 获取指定ID的分组信息
+	 * @param int groupId
+	 * @return
+	 */
+	public ArrayList selectGroupInfoById(int groupId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,groupname,grouptype,groupsex FROM t_group WHERE id=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, groupId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Group gp = new Group();
+				gp.setId(rs.getInt(1));
+				gp.setGroupname(rs.getString(2));
+				gp.setGrouptype(rs.getInt(3));
+				gp.setGroupsex(rs.getInt(4));
+				list.add(gp);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取组别信息By ID失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	/**
 	 * 设置当前运动会
 	 * @param userId
 	 * @return
@@ -334,6 +364,38 @@ public class SportsDAO {
 		}
 		return flag;
 	}
+	/**
+	 * 修改组别信息By id
+	 * @param groupId
+	 * @param groupName
+	 * @param groupType
+	 * @param groupSex
+	 * @return
+	 */
+	public boolean updateGroup(int groupId, String groupName, int groupType, int groupSex){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "UPDATE t_group SET groupname=?,grouptype=?,groupsex=? WHERE id=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, groupName);
+			pStatement.setInt(2, groupType);
+			pStatement.setInt(3, groupSex);
+			pStatement.setInt(4, groupId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("修改分组信息失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 
 	/**
 	 * 删除指定ID运动会
@@ -387,6 +449,32 @@ public class SportsDAO {
 		}
 		return flag;
 	}
+	/**
+	 * 删除指定ID组别
+	 * @param groupId
+	 * @return
+	 */
+	public boolean removeGroup(int groupId){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_group WHERE id=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, groupId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("删除组别信息失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 	
 	/**
 	 * 获取所有部门信息
@@ -422,7 +510,7 @@ public class SportsDAO {
 	 */
 	public ArrayList selectGroupInfo(){
 		ArrayList list = new ArrayList();
-		String sql = "SELECT id,groupname,grouptype,groupsex FROM t_group";
+		String sql = "SELECT id,groupname,grouptype,groupsex FROM t_group ORDER BY groupname ASC";
 		conn = db.getConn();
 		try{
 			pStatement = conn.prepareStatement(sql);
@@ -527,6 +615,34 @@ public class SportsDAO {
 		return flag;
 	}
 	/**
+	 * 将指定组别添加到指定运动会
+	 * @param sportsId
+	 * @param groupId
+	 * @return
+	 */
+	public boolean addGroupToSports(int sportsId, int groupId){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "INSERT INTO t_group2sports (sportsid,groupid) VALUES(?,?)"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			pStatement.setInt(2, groupId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("将指定组别添加到指定运动会失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+	/**
 	 * 将指定部门从指定运动会移除
 	 * @param sportsId
 	 * @param departmentId
@@ -550,6 +666,34 @@ public class SportsDAO {
 			db.freeConnection(conn);
 		}catch(Exception e){
 			log.error("将指定部门从指定运动会移除失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+	/**
+	 * 将指定组别从指定运动会移除
+	 * @param sportsId
+	 * @param groupId
+	 * @return
+	 */
+	public boolean removeGroupToSports(int sportsId, int groupId){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_group2sports WHERE sportsid=? AND groupid=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			pStatement.setInt(2, groupId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("将指定组别从指定运动会移除失败！");
 			log.error(e.getMessage());
 		}
 		return flag;

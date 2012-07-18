@@ -38,44 +38,44 @@
 			diag.okButton.value="结果刷新";
 			diag.cancelButton.value="关闭";
 	}
-	//修改部门信息
-	function updateDepart(dpid){
+	//修改组别信息
+	function updateGroup(gpid){
 		var diag = new Dialog();
 			diag.Top =20;
 			diag.Width = 400;
 			diag.Height = 200;
-			diag.Title = "修改部门信息";
-			diag.URL = "${pageContext.request.contextPath }/servlet/GetDepartInfoByIdServlet?dpid="+dpid;
+			diag.Title = "修改分组信息";
+			diag.URL = "${pageContext.request.contextPath }/servlet/GetGroupInfoByIdServlet?gpid="+gpid;
 			diag.OKEvent = function(){
 				window.location.reload();
 				//diag.close();
 			};
 			diag.ShowCloseButton=false;
-			diag.MessageTitle = "修改部门信息提示：";
+			diag.MessageTitle = "修改分组信息提示：";
 			diag.Message = "填完各项内容后不要忘记先\"确认修改\"，然后才可关闭窗口";
 			diag.show();
 			diag.okButton.value="结果刷新";
 			diag.cancelButton.value="关闭";
 	}
-	//删除部门信息
-		function delDepart(dpid){
+	//删除组别信息
+		function delGroup(gpid){
 		$.ajax({
-			url :"${pageContext.request.contextPath }/servlet/RemoveDepartmentServlet",
+			url :"${pageContext.request.contextPath }/servlet/RemoveGroupServlet",
 			type : 'post',
-			data : 'dpid='+dpid,
+			data : 'gpid='+gpid,
 			success :function(mm){
 					var revalue=mm.replace(/\r\n/g,'');
 					if(revalue=="error"){
-						Dialog.alert("删除单位信息失败！",function(){window.location.reload();});
+						Dialog.alert("删除分组失败！",function(){window.location.reload();});
 					}
 					if(revalue=="success"){
-						Dialog.alert("删除单位信息成功！",function(){window.location.reload();});
+						Dialog.alert("删除分组成功！",function(){window.location.reload();});
 					}
 				}
 			});
 	}
-	//设置部门与运动会关系
-		function setDp2Sp(obj,dpid){
+	//设置组别与运动会关系
+		function setGp2Sp(obj,gpid){
 		var param;
 		if(obj.checked == true){
 			param = "add";
@@ -84,9 +84,9 @@
 		}
 		//alert(param);
 		$.ajax({
-			url :"${pageContext.request.contextPath }/servlet/SetDepartToSportsServlet",
+			url :"${pageContext.request.contextPath }/servlet/SetGroupToSportsServlet",
 			type : 'post',
-			data : 'dpid='+dpid+'&param='+param,
+			data : 'gpid='+gpid+'&param='+param,
 			success :function(mm){
 					var revalue=mm.replace(/\r\n/g,'');
 					if(revalue=="error"){
@@ -149,7 +149,7 @@
 	        		checked="checked" 
 	        		</c:if>
 	        		</c:forEach>
-	        		type="checkbox" name="depart" value="${ginfo.id }" onclick="setDp2Sp(this,${ginfo.id});" /></div>
+	        		type="checkbox" name="depart" value="${ginfo.id }" onclick="setGp2Sp(this,${ginfo.id});" /></div>
 	        		
 	        </td>
 	        <td><div>${ginfo.groupname }</div></td>
@@ -169,8 +169,8 @@
 	        	<div>女</div>
 	        	</c:if>
 	        </td>
-	        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要修改“${ginfo.groupname }”的信息吗？',function(){updateDepart(${ginfo.id});});">修改</a> | 
-             <a href="#" onclick="Dialog.confirm('提示：您确认要删除“${ginfo.groupname }”吗？',function(){delDepart(${ginfo.id});});">删除</a></div></td>
+	        <td><div><a href="#" onclick="Dialog.confirm('提示：您确认要修改“${ginfo.groupname }”的信息吗？',function(){updateGroup(${ginfo.id});});">修改</a> | 
+             <a href="#" onclick="Dialog.confirm('提示：您确认要删除“${ginfo.groupname }”吗？',function(){delGroup(${ginfo.id});});">删除</a></div></td>
 	      </tr>
       </c:forEach>
     </table>

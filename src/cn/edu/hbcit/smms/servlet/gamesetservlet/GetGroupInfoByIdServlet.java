@@ -2,39 +2,42 @@
 * Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
 *
 * 模块名称：     赛前设置
-* 子模块名称：   部门管理
+* 子模块名称：   组别管理
 *
 * 备注：
 *
 * 修改历史：
-* 2012-7-17	0.1		李玮		新建
+* 2012-7-18	0.1		李玮		新建
 */
 package cn.edu.hbcit.smms.servlet.gamesetservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.services.gamesetservices.SportsService;
 
 /**
- * 设置部门是否属于某届运动会类
+ * 获取组别信息by id类
  * 简要说明:
  * @author 李玮
- * @version 1.00  2012-7-17上午02:30:14	新建
+ * @version 1.00  2012-7-18下午07:41:42	新建
  */
 
-public class SetDepartToSportsServlet extends HttpServlet {
+public class GetGroupInfoByIdServlet extends HttpServlet {
 
+	protected final Logger log = Logger.getLogger(GetGroupInfoByIdServlet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
-	public SetDepartToSportsServlet() {
+	public GetGroupInfoByIdServlet() {
 		super();
 	}
 
@@ -76,32 +79,19 @@ public class SetDepartToSportsServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		HttpSession session = request.getSession();
 		SportsService ss = new SportsService();
-		boolean flag = false;
-		String sportsId = "0", departmentId, param;//运动会ID，部门ID，增删标识（add/del）
+		ArrayList list = new ArrayList();
+		String groupId = request.getParameter("gpid");
+		log.debug("组别ID：" + groupId);
+		list = ss.selectGroupInfoById(groupId);
 		
-		if(session.getAttribute("currSportsId") != null){
-			sportsId = ((Integer)session.getAttribute("currSportsId")).toString(); //获取登录时的当前运动会ID
-		}
-		
-		departmentId = request.getParameter("dpid");
-		param = request.getParameter("param");
-		//如果增删标识是add，则添加记录；若为del，则删除记录
-		if(param.equalsIgnoreCase("add")){
-			flag = ss.addDepartmentToSports(sportsId, departmentId);
-		}else if(param.equalsIgnoreCase("del")){
-			flag = ss.removeDepartmentToSports(sportsId, departmentId);
-		}
-		//
-		if(flag){
-			out.print("success");
+		if( list != null){
+			//log.debug("list not NULL !!!");
+			request.setAttribute("gpinfo", list);
+			request.getRequestDispatcher("/set_groupupdate.jsp").forward(request, response);
 		}else{
-			out.print("error");
+			log.debug("selectGroupInfoById(groupId)为NULL");
 		}
-		out.flush();
-		out.close();
 	}
 
 	/**

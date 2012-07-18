@@ -42,6 +42,18 @@ public class SportsService {
 		}
 	}
 	/**
+	 * 获取指定ID的分组信息
+	 * @param int groupId
+	 * @return
+	 */
+	public ArrayList selectGroupInfoById(String groupId){
+		if(ut.isNumeric(groupId)){
+			return sp.selectGroupInfoById(Integer.parseInt(groupId));
+		}else{
+			return null;
+		}
+	}
+	/**
 	 * 设置当前运动会
 	 * @param userId
 	 * @return boolean
@@ -99,6 +111,21 @@ public class SportsService {
 			return false;
 		}
 	}
+	/**
+	 * 修改组别信息By id
+	 * @param groupId
+	 * @param groupName
+	 * @param groupType
+	 * @param groupSex
+	 * @return
+	 */
+	public boolean updateGroup(String groupId, String groupName, String groupType, String groupSex){
+		if(ut.isNumeric(groupId) && ut.isNumeric(groupType) && ut.isNumeric(groupSex)){
+			return sp.updateGroup(Integer.parseInt(groupId), groupName, Integer.parseInt(groupType), Integer.parseInt(groupSex));
+		}else{
+			return false;
+		}
+	}
 	
 	/**
 	 * 删除指定id的运动会
@@ -120,6 +147,18 @@ public class SportsService {
 	public boolean removeDepartment(String departmentId){
 		if(ut.isNumeric(departmentId)){
 			return sp.removeDepartment(Integer.parseInt(departmentId));
+		}else{
+			return false;
+		}
+	}
+	/**
+	 * 删除指定ID组别
+	 * @param groupId
+	 * @return
+	 */
+	public boolean removeGroup(String groupId){
+		if(ut.isNumeric(groupId)){
+			return sp.removeGroup(Integer.parseInt(groupId));
 		}else{
 			return false;
 		}
@@ -203,6 +242,32 @@ public class SportsService {
 	public boolean removeDepartmentToSports(String sportsId, String departmentId){
 		if(ut.isNumeric(sportsId) && ut.isNumeric(departmentId)){
 			return sp.removeDepartmentToSports(Integer.parseInt(sportsId), Integer.parseInt(departmentId));
+		}else{
+			return false;
+		}
+	}
+	/**
+	 * 将指定组别添加到指定运动会
+	 * @param sportsId
+	 * @param groupId
+	 * @return
+	 */
+	public boolean addGroupToSports(int sportsId, String groupId){
+		if(ut.isNumeric(groupId)){
+			return sp.addGroupToSports(sportsId, Integer.parseInt(groupId));
+		}else{
+			return false;
+		}
+	}
+	/**
+	 * 将指定组别从指定运动会移除
+	 * @param sportsId
+	 * @param groupId
+	 * @return
+	 */
+	public boolean removeGroupToSports(int sportsId, String groupId){
+		if(ut.isNumeric(groupId)){
+			return sp.removeGroupToSports(sportsId, Integer.parseInt(groupId));
 		}else{
 			return false;
 		}
