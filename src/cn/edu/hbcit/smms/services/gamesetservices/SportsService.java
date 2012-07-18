@@ -2,11 +2,13 @@ package cn.edu.hbcit.smms.services.gamesetservices;
 
 import java.util.ArrayList;
 
+import cn.edu.hbcit.smms.dao.gamesetdao.ItemDAO;
 import cn.edu.hbcit.smms.dao.gamesetdao.SportsDAO;
 import cn.edu.hbcit.smms.util.UtilTools;
 
 public class SportsService {
 	SportsDAO sp = new SportsDAO();
+	ItemDAO item = new ItemDAO();
 	UtilTools ut = new UtilTools();
 	
 	/**
@@ -271,5 +273,38 @@ public class SportsService {
 		}else{
 			return false;
 		}
+	}
+	//2012-07-18 完成：运动会管理、参赛部门管理、分组管理 By 李玮
+	/**
+	 * 获取所有项目信息
+	 * @return
+	 */
+	public ArrayList selectItemInfo(){
+		return item.selectItemInfo();
+	}
+	/**
+	 * 获取指定某届运动会的组别信息:
+	 * 当届group2sports的id值、组别名称groupname
+	 * @return
+	 */
+	public ArrayList selectGroupOfSports(int sportsId){
+		return item.selectGroupOfSports(sportsId);
+	}
+	/**
+	 * 删除指定ID运动会的项目信息
+	 * @param sportsId
+	 * @return
+	 */
+	public boolean removeGroupToItem(int sportsId){
+		return item.removeGroupToItem(sportsId);
+	}
+	/**
+	 * 为t_group2item表插入数据构建SQL语句
+	 * INSERT INTO t_group2item (gp2spid,itemid,matchtype) VALUES (1,1,'3'), (1,2,'3')  插入多行
+	 * @param sourceArray 源字符串数组
+	 * @return
+	 */
+	public String getSqlOfInsertT_group2item(String[] sourceArray){
+		return item.getSqlOfInsertT_group2item(sourceArray);
 	}
 }

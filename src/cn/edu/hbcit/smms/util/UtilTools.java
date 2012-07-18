@@ -12,6 +12,8 @@
 */
 package cn.edu.hbcit.smms.util;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
@@ -54,6 +56,30 @@ public class UtilTools {
 			log.error("toChinese"+e.getMessage());
 		}
 		return text;
+	}
+	
+	/**
+	 * 将字符串数组中的指定内容删除
+	 * @param sourceArray 未处理的字符串数组
+	 * @param removeTarget 指定要删除的字符串
+	 * @return
+	 */
+	public String[] removeElementsFromStringArray(String[] sourceArray, String removeTarget){
+		List<String> list = new LinkedList<String>();
+		for(int i = 0; i < sourceArray.length; i++){
+			if(!sourceArray[i].equals(removeTarget)){
+				list.add(sourceArray[i]);
+			}
+		}
+		String[] rst = list.toArray(new String[0]);
+		/*
+		for(int i = 0; i < rst.length; i++){
+			log.debug(rst[i]);
+		}
+		*/
+		log.debug("删除后数组长度："+rst.length + "；原数组长度："+sourceArray.length);
+		
+		return rst;
 	}
 	
 

@@ -29,7 +29,7 @@ import cn.edu.hbcit.smms.pojo.Sports2department;
  * 运动会管理类
  *
  * 本类的简要描述：
- * 负责运动会赛前管理
+ * 负责运动会赛前管理——运动会管理、参赛部门管理、分组管理
  *
  * @author 李玮
  * @version 1.00  2012-6-19 新建类
