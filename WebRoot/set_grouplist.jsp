@@ -19,20 +19,20 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
-		//添加部门
-	function addDepart(){
+		//添加组别
+	function addGroup(){
 		var diag = new Dialog();
 			diag.Top =20;
 			diag.Width = 400;
 			diag.Height = 200;
-			diag.Title = "添加新单位";
-			diag.URL = "${pageContext.request.contextPath }/set_departmentcreate.jsp";
+			diag.Title = "添加新分组";
+			diag.URL = "${pageContext.request.contextPath }/set_groupcreate.jsp";
 			diag.OKEvent = function(){
 				window.location.reload();
 				//diag.close();
 			};
 			diag.ShowCloseButton=false;
-			diag.MessageTitle = "添加新单位提示：";
+			diag.MessageTitle = "添加新分组提示：";
 			diag.Message = "填完各项内容后不要忘记先\"确认添加\"，然后才可关闭窗口";
 			diag.show();
 			diag.okButton.value="结果刷新";
@@ -116,7 +116,7 @@
             </table></td>
             <td>
             <div align="right"><span class="pageTitle">
-              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addDepart();">添加新分组</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addGroup();">添加新分组</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
             </div>
             </td>
           </tr>
@@ -162,10 +162,10 @@
                 </c:if>
             </td>
 	        <td>
-	        	<c:if test="${ginfo.grouptype eq 1}">
+	        	<c:if test="${ginfo.groupsex eq 1}">
 	        	<div>男</div>
 	        	</c:if>
-	        	<c:if test="${ginfo.grouptype eq 0}">
+	        	<c:if test="${ginfo.groupsex eq 0}">
 	        	<div>女</div>
 	        	</c:if>
 	        </td>

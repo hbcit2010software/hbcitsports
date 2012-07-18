@@ -168,6 +168,20 @@ public class SportsService {
 		}
 	}
 	/**
+	 * 新增组别
+	 * @param groupName
+	 * @param groupType
+	 * @param groupSex
+	 * @return
+	 */
+	public boolean addGroup(String groupName, String groupType, String groupSex){
+		if(ut.isNumeric(groupType) && ut.isNumeric(groupSex)){
+			return sp.addGroup(groupName, Integer.parseInt(groupType), Integer.parseInt(groupSex));
+		}else{
+			return false;
+		}
+	}
+	/**
 	 * 将指定部门添加到指定运动会
 	 * @param sportsId
 	 * @param departmentId

@@ -35,44 +35,32 @@
 			
 		</style>
         <script language="JavaScript">
-        function addDepartment()
+        function addGroup()
 		{
 			var reg=/["']/;
-			if($('#dpname').val() == "")
+			if($('#gpname').val() == "")
 			{
-				Dialog.alert("请填写单位名称全称!");
+				Dialog.alert("请填写组别名称!");
 				return false;
 			}
 			//
-			if(reg.test($('#dpname').val()))
+			if(reg.test($('#gpname').val()))
 			{
-				Dialog.alert("单位名称全称中请不要包含半角单引号或双引号!");
-				return false;
-			}
-			//
-			if($('#dpshortname').val() == "")
-			{
-				Dialog.alert("请填写单位名称简称!");
-				return false;
-			}
-			//
-			if(reg.test($('#dpshortname').val()))
-			{
-				Dialog.alert("单位名称简称中请不要包含半角单引号或双引号!");
+				Dialog.alert("组别名称中请不要包含半角单引号或双引号!");
 				return false;
 			}
 			//ajax提交
 			$.ajax({
-			url :"${pageContext.request.contextPath }/servlet/AddDepartmentServlet",
+			url :"${pageContext.request.contextPath }/servlet/AddGroupServlet",
 			type : 'post',
-			data : 'dpname='+$('#dpname').val()+'&dpsname='+$('#dpshortname').val()+'&dptype='+$('#dptype').val(),
+			data : 'gn='+$('#gpname').val()+'&gt='+$('#gptype').val()+'&gs='+$('#sextype').val(),
 			success :function(mm){
 					var revalue=mm.replace(/\r\n/g,'');
 					if(revalue=="error"){
-						Dialog.alert("添加新单位失败!",function(){window.location.reload();});
+						Dialog.alert("添加新分组失败!",function(){window.location.reload();});
 					}
 					if(revalue=="success"){
-						Dialog.alert("添加新单位成功!",function(){window.location.reload();});
+						Dialog.alert("添加新分组成功!",function(){window.location.reload();});
 					}
 				}
 			});

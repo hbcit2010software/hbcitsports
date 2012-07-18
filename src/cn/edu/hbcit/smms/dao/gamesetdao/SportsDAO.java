@@ -235,7 +235,37 @@ public class SportsDAO {
 		}
 		return flag;
 	}
-	
+
+	/**
+	 * 新增组别
+	 * @param groupName
+	 * @param groupType
+	 * @param groupSex
+	 * @return
+	 */
+	public boolean addGroup(String groupName, int groupType, int groupSex){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "INSERT INTO t_group (groupname,grouptype,groupsex) VALUES(?,?,?)"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, groupName);
+			pStatement.setInt(2, groupType);
+			pStatement.setInt(3, groupSex);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("添加新组别失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 	/**
 	 * 修改运动会By id
 	 * @param id
