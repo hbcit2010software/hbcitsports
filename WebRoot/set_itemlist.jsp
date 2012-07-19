@@ -128,7 +128,11 @@ if(request.getAttribute("msg") != null){
 
 <div align="center">
 	<span class="pageJump">
-		<input type="submit" value="确  认"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重  置"/>
+		<input type="submit" value="确  认"/>
+		<!-- 
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="reset" value="重  置"/>
+		 -->
 	</span>
 </div>
 </form>
