@@ -307,4 +307,23 @@ public class SportsService {
 	public String getSqlOfInsertT_group2item(String[] sourceArray){
 		return item.getSqlOfInsertT_group2item(sourceArray);
 	}
+
+	/**
+	 * 插入项目与组别的关联信息（t_group2item）
+	 * @param sql 已构建好的insert语句
+	 * @return
+	 */
+	public boolean addGroupToItem(String sql){
+		return item.addGroupToItem(sql);
+	}
+	/**
+	 * 获取t_group2item中符合本届运动会的数量
+	 * @param sportsId
+	 * @return
+	 */
+	public int countGroupToItem(int sportsId){
+		return item.countGroupToItem(sportsId);
+	}
+	
+	
 }

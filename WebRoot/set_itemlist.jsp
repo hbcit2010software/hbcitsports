@@ -19,10 +19,17 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
+
 </script>
 </head>
 
 <body>
+<%
+//如果有后台消息传来，则在前台页面弹出提示窗口
+if(request.getAttribute("msg") != null){
+	out.print("<script type='text/javascript'>Dialog.alert('"+(String)request.getAttribute("msg")+"');</script>");
+}
+%>
 <form method="post" action="${pageContext.request.contextPath }/servlet/AddGroupToItemServlet" name="form01">
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
