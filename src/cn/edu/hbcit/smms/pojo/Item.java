@@ -3,11 +3,11 @@ package cn.edu.hbcit.smms.pojo;
  * @version 2012-7-18下午10:32:07	修改 BY 李玮
  */
 public class Item {
+	private int id;
+	private int itemid;
 	private String itemname;
 	private int itemtype;
 	private int scoreformatid;
-	private int id;
-	private int itemid;
 	
 	public String getItemname() {
 		return itemname;

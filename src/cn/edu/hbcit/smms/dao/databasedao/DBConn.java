@@ -49,6 +49,37 @@ public class DBConn {
      * freeConnection     
      * @param conn     
      */
+	public void freeConnection(ResultSet myrs, PreparedStatement myps, Connection myconn){
+        if(myconn!=null && myps!=null && myrs!=null){
+            try {
+            	myrs.close();
+            	myps.close();
+            	myconn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+	/**     
+     * 释放连接     
+     * freeConnection     
+     * @param conn     
+     */
+	public void freeConnection(PreparedStatement myps, Connection myconn){
+        if(myconn!=null && myps!=null){
+            try {
+            	myps.close();
+            	myconn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+	/**     
+     * 释放连接     
+     * freeConnection     
+     * @param conn     
+     */
 	public void freeConnection(Connection conn){
         if(conn!=null){
             try {
@@ -58,7 +89,6 @@ public class DBConn {
             }
         }
     }
-	
 	/**
 	 * 关闭数据库连接
 	 */

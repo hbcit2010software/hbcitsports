@@ -64,6 +64,7 @@ public class GetItemInfoServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ArrayList item = new ArrayList();
 		ArrayList group = new ArrayList();
+		ArrayList group2item = new ArrayList();
 		
 		int sportsId = 0;
 		SportsService ss = new SportsService();
@@ -73,9 +74,11 @@ public class GetItemInfoServlet extends HttpServlet {
 		}
 		item = ss.selectItemInfo();
 		group = ss.selectGroupOfSports(sportsId);
+		group2item = ss.selectItemStringOfSports(sportsId);
 		
 		request.setAttribute("iteminfo", item);
 		request.setAttribute("groupinfo", group);
+		request.setAttribute("group2item", group2item);
 		request.getRequestDispatcher("/set_itemlist.jsp").forward(request, response);
 	}
 

@@ -1,10 +1,12 @@
 package cn.edu.hbcit.smms.pojo;
 
+//李玮 2012-07-19 修改
 public class Group2itemPojo {
 	private int id ;
 	private int gp2spid;
 	private int itemid;
 	private String matchtype;
+	private String gp2spidItemidMatchtype; //连接三字段
 	
 	public int getId() {
 		return id;
@@ -29,6 +31,18 @@ public class Group2itemPojo {
 	}
 	public void setMatchtype(String matchtype) {
 		this.matchtype = matchtype;
+	}
+	/**
+	 * @return the gp2spidItemidMatchtype
+	 */
+	public String getGp2spidItemidMatchtype() {
+		return gp2spidItemidMatchtype;
+	}
+	/**
+	 * @param gp2spidItemidMatchtype the gp2spidItemidMatchtype to set
+	 */
+	public void setGp2spidItemidMatchtype(String gp2spidItemidMatchtype) {
+		this.gp2spidItemidMatchtype = gp2spidItemidMatchtype;
 	}
 
 }

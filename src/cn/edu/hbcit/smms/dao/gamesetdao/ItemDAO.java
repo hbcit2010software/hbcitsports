@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.Group;
+import cn.edu.hbcit.smms.pojo.Group2itemPojo;
 import cn.edu.hbcit.smms.pojo.Item;
 
 /**
@@ -202,6 +203,35 @@ public class ItemDAO {
 			log.error(e.getMessage());
 		}
 		return rst;
+	}
+	/**
+	 * 获取指定某届运动会的项目信息:
+	 * 当届gp2spid、itemid、matchtype，用,连接
+	 * 如："9,1,2"
+	 * @return
+	 */
+	public ArrayList selectItemStringOfSports(int sportsId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT t_group2item.gp2spid,t_group2item.itemid,t_group2item.matchtype FROM t_group2item,t_group2sports WHERE t_group2sports.id=t_group2item.gp2spid AND t_group2sports.sportsid=?";
+		conn = db.getConn();
+		String gp2spidItemidMatchtype = "";
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Group2itemPojo gi = new Group2itemPojo();
+				gp2spidItemidMatchtype =Integer.toString(rs.getInt(1)) + "," + Integer.toString(rs.getInt(2)) + "," + Integer.toString(rs.getInt(3));
+				log.debug("gp2spidItemidMatchtype连接后的串为："+gp2spidItemidMatchtype);
+				gi.setGp2spidItemidMatchtype(gp2spidItemidMatchtype);
+				list.add(gi);
+			}
+			db.freeConnection(rs,pStatement,conn);
+		}catch(Exception e){
+			log.error("获取指定某届运动会的项目信息失败！");
+			log.error(e.getMessage());
+		}
+		return list;
 	}
 	
 }

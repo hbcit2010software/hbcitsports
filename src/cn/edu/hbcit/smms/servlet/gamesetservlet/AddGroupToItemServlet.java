@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import cn.edu.hbcit.smms.services.gamesetservices.SportsService;
 import cn.edu.hbcit.smms.util.UtilTools;
 
@@ -34,6 +36,7 @@ import cn.edu.hbcit.smms.util.UtilTools;
 
 public class AddGroupToItemServlet extends HttpServlet {
 
+	protected final Logger log = Logger.getLogger(AddGroupToItemServlet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
@@ -90,6 +93,11 @@ public class AddGroupToItemServlet extends HttpServlet {
 		UtilTools ut = new UtilTools();
 		
 		itemInfo = request.getParameterValues("iteminfo");
+		
+//		for(int i=0;i<itemInfo.length;i++){
+//			log.debug(itemInfo[i]);
+//		}
+		
 		if(itemInfo != null && itemInfo.length!=0){
 			//将前台传来的所有信息中的“未选择”（"0"）过滤掉
 			currentItem = ut.removeElementsFromStringArray(itemInfo, "0");

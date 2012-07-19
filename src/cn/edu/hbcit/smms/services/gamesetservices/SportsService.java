@@ -324,6 +324,15 @@ public class SportsService {
 	public int countGroupToItem(int sportsId){
 		return item.countGroupToItem(sportsId);
 	}
+	/**
+	 * 获取指定某届运动会的项目信息:
+	 * 当届gp2spid、itemid、matchtype，用,连接
+	 * 如："9,1,2"
+	 * @return
+	 */
+	public ArrayList selectItemStringOfSports(int sportsId){
+		return item.selectItemStringOfSports(sportsId);
+	}
 	
 	
 }

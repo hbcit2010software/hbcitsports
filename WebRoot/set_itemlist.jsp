@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -21,16 +22,46 @@
 		});
 
 </script>
+<script type="text/javascript">
+function checkItem(){
+
+	var strGI=new Array();
+	<c:forEach var="gi" items="${group2item}" varStatus="countItem">
+		strGI[${countItem.count - 1}]="${gi.gp2spidItemidMatchtype}";
+	</c:forEach>
+	var mylist = document.getElementsByName("iteminfo");
+	//alert(mylist[0].options[1].value);
+	for(var i=0; i<mylist.length; i++){
+		for(var j=0; j<strGI.length; j++){
+			for(var k=0; k<3; k++){
+				if(mylist[i].options[k].value==strGI[j]){
+					//alert(mylist[i].options[k].value);
+					mylist[i].options[k].selected=true;
+					mylist[i].style.borderColor="#F00";
+				}
+			}
+		}
+	}
+}
+function changeBorder(obj){
+//alert(obj.options[1].selected);
+	if(obj.options[1].selected == true || obj.options[2].selected == true){
+		obj.style.borderColor="#F00";
+	}else{
+		obj.style.borderColor="#CCC";
+	}
+}
+</script>
 </head>
 
-<body>
+<body onLoad="checkItem();">
+<form method="post" action="${pageContext.request.contextPath }/servlet/AddGroupToItemServlet" name="form01">
 <%
 //如果有后台消息传来，则在前台页面弹出提示窗口
 if(request.getAttribute("msg") != null){
 	out.print("<script type='text/javascript'>Dialog.alert('"+(String)request.getAttribute("msg")+"');</script>");
 }
 %>
-<form method="post" action="${pageContext.request.contextPath }/servlet/AddGroupToItemServlet" name="form01">
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -77,11 +108,13 @@ if(request.getAttribute("msg") != null){
 	        </td>
 	        <c:forEach var="ginfo2" items="${groupinfo}">
 		        <td><div>
-		          <select name="iteminfo" id="select">
-		            <option value="0">未选择</option>
-		            <option value="${ginfo2.id},${iinfo.id},1">预决赛</option>
-		            <option value="${ginfo2.id},${iinfo.id},2">预+决</option>
-		          </select>
+		        
+			          <select name="iteminfo" id="${ginfo2.id}${iinfo.id}" style="border-style:solid; border-color:#CCC" onchange="changeBorder(this);">
+			            <option value="0">未选择</option>
+			            <option value="${ginfo2.id},${iinfo.id},1">预决赛</option>
+			            <option value="${ginfo2.id},${iinfo.id},2">预+决</option>
+			          </select>
+
 		        </div></td>
 	        </c:forEach>
 	        </tr>
