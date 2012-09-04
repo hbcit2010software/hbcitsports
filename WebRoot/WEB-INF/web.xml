@@ -472,6 +472,58 @@
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.AddGroupToItemServlet</servlet-class>
   </servlet>
 
+<servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameManageCheckTableGetGroupServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTableGetGroupServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameManageCheckTableGetItemServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTableGetItemServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameManageCheckTableGetItemType</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTableGetItemType</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameManageCheckTableGetItemTypeServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTableGetItemTypeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameManageCheckTableIsBeforeCompeteScoreServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTableIsBeforeCompeteScoreServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameManageCheckTableFinalmatchServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTableFinalmatchServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameManageCheckTableGetScanServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTableGetScanServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameManageCheckTablePrintScanServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTablePrintScanServlet</servlet-class>
+  </servlet>
+
+
+
+
 
 
 
@@ -798,6 +850,50 @@
   <servlet-mapping>
     <servlet-name>AddGroupToItemServlet</servlet-name>
     <url-pattern>/servlet/AddGroupToItemServlet</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>     
+   <servlet-name>Admin</servlet-name>     
+   <url-pattern>/admin</url-pattern>     
+</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/servlet/LoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>VerifyCodeServlet</servlet-name>
+    <url-pattern>/patchca.png</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameManageCheckTableGetGroupServlet</servlet-name>
+    <url-pattern>/servlet/GameManageCheckTableGetGroupServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameManageCheckTableGetItemServlet</servlet-name>
+    <url-pattern>/servlet/GameManageCheckTableGetItemServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameManageCheckTableGetItemType</servlet-name>
+    <url-pattern>/servlet/GameManageCheckTableGetItemTypeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameManageCheckTableGetItemTypeServlet</servlet-name>
+    <url-pattern>/servlet/GameManageCheckTableGetItemTypeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameManageCheckTableIsBeforeCompeteScoreServlet</servlet-name>
+    <url-pattern>/servlet/GameManageCheckTableIsBeforeCompeteScoreServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameManageCheckTableFinalmatchServlet</servlet-name>
+    <url-pattern>/servlet/GameManageCheckTableFinalmatchServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameManageCheckTableGetScanServlet</servlet-name>
+    <url-pattern>/servlet/GameManageCheckTableGetScanServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameManageCheckTablePrintScanServlet</servlet-name>
+    <url-pattern>/servlet/GameManageCheckTablePrintScanServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
