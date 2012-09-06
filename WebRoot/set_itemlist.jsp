@@ -76,7 +76,10 @@ if(request.getAttribute("msg") != null){
             </table></td>
             <td>
             <div align="right"><span class="pageTitle">
+            红色方框代表当前运动会已选择的项目
+            <!--  
               <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF">添加新运动会</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+            -->  
             </div>
             </td>
           </tr>
