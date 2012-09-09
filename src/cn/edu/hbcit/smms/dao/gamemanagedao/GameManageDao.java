@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
+import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.pojo.GameManagePoJo;
 
 /**
@@ -15,7 +16,9 @@ import cn.edu.hbcit.smms.pojo.GameManagePoJo;
  * 赛中管理--------->成绩管理--------->数据库操作类
  * 
  * @author 刘然
- *@version 1.00  2012/06/13 新規作成<br>
+ * @version 1.00  2012/06/13 新規作成<br>
+ *
+ * 修改bug  刘然        2012/09/09
  */
 public class GameManageDao {
 
@@ -27,16 +30,20 @@ public class GameManageDao {
 	/**
      * 获取本届运动会组别
      * @return groupList
+     * 刘然     修改bug     2012-9-6  17:20
      */
-	public ArrayList getGroup()
+	public ArrayList<GameManagePoJo> getGroup()
 	{
 		DBConn db = new DBConn();
-		ArrayList groupList = new ArrayList();
+		LoginDAO ld = new LoginDAO();
+		int sportsid = ld.selectCurrentSportsId();
+		ArrayList<GameManagePoJo> groupList = new ArrayList<GameManagePoJo>();
 		try{
 			conn = db.getConn();
 			if(!conn.equals(""))
 			{
-				pstmt = conn.prepareStatement(" SELECT * FROM t_group ");
+				pstmt = conn.prepareStatement(" SELECT * FROM t_group where id in (select groupid from t_group2sports where sportsid=?)");
+				pstmt.setInt(1, sportsid);
 				rs = pstmt.executeQuery();
 				int c = rs.getMetaData().getColumnCount();
 				while(rs.next())
@@ -85,18 +92,23 @@ public class GameManageDao {
 	/**
      * 获取本届运动会拆分后的项目名称
      * @return finalItemList
+     * 刘然     修改bug     2012-9-6  17:28
      */
-	public ArrayList getFinalItem(int groupid)
+	public ArrayList<GameManagePoJo> getFinalItem(int groupid)
 	{
+		LoginDAO ld = new LoginDAO();
+		int sportsid = ld.selectCurrentSportsId();
+		
 		DBConn db = new DBConn();
-		ArrayList finalItemList = new ArrayList();
+		ArrayList<GameManagePoJo> finalItemList = new ArrayList<GameManagePoJo>();
 		try{
 			conn = db.getConn();
 			if(!conn.equals(""))
 			{
 				pstmt = conn.prepareStatement("SELECT * FROM t_finalitem where gp2itid IN (SELECT id FROM t_group2item where gp2spid=(SELECT id FROM t_group2sports where groupid=? " +
-						"and sportsid=(SELECT id FROM t_sports ORDER BY sportsbegin+0 DESC LIMIT 0,1)))");
+						"and sportsid=?))");
 				pstmt.setInt(1, groupid);
+				pstmt.setInt(2, sportsid);
 				rs = pstmt.executeQuery();
 				int c = rs.getMetaData().getColumnCount();
 				System.out.println("rs.getRow()=============="+rs.getRow());
@@ -123,10 +135,10 @@ public class GameManageDao {
      * 获取运动员信息名单
      * @return athleteList
      */
-	public ArrayList getAthleteList(int finalItemId,String itemType)
+	public ArrayList<GameManagePoJo> getAthleteList(int finalItemId,String itemType)
 	{
 		DBConn db = new DBConn();
-		ArrayList athleteList = new ArrayList();
+		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		try{
 			conn = db.getConn();
 			String sql1 = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match "+ 
@@ -235,10 +247,10 @@ public class GameManageDao {
      * 获取运动员基本信息
      * @return flag
      */
-	public ArrayList getPlayerList(int playerNum,int finalItemId)
+	public ArrayList<GameManagePoJo> getPlayerList(int playerNum,int finalItemId)
 	{
 		DBConn db = new DBConn();
-		ArrayList playerList = new ArrayList();
+		ArrayList<GameManagePoJo> playerList = new ArrayList<GameManagePoJo>();
 		try{
 			conn = db.getConn();
 			if(!conn.equals(" "))
@@ -318,10 +330,10 @@ public class GameManageDao {
      * 根据项目打印本项目的word文档
      * @return flag
      */
-	public ArrayList createWordOfAthleteInf(int finalItemId,String itemType)
+	public ArrayList<GameManagePoJo> createWordOfAthleteInf(int finalItemId,String itemType)
 	{
 		    DBConn db = new DBConn();
-		    ArrayList athleteList = new ArrayList();
+		    ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		    try{
 		    	conn = db.getConn();
 				String sql1 = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match  "+ 

@@ -14,16 +14,17 @@ package cn.edu.hbcit.smms.servlet.gamemanageservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.lowagie.text.DocumentException;
 
+import cn.edu.hbcit.smms.pojo.GameManagePoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageServices;
 
 /*
@@ -72,10 +73,9 @@ public class GameManageCreateWordOfAthleteInfServle extends HttpServlet {
 		response.setDateHeader("Expires", 0);
 		response.setContentType("text/html;utf-8");
 		response.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();		
 		
-		ArrayList athleteList = new ArrayList();
+		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		String finalItemId = request.getParameter("finalItemId");		
 		System.out.print("-------------------------finalItemsss"+finalItemId);
 		GameManageServices gm = new GameManageServices();
@@ -84,8 +84,10 @@ public class GameManageCreateWordOfAthleteInfServle extends HttpServlet {
         
 		//获取服务器路径  
 		String file = request.getSession().getServletContext().getRealPath("/");
-		session.setAttribute(file, file);
-		System.out.print("------file获取服务器路径  -------------------" + file);
+		
+		//String file = request.getContextPath()+"/";
+		//request.setAttribute(file, "file");
+		//System.out.print("------file获取服务器路径  -------------------" + file);
 		
 		//*********************************读取桌面路径，获取当前系统桌面的路径
 		/*javax.swing.filechooser.FileSystemView fsv = javax.swing.filechooser.FileSystemView.getFileSystemView(); 
@@ -96,16 +98,19 @@ public class GameManageCreateWordOfAthleteInfServle extends HttpServlet {
 		if((!fileName.equals("")) && (athleteList.size() !=0))
 		{			
 		   try{
-		        gm.createDocContext(file,fileName,athleteList);
+		        gm.createDocContext(file,fileName,athleteList); 
+		        
 		      }catch(DocumentException d)
 		            {
 			        d.printStackTrace();
 		            }
 		      StringBuffer buffer = new StringBuffer();
 		      String fileName1 = fileName + "成绩单.doc";
+		      System.out.println(file+fileName1);
 		        buffer.append("{");
 				buffer.append("\"contents\":[");
 				buffer.append("{");
+				buffer.append("\"file\":\"" + URLEncoder.encode(file,"UTF-8") + "\",");
 			    buffer.append("\"fileName1\":\"" + fileName1 + "\"");
 			    buffer.append("}");
 			    buffer.append("]");

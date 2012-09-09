@@ -73,11 +73,15 @@ function checkSelected()
 		              inhtml += "<td height='20'><div>破纪录</div></td>";
 		              inhtml += "<td height='20'><div>部门名称 </div></td>";                    
 		              inhtml += "<td height='20'><div>基本操作</div></td></tr>"; 
-	                                                               
-		              for (i = 0; i < json.contents.length; i++) {
+	                 if(json.contents.length <= 0){
+					      alert("数据库记录数为"+json.contents.length+"条");
+					    inhtml += "<tr><td height='40' colspan='8'><div style='color:red; text-align:center; font-style:bold' background='green'>数据库中无记录，请重新查询！！！</div></td></tr>";
+					       }                                            
+		             else{ 
+		                  //alert("数据库记录数为"+json.contents.length+"条");
+		                  for (i = 0; i < json.contents.length; i++) {
 
-						
-                        inhtml += "<tr><td height='20'><div>"+ json.contents[i].playernum +"</div></td>";
+						inhtml += "<tr><td height='20'><div>"+ json.contents[i].playernum +"</div></td>";
                         inhtml += "<td height='20'><div>"+ json.contents[i].playername +"</div></td>";
                         inhtml += "<td height='20'><div>"+ json.contents[i].playersex +"</div></td>";
                         inhtml += "<td height='20'><div>"+ json.contents[i].score +"</div></td>";                                                                    
@@ -86,7 +90,9 @@ function checkSelected()
 		                inhtml += "<td height='20'><div>"+ json.contents[i].departname +"</div></td>";
                         inhtml += "<td height='20'><div><a href='#' onclick='deletePlayer("+ json.contents[i].playernum +")'>删除</a>&nbsp;&nbsp;</div></td></tr>";
 					} 
-                               $('.playertable').html(inhtml);    
+                                 
+               }
+                        $('.playertable').html(inhtml);  
                },
                error : function(xhr, status, errorThrown) {
 					alert("errorThrown=" + errorThrown);
@@ -115,7 +121,7 @@ function getPlayerInf()
 				data : 'playerNum=' + playerNum + '&finalItemId=' + finalItemId,
 				success : function(json) {
 					var inhtml = "";
-					if(json !="数据库中连接错误")
+					if(json.contents.length > 0)
                      {                 
 		              for (i = 0; i < json.contents.length; i++) {
                                              
@@ -150,10 +156,10 @@ function getPlayerInf()
                                $('.playertable1').html(inhtml);
                                $('.playertable1').toggle("slow");
                    }
-                         else{ alert(json); }      
+                         else{ alert("此运动员可能没在此项目中，请核实运动员的组别及选择的项目并选择相应的项目再输入此运动员编号进行查询"); }      
                },
 				error : function(xhr, status, errorThrown) {
-					alert("此运动员没在此项目中，请核实运动员的部门并选择相应的项目名称再输入此运动员编号进行查询");
+					alert("此运动员可能没在此项目中，请核实运动员的组别及选择的项目并选择相应的项目再输入此运动员编号进行查询");
 				}
 			});
     }
@@ -229,7 +235,7 @@ function getPlayerInf()
   
   function createWordOfAthleteInf()
   {
-           var finalItemId = $("#finalitem").find("option:selected").val();
+           var finalItemId = $("#finalitem").find("option:selected").val()
            if(finalItemId != '0')
            {
            $.ajax({
@@ -247,7 +253,7 @@ function getPlayerInf()
 				 for(i=0;i<json.contents.length;i++)	
 				 {		
 				   alert(json.contents[i].fileName1);
-				   inhtml = "<a href='gamemanageathleteupload.jsp?filePath="+ encodeURI(json.contents[i].fileName1) +"'>"+ json.contents[i].fileName1 +"</a>";
+				   inhtml = "<a href='download.jsp?file="+json.contents[i].file+"&fileName="+ encodeURIComponent(encodeURIComponent(json.contents[i].fileName1)) +"'>"+ json.contents[i].fileName1 +"</a>";
                    $("#aOfUpload").html(inhtml);
                  }  
                }, 
@@ -301,7 +307,9 @@ function getPlayerInf()
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="text" align="right" id="playerNum" style=" color:#CCCCCC" value="请输入您要查找的号码" onfocus="if (value =='请输入您要查找的号码'){value =''};this.style.color='black'" onblur="if (value ==''){value='请输入您要查找的号码'};this.style.color='gray';"/>     
 		<input type="button" value="按号码查询" onclick="getPlayerInf()">
-		</div></td></tr>
+		<a href="#" onclick="alert('输入运动员编号前，请先确认此运动员所属的组别及项目，选定组别及项目菜单后才能实现查询！！！');" style="font-size:12px">友情提示,请点击这里</a>
+		</div>
+		</td></tr>
   	<tr><td>
     <!--内嵌表格begin-->
      <table width="100%"   cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">

@@ -51,11 +51,11 @@ public class GameManageGetPlayerInfByPlayerNum extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		StringBuffer buffer = new StringBuffer();
-		ArrayList playerInfList = new ArrayList();
+		ArrayList<GameManagePoJo> playerInfList = new ArrayList<GameManagePoJo>();
 		
 		String playerNum = request.getParameter("playerNum");		
 		String finalItemId = request.getParameter("finalItemId");
-		String infNull = " ";
+		String infNull = "";
 		
 		if(!playerNum.equals(""))
 		{
@@ -64,8 +64,6 @@ public class GameManageGetPlayerInfByPlayerNum extends HttpServlet {
 		    
 		    buffer.append("{");
 			buffer.append("\"contents\":[");		   
-		    if(playerInfList.size()>0)
-		    {
 		    for(int i = 0;i<playerInfList.size();i++)
 		    {
 		    	GameManagePoJo pj = (GameManagePoJo)playerInfList.get(i);
@@ -86,12 +84,7 @@ public class GameManageGetPlayerInfByPlayerNum extends HttpServlet {
 				buffer.append("\"departname\":\"" + pj.getDepartname() + "\"");
 				System.out.println("Departname==============================="+pj.getDepartname());
 				buffer.append("}");
-		    	
-		    }}
-        else{
-        	  buffer.append("数据库中无此记录");
-      	      out.println(buffer);
-		       }
+		     }
 		    buffer.append("]");
 			buffer.append("}");
 			out.println(buffer);

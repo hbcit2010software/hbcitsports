@@ -1,28 +1,59 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-    <title>Д╦▀Х╫╫</title>
-  </head>
-  <body>
-  <jsp:useBean id="hehe" class="com.jspsmart.upload.SmartUpload">
-  
-  </jsp:useBean>
-  
-  <%
-   if(request.getParameter("name")!=null){ 
-  try{
- 
-  hehe.initialize(pageContext);
-  hehe.setContentDisposition(null);
-  String file=""+request.getSession().getServletContext().getAttribute("path");
-  hehe.downloadFile(file);
-  }catch(Exception e){
-  out.println("<script>alert('Ф√┤Д╩╤Д╦▀Х╫╫Е╓╠Х╢╔О╪ Х╞╥Фё─Ф÷╔И─┴Ф▀╘Г └Ф√┤Д╩╤Ф≤╞Е░╕Е╜≤Е°╗?')</script>");
-  }
-    }
-   %> 
- 
-   <input type="button" value="Д╦▀Х╫╫" name="download"/>  
-  </body>
-</html>
+<%@page language="java" import="java.net.URLEncoder,java.io.*,java.net.URLDecoder" contentType="application/x-msdownload" pageEncoding="gb2312"%>   
+<!-- ╢крЁцФсцсзобтьй╠й╣ожё╛й╧сцнд╪ЧаВ╥╫й╫обтьвйт╢        -->
+<!-- пч╦дbug  аУх╩       2012/09/09       -->
+<%    
+		  //╧ьсзнд╪Чобтьй╠╡исцнд╪ЧаВйДЁЖ╣д╥╫й╫╢╕юМё╨    
+		  //╪сиоresponse.reset()ё╛╡╒гркЫсп╣дё╔>╨СцФ╡╩р╙╩╩ппё╛╟Эю╗вН╨Ср╩╦Жё╩    
+		   
+		  response.reset();//©ирт╪ср╡©ирт╡╩╪с    
+		  response.setContentType("application/x-download");    
+		  String file = (String)request.getParameter("file");
+		  String fileName = URLDecoder.decode((String)request.getParameter("fileName"),"UTF-8");
+		  System.out.println("111....."+file);
+          System.out.println("222....."+fileName);
+          if(file !=null && fileName !=null){
+		  String filedownload = file + fileName;    
+		  String filedisplay =  new String(fileName.getBytes("gb2312"), "iso8859-1");;        
+		  response.addHeader("Content-Disposition","attachment;filename=" + filedisplay);    
+		   
+		  java.io.OutputStream outp = null;    
+		  java.io.FileInputStream in = null;    
+		  try    
+		  {    
+		  outp = response.getOutputStream();    
+		  in = new FileInputStream(filedownload);    
+		   
+		  byte[] b = new byte[1024];    
+		  int i = 0;    
+		   
+		  while((i = in.read(b)) > 0)    
+		  {    
+		  outp.write(b, 0, i);    
+		  }    
+		//      
+		outp.flush();    
+		//р╙╪сртоба╫╬Д╩╟ё╛╥ЯтР╩А╠╗╢М    
+		//java.lang.IllegalStateException: getOutputStream() has already been called for //this response      
+		out.clear();    
+		out = pageContext.pushBody();    
+		}    
+		  catch(Exception e)    
+		  {    
+		  System.out.println("Error!");    
+		  e.printStackTrace();    
+		  }    
+		  finally    
+		  {    
+		  if(in != null)    
+		  {    
+		  in.close();    
+		  in = null;    
+		  }    
+		//уБюО╡╩дэ╧ь╠у      
+		//if(outp != null)    
+		  //{    
+		  //outp.close();    
+		  //outp = null;    
+		  //}    
+		  }  }
+		%>  

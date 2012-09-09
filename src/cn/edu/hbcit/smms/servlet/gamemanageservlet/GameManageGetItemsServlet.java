@@ -75,7 +75,7 @@ public class GameManageGetItemsServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		StringBuffer buffer = new StringBuffer();
 		String groupid = request.getParameter("groupid");
-		ArrayList itemList = new ArrayList();
+		ArrayList<GameManagePoJo> itemList = new ArrayList<GameManagePoJo>();
 		GameManageServices gm = new GameManageServices();
 		if(!groupid.equals("")){
 			    itemList = gm.getFinalItem(Integer.parseInt(groupid));				

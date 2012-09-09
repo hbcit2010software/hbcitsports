@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.edu.hbcit.smms.pojo.GameManagePoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageServices;
 
 /*
@@ -66,7 +67,7 @@ public class GameManageGetGroupServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		ArrayList groupList = new ArrayList();
+		ArrayList<GameManagePoJo> groupList = new ArrayList<GameManagePoJo>();
 		GameManageServices gm = new GameManageServices();
 		groupList = gm.getGroup();
 		if(!groupList.equals(""))

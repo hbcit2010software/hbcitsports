@@ -62,7 +62,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		StringBuffer buffer = new StringBuffer();
-		ArrayList athleteList = new ArrayList();
+		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		String finalItemId = request.getParameter("finalItemId");
 		System.out.println("finalItemId==================="+finalItemId);
 		
@@ -75,8 +75,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 		    buffer.append("{");
 			buffer.append("\"contents\":[");
 		    System.out.println("(servlet)athleteList<<<<<<<<<<<"+athleteList.size());
-		    if(athleteList.size()>0)
-		    {
+		    
 		    for(int i = 0;i<athleteList.size();i++)
 		    {
 		    	GameManagePoJo pj = (GameManagePoJo)athleteList.get(i);
@@ -96,18 +95,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 				System.out.println("Departname==============================="+pj.getDepartname());
 				buffer.append("}");
 		    	
-		    }}
-          else{
-        	  buffer.append("{");
-        	  buffer.append("\"playernum\":\"" + infNull + "\",");
-				buffer.append("\"playername\":\"" + infNull + "\",");
-				buffer.append("\"playersex\":\"" + infNull + "\",");
-				buffer.append("\"score\":\"" + infNull + "\",");
-				buffer.append("\"foul\":\"" + infNull + "\",");
-				buffer.append("\"recordlevel\":\"" + infNull + "\",");
-				buffer.append("\"departname\":\"" + infNull + "\"");
-        	  buffer.append("}");
-		       }
+		    }
 		    buffer.append("]");
 			buffer.append("}");
 			out.println(buffer);

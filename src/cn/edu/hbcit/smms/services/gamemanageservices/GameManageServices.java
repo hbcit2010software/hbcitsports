@@ -19,6 +19,7 @@ import com.lowagie.text.DocumentException;
 
 import cn.edu.hbcit.smms.dao.gamemanagedao.GameManageCreateWordOfAthleteInfDao;
 import cn.edu.hbcit.smms.dao.gamemanagedao.GameManageDao;
+import cn.edu.hbcit.smms.pojo.GameManagePoJo;
 
 /**
  * 赛中管理------------>成绩管理------------>service类
@@ -30,7 +31,7 @@ public class GameManageServices {
 	GameManageDao gm = new GameManageDao();
 	GameManageCreateWordOfAthleteInfDao cw = new GameManageCreateWordOfAthleteInfDao();
 	
-	public ArrayList getGroup()
+	public ArrayList<GameManagePoJo> getGroup()
 	{
 		return gm.getGroup();
 	}
@@ -40,12 +41,12 @@ public class GameManageServices {
 		return gm.getItemType(finalItemId);
 	}
 	
-	public ArrayList getFinalItem(int groupid)
+	public ArrayList<GameManagePoJo> getFinalItem(int groupid)
 	{
 		return gm.getFinalItem(groupid);
 	}
 	
-	public ArrayList getAthleteList(int finalItemId,String itemType)
+	public ArrayList<GameManagePoJo> getAthleteList(int finalItemId,String itemType)
 	{
 		return gm.getAthleteList(finalItemId,itemType);
 	}
@@ -55,7 +56,7 @@ public class GameManageServices {
 		return gm.deletePlayer(playerNum);
 	}
 	
-	public ArrayList getPlayerList(int playerNum,int finalItemId)
+	public ArrayList<GameManagePoJo> getPlayerList(int playerNum,int finalItemId)
 	{
 		return gm.getPlayerList(playerNum,finalItemId);
 	}
@@ -65,12 +66,12 @@ public class GameManageServices {
 		return gm.updateMatch(playerNum, score, foul, recordlevel);
 	}
 	
-	public ArrayList createWordOfAthleteInf(int finalItemId,String itemType)
+	public ArrayList<GameManagePoJo> createWordOfAthleteInf(int finalItemId,String itemType)
 	{
 		return gm.createWordOfAthleteInf(finalItemId,itemType);
 	}
 	
-	public void createDocContext(String file,String titles,ArrayList athleteList) throws DocumentException, IOException
+	public void createDocContext(String file,String titles,ArrayList<GameManagePoJo> athleteList) throws DocumentException, IOException
 	{
 		cw.createDocContext(file,titles,athleteList);
 	}
