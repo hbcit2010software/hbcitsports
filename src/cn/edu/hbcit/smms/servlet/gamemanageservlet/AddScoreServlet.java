@@ -15,6 +15,10 @@ import cn.edu.hbcit.smms.services.gamemanageservices.AddScoreServices;
 import cn.edu.hbcit.smms.util.UtilTools;
 
 public class AddScoreServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected final Logger log = Logger.getLogger(AddScoreServlet.class.getName());
 	UtilTools ctc = new UtilTools();
 	/**
@@ -61,8 +65,9 @@ public class AddScoreServlet extends HttpServlet {
 	}
 
 	/**
+	 * 提交成绩
 	 * The doPost method of the servlet. <br>
-	 *
+	 *	
 	 * This method is called when a form has its tag value method equals to post.
 	 * 
 	 * @param request the request send by the client to the server
@@ -78,12 +83,12 @@ public class AddScoreServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
-		String playername = request.getParameter("playername");
+		String playername = ctc.toUTF8( request.getParameter("playername") );
 		String score = request.getParameter("score");
-		String group = request.getParameter("group");
-		String item = null;
-		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());
-		item = ctc.toUTF8(request.getParameter("item"));
+		String group = ctc.toUTF8( request.getParameter("group") );
+		String item = ctc.toUTF8(request.getParameter("item"));;
+		//int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());
+		//item = ctc.toUTF8(request.getParameter("item"));
 		
 		log.debug(playername+","+score+","+item);
 		
@@ -91,9 +96,8 @@ public class AddScoreServlet extends HttpServlet {
 		
 		boolean flag = false;
 		String str = "提交失败！";
-		
 		flag = ass.isAddScore(playername, score, item , group);			//成绩添加是否成功
-		int num = ass.getIntegral(item, 1, group);		//积分添加是否成功
+		int num = ass.getIntegral(item, group);		//积分添加是否成功
 		
 		if( flag ){
 			str = "提交成功！";
@@ -106,28 +110,39 @@ public class AddScoreServlet extends HttpServlet {
 		out.close();
 	}
 
-	
+	/**
+	 * 获取成绩格式的正则表达式
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void getFormatReg(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		log.debug("getFormatReg=");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String finalitemname = null;
-		finalitemname = ctc.toUTF8(request.getParameter("finalitemname"));
+		
+		String finalitemname = ctc.toUTF8(request.getParameter("finalitemname"));
 		log.debug("getFormat：finalitemname="+finalitemname);
 		AddScoreServices ass = new AddScoreServices();
-		String reg = null;
-		reg = ass.getFormatReg(finalitemname);
+		String reg = ass.getFormatReg(finalitemname);
 		log.debug("getFormat="+reg);
 		HttpSession session = request.getSession();
+		
 		session.setAttribute("reg", reg);
 		out.println(reg);
 		out.flush();
 		out.close();
 	}
 	
-	
+	/**
+	 * 获取成绩格式
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void getFormat(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
 	log.debug("getFormat=");

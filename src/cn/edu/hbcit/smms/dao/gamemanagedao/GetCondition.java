@@ -26,6 +26,7 @@ import net.sf.json.JSONArray;
 
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
+import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.pojo.ManageGroupPJ;
 
 
@@ -53,6 +54,7 @@ public class GetCondition {
 	* @return 	int
 	 */
 	public int getSportID(){
+		/*
 		int flag = 0;
 		String sql = "SELECT id FROM t_sports ORDER BY id DESC LIMIT 1";  //查询最新的运动会id
 		conn = dbc.getConn();	//获得连接
@@ -67,8 +69,8 @@ public class GetCondition {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			log.debug("getSportID"+e.getMessage());
-		}
-		return flag ;
+		}*/
+		return new LoginDAO().selectCurrentSportsId() ;
 	}
 	
 	/**
@@ -91,6 +93,7 @@ public class GetCondition {
 				ManageGroupPJ mgpj = new ManageGroupPJ();
 				mgpj.setGroupname( rs.getString(1) );
 				list.add(mgpj);
+				log.debug("getAllGroup"+rs.getString(1));
 			}
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
@@ -129,6 +132,7 @@ public class GetCondition {
 				JSONArray mipj = new JSONArray();
 				mipj.add(rs.getString(1));
 				finalJson.add(mipj);
+				log.debug("selectItemsByGroup"+rs.getString(1));
 			}
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {

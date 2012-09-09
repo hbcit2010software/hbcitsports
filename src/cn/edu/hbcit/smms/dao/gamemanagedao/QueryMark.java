@@ -31,6 +31,11 @@ public class QueryMark {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	Connection conn = null;
+	/**
+	 *通过部门查积分
+	* @param 参数名 参数类型
+	* @return
+	 */
 	public int queryByGroup( int departid , int sportsid ,int grouptype ){
 		String sql = null;
 		int sum = 0;
@@ -168,6 +173,12 @@ public class QueryMark {
 		}
 		return str;
 	}
+	
+	/**
+	 *通过作别查积分
+	* @param 参数名 参数类型
+	* @return
+	 */
 	public int queryBItem( int grouptype, int itemid ){
 		String sql = "SELECT score FROM t_position WHERE playerid = (" +
 				"SELECT id FROM t_player WHERE groupid = (" +

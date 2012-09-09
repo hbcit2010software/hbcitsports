@@ -9,6 +9,7 @@ import net.sf.json.JSONArray;
 import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
+import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 
 public class AddScore {
 	protected final Logger log = Logger.getLogger(AddScore.class.getName());
@@ -30,16 +31,18 @@ public class AddScore {
 		String sql = "UPDATE t_match SET score = ?,recordlevel = ? WHERE finalitemid = " +
 				"(  SELECT id FROM t_finalitem WHERE finalitemname = ? ) AND " +
 				"playerid = (SELECT id FROM t_player WHERE playername = ?)";
-		conn = dbc.getConn();
+		
+		
 		
 		int num = 0;
 		boolean flag = false;
 		
 		JSONArray list = new JSONArray();
 		AddScore as = new AddScore();
-		list = as.getRecordOnlyByitemgroup(group, finalitemname);
-		String recorescore = list.get(1).toString();
-		String recorelevel = list.get(2).toString();
+		list = as.getRecordOnlyByitemgroup(group, finalitemname);	//表中的最高记录
+		log.debug("list"+list);
+		String recorescore = list.get(1).toString();	//最好成绩
+		String recorelevel = list.get(2).toString();	//所破记录
 		String level = "0";
 		System.out.println("score="+score);
 		if( Double.parseDouble(score) > Double.parseDouble(recorescore)){
@@ -49,6 +52,8 @@ public class AddScore {
 			level = "1";
 		}
 		try {
+			DBConn dbc = new DBConn();
+			conn = dbc.getConn();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, score);
 			pstmt.setString(2, level);
@@ -79,6 +84,8 @@ public class AddScore {
 	 * @return	boolean
 	 */
 	public boolean isAddScore( String playername ,String score , String finalitemname , String group ){
+		
+		
 		String regex = ",";
 		boolean flag = false;	//接受成绩是否插入成功
 		String[] playernamea = playername.trim().split(regex);
@@ -91,7 +98,7 @@ public class AddScore {
 		}
 		return flag;
 	}
-	
+
 	/**
 	 * 获取决赛运动员信息
 	 * @param finalitemname
@@ -122,6 +129,7 @@ public class AddScore {
 			") ORDER BY score+0 desc LIMIT ?";
 		}
 		
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		JSONArray alllist = new JSONArray();
 		ResultSet rs = null;		PreparedStatement pstmt = null;	
@@ -166,7 +174,7 @@ public class AddScore {
 			pstmt.close(); 
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.debug("getAddIntegralMessage:"+e.getMessage());
 			e.printStackTrace();
 		}
 		return alllist;
@@ -180,7 +188,9 @@ public class AddScore {
 	 * @param group
 	 * @return int
 	 */
-	public int getIntegral( String finalitemname  ,int sportsid ,String group){
+	public int getIntegral( String finalitemname ,String group){
+		LoginDAO loginDAO = new LoginDAO();
+		int sportsid =loginDAO.selectCurrentSportsId();
 		String sql = "SELECT position,mark,recordmark_low,recordmark_high FROM t_rule WHERE sportsid = ?";
 		
 		ResultSet rs = null;		PreparedStatement pstmt = null;
@@ -197,6 +207,7 @@ public class AddScore {
 		JSONArray recordScore = new JSONArray();
 		recordScore = as.getRecordOnlyByitemgroup(group, finalitemname);
 		
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -245,7 +256,7 @@ public class AddScore {
 			 rs.close();
 			 pstmt.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.debug("getIntegral:"+e.getMessage());
 			e.printStackTrace();
 		}
 		return flag;
@@ -259,8 +270,8 @@ public class AddScore {
 	public String getItemType( String finalitemname ){
 		String sql = "SELECT itemtype FROM t_item WHERE id = (" +
 				"SELECT itemid FROM t_group2item WHERE id = (" +
-				"SELECT gp2itid FROM t_finalitem WHERE finalitemname = '100预赛'))";
-		
+				"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ?))";
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		String str = null;
 		try {
@@ -272,7 +283,7 @@ public class AddScore {
 			}
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.debug("getItemType:"+e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -289,6 +300,7 @@ public class AddScore {
 	 */
 	public int addIntegral( int finalitemid , int playerid , int position, int sum){
 		String sql = "INSERT INTO t_position(finalitemid,playerid,position,score) VALUES(?,?,?,?)";
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		int flag = 0;
 		try {
@@ -299,7 +311,7 @@ public class AddScore {
 			pstmt.setInt(4, sum);
 			flag = pstmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.debug("addIntegral:"+e.getMessage());
 			e.printStackTrace();
 		}
 		return flag;
@@ -314,14 +326,17 @@ public class AddScore {
 	 * @return int
 	 */
 	public int updateRecord( int finalitemid , int playerid , int sportsid , int score){
-		String sql = "UPDATE t_record SET itemid=(SELECT itemid FROM t_group2item WHERE id=(SELECT gp2itid FROM t_finalitem WHERE id=?))," +
+		String sql = "UPDATE t_record SET itemid=(SELECT itemid FROM t_group2item " +
+				"WHERE id=(SELECT gp2itid FROM t_finalitem WHERE id=?))," +
 				"sex=(SELECT playersex FROM t_player WHERE id=?)," +
 				"score=(SELECT score FROM t_match WHERE playerid=?)," +
 				"playername = (SELECT playername FROM t_player WHERE id = ?)," +
-				"departname = (SELECT departname FROM t_department WHERE id = ( SELECT departid FROM t_sports2department WHERE " +
+				"departname = (SELECT departname FROM t_department " +
+				"WHERE id = ( SELECT departid FROM t_sports2department WHERE " +
 				"id = ( SELECT sp2dpid FROM t_player WHERE id = ?))),sportsname = (SELECT sportsname FROM t_sports WHERE id = ?)," +
 				"recordtime = (SELECT DATE FROM t_finalitem WHERE id = ?)," +
 				"recordlevel = (SELECT recordlevel FROM t_match WHERE finalitemid = ? AND playerid = ?)";
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		int flag = 0;
 		try {
@@ -337,7 +352,7 @@ public class AddScore {
 			flag = pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.debug("updateRecord:"+e.getMessage());
 			e.printStackTrace();
 		}
 		return flag;
@@ -350,13 +365,13 @@ public class AddScore {
 	 * @return	JSONArray
 	 */
 	public JSONArray getRecordOnlyByitemgroup( String group,String finalitemname){
-		
+		log.debug("getRecordOnlyByitemgroupName: group:"+group+",finalitemname:"+finalitemname);
 		String sql = "SELECT id,score,recordlevel FROM t_record WHERE itemid IN (" +
 				"SELECT itemid FROM t_group2item WHERE id IN (" +
 				"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ? )" +
 				") AND sex IN (SELECT playersex FROM t_player WHERE groupid IN (" +
 				"SELECT id FROM t_group WHERE groupname = ?))";
-		
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		JSONArray list = new JSONArray();
 		try {
@@ -368,9 +383,10 @@ public class AddScore {
 				list.add(Integer.toString(rs.getInt(1)));
 				list.add(rs.getString(2));
 				list.add(rs.getString(3));
+				log.debug("getRecordOnlyByitemgroup:"+rs.getInt(1)+","+rs.getString(2)+","+rs.getString(3));
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.debug("getRecordOnlyByitemgroup:"+e.getMessage());
 			e.printStackTrace();
 		}
 		return list;
@@ -388,6 +404,7 @@ public class AddScore {
 				"SELECT itemid FROM t_group2item WHERE id = (" +
 				"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ?)))";
 		String str = null;
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -416,6 +433,7 @@ public class AddScore {
 				"SELECT itemid FROM t_group2item WHERE id IN (" +
 				"SELECT gp2itid FROM t_finalitem WHERE finalitemname =?)))";
 		String str = null;
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		try {
 			pstmt = conn.prepareStatement(sql);

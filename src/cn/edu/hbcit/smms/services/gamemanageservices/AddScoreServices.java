@@ -10,8 +10,8 @@ public class AddScoreServices {
 		return new AddScore().getFormatReg(finalitemname);
 		
 	}
-	public int getIntegral( String finalitemname  ,int sportsid ,String group){
-		return new AddScore().getIntegral(finalitemname, sportsid, group);
+	public int getIntegral( String finalitemname  ,String group){
+		return new AddScore().getIntegral(finalitemname, group);
 	}
 	public String getFormat( String finalitemname ){
 		return new AddScore().getFormat(finalitemname);

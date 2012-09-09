@@ -15,7 +15,7 @@ public class GetMessage {
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	DBConn dbc = new DBConn();
+	//DBConn dbc = new DBConn();
 	/**
 	 * 获取某个项目的制定小组运动员的信息
 	 * @param finalitemname
@@ -24,25 +24,22 @@ public class GetMessage {
 	 */
 	public JSONArray getPlayerMessageOnlyTeam( String finalitemname , String teamnum ){
 		System.out.println("finalitemname="+finalitemname);
-		String sql = "SELECT playernum,playername,teamnum,runway FROM t_player JOIN " +
+		String sql = "SELECT playernum,playername,score,runway FROM t_player JOIN " +
 				"t_match t_match ON t_match.playerid = t_player.id " +
 				"WHERE finalitemid IN (SELECT id FROM t_finalitem WHERE finalitemname = ?) " +
 				"AND teamnum = ? ORDER BY runway ";
-		String sqlrelay = "SELECT departname,runway FROM t_match JOIN t_department ON t_department.id = t_match.playerid WHERE" +
+		String sqlrelay = "SELECT departname,runway,score FROM t_match JOIN t_department ON t_department.id = t_match.playerid WHERE" +
 				"finalitemid IN ( SELECT id FROM t_finalitem WHERE finalitemname = ?)";
 
 		
 		JSONArray list = new JSONArray();
-		JSONArray itemtype = new JSONArray();
-		//itemtype = this.getItemType(finalitemname);
-		GetMessage gms=new GetMessage();
-		itemtype=gms.getItemType(finalitemname);
+		String itemtype = getItemType(finalitemname);		//项目的类型
+		
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
-		String str = null;
-		itemtype = (JSONArray) itemtype.get(0);
-		str = itemtype.get(0).toString();
-		System.out.println("str="+str);
-		if( str.equals("3") ){
+		
+		if( itemtype.equals("3") ){
+			
 			try {
 				pstmt = conn.prepareStatement(sqlrelay);
 				pstmt.setString(1, finalitemname);
@@ -51,28 +48,31 @@ public class GetMessage {
 					JSONArray pm = new JSONArray();
 					pm.add(rs.getString(1));	//部门
 					pm.add(Integer.toString(rs.getInt(2)));    //道次 	
+					pm.add(rs.getInt(3));		//成绩
+					
 					list.add(pm);
 				}
 				dbc.freeConnection(conn);	//释放连接
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				log.debug("getPlayerMessageOnlyTeam"+e.getMessage());
+				log.debug("getPlayerMessageOnlyTeam3"+e.getMessage());
 			}
+			
 		}else{
+			
 			try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, finalitemname);
 				pstmt.setString(2, teamnum);
 				rs = pstmt.executeQuery();
-				System.out.println("getPlayerMessage="+rs.getRow());
 				
 				while( rs.next() ){
-					System.out.println(rs.getString(1)+","+rs.getString(2)+","+rs.getInt(3)+","+rs.getInt(4));
 					JSONArray pm = new JSONArray();
 					pm.add(rs.getString(1));	//运动员号
 					pm.add(rs.getString(2));	//运动员姓名
 					pm.add(Integer.toString(rs.getInt(4)));	//运动员所在跑道号
+					pm.add(rs.getString(3));		//成绩
 					list.add(pm);
 				}
 				dbc.freeConnection(conn);	//释放连接
@@ -81,6 +81,7 @@ public class GetMessage {
 				e.printStackTrace();
 				log.debug("getPlayerMessageOnlyTeam"+e.getMessage());
 			}
+			
 		}
 		return list;
 	}
@@ -91,29 +92,34 @@ public class GetMessage {
 	 * @return	JSONArray
 	 */
 	public JSONArray getPlayerMessage( String finalitemname ){
-		conn = dbc.getConn();
+		
 		JSONArray list = new JSONArray();
 		String sql = "SELECT COUNT(DISTINCT(teamnum)) FROM t_match WHERE finalitemid " +
-				"IN ( SELECT id FROM t_finalitem WHERE finalitemname = ? )";
+				"IN ( SELECT id FROM t_finalitem WHERE finalitemname = ? )";  //计算总共有几个小组的sql语句
 		
 		try {
+			String itemtype = getItemType(finalitemname);		//项目的类型
+			list.add(itemtype);		//添加项目类型
+			System.out.println("itemtype="+itemtype);
+			
+			DBConn dbc = new DBConn();
+			conn = dbc.getConn();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
 			rs = pstmt.executeQuery();
 			int flag = 0;
-			while( rs.next() ){
-				flag = rs.getInt(1);
+			if( rs.next() ){
+				flag = rs.getInt(1);	//项目的小组数
 			}
 			for( int i = 1 ;i < flag + 1 ;i++ ){
-				JSONArray listOnly = new JSONArray();
-				listOnly = this.getPlayerMessageOnlyTeam(finalitemname, Integer.toString(i));
-				list.add(listOnly);
+				list.add( getPlayerMessageOnlyTeam( finalitemname, Integer.toString(i) ) );
 			}
+			log.debug("getPlayerMessage1"+list);
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			log.debug("getPlayerMessage"+e.getMessage());
+			log.debug("getPlayerMessagelist"+e.getMessage());
 		}
 		return list;
 	}
@@ -125,6 +131,7 @@ public class GetMessage {
 	 */
 	public int getPlayerNumber( String finalitemname ){
 		System.out.println("getPlayerNumber="+finalitemname);
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		String sql = "SELECT COUNT(DISTINCT(teamnum)) FROM t_match WHERE finalitemid " +
 				"IN ( SELECT id FROM t_finalitem WHERE finalitemname = ? )";
@@ -153,23 +160,21 @@ public class GetMessage {
 	/**
 	 * 获得某个项目的类型
 	 * @param finalitemname
-	 * @return	JSONArray	
+	 * @return	String	
 	 */
-	public JSONArray getItemType( String finalitemname ){
+	public String getItemType( String finalitemname ){
 		String sql = "SELECT itemtype FROM t_item WHERE id IN " +
 				"(SELECT itemid FROM t_group2item WHERE id IN " +
 				"(SELECT gp2itid FROM t_finalitem WHERE finalitemname = ?))";
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
-		JSONArray list = new JSONArray();
+		String itemtype = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
 			rs = pstmt.executeQuery();
-			while( rs.next() ){
-				JSONArray itemty = new JSONArray();
-				itemty.add(rs.getString(1));
-				list.add(itemty);
-				//System.out.println();
+			if( rs.next() ){
+				itemtype = rs.getString(1);
 				log.debug(rs.getString(1));
 			}
 				dbc.freeConnection(conn);	//释放连接
@@ -178,12 +183,13 @@ public class GetMessage {
 			e.printStackTrace();
 			log.debug("getItemType"+e.getMessage());
 		}
-		return list;
+		return itemtype;
 	}
 	
 	public JSONArray getItemNameByTY( String itemtype ){
 		String sql = "SELECT finalitemname FROM t_finalitem WHERE gp2itid IN " +
 				"( SELECT id FROM t_group2item WHERE itemid IN ( SELECT id FROM t_item WHERE itemtype = ?))";
+		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		JSONArray list = new JSONArray();
 		try {

@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +16,10 @@ import cn.edu.hbcit.smms.services.gamemanageservices.GetMessageservices;
 import cn.edu.hbcit.smms.util.UtilTools;
 
 public class GetMessageServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected final Logger log = Logger.getLogger(GetMessageServlet.class.getName());
 	UtilTools ctc = new UtilTools();
 	/**
@@ -94,16 +97,21 @@ public class GetMessageServlet extends HttpServlet {
 		out.flush();
 		out.close();
 	}
-	
+	/**
+	 * 指定项目的比赛类型
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void getItemType(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		JSONArray list = new JSONArray();
 		GetMessageservices gms = new GetMessageservices();
 		String finalitemname = ctc.toUTF8(request.getParameter("item"));
-		list = gms.getItemType(finalitemname);
+		String list = gms.getItemType(finalitemname);
 		log.debug("getItemType="+list);
 		out.println(list);
 		out.flush();

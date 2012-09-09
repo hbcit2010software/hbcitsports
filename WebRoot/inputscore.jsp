@@ -16,16 +16,7 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
-	//检查输入的成绩格式 
-	function check(){
-	var i = 0;
-	var item = $("#item").find("option:selected").text();
 	
-		for( i = 0; i < num ; i++ ){
-			var score = $('.'+i).val();
-			
-		}
-	}
 	//根据组别获取相应的项目 	
 	
 	function gpchange(){
@@ -64,14 +55,7 @@
 				contentType : "application/json;charset=utf-8",
 				dataType : 'json',
 				data : 'item=' + item,
-				success : function(json) {
-				
-				var tp = null;
-					for( i =0 ; i < json.length ; i++ ){
-					  	tp = json[i];  	
-					  		
-					}
-					
+				success : function(tp) {
 					if( tp == "1"){
 					
 						tp = "<tr class='tableTitle' align='center'><td width='20%'>号码</td><td width='20%'>姓名</td><td width='20%'>道次</td><td width='20%'>成绩</td><td width='40%'>成绩格式</td></tr>";
@@ -101,28 +85,67 @@
 				dataType : 'json',
 				data : 'item=' + item,
 				success : function(json) {	
-					var inhtml = "";	
-					for(i =0 ; i < json.length; i++){
-						inhtml += "<tr class='tableTitle'><td colspan='4'>第"+(i+1)+"组</td></tr>";
-						//inhtml += "<input class='tableTitle' value='第"+(i+1)+"组' style=' border-style:none;background-Color:#a8c7ce;' readonly='readonly'/>";
-						var json1 = json[i];
-						for( j = 0 ; j < json1.length; j++ ){
-								var json2 = json1[j];
-								inhtml += "<tr class='tableContent'>";
-								for( q = 0; q < json2.length; q++ ){
-									if( q == 0 ){
-										inhtml += "<td width='20%'>"+json2[0]+"</td>";	//运动员号码 
-									}
-									if( q == 1 ){
-										inhtml += "<td width='20%'><input name='playernum' value='"+json2[1]+"' style=' border-style:none' readonly='readonly'/></td>";	//运动员名字
-									}
-									if( q == 2 ){
-										inhtml += "<td width='20%'>"+json2[2]+"</td>";	//道次或出场顺序 
-									}
+					var inhtml = "";
+						var itemtype = json[0];//项目类型 
+						if( itemtype == "3"){
+						var id = -1;
+							for(i =1 ; i < json.length; i++){
+								inhtml += "<tr class='tableTitle'><td colspan='4'>第"+i+"组</td></tr>";
+								var json1 = json[i];
+								for( j = 0 ; j < json1.length; j++ ){
+										var json2 = json1[j];
+										inhtml += "<tr class='tableContent'>";
+										for( q = 0; q < json2.length; q++ ){
+											if( q == 0 ){
+												inhtml += "<td width='20%'>"+json2[0]+"</td>";	//部门 
+											}
+											if( q == 1 ){
+												inhtml += "<td width='20%'><input name='playernum' value='"+json2[1]+"' style=' border-style:none' readonly='readonly'/></td>";	//道次
+											}
+											if( q == 2 ){
+												id++;
+												if( json2[2] == null){
+													inhtml += "<td width='20%' align='left'><input id='"+id+"' name='score' value='' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩 
+												}else{
+													inhtml += "<td width='20%' align='left'><input id='"+id+"' name='score' value='"+json2[2]+"' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩
+												} 
+											}
+										}
+										inhtml += "<td width='20%'><input type='text' name='format' style=' text-align:center; border-style:none' readonly='readonly' value=''/></td></tr>";						
 								}
-								inhtml += "<td width='20%' align='left'><input name='score' /></td><td width='20%'><input type='text' name='format' style=' text-align:center; border-style:none' readonly='readonly' value=''/></td></tr>";						
+							}
+						}else{
+							var id = -1;
+							for(i =1 ; i < json.length; i++){
+								inhtml += "<tr class='tableTitle'><td colspan='5'>第"+i+"组</td></tr>";
+								var json1 = json[i];
+								for( j = 0 ; j < json1.length; j++ ){
+										var json2 = json1[j];
+										inhtml += "<tr class='tableContent'>";
+										for( q = 0; q < json2.length; q++ ){
+											if( q == 0 ){
+												inhtml += "<td width='20%'>"+json2[0]+"</td>";	//运动员号码 
+											}
+											if( q == 1 ){
+												inhtml += "<td width='20%'><input name='playernum' value='"+json2[1]+"' style=' border-style:none' readonly='readonly'/></td>";	//运动员名字
+											}
+											if( q == 2 ){
+												inhtml += "<td width='20%'>"+json2[2]+"</td>";	//道次或出场顺序 
+											}
+											if( q == 3){
+												id++;
+												if( json2[3] == null){
+													inhtml += "<td width='20%' align='left'><input id='"+id+"' name='score' value='' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩 
+												}else{
+													inhtml += "<td width='20%' align='left'><input id='"+id+"' name='score' value='"+json2[3]+"' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩
+												}
+											}
+										}
+										inhtml += "<td width='20%'><input type='text' name='format' style=' text-align:center; border-style:none' readonly='readonly' value=''/></td></tr>";						
+								}
+							}
 						}
-					}
+					//}
 					$('#content1').html(inhtml);
 				},
 				error : function(xhr, status, errorThrown) {
@@ -139,8 +162,6 @@
 		
 		var playernumobj = document.getElementsByName("playernum");
 		var scoreobj = document.getElementsByName("score");
-		
-		//alert("playernumobj="+playernumobj.length+","+"scoreobj="+scoreobj.length);
 		for(var i = 0; i < playernumobj.length; i++ ){
 				playernum += playernumobj[i].value;
 				score += scoreobj[i].value;
@@ -151,6 +172,7 @@
 				playernum += ",";
 				score += ",";	
 		}
+		
 		alert(playernum);alert(score);
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=addscore",
@@ -184,39 +206,31 @@
 	
 	}
 	
-	//检查成绩格式 
+	//验证 成绩格式 
 	function checkFormat(){
 		var item = $("#item").find("option:selected").text();
-		//var score = $().focus();
-		//alert( "checkFormat="+$("input[name=score]").length);
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=checkFormat",
 			type : 'get',
 			data : {finalitemname:item},
 			success : function(mm) {
-				reg = new RegExp(mm);
-				var score = document.getElementsByName("score");
-				for( var i = 0 ; i < score.length ; i++ ){
-				
-					if( !reg.test(score[i].value) ){
-						alert("格式不正确！");
-						//var score = $("input[name=score]").focus();
-						
-						$("input[name=score]").focus(function(){
-  							$("input").css("background-color","#FFFFCC");
-						});
-						
-						break;
-						return false;
+			
+				var reg = new RegExp(mm);
+				alert("reg="+reg);
+				if( curInput!=null){
+						var score = curInput.value;
+						if( !reg.test(score) ){
+							alert("格式不正确！"+reg);
+							curInput.focus();
+							return false;
+						}
 					}
-				}
 			},
 			error : function(xhr, status, errorThrown) {
 					alert("errorThrown=" + errorThrown);
 				}
 		
 		});
-		
 	}
 	
 	
@@ -271,7 +285,7 @@
         <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce"  class="stripe_tb" id="content1"> 
         </table>
         <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" > 
-            <tr><td colspan="4"><input type="button" value="提交" onclick="checkFormat(),saveScore();"/><input type="button" value="清空所有成绩" onclick="empty();"/></td></tr>
+            <tr><td colspan="4"><input type="button" value="提交" onclick="saveScore();"/><input type="button" value="清空所有成绩" onclick="empty();"/></td></tr>
         </table>
     </form>
   </body>

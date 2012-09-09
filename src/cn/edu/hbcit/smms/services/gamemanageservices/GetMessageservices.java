@@ -8,7 +8,7 @@ public class GetMessageservices {
 			return new GetMessage().getPlayerMessage(finalitemname);
 	}
 	
-	public JSONArray getItemType( String finalitemname ){
+	public String getItemType( String finalitemname ){
 		return new GetMessage().getItemType(finalitemname);
 	}
 }

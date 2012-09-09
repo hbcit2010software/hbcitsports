@@ -30,6 +30,7 @@ import net.sf.json.JSONArray;
 
 
 import cn.edu.hbcit.smms.services.gamemanageservices.GetConditonServices;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 
 /**
@@ -111,6 +112,7 @@ public class GetConditonServlet extends HttpServlet {
 		ArrayList list = new ArrayList();
 		GetConditonServices gcs = new GetConditonServices();
 		int sportsid = gcs.getSportID();		//获取运动会的id
+		System.out.println("sportsid="+sportsid);
 		list = gcs.getAllGP(sportsid);
 		log.debug(list);
 		sn.setAttribute("conditionlist", list);
@@ -135,7 +137,8 @@ public class GetConditonServlet extends HttpServlet {
 		JSONArray list = new JSONArray();
 		GetConditonServices gcs = new GetConditonServices();
 		int sportsid = gcs.getSportID();
-		String groupname = request.getParameter("option");
+		String groupname = new UtilTools().toUTF8(request.getParameter("option"));
+		System.out.println("sportsid="+sportsid+",groupname="+groupname);
 		list = gcs.selectItemsByGroup(groupname, sportsid);
 		log.debug(list);
 		out.println(list);

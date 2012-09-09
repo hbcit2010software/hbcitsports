@@ -80,6 +80,7 @@
 		});
    }
    function createMarkDoc(){
+   
    		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/QueryMarkServlet?action=QueryMarkit",
 				type : 'get',
