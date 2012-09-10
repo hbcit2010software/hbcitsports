@@ -317,7 +317,7 @@ public class ItemDAO {
 	public boolean splitFinalitem(int sportsId){
 		boolean flag = false;
 		//查询指定运动会ID的gp2spid和matchtype
-		String sql_QueryGp2spidAndMatchtype = "SELECT t_group2item.id,t_group.groupname ,t_item.itemname,t_group2item.matchtype FROM t_group2item,t_group2sports,t_item,t_group WHERE t_group2sports.id=t_group2item.gp2spid AND t_group2item.itemid=t_item.id AND t_group2sports.groupid=t_group.id AND t_group2sports.sportsid=?";
+		String sql_QueryGp2spidAndMatchtype = "SELECT t_group2item.id,t_group.groupname ,t_item.itemname,t_group2item.matchtype FROM t_group2item,t_group2sports,t_item,t_group WHERE t_group2sports.id=t_group2item.gp2spid AND t_group2item.itemid=t_item.id AND t_group2sports.groupid=t_group.id AND t_group2item.matchtype<>'0' AND t_group2sports.sportsid=?";
 		//插入拆分后的t_finalitem
 		String sql_InsertFinalitem = "INSERT INTO t_finalitem (gp2itid,finalitemname,finalitemtype,sportsid) VALUES (?,?,?,?)";
 		int count[]; 
