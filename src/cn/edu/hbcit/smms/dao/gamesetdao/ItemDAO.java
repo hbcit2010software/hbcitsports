@@ -313,6 +313,31 @@ public class ItemDAO {
 		return flag;
 	}
 	
+	/**
+	 * 根据Matchtype获取应拆分成的Finalitem数量
+	 * Matchtype='1'预决赛计数1；Matchtype='2'预赛+决赛 计数2
+	 * @param sportsId
+	 * @return
+	 */
+	public int countMatchtype(int sportsId){
+		int rst = 0;
+		String sql = "SELECT DISTINCT (SELECT COUNT(*) FROM t_group2item,t_group2sports WHERE t_group2sports.id=t_group2item.gp2spid AND t_group2sports.sportsid=? AND matchtype='1')+(SELECT COUNT(*)*2 FROM t_group2item,t_group2sports WHERE t_group2sports.id=t_group2item.gp2spid AND t_group2sports.sportsid=? AND matchtype='2') AS c1 FROM t_group2item";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			pStatement.setInt(2, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				rst = rs.getInt(1);
+			}
+			db.freeConnection(rs, pStatement, conn);
+		}catch(Exception e){
+			log.error("获取此届运动会的Matchtype数量失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
+	}
 	
 	public boolean splitFinalitem(int sportsId){
 		boolean flag = false;

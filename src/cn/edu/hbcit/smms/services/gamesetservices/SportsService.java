@@ -342,4 +342,14 @@ public class SportsService {
 		return item.updateGroup2Item(itemInfo);
 	}
 	
+	/**
+	 * 根据Matchtype获取应拆分成的Finalitem数量
+	 * Matchtype='1'预决赛计数1；Matchtype='2'预赛+决赛 计数2
+	 * @param sportsId
+	 * @return
+	 */
+	public int countMatchtype(int sportsId){
+		return item.countMatchtype(sportsId);
+	}
+	
 }
