@@ -37,7 +37,7 @@ public class ItemDAO {
 	private ResultSet rs = null;
 	private Connection conn = null;
 	private PreparedStatement pStatement = null;
-	protected final Logger log = Logger.getLogger(SportsDAO.class.getName());
+	protected final Logger log = Logger.getLogger(ItemDAO.class.getName());
 	DBConn db = new DBConn();
 	
 	//DELETE FROM t_group2item WHERE t_group2item.gp2spid IN (SELECT t_group2sports.id FROM t_group2sports WHERE t_group2sports.sportsid=?) 删除指定运动会的t_group2item信息
@@ -234,6 +234,85 @@ public class ItemDAO {
 		}
 		return list;
 	}
+	
+	/**
+	 * 获取指定某届运动会的项目信息:
+	 * 当届t_group2item中的id,gp2spid、itemid、matchtype，用,连接
+	 * 如："11,9,1,2"
+	 * @return
+	 */
+	public ArrayList selectItemStringOfSportsIncludeId(int sportsId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT t_group2item.id,t_group2item.gp2spid,t_group2item.itemid,t_group2item.matchtype FROM t_group2item WHERE t_group2item.gp2spid IN (SELECT t_group2sports.id FROM t_group2sports WHERE t_group2sports.sportsid=?)";
+		conn = db.getConn();
+		String gp2spidItemidMatchtype = "";
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Group2itemPojo gi = new Group2itemPojo();
+				gp2spidItemidMatchtype =Integer.toString(rs.getInt(1)) + "," + Integer.toString(rs.getInt(2)) + "," + Integer.toString(rs.getInt(3))+ "," + Integer.toString(rs.getInt(4));
+				log.debug("Id,gp2spid,Itemid,Matchtype连接后的串为："+gp2spidItemidMatchtype);
+				gi.setGp2spidItemidMatchtype(gp2spidItemidMatchtype);
+				list.add(gi);
+			}
+			db.freeConnection(rs,pStatement,conn);
+		}catch(Exception e){
+			log.error("获取指定某届运动会的项目信息(含id)失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	/**
+	 * 更新t_group2item数据
+	 * @param itemInfo[i] 格式为：gp2spid,itemid,matchtype 如：4,2,5
+	 * @return
+	 */
+	public boolean updateGroup2Item(String[] itemInfo){
+		boolean flag = false;
+		int count[]; 
+		String sql = "UPDATE t_group2item SET matchtype=? WHERE gp2spid=? AND itemid=?";
+		try{
+			conn = db.getConn();
+			conn.setAutoCommit(false);
+			pStatement = conn.prepareStatement(sql);
+
+			for(int i=0; i<itemInfo.length; i++){
+				String[] tempArray = itemInfo[i].split(",");
+				pStatement.setString(1, tempArray[2]);
+				pStatement.setInt(2, Integer.parseInt(tempArray[0]));
+				pStatement.setInt(3, Integer.parseInt(tempArray[1]));
+				pStatement.addBatch();
+			}
+			count = pStatement.executeBatch();
+			conn.commit();
+			for(int i : count){  
+			    if(i == 0) {
+			    	conn.rollback();              // 回滚，非常重要 
+			    	log.error("更新t_group2item数据出现异常，回滚=========》"); 
+			    	flag = false;
+			    	break;
+			    }else{
+			    	flag = true;
+			    }
+			   }
+		}catch(Exception e){
+			try{
+				// 回滚，非常重要  
+				conn.rollback();
+			}catch(SQLException e1){
+				log.error(e1.getMessage());
+			}
+			log.error("更新t_group2item数据失败！");
+			log.error(e.getMessage());
+		}finally{
+			db.freeConnection(pStatement,conn);
+		}
+
+		return flag;
+	}
+	
 	
 	public boolean splitFinalitem(int sportsId){
 		boolean flag = false;

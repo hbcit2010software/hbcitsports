@@ -333,6 +333,13 @@ public class SportsService {
 	public ArrayList selectItemStringOfSports(int sportsId){
 		return item.selectItemStringOfSports(sportsId);
 	}
-	
+	/**
+	 * 更新t_group2item数据
+	 * @param itemInfo[i] 格式为：gp2spid,itemid,matchtype 如：4,2,5
+	 * @return
+	 */
+	public boolean updateGroup2Item(String[] itemInfo){
+		return item.updateGroup2Item(itemInfo);
+	}
 	
 }

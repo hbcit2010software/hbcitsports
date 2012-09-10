@@ -37,7 +37,10 @@ function checkItem(){
 				if(mylist[i].options[k].value==strGI[j]){
 					//alert(mylist[i].options[k].value);
 					mylist[i].options[k].selected=true;
-					mylist[i].style.borderColor="#F00";
+					if(k!=0){
+						mylist[i].style.borderColor="#F00";
+					}
+					
 				}
 			}
 		}
@@ -113,7 +116,7 @@ if(request.getAttribute("msg") != null){
 		        <td><div>
 		        
 			          <select name="iteminfo" id="${ginfo2.id}${iinfo.id}" style="border-style:solid; border-color:#CCC" onchange="changeBorder(this);">
-			            <option value="0">未选择</option>
+			            <option value="${ginfo2.id},${iinfo.id},0">未选择</option>
 			            <option value="${ginfo2.id},${iinfo.id},1">预决赛</option>
 			            <option value="${ginfo2.id},${iinfo.id},2">预+决</option>
 			          </select>
