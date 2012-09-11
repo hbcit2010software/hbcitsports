@@ -316,6 +316,7 @@ public class ItemDAO {
 	/**
 	 * 根据Matchtype获取应拆分成的Finalitem数量
 	 * Matchtype='1'预决赛计数1；Matchtype='2'预赛+决赛 计数2
+	 * 本方法可用来验证Finalitem是否已经拆分
 	 * @param sportsId
 	 * @return
 	 */
@@ -339,13 +340,70 @@ public class ItemDAO {
 		return rst;
 	}
 	
-	public boolean splitFinalitem(int sportsId){
+	/**
+	 * 获取此届运动会的FinalItem数量
+	 * 本方法可用来验证Finalitem是否已经拆分(判断与countMatchtype()方法返回值是否相等)
+	 * @param sportsId
+	 * @return
+	 */
+	public int countFinalItem(int sportsId){
+		int rst = 0;
+		String sql = "SELECT COUNT(*) FROM t_finalitem WHERE sportsid=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				rst = rs.getInt(1);
+			}
+			db.freeConnection(rs, pStatement, conn);
+		}catch(Exception e){
+			log.error("获取此届运动会的FinalItem数量失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
+	}
+	
+	/**
+	 * 删除指定ID运动会的Final Item信息
+	 * @param sportsId
+	 * @return
+	 */
+	public boolean removeFinalItem(int sportsId){
 		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_finalitem WHERE sportsid=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			//pStatement.close();
+			db.freeConnection(pStatement, conn);
+		}catch(Exception e){
+			log.error("删除指定ID运动会的Final Item信息失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+	
+	/**
+	 * 拆分Final Item
+	 * @param sportsId
+	 * @return
+	 */
+	public int splitFinalitem(int sportsId){
+		int rst = 0;
 		//查询指定运动会ID的gp2spid和matchtype
 		String sql_QueryGp2spidAndMatchtype = "SELECT t_group2item.id,t_group.groupname ,t_item.itemname,t_group2item.matchtype FROM t_group2item,t_group2sports,t_item,t_group WHERE t_group2sports.id=t_group2item.gp2spid AND t_group2item.itemid=t_item.id AND t_group2sports.groupid=t_group.id AND t_group2item.matchtype<>'0' AND t_group2sports.sportsid=?";
 		//插入拆分后的t_finalitem
 		String sql_InsertFinalitem = "INSERT INTO t_finalitem (gp2itid,finalitemname,finalitemtype,sportsid) VALUES (?,?,?,?)";
-		int count[]; 
+		int count[] = {}; 
 		try{
 			conn = db.getConn();
 			pStatement = conn.prepareStatement(sql_QueryGp2spidAndMatchtype);
@@ -404,7 +462,12 @@ public class ItemDAO {
 		}finally{
 			db.freeConnection(rs,pStatement,conn);
 		}
-		return flag;
+
+		for(int i = 0; i < count.length; i++){
+			rst += count[i];
+		}
+		log.debug("批量拆分的Finalitem共有：" + rst);
+		return rst;
 	}
 	
 }

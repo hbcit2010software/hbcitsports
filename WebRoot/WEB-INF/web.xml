@@ -520,6 +520,13 @@
     <servlet-name>GameManageCheckTablePrintScanServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.GameManageCheckTablePrintScanServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddFinalItemServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.AddFinalItemServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -894,6 +901,10 @@
   <servlet-mapping>
     <servlet-name>GameManageCheckTablePrintScanServlet</servlet-name>
     <url-pattern>/servlet/GameManageCheckTablePrintScanServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddFinalItemServlet</servlet-name>
+    <url-pattern>/servlet/AddFinalItemServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

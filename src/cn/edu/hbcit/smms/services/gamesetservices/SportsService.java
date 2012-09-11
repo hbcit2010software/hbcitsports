@@ -352,4 +352,31 @@ public class SportsService {
 		return item.countMatchtype(sportsId);
 	}
 	
+	/**
+	 * 获取此届运动会的FinalItem数量
+	 * 本方法可用来验证Finalitem是否已经拆分(判断与countMatchtype()方法返回值是否相等)
+	 * @param sportsId
+	 * @return
+	 */
+	public int countFinalItem(int sportsId){
+		return item.countFinalItem(sportsId);
+	}
+	
+	/**
+	 * 拆分Final Item
+	 * @param sportsId
+	 * @return
+	 */
+	public int splitFinalitem(int sportsId){
+		return item.splitFinalitem(sportsId);
+	}
+	/**
+	 * 删除指定ID运动会的Final Item信息
+	 * @param sportsId
+	 * @return
+	 */
+	public boolean removeFinalItem(int sportsId){
+		return item.removeFinalItem(sportsId);
+	}
+	
 }
