@@ -62,9 +62,11 @@ CREATE TABLE `t_finalitem` (
   `promotionnum` int(11) DEFAULT NULL COMMENT '晋级数量',
   `sportsid` int(11) DEFAULT NULL COMMENT '运动会ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分项竞赛项目表（预赛与决赛分离后的）';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='分项竞赛项目表（预赛与决赛分离后的）';
 
 /*Data for the table `t_finalitem` */
+
+insert  into `t_finalitem`(`id`,`gp2itid`,`finalitemname`,`finalitemtype`,`date`,`time`,`groupnum`,`promotionnum`,`sportsid`) values (2,80,'学生女子组100米预决赛','3',NULL,NULL,NULL,NULL,2),(3,84,'学生女子组110米跨栏预决赛','3',NULL,NULL,NULL,NULL,2),(4,92,'学生女子组1500米预决赛','3',NULL,NULL,NULL,NULL,2),(5,94,'学生女子组400米栏预决赛','3',NULL,NULL,NULL,NULL,2),(6,83,'学生男子组跳远预决赛','3',NULL,NULL,NULL,NULL,2),(7,87,'学生男子组200米预赛','1',NULL,NULL,NULL,NULL,2),(8,87,'学生男子组200米决赛','2',NULL,NULL,NULL,NULL,2),(9,97,'学生男子组跳高预赛','1',NULL,NULL,NULL,NULL,2),(10,97,'学生男子组跳高决赛','2',NULL,NULL,NULL,NULL,2),(11,99,'学生男子组三级跳远预赛','1',NULL,NULL,NULL,NULL,2),(12,99,'学生男子组三级跳远决赛','2',NULL,NULL,NULL,NULL,2);
 
 /*Table structure for table `t_group` */
 
@@ -76,9 +78,11 @@ CREATE TABLE `t_group` (
   `grouptype` tinyint(1) NOT NULL COMMENT '组别类型：true学生，false教工',
   `groupsex` tinyint(3) DEFAULT NULL COMMENT '组别的性别类型true男；false女',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组别表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='组别表';
 
 /*Data for the table `t_group` */
+
+insert  into `t_group`(`id`,`groupname`,`grouptype`,`groupsex`) values (1,'学生男子组',1,1),(2,'学生女子组',1,0);
 
 /*Table structure for table `t_group2item` */
 
@@ -90,9 +94,11 @@ CREATE TABLE `t_group2item` (
   `itemid` int(11) NOT NULL COMMENT '项目id',
   `matchtype` varchar(1) NOT NULL COMMENT '比赛类型：1预决赛；2预赛+决赛；3之后留作扩展',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分组与项目对应关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8 COMMENT='分组与项目对应关系表';
 
 /*Data for the table `t_group2item` */
+
+insert  into `t_group2item`(`id`,`gp2spid`,`itemid`,`matchtype`) values (18,3,8,'1'),(80,1,1,'1'),(81,2,1,'0'),(82,1,2,'0'),(83,2,2,'1'),(84,1,3,'1'),(85,2,3,'0'),(86,1,4,'0'),(87,2,4,'2'),(88,1,5,'0'),(89,2,5,'0'),(90,1,6,'0'),(91,2,6,'0'),(92,1,7,'1'),(93,2,7,'0'),(94,1,8,'1'),(95,2,8,'0'),(96,1,9,'0'),(97,2,9,'2'),(98,1,10,'0'),(99,2,10,'2'),(100,1,11,'0'),(101,2,11,'0'),(102,1,12,'0'),(103,2,12,'0'),(104,1,13,'0'),(105,2,13,'0'),(106,1,14,'0'),(107,2,14,'0'),(108,1,15,'0'),(109,2,15,'0');
 
 /*Table structure for table `t_group2sports` */
 
@@ -103,9 +109,11 @@ CREATE TABLE `t_group2sports` (
   `sportsid` int(11) NOT NULL COMMENT '运动会id',
   `groupid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组别与运动会关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='组别与运动会关系表';
 
 /*Data for the table `t_group2sports` */
+
+insert  into `t_group2sports`(`id`,`sportsid`,`groupid`) values (1,2,2),(2,2,1),(3,1,2);
 
 /*Table structure for table `t_item` */
 
@@ -222,6 +230,7 @@ CREATE TABLE `t_player` (
   `playertype` tinyint(4) DEFAULT NULL COMMENT '运动员类型：true学生；false教工',
   `groupid` int(11) DEFAULT NULL COMMENT '组别id',
   `registitem` varchar(255) DEFAULT NULL COMMENT '该人所报的项目：用;隔开的itemid字符串。比如1;2;3代表报了1、2、3这三个项目',
+  `numid` int(11) DEFAULT NULL COMMENT 't_playnum的id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运动员表';
 
@@ -323,11 +332,11 @@ CREATE TABLE `t_sports` (
   `address` varchar(50) NOT NULL COMMENT '大会地点',
   `current` tinyint(1) NOT NULL COMMENT '是否当前运动会',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='运动会表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='运动会表';
 
 /*Data for the table `t_sports` */
 
-insert  into `t_sports`(`id`,`sportsname`,`sportsbegin`,`sportsend`,`registend`,`address`,`current`) values (1,'河北工院第12届运动会','2012-02-01','2012-02-02','2012-01-30','南校区操场',0),(2,'河北工院第13届运动会','2012-09-01','2012-09-02','2012-08-18','南校区风雨操场',1),(3,'河北工院第11届运动会','2010-01-10','2010-01-11','2010-01-01','学院田径场（南校区）',0);
+insert  into `t_sports`(`id`,`sportsname`,`sportsbegin`,`sportsend`,`registend`,`address`,`current`) values (1,'河北工院第12届运动会','2012-02-01','2012-02-02','2012-01-30','南校区操场',0),(2,'河北工院第13届运动会','2012-09-01','2012-09-02','2012-08-18','南校区风雨操场',1),(3,'河北工院第11届运动会','2010-01-10','2010-01-11','2010-01-01','学院田径场（南校区）',0),(4,'河北工业职业技术学院第14届运动会','2012-07-14','2012-07-15','2012-07-08','南校区田径赛场',0);
 
 /*Table structure for table `t_sports2department` */
 
