@@ -379,4 +379,21 @@ public class SportsService {
 		return item.removeFinalItem(sportsId);
 	}
 	
+	/**
+	 * 获取本届运动会的举办日期（每天）
+	 * @param sportsId
+	 * @return
+	 */
+	public ArrayList selectSportsDays(int sportsId){
+		return item.selectSportsDays(sportsId);
+	}
+	/**
+	 * 为前台页面显示而获取FinalItem信息
+	 * @param sportsId
+	 * @return
+	 */
+	public ArrayList selectFinalItem(int sportsId){
+		return item.selectFinalItem(sportsId);
+	}
+	
 }

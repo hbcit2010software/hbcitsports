@@ -107,7 +107,7 @@ body {
         <li><a href="servlet/GetGroupInfoServlet" target="rightFrame">组别设置</a></li>
         <li><a href="servlet/GetItemInfoServlet" target="rightFrame">项目设置</a></li>
         <li><a href="servlet/AddFinalItemServlet" target="rightFrame">日程安排</a></li>
-        <li><a href="#" target="rightFrame">号段分配</a></li>
+        <li><a href="servlet/ViewScheduleServlet" target="rightFrame">号段分配</a></li>
         <li><a href="#" target="rightFrame">赛事规程</a></li>
         <li><a href="#" target="rightFrame">会程设置</a></li>
         <li><a href="#" target="rightFrame">工作人员设置</a></li>

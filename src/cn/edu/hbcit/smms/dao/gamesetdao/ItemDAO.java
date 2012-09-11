@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
+import hirondelle.date4j.DateTime;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.FinalItem;
@@ -99,10 +100,49 @@ public class ItemDAO {
 		return list;
 	}
 	
+	/**
+	 * 获取本届运动会的举办日期（每天）
+	 * @param sportsId
+	 * @return
+	 */
+	public ArrayList selectSportsDays(int sportsId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT sportsbegin,sportsend FROM t_sports WHERE id=?";
+		String begin, end;
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			if(rs.next()){
+				begin = rs.getString(1);
+				end = rs.getString(2);
+				DateTime beginDt = new DateTime(begin);
+				DateTime endDt = new DateTime(end);
+				log.debug("起始日期："+begin+"结束日期："+end+"，相差天数：" + beginDt.numDaysFrom(endDt));
+				for(int i = 0; i < beginDt.numDaysFrom(endDt) + 1; i++){
+					list.add(beginDt.plusDays(i).format("YYYY-MM-DD").toString());
+					log.debug("运动会举办日期是：" + beginDt.plusDays(i).format("YYYY-MM-DD").toString());
+				}
+
+			}
+			db.freeConnection(rs,pStatement,conn);
+		}catch(Exception e){
+			log.error("获取本届运动会的举办日期失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	/**
+	 * 为前台页面显示而获取FinalItem信息
+	 * @param sportsId
+	 * @return
+	 */
 	public ArrayList selectFinalItem(int sportsId){
 		ArrayList list = new ArrayList();
 		//查询项目名称、比赛阶段、项目类型、运动员类型等信息
-		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=?";
+		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=? ORDER BY t_finalitem.finalitemtype,t_item.itemtype";
 		conn = db.getConn();
 		try{
 			pStatement = conn.prepareStatement(sql);
@@ -117,11 +157,9 @@ public class ItemDAO {
 				fi.setGrouptype(rs.getInt(5));
 				list.add(fi);
 			}
-			rs.close();
-			pStatement.close();
-			db.freeConnection(conn);
+			db.freeConnection(rs,pStatement,conn);
 		}catch(Exception e){
-			log.error("获取此届运动会的组别信息失败！");
+			log.error("获取此届运动会的FinalItem信息失败！");
 			log.error(e.getMessage());
 		}
 		return list;

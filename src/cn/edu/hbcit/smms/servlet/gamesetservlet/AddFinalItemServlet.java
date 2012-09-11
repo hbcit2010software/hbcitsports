@@ -105,6 +105,7 @@ public class AddFinalItemServlet extends HttpServlet {
 				log.debug("拆分成功！");
 			}else{
 				log.error("拆分出现异常，拆分出了" + countSplited + "条，应拆分出" + countMatchtype +"条");
+				request.setAttribute("msg", "数据处理异常，FinalItem拆分出了" + countSplited + "条，应拆分出" + countMatchtype +"条！");
 			}
 		}else if(countFinalItem != 0 && countMatchtype != countFinalItem){
 			//说明应拆分的数量与已拆分的数量不等，拆分存在问题，需删除原数据，重新拆分
@@ -112,10 +113,13 @@ public class AddFinalItemServlet extends HttpServlet {
 			countSplited = ss.splitFinalitem(sportsId);     //后分
 			if(countSplited == countMatchtype){
 				log.debug("先删后拆操作成功！");
+				request.setAttribute("msg", "数据处理异常，请检查后续操作数据是否正常！");
 			}else{
 				log.error("先删后拆出现异常，拆分出了" + countSplited + "条，应拆分出" + countMatchtype +"条");
+				request.setAttribute("msg", "FinalItem先删后拆出现异常，拆分出了" + countSplited + "条，应拆分出" + countMatchtype +"条！");
 			}
 		}
+		request.getRequestDispatcher("ViewScheduleServlet").forward(request, response);
 		
 	}
 
