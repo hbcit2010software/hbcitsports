@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
+import cn.edu.hbcit.smms.pojo.FinalItem;
 import cn.edu.hbcit.smms.pojo.Group;
 import cn.edu.hbcit.smms.pojo.Group2itemPojo;
 import cn.edu.hbcit.smms.pojo.Item;
@@ -97,6 +98,35 @@ public class ItemDAO {
 		}
 		return list;
 	}
+	
+	public ArrayList selectFinalItem(int sportsId){
+		ArrayList list = new ArrayList();
+		//查询项目名称、比赛阶段、项目类型、运动员类型等信息
+		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				FinalItem fi = new FinalItem();
+				fi.setId(rs.getInt(1));
+				fi.setFinalitemname(rs.getString(2));
+				fi.setFinalitemtype(rs.getString(3));
+				fi.setItemtype(rs.getString(4));
+				fi.setGrouptype(rs.getInt(5));
+				list.add(fi);
+			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
+		}catch(Exception e){
+			log.error("获取此届运动会的组别信息失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	
 	/**
 	 * 删除指定ID运动会的项目信息
 	 * @param sportsId
@@ -469,5 +499,7 @@ public class ItemDAO {
 		log.debug("批量拆分的Finalitem共有：" + rst);
 		return rst;
 	}
+	
+	
 	
 }
