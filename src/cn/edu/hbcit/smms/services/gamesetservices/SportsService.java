@@ -395,5 +395,13 @@ public class SportsService {
 	public ArrayList selectFinalItem(int sportsId){
 		return item.selectFinalItem(sportsId);
 	}
+	/**
+	 * 更新t_finalitem时间、日期、晋级数量
+	 * @param finalItem 格式：id,date,time,promotionnum
+	 * @return
+	 */
+	public boolean updateFinalItem(String[] finalItem){
+		return item.updateFinalItem(finalItem);
+	}
 	
 }

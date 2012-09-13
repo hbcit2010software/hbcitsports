@@ -382,6 +382,57 @@ public class ItemDAO {
 	}
 	
 	/**
+	 * 更新t_finalitem时间、日期、晋级数量
+	 * @param finalItem 格式：id,date,time,promotionnum
+	 * @return
+	 */
+	public boolean updateFinalItem(String[] finalItem){
+		boolean flag = false;
+		int count[]; 
+		String sql = "UPDATE t_finalitem SET date=?,time=?,promotionnum=? WHERE id=?";
+		try{
+			conn = db.getConn();
+			conn.setAutoCommit(false);
+			pStatement = conn.prepareStatement(sql);
+
+			for(int i=0; i<finalItem.length; i++){
+				//finalItem[i]格式：id,date,time,promotionnum
+				String[] tempArray = finalItem[i].split(",");
+				pStatement.setString(1, tempArray[1]);
+				pStatement.setString(2, tempArray[2]);
+				pStatement.setInt(3, Integer.parseInt(tempArray[3]));
+				pStatement.setInt(4, Integer.parseInt(tempArray[0]));
+				pStatement.addBatch();
+			}
+			count = pStatement.executeBatch();
+			conn.commit();
+			for(int i : count){  
+			    if(i == 0) {
+			    	conn.rollback();              // 回滚，非常重要 
+			    	log.error("更新t_finalitem数据出现异常，回滚=========》"); 
+			    	flag = false;
+			    	break;
+			    }else{
+			    	flag = true;
+			    }
+			   }
+		}catch(Exception e){
+			try{
+				// 回滚，非常重要  
+				conn.rollback();
+			}catch(SQLException e1){
+				log.error(e1.getMessage());
+			}
+			log.error("更新t_finalitem数据失败！");
+			log.error(e.getMessage());
+		}finally{
+			db.freeConnection(pStatement,conn);
+		}
+
+		return flag;
+	}
+	
+	/**
 	 * 根据Matchtype获取应拆分成的Finalitem数量
 	 * Matchtype='1'预决赛计数1；Matchtype='2'预赛+决赛 计数2
 	 * 本方法可用来验证Finalitem是否已经拆分

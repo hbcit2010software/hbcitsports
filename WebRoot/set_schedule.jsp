@@ -27,6 +27,22 @@
 		});
 
 </script>
+<script type="text/javascript">
+function checkSubmit(){
+	var strFi=new Array();
+	<c:forEach var="fi" items="${requestScope.finalItemList}" varStatus="countItem">
+		strFi[${countItem.index}]="${fi.id}";
+	</c:forEach>
+	for(var i=0; i<strFi.length; i++){
+		var days = document.getElementById("day"+strFi[i]).value;
+		var times = document.getElementById("example"+strFi[i]).value;
+		var nums = document.getElementById("num"+strFi[i]).value;
+		document.getElementById("hidden"+strFi[i]).value = strFi[i] + "," + days + "," + times + "," + nums;
+		//alert(document.getElementById("hidden"+strFi[i]).value);
+	}
+	document.forms[0].submit();
+}
+</script>
 <style type="text/css"> 
 			#ui-datepicker-div, .ui-datepicker{ font-size: 80%; }
 </style>
@@ -39,6 +55,7 @@ if(request.getAttribute("msg") != null){
 	out.print("<script type='text/javascript'>Dialog.alert('"+(String)request.getAttribute("msg")+"');</script>");
 }
 %>
+<form action="${pageContext.request.contextPath }/servlet/UpdateFinalItemServlet" method="post">
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -47,7 +64,7 @@ if(request.getAttribute("msg") != null){
           <tr>
             <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
+                <td width="6%" height="19" valign="bottom"><div align="center"><img src="${pageContext.request.contextPath }/images/tb.gif" width="14" height="14" /></div></td>
                 <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->日程管理</span></td>
               </tr>
             </table></td>
@@ -110,16 +127,17 @@ if(request.getAttribute("msg") != null){
         	</c:if>
         </td>
         <td><div>
-          <select name="select" id="select">
+          <select name="select" id="day${finalItem.id}">
           	<c:forEach items="${requestScope.daysList}" var="days">
             	<option value="${days}">${days}</option>
             </c:forEach>
           </select>
         </div></td>
         <!-- 时间选择控件 -->
-        <script type="text/javascript">$(function(){$('#example${countItem.count }').timepicker({});});</script>
-        <td><div><input readonly="readonly" name="example${countItem.count }" type="text" id="example${countItem.count }" value="" size="10"  style="text-align:center"/></div></td>
-        <td><div><input name="promotionnum" type="text" id="promotionnum" value="8" size="10" style="text-align:center"/></div></td>
+        <script type="text/javascript">$(function(){$('#example${finalItem.id}').timepicker({});});</script>
+        <td><div><input readonly="readonly" name="example${countItem.count }" type="text" id="example${finalItem.id}" value="" size="10"  style="text-align:center"/></div></td>
+        <td><div><input name="promotionnum" type="text" id="num${finalItem.id}" value="8" size="10" style="text-align:center"/></div></td>
+        <input type="hidden" name="finalitemhidden" id="hidden${finalItem.id}" value="" />
       </tr>
      </c:forEach>
        
@@ -132,5 +150,7 @@ if(request.getAttribute("msg") != null){
 <!--
 <div align="center"><span class="pageJump">共有&nbsp;<b>243</b>&nbsp;条记录，当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>10</b>&nbsp;页&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</span></div>
 -->
+<div align="center"><span class="pageJump"><input type="button" value="提  交" onclick="checkSubmit()" /></span></div>
+</form>
 </body>
 </html>
