@@ -129,14 +129,26 @@ if(request.getAttribute("msg") != null){
         <td><div>
           <select name="select" id="day${finalItem.id}">
           	<c:forEach items="${requestScope.daysList}" var="days">
-            	<option value="${days}">${days}</option>
+          		<c:if test="${finalItem.date eq days}">
+            		<option selected="selected" value="${days}">${days}</option>
+            	</c:if>
+            	<c:if test="${finalItem.date ne days}">
+            		<option value="${days}">${days}</option>
+            	</c:if>
             </c:forEach>
           </select>
         </div></td>
         <!-- 时间选择控件 -->
         <script type="text/javascript">$(function(){$('#example${finalItem.id}').timepicker({});});</script>
-        <td><div><input readonly="readonly" name="example${countItem.count }" type="text" id="example${finalItem.id}" value="" size="10"  style="text-align:center"/></div></td>
-        <td><div><input name="promotionnum" type="text" id="num${finalItem.id}" value="8" size="10" style="text-align:center"/></div></td>
+        <td><div><input readonly="readonly" name="example${countItem.count }" type="text" id="example${finalItem.id}" value="${finalItem.time}" size="10"  style="text-align:center"/></div></td>
+        <td><div>
+        <c:if test="${finalItem.promotionnum eq 0}">
+        	<input name="promotionnum" type="text" id="num${finalItem.id}" value="8" size="10" style="text-align:center"/>
+        </c:if>
+        <c:if test="${finalItem.promotionnum ne 0}">
+        	<input name="promotionnum" type="text" id="num${finalItem.id}" value="${finalItem.promotionnum}" size="10" style="text-align:center"/>
+        </c:if>
+        </div></td>
         <input type="hidden" name="finalitemhidden" id="hidden${finalItem.id}" value="" />
       </tr>
      </c:forEach>
