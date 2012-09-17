@@ -7,8 +7,13 @@ public class Item {
 	private int itemid;
 	private String itemname;
 	private String itemtype;
+	public String getItemtype() {
+		return itemtype;
+	}
+	public void setItemtype(String itemtype) {
+		this.itemtype = itemtype;
+	}
 	private int scoreformatid;
-	
 	
 	public String getItemname() {
 		return itemname;
@@ -23,6 +28,10 @@ public class Item {
 	public void setId(int id) {
 		this.id = id;
 	}
+	/**
+	 * @return the itemtype
+	 */
+	
 	/**
 	 * @return the scoreformatid
 	 */
@@ -46,18 +55,6 @@ public class Item {
 	 */
 	public void setItemid(int itemid) {
 		this.itemid = itemid;
-	}
-	/**
-	 * @return the itemtype
-	 */
-	public String getItemtype() {
-		return itemtype;
-	}
-	/**
-	 * @param itemtype the itemtype to set
-	 */
-	public void setItemtype(String itemtype) {
-		this.itemtype = itemtype;
 	}
 
 }

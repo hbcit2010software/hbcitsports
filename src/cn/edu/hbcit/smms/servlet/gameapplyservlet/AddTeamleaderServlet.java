@@ -96,7 +96,7 @@ public class AddTeamleaderServlet extends HttpServlet {
 		if(flag == 1){
 			session.setAttribute("msg","添加成功！");
 		}else{
-			session.setAttribute("msg","添加失败！");
+			session.setAttribute("msg","您已添加，若要修改请跳转查询修改界面！");
 		}
 		response.sendRedirect("../apply_show.jsp");
 	}

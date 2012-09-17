@@ -70,11 +70,15 @@ public class GetPlayerServlet extends HttpServlet {
 		GetPlayerService itemName  = new GetPlayerService();
 
 		GetPlayerService spn = new GetPlayerService();
-		String sportsname = spn.getSportsName();//获取当前运动会名称
+		//String sportsname = spn.getSportsName();//获取当前运动会名称
+		int sportsId = 0;
+		if(session.getAttribute("currSportsId") != null){
+			sportsId = ((Integer)session.getAttribute("currSportsId")).intValue();
+		}
 		int grouptype = 0;//组别类型设为教工
-		int sum = spn.getItemNumber(sportsname,grouptype);
+		int sum = spn.getItemNumber(sportsId,grouptype);
 		ArrayList list = new ArrayList();
-		list = itemName.getItemName(sportsname,grouptype);
+		list = itemName.getItemName(sportsId,grouptype);
 		
 		session.setAttribute("mylist", list);//获取当前页面运动会所有项目
 		session.setAttribute("num", Integer.valueOf(sum));//获取当前页面运动会所有项目总数
@@ -84,6 +88,7 @@ public class GetPlayerServlet extends HttpServlet {
 		String username = (String)session.getAttribute("username");//获取用户名
 		flag = player.getDepartid(username);//根据用户名获取部门id
 		int flag1 = player.getSp2dpid(flag);//获取当前组别id及运动会的id
+		session.setAttribute("flag1",flag1);
 		//
 		GetPlayerDAO getPlayerDao = new GetPlayerDAO();
 		ArrayList list1 = new ArrayList();
@@ -91,17 +96,33 @@ public class GetPlayerServlet extends HttpServlet {
 		session.setAttribute("playernum",list1);
 		//
 		GetPlayerService playernum = new GetPlayerService(); 
+		int sp2dpid2 = Integer.parseInt(session.getAttribute("flag1").toString());//得到sp2dpid
+		boolean numtype = false;//定义号码的类型
+		int sums = playernum.selectPlayerNum(sp2dpid2, numtype);//根据号码的类型得知数据库中的numid
+		if(sums==0){
+			response.sendRedirect("../query_game.jsp");
+		}else{
+		if(!list.isEmpty()){
 		PlayerNum p = (PlayerNum)list1.get(0);
 		int begin = Integer.parseInt(p.getBeginnum());//得到起始号码
 		int end = Integer.parseInt(p.getEndnum());//得到终止号码
-		String sql = "insert into t_player (sp2dpid,playernum) values ";//插入sql语句
+		//
+		if(!list.isEmpty()){
+		int namesum = playernum.selNameByNumid(sums);//根据numid获取报名人数
+		session.setAttribute("namesum", Integer.valueOf(namesum));
+		int sumnumid  = playernum.getSumNumId(sums);//计算数据库中号码id的总数量
+		if(sumnumid==0){//如果数量为0则执行以下代码
+		String sql = "insert into t_player (sp2dpid,playernum,numid) values ";//插入sql语句
 		for(int i = begin;i <= end;i++){//循环插入到库中的起始到终止号码
 			if(i > begin){
 				sql = sql + ",";	
 			}
-			sql = sql + "(" + flag1 + "," + (i + "") + ")";
+			sql = sql + "(" + flag1 + "," + (i + "") + "," + sums + ")";
 		}
 		playernum.addPlayerBySql(sql);
+		}
+		}
+		}
 		//
 		
 		ArrayList groupList = new ArrayList();
@@ -110,6 +131,7 @@ public class GetPlayerServlet extends HttpServlet {
 		session.setAttribute("grouplist", groupList);//获取教工组的所有组别
 		response.sendRedirect("../apply_teacher.jsp");
 		
+	}
 	}
 
 	/**

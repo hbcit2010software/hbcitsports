@@ -9,11 +9,11 @@ public class GetPlayerService {
 	public ArrayList getPlayerNum(int sp2dpid,int numtype){
 		return getPlayerDao.getPlayerNum(sp2dpid,numtype);
 	}
-	public ArrayList getItemName(String sportsname,int grouptype){
-		return getPlayerDao.getItemName(sportsname, grouptype);
+	public ArrayList getItemName( int sportsid,int grouptype){
+		return getPlayerDao.getItemName(sportsid, grouptype);
 	}
-	public int getItemNumber( String sportsname,int grouptype ){
-		return getPlayerDao.getItemNumber(sportsname,grouptype);
+	public int getItemNumber( int sportsid,int grouptype ){
+		return getPlayerDao.getItemNumber(sportsid,grouptype);
 	}
 	public String getSportsName(){
 		return getPlayerDao.getSportsName();
@@ -32,5 +32,14 @@ public class GetPlayerService {
 	}
 	public void addPlayerBySql(String sql){
 		getPlayerDao.addPlayerBySql(sql);
+	}
+	public int selectPlayerNum(int sp2dpid2,boolean numtype){
+		return getPlayerDao.selectPlayerNum(sp2dpid2, numtype);
+	}
+	public int getSumNumId(int sums){
+		return getPlayerDao.getSumNumId(sums);	
+	}
+	public int selNameByNumid(int sums){
+		return getPlayerDao.selNameByNumid(sums);
 	}
 }

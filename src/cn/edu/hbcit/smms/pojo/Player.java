@@ -8,6 +8,13 @@ public class Player {
 	boolean playersex;
 	int groupid ;
 	String registitem;
+	int numid;
+	public int getNumid() {
+		return numid;
+	}
+	public void setNumid(int numid) {
+		this.numid = numid;
+	}
 	public int getId() {
 		return id;
 	}

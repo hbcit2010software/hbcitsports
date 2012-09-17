@@ -113,14 +113,27 @@ public class UpdatePlayerDAO {
 				if(rs.next()){
 					 sex = rs.getString(1);
 				}
-				System.out.println(sex);
+				//System.out.println(sex);
 				if(sex.equals("1")){
 					playerSex = true;
 				}else {
 					playerSex = false;
 				}
-				System.out.println(playerSex);
-				String registItem = myPlayer[3];//运动员所报项目的id
+				//System.out.println(playerSex);
+/*************吕志瑶
+ * 去掉项目类型分隔符
+ * ******************/
+				String registItem = "";//myPlayer[3]:运动员所报项目的id "2+3;4+5"
+				String[] itemIdArr =  myPlayer[3].split(";");  //{"2+3","4+5"}
+				for(int j=0; j<itemIdArr.length; j++){
+					String[] tempStr = itemIdArr[j].split("#");  //{"2","3"}
+					registItem = registItem + tempStr[0];
+					if(j != itemIdArr.length-1){
+						registItem += ";";
+					}
+				}
+				//System.out.println("QQQQQQQQQQQQQ:"+registItem);
+				
 				pStatement = conn.prepareStatement(sql);
 				pStatement.setString(1, playerName);
 				pStatement.setBoolean(2, playerSex);
