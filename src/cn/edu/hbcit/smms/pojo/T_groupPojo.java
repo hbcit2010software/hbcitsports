@@ -1,6 +1,7 @@
 package cn.edu.hbcit.smms.pojo;
 
 public class T_groupPojo {
+
 	private int id;
 	private String groupname;
 	private int grouptype;
@@ -22,5 +23,6 @@ public class T_groupPojo {
 	public void setGrouptype(int grouptype) {
 		this.grouptype = grouptype;
 	}
-
+	
+	
 }

@@ -31,11 +31,11 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.rtf.RtfWriter2;
 
 public class WordGameRecordDao {
-	public void wordGameRecord(List gameRecord, Map studentJudge, String fileName){
+	public void wordGameRecord(String filePath, List gameRecord, Map studentJudge, String fileName){
 		Document document = new Document(PageSize.A4);
 		try {
 			RtfWriter2.getInstance(document,
-					new FileOutputStream("../"+fileName+".doc"));
+					new FileOutputStream(filePath+fileName));
 
 			document.open();
 		

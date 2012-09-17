@@ -1,52 +1,25 @@
-<%@ page language="java" import="java.util.*" pageEncoding="gb2312"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
-  <head>
+   <head>
     <title>My JSP 'tracklock.jsp' starting page</title>
      <link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script language="javascript">
-	//¸ôĞĞ±äÉ«
+	//éš”è¡Œå˜è‰²
 $(document).ready(function(){
 			
-			 $(".stripe_tb tr").mouseover(function(){ //Èç¹ûÊó±êÒÆµ½classÎªstripe_tbµÄ±í¸ñµÄtrÉÏÊ±£¬Ö´ĞĞº¯Êı
-			 $(this).addClass("over");}).mouseout(function(){ //¸øÕâĞĞÌí¼ÓclassÖµÎªover£¬²¢ÇÒµ±Êó±êÒ»³ö¸ÃĞĞÊ±Ö´ĞĞº¯Êı
-			 $(this).removeClass("over");}) //ÒÆ³ı¸ÃĞĞµÄclass
-			 $(".stripe_tb tr:even").addClass("alt"); //¸øclassÎªstripe_tbµÄ±í¸ñµÄÅ¼ÊıĞĞÌí¼ÓclassÖµÎªalt
+			 $(".stripe_tb tr").mouseover(function(){ //å¦‚æœé¼ æ ‡ç§»åˆ°classä¸ºstripe_tbçš„è¡¨æ ¼çš„trä¸Šæ—¶ï¼Œæ‰§è¡Œå‡½æ•°
+			 $(this).addClass("over");}).mouseout(function(){ //ç»™è¿™è¡Œæ·»åŠ classå€¼ä¸ºoverï¼Œå¹¶ä¸”å½“é¼ æ ‡ä¸€å‡ºè¯¥è¡Œæ—¶æ‰§è¡Œå‡½æ•°
+			 $(this).removeClass("over");}) //ç§»é™¤è¯¥è¡Œçš„class
+			 $(".stripe_tb tr:even").addClass("alt"); //ç»™classä¸ºstripe_tbçš„è¡¨æ ¼çš„å¶æ•°è¡Œæ·»åŠ classå€¼ä¸ºalt
 			
 		});
 </script>
- <script language="javascript">
-				function adduser(obj) {
-				   //var tt = window.event.srcElement.id;
-				   //alert(obj.id);
-					var diag = new Dialog();
-					diag.Top="50%";
-					diag.Left="50%";
-				
-					diag.Modal = false;
-					
-					diag.Width = 450;
-					diag.Height = 150;
-					diag.Title = "ĞŞ¸ÄÅÜµÀ";
-					diag.URL = "${pageContext.request.contextPath }/servlet/AdjustByHandServlet?str="+obj.id;
-					diag.OKEvent = function() {
-						window.location.reload();
-				
-					};
-				
-					diag.ShowCloseButton = false;
-					diag.MessageTitle = "ÌáÊ¾£º";
-					diag.Message = "ĞŞ¸ÄÊ±Çë×¢Òâ£¬Í¬Ò»×éÖĞ²»¿ÉÒÔ³öÏÖÏàÍ¬µÄÁ½¸öÅÜµÀ";
-					diag.show();
-					diag.okButton.value = "½á¹ûË¢ĞÂ";
-					diag.cancelButton.value = "¹Ø±Õ";
-				}
-	
-       </script>
+
 <style>
 			body { background: #ffffff; color: #444;font-size:12px; }
 			a { color: #07c; text-decoration: none; border: 0; background-color: transparent; }
@@ -73,17 +46,27 @@ $(document).ready(function(){
 			
 		</style>
   </head> 
+  
   <body>
   
  		<table width="100%" border="0" cellpadding="0" cellspacing="1"
 							bgcolor="#a8c7ce" class="stripe_tb">
-             <c:forEach items="${ trackPlayers }" var="temp">
-		 		<tr>
-		     	   <td>${ temp.groupNum }</td><td>${ temp.players }</td><td><a onclick="adduser(this)" id="${ temp.nextFlag }" href="#">ĞŞ¸Ä</a></td>
-		     	</tr>
-	          </c:forEach>
- 		</table> 
- 		<a href="servlet/SelectItemsServlet">·µ»Ø</a>
+		 		
+		     	   <c:forEach items="${ filelook }" var="temp">
+		     	   <tr>
+			 		<c:forEach items="${ temp }" var="aa">
+		     	   
+			 		<td>
+			 		    ${ aa  }
+			 		</td>
+			 		
+	           		</c:forEach>
+			 		</tr>
+	           </c:forEach>
+ 		</table>
+		     
+ 		</table>
+ 		<a href="servlet/SelectItemsServlet">è¿”å›</a>
  		
   </body>
 </html>

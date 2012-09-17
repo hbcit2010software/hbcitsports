@@ -1,6 +1,7 @@
 package cn.edu.hbcit.smms.pojo;
 
 public class T_finalitemPojo {
+	
 	private int id;
 	private int gp2itid;
 	private String finalitemname;
@@ -58,5 +59,7 @@ public class T_finalitemPojo {
 	public void setPromotionnum(int promotionnum) {
 		this.promotionnum = promotionnum;
 	}
+	
+	
 
 }

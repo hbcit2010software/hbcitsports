@@ -1,196 +1,209 @@
 package cn.edu.hbcit.smms.dao.createprogramdao;
 
-import java.awt.Color;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
-import com.lowagie.text.Cell;
+import cn.edu.hbcit.smms.pojo.T_finalitemPojo;
+import cn.edu.hbcit.smms.services.createprogramservices.DataManagerServices;
+
 import com.lowagie.text.Document;
-import com.lowagie.text.Font;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Table;
-import com.lowagie.text.rtf.RtfWriter2;
+import com.lowagie.text.PageSize;
 
 /**
- * 秩序册——赛事分组 word生成
+ * 
  * @author 韩鑫鹏
- * 2012——06——19 17:12
+ *
  */
 public class SetWordDAO {
 
-	/**
-	 * 设置word生成路径 并打开Document
-	 * @param Document
-	 * @param String path
-	 */
-	public void setWordPath( Document docu,String path){
-		   try { 
-		      RtfWriter2.getInstance(docu,  
-				    new FileOutputStream(path)); 
-		      docu.open();  
-		   }catch(Exception e){
-			   e.printStackTrace();
-		   }
-	  }
-	
-	/**
-	 * 设置表头
-	 * @param docu
-	 * @param group
-	 */
-	public void setHead(Document docu, String group){
-		try{
-			Paragraph p = new Paragraph(group, new Font(Font.NORMAL, 18,
-					Font.BOLD, new Color(0, 0, 0)));
-			p.setAlignment(1);
-			docu.add(p);
-		}catch(Exception e){
-			e.printStackTrace();
+	public void AddGroupInfo(String site, HashMap allGirlPlayers, HashMap allBoyPlayers, 
+			HashMap players, HashMap department ) {
+		
+		DataManagerDAO cpgg = new DataManagerDAO();
+		SetWordUtil swd = new SetWordUtil();
+		SetWordConnUtil swcu = new SetWordConnUtil();
+		Document docu = new Document(PageSize.A4);  
+		swd.setWordPath(docu, site);
+		ArrayList allBoyFnId = new ArrayList();
+		ArrayList allGirlFnId = new ArrayList();
+		Iterator allBoy = allBoyPlayers.keySet().iterator();
+        	while (allBoy.hasNext()){
+        	allBoyFnId.add(allBoy.next());
 		}
-    	
-    }
-	 /**
-	  * 百米类表格添加
-	  * @param Document docu
-	  * @param String title
-	  * @param ArrayList arrayList
-	  * @param int line
-	  * @param int[] groupNum
-	  */
-	  public void add100Table(Document docu,String title, ArrayList arrayList, int line, int[] groupNum){
-		  try{
-			  Table table = new Table(line);     
-			  table.setBorderWidth(0);
-			  table.setBorderWidth(0);
-			  table.setPadding(0);    
-			  table.setSpacing(0); 
-			  Cell cl = new Cell(new Paragraph(title, new Font(Font.NORMAL, 13,
-						Font.BOLD, new Color(0, 0, 0))));//单元格   
-			  cl.setBorderWidth(0);
-			  
-			  cl.setColspan(line);
-		      table.addCell(cl);
-		      
-			  int count = 0;
-			  for (int i = 0; i < groupNum.length ; i++){
-				  Cell cs = new Cell("第"+(i+1)+"组");//单元格   
-				  cs.setBorderWidth(0);
-			      table.addCell(cs);
-				  for (int j = 0; j < groupNum[i]; j++){
-			    	Cell cc = new Cell((String)arrayList.get(count));//单元格   
-			    	cc.setBorderWidth(0);
-			    	table.addCell(cc);
-			    	count++;
-				  }
-				  for (int k = 0; k < (line - groupNum[i] - 1); k++){
-					  Cell cc = new Cell("");//单元格   
-				    	cc.setBorderWidth(0);
-				    	table.addCell(cc);
-				  }
-			     }
-			  docu.add(table);
-		  }catch(Exception e){
-			  e.printStackTrace();
-		  }
-		   
-	  }
-	  
-	  /**
-	   * 1500米类表格添加
-	   * @param docu
-	   * @param title
-	   * @param arrayList
-	   * @param line
-	   * @param groupNum
-	   */
-	  public void add1500Table(Document docu,String title, ArrayList arrayList, int line, int[] groupNum){
-		  try{
-			  Table table = new Table(line);     
-			  table.setBorderWidth(0);
-			  table.setBorderWidth(0);
-			  table.setPadding(0);    
-			  table.setSpacing(0); 
-			  Cell cl = new Cell(new Paragraph(title, new Font(Font.NORMAL, 13,
-						Font.BOLD, new Color(0, 0, 0))));//单元格   
-			  cl.setBorderWidth(0);
-			  cl.setColspan(line);
-		      table.addCell(cl);
-		      
-			  int count = 0;
-			  for (int i = 0; i < groupNum.length ; i++){
-				  Cell cs = new Cell("第"+(i+1)+"组");//单元格   
-				  cs.setBorderWidth(0);
-			      table.addCell(cs);
-				  for (int j = 0; j < groupNum[i]; j++){
-			    	Cell cc = new Cell((String)arrayList.get(count));//单元格   
-			    	cc.setBorderWidth(0);
-			    	table.addCell(cc);
-			    	count++;
-				  }
-				 int temp = groupNum[i] % line;
-				  for (int k = 0; k < (line - temp - 1); k++){
-					  Cell cc = new Cell("");//单元格   
-				    	cc.setBorderWidth(0);
-				    	table.addCell(cc);
-				  }
-			    }
-			  docu.add(table);
-		  }catch(Exception e){
-			  e.printStackTrace();
-		  }
-		   
-	  }
-	  /**
-	   * 田赛表格添加
-	   * @param docu
-	   * @param title
-	   * @param arrayList
-	   * @param line
-	   */
-	  public void addFiledTable(Document docu,String title, ArrayList arrayList, int line){
-		  try{
-			  Table table = new Table(line);     
-			  table.setBorderWidth(0);
-			  table.setBorderWidth(0);
-			  table.setPadding(0);    
-			  table.setSpacing(0); 
-			  Cell cl = new Cell(new Paragraph(title, new Font(Font.NORMAL, 13,
-						Font.BOLD, new Color(0, 0, 0))));//单元格   
-			  cl.setBorderWidth(0);
-			  cl.setColspan(line);
-		      table.addCell(cl);
-		      int arrayListSize = arrayList.size();
-			  int nullCellNum = line - (arrayListSize % line);
-			  for (int i = 0; i < arrayList.size(); i++){
-				  
-			    	Cell cc = new Cell((String)arrayList.get(i));//单元格   
-			    	//System.out.print((String)arrayList.get(i));
-			    	cc.setBorderWidth(0);
-			    	table.addCell(cc);
-			    	
-				  }
-			 for (int k = 0; k < nullCellNum; k++){
-				  Cell cc = new Cell("");//单元格   
-				    cc.setBorderWidth(0);
-				    table.addCell(cc);
+		Iterator allGirl = allGirlPlayers.keySet().iterator();
+        	while (allGirl.hasNext()){
+        	allGirlFnId.add(allGirl.next());
+		}
+		/*****************生成男子项目的所有表格****************************/
+        int count = 1;
+        String group = "男子组";
+        swd.setHead(docu, group);
+
+		for (int i = 0; i < allBoyFnId.size(); i++){
+			
+			
+			int finalitemid = Integer.parseInt(allBoyFnId.get(i).toString());
+			
+			String itemType = cpgg.selectItemTypeByFinId(finalitemid);
+			String groupName = cpgg.selectGrNameByFid(finalitemid);
+			
+			String gname = swd.getGroupName(groupName, group);
+			/********田赛******/
+			if (itemType.trim().equals("2")){
+				
+				ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
+				T_finalitemPojo finalInfo = (T_finalitemPojo)allBoyPlayers.get(allBoyFnId.get(i));
+				
+				String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+				+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+				swd.addFiledTable(docu, title, pnums, 8);
+				count++;
+			}
+			/********径赛******/
+			if (itemType.trim().equals("1")){
+				
+				T_finalitemPojo finalInfo = (T_finalitemPojo)allBoyPlayers.get(allBoyFnId.get(i));
+				String fname = finalInfo.getFinalitemname();
+				if (fname.indexOf("1500") >= 0 || fname.indexOf("5000") >= 0 || fname.indexOf("马拉松") >= 0){ //判断是否为长跑
+					if (fname.indexOf("1500") >= 0){
+						if (finalInfo.getGroupnum() > 0){
+							ArrayList pnums = cpgg.select1500ByFinId(finalitemid, players);
+							int[] groupInfo = swcu.slectGroupInfoByFid(finalitemid);
+							String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
+							               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+							swd.add1500Table(docu, title, pnums, 9, groupInfo);
+							count++;
+						}else{
+							ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
+							String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+							+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+							swd.addFiledTable(docu, title, pnums, 8);
+							count++;
+						}
+					}else{
+						ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
+						String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+						+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+						swd.addFiledTable(docu, title, pnums, 8);
+						count++;
+					}
+					
+				}else{
+					ArrayList pnums = cpgg.selectMatchByFinId(finalitemid, players);
+					int[] groupInfo = swcu.slectGroupInfoByFid(finalitemid);
+					String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
+					               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+					swd.add100Table(docu, title, pnums, 9, groupInfo);
+					count++;
 				}
-			  
-			  docu.add(table);
-		  }catch(Exception e){
-			  e.printStackTrace();
-		  }
-		   
-	  }
-	  
-	  /**
-	   * 关闭Document
-	   * @param Document  docu
-	   */
-	  public void closeDocument(Document docu){
-		  try{
-			  docu.close(); 
-		  }catch(Exception e){
-			  e.printStackTrace();
-		  }
-	  }
+				
+			}
+			/********接力赛******/
+			if (itemType.trim().equals("3")){
+				T_finalitemPojo finalInfo = (T_finalitemPojo)allBoyPlayers.get(allBoyFnId.get(i));
+				Integer gNum = new Integer(finalInfo.getGroupnum());
+				if (gNum == null){
+					ArrayList depName = new ArrayList();
+					depName = cpgg.selectMatchByFinId(finalitemid, department);
+					String title = count+"、" + gname + finalInfo.getFinalitemname() + "，"
+		               + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+					swd.addFiledTable(docu, title, depName, 6);
+					count++;
+				}else{
+					ArrayList depName = new ArrayList();
+					int[] groupNum = swcu.slectGroupInfoByFid(finalitemid);
+					depName = cpgg.selectMatchByFinId(finalitemid, department);
+					String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + depName.size() +"队），"
+		               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+					swd.add1500Table(docu, title, depName, 6, groupNum);
+					count++;
+				}
+				
+			}
+		}
+ /*****************生成女子项目的所有表格****************************/
+		swd.setHead(docu, "             ");
+		int count1 = 1;
+        String group2 = "女子组";
+        swd.setHead(docu, group2);
+
+		for (int i = 0; i < allGirlFnId.size(); i++){
+			
+			
+			int finalitemid = Integer.parseInt(allGirlFnId.get(i).toString());
+			String itemType = cpgg.selectItemTypeByFinId(finalitemid);
+			String groupName = cpgg.selectGrNameByFid(finalitemid);
+			String gname = swd.getGroupName(groupName, group2);
+			
+			/********田赛******/
+			if (itemType.trim().equals("2")){
+				
+				ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
+				T_finalitemPojo finalInfo = (T_finalitemPojo)allGirlPlayers.get(allGirlFnId.get(i));
+				
+				String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+				+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+				swd.addFiledTable(docu, title, pnums, 8);
+			}
+			/********径赛******/
+			if (itemType.trim().equals("1")){
+				
+				T_finalitemPojo finalInfo = (T_finalitemPojo)allGirlPlayers.get(allGirlFnId.get(i));
+				String fname = finalInfo.getFinalitemname();
+				if (fname.indexOf("1500") >= 0 || fname.indexOf("5000") >= 0 || fname.indexOf("马拉松") >= 0){ //判断是否为长跑
+					if (fname.indexOf("1500") >= 0){
+						if (finalInfo.getGroupnum() > 0){
+							ArrayList pnums = cpgg.select1500ByFinId(finalitemid, players);
+							int[] groupInfo = swcu.slectGroupInfoByFid(finalitemid);
+							String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
+							               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+							swd.add1500Table(docu, title, pnums, 9, groupInfo);
+						}else{
+							ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
+							String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+							+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+							swd.addFiledTable(docu, title, pnums, 8);
+							
+						}
+					}else{
+						ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
+						String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+						+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+						swd.addFiledTable(docu, title, pnums, 8);
+					}
+					
+				}else{
+					ArrayList pnums = cpgg.selectMatchByFinId(finalitemid, players);
+					int[] groupInfo = swcu.slectGroupInfoByFid(finalitemid);
+					String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
+					               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+					swd.add100Table(docu, title, pnums, 9, groupInfo);
+				}
+				
+			}
+			/********接力赛******/
+			if (itemType.trim().equals("3")){
+				T_finalitemPojo finalInfo = (T_finalitemPojo)allGirlPlayers.get(allGirlFnId.get(i));
+				Integer gNum = new Integer(finalInfo.getGroupnum());
+				if (gNum == null){
+					ArrayList depName = new ArrayList();
+					depName = cpgg.selectMatchByFinId(finalitemid, department);
+					String title = count1+"、" + gname + finalInfo.getFinalitemname() + "，"
+		               + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+					swd.addFiledTable(docu, title, depName, 6);
+				}else{
+					ArrayList depName = new ArrayList();
+					int[] groupNum = swcu.slectGroupInfoByFid(finalitemid);
+					depName = cpgg.selectMatchByFinId(finalitemid, department);
+					String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + depName.size() +"队），"
+		               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
+					swd.add1500Table(docu, title, depName, 6, groupNum);
+				}
+				
+			}
+			count1++;
+		}
+         swd.closeDocument(docu);
+	}
 }

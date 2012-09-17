@@ -1,40 +1,28 @@
 package cn.edu.hbcit.smms.servlet.createprogramservlet;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import cn.edu.hbcit.smms.dao.createprogramdao.GameGroupingUtil;
+import cn.edu.hbcit.smms.dao.createprogramdao.DataManagerDAO;
 import cn.edu.hbcit.smms.services.createprogramservices.DataManagerServices;
-import cn.edu.hbcit.smms.services.createprogramservices.GameGroupingServices;
 
-/**
- * 长跑组数修改类
- *
- *简要说明
- *
- *详细解释。
- * @author 韩鑫鹏
- * @version 1.00  2011/12/07 新規作成<br>
- */
-public class Update1500GroupServlet extends HttpServlet {
 
-	protected final Logger log = Logger.getLogger(Update1500GroupServlet.class.getName());
+public class CheckGroupServlet extends HttpServlet {
+
+	protected final Logger log = Logger.getLogger(CheckGroupServlet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
-	public Update1500GroupServlet() {
+	public CheckGroupServlet() {
 		super();
 	}
-
-	
 
 	/**
 	 * Destruction of the servlet. <br>
@@ -57,42 +45,20 @@ public class Update1500GroupServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		log.debug("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
 		response.setContentType("text/html");
+		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
-		log.debug("WWWWWWWWWWWWWWWW");
-		GameGroupingServices gameGrouping = new GameGroupingServices();
-		DataManagerServices cpgg = new DataManagerServices();
-		GameGroupingUtil gUtil = new GameGroupingUtil();
-		//String fid = request.getAttribute("fid").toString().trim();
-		String fid = request.getParameter("fid").trim();
-		int id = Integer.parseInt(fid);
-		ArrayList players = new ArrayList();
-		players = cpgg.selectPnumByFid(id);
-		
-		cpgg.deletePnumByFid(id);
-		
-		log.debug("运动员 " + players);
-		int gnum = Integer.parseInt(request.getParameter("num"));
-		int[] group = gUtil.update1500GpNum(gnum, players.size());
-		int count = 0;
-		String sql = "INSERT INTO t_match(finalitemid,teamnum,playerid) values";
-		for (int i = 0; i < group.length; i++){
-			for (int j = 0; j < group[i]; j++){
-				if (count > 0){ sql += ","; }
-				sql += "(" + id + "," + (i+1) + "," + Integer.parseInt(players.get(count).toString().trim()) + ")";
-				count++;
-			}
-		}
-		int flag = 0;
-		log.debug("修改1500sql" + sql);
-		flag = cpgg.addRecordBySql(sql);
-		if (flag != 0){
+		DataManagerServices dms = new DataManagerServices();
+		int sportsId = 1;
+		String flag = dms.checkGroup(sportsId);
+		log.debug("flag"+ flag);
+		if (flag.trim().equals("true")){
 			out.println("success");
+		}else{
+			out.println("flase");
 		}
-		else{
-			out.println("false");
-		}
-		
+		session.setAttribute("gameGroupingFlag", flag);
 		out.flush();
 		out.close();
 	}

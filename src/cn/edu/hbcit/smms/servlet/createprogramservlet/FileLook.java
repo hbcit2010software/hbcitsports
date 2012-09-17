@@ -1,7 +1,6 @@
 package cn.edu.hbcit.smms.servlet.createprogramservlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -10,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.services.createprogramservices.CreateProgramGameGroupingServices;
+import cn.edu.hbcit.smms.services.createprogramservices.DataManagerServices;
 
 /**
  * 田赛分组情况查看servlet
@@ -54,30 +53,46 @@ public class FileLook extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		int finalId = 2;
-		CreateProgramGameGroupingServices cpgg = new CreateProgramGameGroupingServices(); //数据库操作类对象cpgg
+		//int finalId = 2;
+		int finalId = Integer.parseInt(request.getParameter("id"));
+		DataManagerServices cpgg = new DataManagerServices(); //数据库操作类对象cpgg
 		int count = 0;
 		ArrayList players = new ArrayList();
+		
 		players = cpgg.slectFilePs(finalId);
+		System.out.println("田赛运动员" + players );
 		ArrayList allPlayers = new ArrayList();
+		int flag = players.size()/8+1;
 		if ( players != null){
 			
-			for (int i = 0; i < (players.size()/8+1); i++){
+			for (int i = 0; i < flag; i++){
 				ArrayList temp = new ArrayList();
 				
 				while(true){
-					temp.add(players.get(count));
-					count++;
-					if((i != 0) && (i % 8 ==0)){
-						break;
-					}
-				}
-				allPlayers.add(temp);
+    				if(count == players.size()){
+    					break;
+    				}
+    				temp.add(players.get(count));
+    				System.out.println();
+    				count++;
+    				if((count != 0) && ((count + 1) % 8 ==0)){
+    					break;
+    				}
+    				
+    			}
+    			if(temp.size() != 0){
+    				allPlayers.add(temp);
+    			}
 			}
 		}
-		
+		String[] qq = new String[flag];
+		System.out.println("田赛的行数" + qq.length );
+		for (int i = 0; i < allPlayers.size(); i++){
+			System.out.println("第"+ i +"行运动员" + allPlayers.get(i) );
+		}
+		System.out.println("田赛的行数" + qq.length );
 		session.setAttribute("filelook", allPlayers);
-		response.sendRedirect("../filelook.jsp");
+		response.sendRedirect("../fildlook.jsp");
 	}
 
 	/**

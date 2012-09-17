@@ -3,6 +3,8 @@ package cn.edu.hbcit.smms.servlet.createprogramservlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +16,7 @@ import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.createprogramdao.CreateProgramGameGrouping;
 import cn.edu.hbcit.smms.pojo.GameLookPojo;
-import cn.edu.hbcit.smms.services.createprogramservices.CreateProgramGameGroupingServices;
+import cn.edu.hbcit.smms.services.createprogramservices.DataManagerServices;
 
 /**
  * 径赛项目预览
@@ -53,37 +55,28 @@ public class TrackGameLook extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		int finalId = 1;
+		System.out.println(request.getParameter("id")+"ssssssssssssssssssss");
+		int finalId = Integer.parseInt(request.getParameter("id"));
+		//System.out.println(finalId);
 		String itenName = "";
-		CreateProgramGameGroupingServices cpgg = new CreateProgramGameGroupingServices(); //数据库操作类对象cpgg
+		DataManagerServices cpgg = new DataManagerServices(); //数据库操作类对象cpgg
 		itenName = cpgg.selectItnameByFid(finalId);
 		int flag1 = itenName.indexOf("1500");
     	int flag2 = itenName.indexOf("5000");
     	int flag3 = itenName.indexOf("马拉松");
-    	if ( flag1 >= 0 && flag2 >= 0 && flag3 >= 0){  //判断是否为长跑
-    		int count = 0;
-    		ArrayList players = new ArrayList();
-    		players = cpgg.slectTrack1500Ps(finalId);
-    		ArrayList allPlayers = new ArrayList();
-    		if (players != null){
-    			for (int i = 0; i < (players.size()/8+1); i++){
-        			ArrayList temp = new ArrayList();
-        			
-        			while(true){
-        				temp.add(players.get(count));
-        				count++;
-        				if((i != 0) && (i % 8 ==0)){
-        					break;
-        				}
-        			}
-        			allPlayers.add(temp);
-        		}
-    		}
-    		
-    		session.setAttribute("longTrack", allPlayers);
-    		String fId = finalId+"";
+    	
+    	if ( flag1 >= 0 || flag2 >= 0 || flag3 >= 0){  //判断是否为长跑
+    		Map trackMap = cpgg.getTrack1500(finalId);
+    		List track1500teamnum = (List)trackMap.get("track1500teamnum");
+    		log.debug("150000000000000000:"+track1500teamnum.size());
+    		List track1500Playernum = (List)trackMap.get("track1500List");
+    	    session.setAttribute("track1500teamnum", track1500teamnum);
+    	    session.setAttribute("track1500Playernum", track1500Playernum);
+    	    String fId = finalId+"";
     		session.setAttribute("fid", fId);
     		response.sendRedirect("../longtracllook.jsp");
+    	
+    		
     		
     	}else{
     		ArrayList nextFlag = new ArrayList();

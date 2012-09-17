@@ -10,6 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cn.edu.hbcit.smms.services.createprogramservices.AdjustByHandServices;
+/**
+ * 手工调整类
+ *
+ * 本类的简要描述：
+ *
+ * @author 田小英
+ * @version 1.00  2012-6-18 新建类
+ */
 
 public class AdjustByHandServlet extends HttpServlet {
 
@@ -59,11 +67,8 @@ public class AdjustByHandServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
-		//String str = request.getParameter("str");
-		String str = "1;1";
+		String str = request.getParameter("str");
 		String[] splitStr = str.split(";");
-//		int finalItemId = Integer.parseInt(request.getParameter("finalId"));
-//		int teamNum = Integer.parseInt(request.getParameter("teamnum"));
 		int finalItemId = Integer.parseInt(splitStr[0]);
 		int teamNum = Integer.parseInt(splitStr[1]);
 		AdjustByHandServices aByHand = new AdjustByHandServices();

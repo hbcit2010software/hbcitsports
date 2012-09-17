@@ -33,8 +33,8 @@ public class AdjustByHandDao {
 					" INNER JOIN t_player ON t_player.id = t_match.playerid " +
 					" WHERE t_match.finalitemid=? and t_match.teamnum=?";
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, teamnum);
-			ps.setInt(2, finalitemid);
+			ps.setInt(1, finalitemid);
+			ps.setInt(2, teamnum);
 			rs = ps.executeQuery();
 			sql.length();
 			int c = rs.getMetaData().getColumnCount();

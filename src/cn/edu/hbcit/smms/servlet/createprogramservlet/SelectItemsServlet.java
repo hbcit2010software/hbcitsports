@@ -78,7 +78,7 @@ public class SelectItemsServlet extends HttpServlet {
 	    ItemsList1 = si.selectItemsById(sportsid, itemtype);
 	    ItemsList2 = si.selectItemsById(sportsid, itemtype1);
 	    ItemsList3 = si.selectItemsById(sportsid, itemtype2);
-	    System.out.println("hello"+ItemsList1.size());
+	   // System.out.println("hello"+ItemsList1.size());
 	    session.setAttribute("ItemsList", ItemsList1);
 	    session.setAttribute("ItemsList1", ItemsList2);
 	    session.setAttribute("ItemsList2", ItemsList3);
