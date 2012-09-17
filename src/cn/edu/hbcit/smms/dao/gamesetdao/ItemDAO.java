@@ -58,7 +58,7 @@ public class ItemDAO {
 				Item item = new Item();
 				item.setId(rs.getInt(1));
 				item.setItemname(rs.getString(2));
-				item.setItemtype(rs.getInt(3));
+				item.setItemtype(rs.getString(3));
 				item.setScoreformatid(rs.getInt(4));
 				list.add(item);
 			}
@@ -142,7 +142,7 @@ public class ItemDAO {
 	public ArrayList selectFinalItem(int sportsId){
 		ArrayList list = new ArrayList();
 		//查询项目名称、比赛阶段、项目类型、运动员类型等信息
-		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=? ORDER BY t_finalitem.finalitemtype,t_item.itemtype";
+		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype,t_finalitem.date,t_finalitem.time,t_finalitem.promotionnum FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=? ORDER BY t_finalitem.finalitemtype,t_item.itemtype";
 		conn = db.getConn();
 		try{
 			pStatement = conn.prepareStatement(sql);
@@ -155,6 +155,9 @@ public class ItemDAO {
 				fi.setFinalitemtype(rs.getString(3));
 				fi.setItemtype(rs.getString(4));
 				fi.setGrouptype(rs.getInt(5));
+				fi.setDate(rs.getString(6));
+				fi.setTime(rs.getString(7));
+				fi.setPromotionnum(rs.getInt(8));
 				list.add(fi);
 			}
 			db.freeConnection(rs,pStatement,conn);
