@@ -4,31 +4,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="css/subcss.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <%
 	int num = ((Integer)session.getAttribute("num")).intValue();	
-%>		
+%>	
+<%
+	//int sumnumid = ((Integer)session.getAttribute("sumnumid")).intValue();
+	//System.out.println("fffffffffff"+sumnumid);
+	//String ids = (String)session.getAttribute("i");
+	//System.out.println("fffffffffff"+ids);
+%>	
 <%
 	ArrayList list = (ArrayList)session.getAttribute("playernum");
    	PlayerNum p = null;
    	int begin = 0;
-   	int end = 0;	
-   	if(!list.isEmpty()){
-   	p = (PlayerNum)list.get(0);
-   	begin = Integer.parseInt(p.getBeginnum());
-   	end = Integer.parseInt(p.getEndnum());	
+   	int end = 0;
+   	int namesum = ((Integer)session.getAttribute("namesum")).intValue();
+   		if(!list.isEmpty()){
+   		p = (PlayerNum)list.get(0);
+   		begin = Integer.parseInt(p.getBeginnum())+namesum;
+   		end = Integer.parseInt(p.getEndnum());	
    	}
+   	
 %>
-<%
-	ArrayList itemlist =(ArrayList)session.getAttribute("mylist");
-	
-	int[] itemid=new int[itemlist.size()];
-	for(int j = 0;j<itemlist.size();j++ ){
-	Item item = (Item)itemlist.get(j);
-	itemid[j]=item.getItemid();
-	}
-%>
-<link href="css/subcss.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+
+
 <script type="text/javascript">
 //隔行变色
 $(document).ready(function(){
@@ -38,7 +41,22 @@ $(document).ready(function(){
 			 $(this).removeClass("over");}) //移除该行的class
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 		});
- 
+//判断每项男女限报6人用的全局变量
+<%
+	ArrayList itemlist =(ArrayList)session.getAttribute("mylist");
+	
+	int[] itemid=new int[itemlist.size()];
+	String[] itemtype = new String[itemlist.size()];
+	out.print("var itemSix = new Array();");
+	for(int j = 0;j<itemlist.size();j++ ){
+		Item item = (Item)itemlist.get(j);
+		itemid[j]=item.getItemid();
+		itemtype[j]= item.getItemtype();
+		out.print("itemSix["+j+"] = "+ item.getItemid()+";");
+		
+	}
+	//System.out.println(itemlist);
+%> 
 
 var sample = "sample";
 var sum = 0;
@@ -46,12 +64,29 @@ var cover = "cover";
 var add = 0;
 var number = 0;
 number = <%=begin%>;
-var itemids = new Array(<%for(int i=0;i<itemid.length;i++){out.print(itemid[i]);if(i!=itemid.length-1)out.print(","); }   %>);
-
+var itemids = new Array(<%for(int i=0;i < itemid.length;i++){out.print(itemid[i]);if(i!=itemid.length-1)out.print(","); }   %>);
+var itemtypes = new Array(<%for(int i=0;i<itemtype.length;i++){out.print(itemtype[i]);if(i!=itemtype.length-1)out.print(","); }   %>);
+function checkItem(obj){
+	var thisname = obj.name;
+	//alert(thisname);
+	var arr = document.getElementsByName(thisname);
+	var count = 0;
+	for(var i=0; i<arr.length; i++){
+		var temp;
+		temp = arr[i].value.split("+");
+		if( arr[i].checked == true && temp[1] != "3"){
+			count++;
+		}
+	}
+	if(count > 2){
+		Dialog.alert("除接力比赛外，每人限报2项！");
+		obj.checked = false;
+	}
+}
 function addRow(obj)
         {
         if(number><%=end%>){
-        alert("您的号码布有限，请重新分配！ ");
+        Dialog.alert("您的号码布有限，请重新分配！ ");
         return false;
         }
        var stuentApply = document.getElementById("stuentApply");
@@ -70,11 +105,11 @@ function addRow(obj)
         newTd0.innerHTML = '<td><div align="center"><lable><input type="hidden" name="hide" id="'+cover+'"><input type=text size="4" readonly="true" id="num_'+sample+'" name="num_'+sample+'"  value='+number+'></lable></div></td>'; 
 		newTd1.innerHTML = '<td><div align="center"><input type=text size="6" name="name_'+sample+'" id="name_'+sample+'"></div></td>'; 
 		newTd2.innerHTML = '<td align="center" valign="middle"><div align="center">'+
-		'<input type="radio" name="sex_'+sample+'" value="true">男&nbsp;'+
+		'<input type="radio" name="sex_'+sample+'" value="true" checked="checked">男&nbsp;'+
 		'<input type="radio" name="sex_'+sample+'" value="false">女</div></td>';        
          var i = 3;
          for(i = 3;i <= <%=num+2%>; i++){
-        	newTr.insertCell(i).innerHTML= '<td><div align="center"><input type="checkbox" name="'+sample+'" value="'+itemids[i-3]+'"></div></td>';
+        	newTr.insertCell(i).innerHTML= '<td><div align="center"><input onchange="checkItem(this);" type="checkbox" name="'+sample+'" value="'+itemids[i-3]+'#'+itemtypes[i-3]+'"></div></td>';
          }
          sum=sum+1;
          add=add+1;
@@ -82,7 +117,7 @@ function addRow(obj)
          if(number<=<%=end%>){
          	return number;
          }else{  	
-         	alert("您的号码布有限，请重新分配！ ");
+         	Dialog.alert("您的号码布有限，请重新分配！ ");
          }
     }
 
@@ -128,6 +163,50 @@ function test(){
 		sum+=1;
 	}
 }
+function submitCheck(){
+//判断每项限报6人
+	var countMan = 0;
+	var countWoman = 0;
+	var myobj=document.getElementsByName("hide");
+	var itemNoPlus = new Array();
+	var itemCountMan = new Array();
+	var itemCountWoman = new Array();
+	for(var i=0;i<itemSix.length;i++){
+		itemCountMan[i]=0;
+		itemCountWoman[i]=0;
+	}
+	for(var i = 0; i<myobj.length; i++){
+		var arrSex = myobj[i].value.split(",");	//{"20031","张三","true","2+3;4+5"}
+		var itemId = arrSex[3].split(";"); //{"2+3","4+5"}
+		for(var p=0; p<itemId.length; p++){
+			var tempStr = itemId[p].split("#"); //{"2","3"}
+			itemNoPlus[p] = tempStr[0]; //{"2","4"}
+		}
+		
+		for(var j=0 ;j<itemSix.length; j++){
+			for(var k=0; k<itemNoPlus.length; k++){
+				//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
+				if(arrSex[2] == "true" && itemNoPlus[k]==itemSix[j]){
+					itemCountMan[j]++;
+				}else if(arrSex[2] == "false" && itemNoPlus[k]==itemSix[j]){
+					itemCountWoman[j]++;
+				}
+			}
+		}
+	}
+	for(var i = 0;i<itemCountWoman.length;i++){
+		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);
+		if(itemCountMan[i] > 2){
+			Dialog.alert("男子组中有一些项目报名人数超过6人，请检查！");
+			return false;
+		}
+		if(itemCountWoman[i] > 2){
+			Dialog.alert("女子组中有一些项目报名人数超过6人，请检查！");
+			return false;
+		}
+	}
+	
+}
 </SCRIPT>
 
 
@@ -137,7 +216,7 @@ function test(){
 -->
 </style>
 </head>
-  <form action="servlet/UpdatePlayerServlet" method="post">
+  <form action="servlet/UpdatePlayerServlet" method="post" onsubmit="return submitCheck();">
     <table id="stuentApply" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
       <tr class="tableTitle">
         <td height="20" colspan="17" ><div align="center">

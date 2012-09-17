@@ -131,18 +131,18 @@ public class GetPlayerDAO {
  * @param grouptype
  * @return
  */
-	public int getItemNumber( String sportsname,int grouptype){
+	public int getItemNumber( int sportsid,int grouptype){
 		int flag = 0;
 		String sql = "SELECT COUNT(itemname) FROM t_item WHERE id IN " +
 				"(SELECT itemid FROM t_group2item WHERE gp2spid IN " +
 				"(SELECT id FROM t_group2sports WHERE groupid IN " +
 				"(SELECT id FROM t_group WHERE grouptype = ?) AND sportsid IN " +
-				"(SELECT id FROM t_sports WHERE sportsname = ?	)))";
+				"(SELECT id FROM t_sports WHERE sportsid = ?	)))";
 		try{
 			conn = db.getConn();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, grouptype);
-			pstmt.setString(2, sportsname);
+			pstmt.setInt(2, sportsid);
 			rs = pstmt.executeQuery();
 			while( rs.next() ){
 				flag = rs.getInt(1);
@@ -160,24 +160,25 @@ public class GetPlayerDAO {
 	 * @param grouptype
 	 * @return
 	 */
-	public ArrayList getItemName(String sportsname,int grouptype){
+	public ArrayList getItemName(int sportsid,int grouptype){
 		ArrayList list = new ArrayList();
-		String sql = "SELECT id,itemname FROM t_item WHERE id IN " +
+		String sql = "SELECT id,itemname,itemtype FROM t_item WHERE id IN " +
 				"(SELECT itemid FROM t_group2item WHERE gp2spid IN " +
 				"(SELECT id FROM t_group2sports WHERE groupid IN " +
 				"(SELECT id FROM t_group WHERE grouptype = ?) AND sportsid IN " +
-				"(SELECT id FROM t_sports WHERE sportsname = ?	)))";
+				"(SELECT id FROM t_sports WHERE sportsid = ?	)))";
 		try{
 			conn = db.getConn();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, grouptype);
-			pstmt.setString(2, sportsname);
+			pstmt.setInt(2, sportsid);
 			rs = pstmt.executeQuery();
 			while( rs.next() ){
 				Item itemname = new Item();
 				itemname.setItemid(rs.getInt(1));
 				itemname.setItemname(rs.getString(2));
-				log.debug(itemname.getItemid()+"))))"+itemname.getItemname());
+				itemname.setItemtype(rs.getString(3));
+				//log.debug(itemname.getItemid()+"))))"+itemname.getItemname());
 				list.add(itemname);
 			}
 			
@@ -284,6 +285,74 @@ public class GetPlayerDAO {
             }catch (SQLException e) {                  	
             e.printStackTrace(); } 
     }
+	
+	/*
+	 * 根据sql语句查询运动员号码是否有冲突
+	 */
+	public int selectPlayerNum(int sp2dpid2,boolean numtype){
+		int flag = 0;
+		String sql = "SELECT id FROM t_playernum WHERE sp2dpid = ? AND numtype = ?";
+		try{
+			conn = db.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sp2dpid2);
+			pstmt.setBoolean(2, numtype);
+			rs = pstmt.executeQuery();
+			while( rs.next() ){
+				flag = rs.getInt(1); 
+			}
+			db.freeConnection(conn);
+		}catch( Exception e){
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return flag;
+	}
+	/*
+	 * 根据号码布的id查询库中是否有插入记录
+	 */
+	
+	public int getSumNumId(int sums){
+		int flag = 0;
+		String sql = "SELECT COUNT(*) FROM t_player WHERE numid = ?";
+		try{
+			conn = db.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sums);
+			rs = pstmt.executeQuery();
+			while( rs.next() ){
+				flag = rs.getInt(1);
+			}
+			db.freeConnection(conn);
+		}catch( Exception e){
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return flag;
+	}
 		
+	
+	/*
+	 * 根据号码类型查询运动员报名总数
+	 */
+	
+	public int selNameByNumid(int sums){
+		int flag = 0;
+		String sql = "SELECT COUNT(playername) FROM t_player WHERE numid = ?";
+		try{
+			conn = db.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sums);
+			rs = pstmt.executeQuery();
+			while( rs.next() ){
+				flag = rs.getInt(1);
+			}
+			db.freeConnection(conn);
+		}catch( Exception e){
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return flag;
+	}
 }
 

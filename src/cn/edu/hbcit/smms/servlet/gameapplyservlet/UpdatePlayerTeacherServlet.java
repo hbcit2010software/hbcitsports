@@ -84,8 +84,9 @@ public class UpdatePlayerTeacherServlet extends HttpServlet {
 		PlayerService playerService = new PlayerService();
 		int flag = 0;
 		String[] allstr = request.getParameterValues("hide");
-		int sp2dpid = Integer.parseInt(session.getAttribute("sp2dpid").toString());//获取sp2dpid
+		int sp2dpid = Integer.parseInt(session.getAttribute("flag1").toString());//获取sp2dpid
 		flag = playerService.UpdatePlayer(allstr, sp2dpid);
+		
 		if(flag ==0){
 			session.setAttribute("msg","添加失败！");
 		}else{

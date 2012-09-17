@@ -85,11 +85,11 @@ public class UpdatePlayerServlet extends HttpServlet {
 		
 			for(int i = 0; i < allstr.length; i++ ){
 				String mystr = allstr[i];//取出每一个隐藏文本框的字符串
-				String[] myPlayer = mystr.split(",");//把一个字符串中的值，去","取出来放在一个数组里
+				String[] myPlayer = mystr.split(",");//把一个字符串中的值，去","取出来放在一个数组里"{"20031","张三","true","2+3;4+5"}"
 				String playerNum = myPlayer[0];//运动员号码
-				System.out.println(playerNum);
+				//System.out.println(playerNum);
 				String playerName = myPlayer[1];//运动员姓名
-				System.out.println(playerName);
+				//System.out.println(playerName);
 				boolean playerSex = true;
 				String sex = myPlayer[2];
 				if(sex.equals("false")){
@@ -98,7 +98,16 @@ public class UpdatePlayerServlet extends HttpServlet {
 					playerSex = true;
 				}
 				int groupId = playerService.GetGroupIdBySex(playerSex);
-				String registItem = myPlayer[3];//运动员所报项目的id
+				String registItem = "";//myPlayer[3]:运动员所报项目的id "2+3;4+5"
+				String[] itemIdArr =  myPlayer[3].split(";");  //{"2+3","4+5"}
+				for(int j=0; j<itemIdArr.length; j++){
+					String[] tempStr = itemIdArr[j].split("#");  //{"2","3"}
+					registItem = registItem + tempStr[0];
+					if(j != itemIdArr.length-1){
+						registItem += ";";
+					}
+				}
+				//System.out.println("QQQQQQQQQQQQQ:"+registItem);
 				int sp2dpid = Integer.parseInt(session.getAttribute("sp2dpid").toString());
 				flag = playerService.UpdatePlayerByNum(playerName, playerSex, registItem, groupId, sp2dpid, playerNum);
 				if( flag == 0 ){
