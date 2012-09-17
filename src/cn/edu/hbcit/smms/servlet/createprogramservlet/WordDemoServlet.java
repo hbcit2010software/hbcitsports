@@ -86,8 +86,8 @@ public class WordDemoServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		int currSportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());   //运动会ID
-		//int currSportsId = 1;
+		//int currSportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());   //运动会ID
+		int currSportsId = 1;
 		//String modelName = "program";                //模块名称：秩序册
 		//String fileName = currSportsId + "-" + modelName + "-" ;
 		int id = Integer.parseInt(request.getParameter("id".trim()));
@@ -112,7 +112,6 @@ public class WordDemoServlet extends HttpServlet {
 			WordGameBeforInfoDao wInfo = new WordGameBeforInfoDao();         //生成赛前的大会记录
 			wInfo.wordDocument(filePath, fileName1 ,gameInfoMap, fildJudgeMap, getGameDate, 
 					getItemByMale, getItemByFemale, studentList, teacherList, getGameDateInfo);
-			session.setAttribute("fileName1", fileName1);
 			out.print("success");
 			break;
 		case 2:
@@ -132,14 +131,12 @@ public class WordDemoServlet extends HttpServlet {
 			String fileName2 = "createProgram.doc";
 			String fileName = filePath + fileName2;
 			swss.AddGroupInfo(fileName, allGirlPlayers, allBoyPlayers, players, department);
-			session.setAttribute("fileName2", fileName2);
 			out.print("success");
 			break;
 		case 3:
 			String fileName3 = "departmentNumber.doc";
 			WordSelectPlayer ws = new WordSelectPlayer( );    //生成各部门的运动员号码
 			ws.SelPlaWD( filePath, fileName3 );
-			session.setAttribute("fileName3", fileName3);
 			out.print("success");
 			break;
 		case 4:
@@ -148,7 +145,6 @@ public class WordDemoServlet extends HttpServlet {
 			Map studentJudge = wDemo.SlipStudentJudgeMember(currSportsId);
 			WordGameRecordDao wRecord = new WordGameRecordDao();         //破记录
 			wRecord.wordGameRecord(filePath, gameRecord, studentJudge, fileName4);
-			session.setAttribute("fileName4", fileName4);
 			out.print("success");
 			
 			break;

@@ -89,36 +89,33 @@
 					</td>
 					</tr>
 					<%String filePath = (String)session.getAttribute("filePath");
-					  String fileName1 = (String)session.getAttribute("fileName1");
-					   String fileName2 = (String)session.getAttribute("fileName2");
-					   String fileName3 = (String)session.getAttribute("fileName3");
-					 String fileName4 = (String)session.getAttribute("fileName4");
+					  
 					 //if(filePath !=null && fileName1 !=null){}
 					 %>
 						   <tr>
 							<td>大会安排</td>
 							
 							<td><a href="#" id="1" onclick="checkword(this)"><input type="button" value="生成word文档"/></a></td>
-							<td><a href="download.jsp?file=<%=filePath %>&fileName=<%= fileName1%>"><input type="button" value="下载" /></a></td>
+							<td><a href="download.jsp?file=<%=filePath %>&fileName=gameBeforeInfo.doc"><input type="button" value="下载" /></a></td>
 							</tr>
 							<tr>
 							<td>竞赛分组</td>
 							<td><a href="#" id="2" onclick="checkword(this)"><input type="button" value="生成word文档"/></a></td>
-							<td><a href="download.jsp?file=<%=filePath %>&fileName=<%= fileName2%>"><input type="button" value="下载" /></a></td>
+							<td><a href="download.jsp?file=<%=filePath %>&fileName=createprogram.doc"><input type="button" value="下载" /></a></td>
 							</tr>
 							<tr>
 							<td>
 							运动员信息
 							</td>
 							<td><a href="#" id="3" onclick="checkword(this)"><input type="button" value="生成word文档"/></a></td>
-							<td><a href="download.jsp?file=<%=filePath %>&fileName=<%= fileName3%>"><input type="button" value="下载" /></a></td>
+							<td><a href="download.jsp?file=<%=filePath %>&fileName=departmentNumber.doc"><input type="button" value="下载" /></a></td>
 							</tr>
 							<tr>
 							<td>
 							运动会记录 
 							</td>
 							<td><input type="button" id="4" onclick="checkword(this)" value="生成word文档"/></td>
-							<td><a href="download.jsp?file=<%= filePath%>&fileName=<%= fileName4%>"><input type="button" value="下载" /></a></td>
+							<td><a href="download.jsp?file=<%= filePath%>&fileName=record.doc"><input type="button" value="下载" /></a></td>
 						    </tr>
 						 </table>
 					<!--内嵌表格end-->
