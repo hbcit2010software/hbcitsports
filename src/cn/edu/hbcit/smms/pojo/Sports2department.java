@@ -1,12 +1,13 @@
 package cn.edu.hbcit.smms.pojo;
 
 public class Sports2department {
-	int id;
-	int sportsid;
-	int departid;
-	String teamleader;
-	String coach;
-	String doctor;
+	private int id;
+	private int sportsid;
+	private int departid;
+	private int departtype;
+	private String teamleader;
+	private String coach;
+	private String doctor;
 	public int getId() {
 		return id;
 	}
@@ -42,6 +43,18 @@ public class Sports2department {
 	}
 	public void setDoctor(String doctor) {
 		this.doctor = doctor;
+	}
+	/**
+	 * @return the departtype
+	 */
+	public int getDeparttype() {
+		return departtype;
+	}
+	/**
+	 * @param departtype the departtype to set
+	 */
+	public void setDeparttype(int departtype) {
+		this.departtype = departtype;
 	}
 
 }

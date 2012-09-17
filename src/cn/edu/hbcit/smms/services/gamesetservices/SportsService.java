@@ -403,5 +403,20 @@ public class SportsService {
 	public boolean updateFinalItem(String[] finalItem){
 		return item.updateFinalItem(finalItem);
 	}
-	
+	/**
+	 * 查询指定运动会的sp2dpid
+	 * @param sportsId
+	 * @return
+	 */
+	public ArrayList selectSp2DpID(int sportsId){
+		return item.selectSp2DpID(sportsId);
+	}
+	/**
+	 * 构建插入T_playernum表的SQL语句
+	 * @param sourceArray
+	 * @return
+	 */
+	public String getSqlOfInsertT_playernum(ArrayList sourceArray){
+		return item.getSqlOfInsertT_playernum(sourceArray);
+	}
 }
