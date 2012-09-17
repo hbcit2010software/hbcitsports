@@ -34,10 +34,10 @@ import com.lowagie.text.rtf.RtfWriter2;
  *
  */
 public class WordSelectPlayer {
-	//LoginDAO ld = new LoginDAO();
-	//int sportId = ld.selectCurrentSportsId();
-	int sportId = 1;
-	public void SelPlaWD( String fileName ) {
+	LoginDAO ld = new LoginDAO();
+	int sportId = ld.selectCurrentSportsId();
+	//int sportId = 1;
+	public void SelPlaWD(String filePath, String fileName ) {
 		
 		SelectPlayerDAO sd=new SelectPlayerDAO();
 		ArrayList departList = new ArrayList();
@@ -47,7 +47,7 @@ public class WordSelectPlayer {
 		Document document = new Document(PageSize.A4);
 		try {
 			RtfWriter2.getInstance(document,
-					new FileOutputStream("../"+ fileName +".doc"));
+					new FileOutputStream(filePath+fileName));
 
 			document.open();
 		

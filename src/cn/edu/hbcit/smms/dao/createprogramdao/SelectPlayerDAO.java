@@ -118,7 +118,7 @@ public class SelectPlayerDAO {
 		try {
 			conn = db.getConn();
 			ps = conn.prepareStatement(
-					"SELECT departname FROM t_department WHERE id=?");
+					"SELECT departid FROM t_sports2department WHERE id=?");
 			
 		     ps.setInt(1, id);
 		     //System.out.println("11111111111111111");

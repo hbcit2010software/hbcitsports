@@ -53,6 +53,7 @@
 		document.getElementById("track2").style.display = "";
 	}
 </script>
+
 	</head>
 
 	<body>
@@ -75,21 +76,13 @@
 														</div>
 													</td>
 													<td width="94%" valign="bottom">
-														<span class="pageTitle">秩序册管理-->秩序册</span>
+														<span class="pageTitle">秩序册管理-->赛事预览</span>
 													</td>
 												</tr>
 											</table>
 										</td>
 										<td>
-											<div align="right">
-												<span class="pageTitle"> <input type="checkbox"
-														name="checkbox11" id="checkbox11" />全选 &nbsp;&nbsp; <img
-														src="images/add.gif" width="10" height="10" /> 添加 &nbsp;
-													<img src="images/del.gif" width="10" height="10" /> 删除
-													&nbsp;&nbsp; <img src="images/edit.gif" width="10"
-														height="10" /> 编辑 &nbsp;</span><span class="pageTitle">
-													&nbsp;</span>
-											</div>
+											
 										</td>
 									</tr>
 								</table>
@@ -101,36 +94,26 @@
 			<tr>
 				<td>
 					<!--内嵌表格begin-->
-					<b><a href="#" onclick="trackShow()">赛事编排|</a><a href="#"
-						onclick="fieldShow()">秩序册</a>
-						<div id="track">
-							<A href="servlet/GameGroupingServlet"><input type="button" value="赛事分组" /></A>
-							<a href="#" onclick="fieldShow2()";
+					<b>赛事预览(查看前请先进行赛事分组)<br/>
+						
+<table width="100%" border="0" cellpadding="0" cellspacing="1"
+							bgcolor="#a8c7ce" class="stripe_tb">
+							<tr class="tableTitle">
+								<td align="center">
+									<a href="#" onclick="fieldShow2()";
 >径赛</a>
-							|
-							<a href="#" onclick="fieldShow3()";
+								</td>
+								<td align="center">
+									<a href="#" onclick="fieldShow3()";
 >田赛</a>
-							|
-							<a href="#" onclick="fieldShow4()";
+								</td>
+								<td align="center">
+									<a href="#" onclick="fieldShow4()";
 >接力</a>
-						</div>
-						<div id="field" style="display: none";">
-							大会安排
-							<a href="servlet/WordDemoServlet?id=1"><input type="button" value="生成word文档"/></a>
-							<input type="button" value="下载" />
-							|
-							竞赛分组
-							<a href="servlet/WordCreateProgramServlet"><input type="button" value="生成word文档"/></a>
-							<input type="button" value="下载" />
-							|
-							运动员信息
-							<a href="servlet/WordDemoServlet?id=2"><input type="button" value="生成word文档"/></a>
-							<input type="button" value="下载" />
-							|
-							运动会记录 |
-							<a href="servlet/WordDemoServlet?id=3"><input type="button" value="生成word文档"/></a>
-							<input type="button" value="下载" />
-						</div> </b>
+								</td>
+							</tr>
+						</table>
+						 </b>
 					<!--内嵌表格end-->
 					<!--内嵌表格begin-->
 					<!--径赛Div begin-->

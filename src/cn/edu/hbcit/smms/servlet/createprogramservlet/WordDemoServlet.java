@@ -12,6 +12,8 @@ package cn.edu.hbcit.smms.servlet.createprogramservlet;
  * 2012/6/25    V1.0        田小英        整合几个生成word的servlet	
  */
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.dao.createprogramdao.SelectGameBeforInfoDao;
-import cn.edu.hbcit.smms.dao.createprogramdao.SlipDataDao;
-import cn.edu.hbcit.smms.dao.createprogramdao.WordDemoDao;
+import cn.edu.hbcit.smms.dao.createprogramdao.WordGameBeforInfoDao;
 import cn.edu.hbcit.smms.dao.createprogramdao.WordGameRecordDao;
 import cn.edu.hbcit.smms.dao.createprogramdao.WordSelectPlayer;
+import cn.edu.hbcit.smms.services.createprogramservices.DataManagerServices;
+import cn.edu.hbcit.smms.services.createprogramservices.SetWordServices;
 import cn.edu.hbcit.smms.services.createprogramservices.WordDemoService;
 /**
  * 
@@ -78,45 +80,85 @@ public class WordDemoServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		//response.setHeader("Pragma", "No-cache");
+		//response.setHeader("Cache-control", "no-cache");
+		//response.setDateHeader("Expires", 0);
 		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		//int currSportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());   //运动会ID
-		int currSportsId = 1;
-		String modelName = "program";                //模块名称：秩序册
-		String fileName = currSportsId + "-" + modelName + "-" ;
-		int id = Integer.parseInt(request.getParameter("id"));
-
+		int currSportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());   //运动会ID
+		//int currSportsId = 1;
+		//String modelName = "program";                //模块名称：秩序册
+		//String fileName = currSportsId + "-" + modelName + "-" ;
+		int id = Integer.parseInt(request.getParameter("id".trim()));
 		WordDemoService wDemo = new WordDemoService();
-		Map map = wDemo.SlipCharactor(currSportsId);
-		Map map1 = wDemo.SlipFildCharactor(currSportsId);
-		Map map2 = wDemo.getGameInfo(currSportsId);
-		List list1 = wDemo.getPlayerNumber(currSportsId);
-		List list2 = wDemo.getPlayerNumber2(currSportsId);
-		List list3 = wDemo.getGameDataTitle(currSportsId);
-		List list4 = wDemo.getAllGameInfo(currSportsId);
-		List gameRecord = wDemo.getGameRecord();
-		Map studentJudge = wDemo.SlipStudentJudgeMember(currSportsId);
+		String filePath = request.getSession().getServletContext().getRealPath("/");        //生成的路径
+		session.setAttribute("filePath", filePath);
+
+		
+		
+		try{
 		switch(id){
 		case 1:
-			fileName += "01";
-			WordDemoDao wd = new WordDemoDao();                     //生成赛前的大会记录
-			wd.wordDemo(map, map1, map2, list1, list2, list3, list4, fileName);
+			String fileName1 = "gameBeforeInfo.doc";
+			Map gameInfoMap = wDemo.getSplitOfficialMember(currSportsId);
+			Map fildJudgeMap =  wDemo.getSplitFildJudge(currSportsId);
+			Map getGameDate = wDemo.getGameDate(currSportsId);
+			Map getItemByMale = wDemo.getItemByMale(currSportsId);
+			Map getItemByFemale = wDemo.getItemByFemale(currSportsId);
+			List studentList = wDemo.getStudentPlayerNumber(currSportsId);
+			List teacherList = wDemo.getTeacherPlayerNumber(currSportsId);
+			Map getGameDateInfo = wDemo.getGameDateInfo(currSportsId);
+			WordGameBeforInfoDao wInfo = new WordGameBeforInfoDao();         //生成赛前的大会记录
+			wInfo.wordDocument(filePath, fileName1 ,gameInfoMap, fildJudgeMap, getGameDate, 
+					getItemByMale, getItemByFemale, studentList, teacherList, getGameDateInfo);
+			session.setAttribute("fileName1", fileName1);
+			out.print("success");
 			break;
 		case 2:
-			fileName += "03";
-			WordSelectPlayer ws = new WordSelectPlayer( );    //生成各部门的运动员号码
-			ws.SelPlaWD( fileName );
+			
+			DataManagerServices cpgg = new DataManagerServices();
+			HashMap department = new HashMap();
+			department = cpgg.selectDepartmentBySid(currSportsId);
+			HashMap allGirlPlayers = new HashMap();
+			HashMap allBoyPlayers = new HashMap();
+			
+			allGirlPlayers = cpgg.selectFlaGirl(currSportsId);
+			allBoyPlayers = cpgg.selectFlaBoy(currSportsId);
+			
+			HashMap players = cpgg.selectPlayersBySid(currSportsId);
+			
+			SetWordServices swss = new SetWordServices();
+			String fileName2 = "createProgram.doc";
+			String fileName = filePath + fileName2;
+			swss.AddGroupInfo(fileName, allGirlPlayers, allBoyPlayers, players, department);
+			session.setAttribute("fileName2", fileName2);
+			out.print("success");
 			break;
 		case 3:
-			fileName += "04";
+			String fileName3 = "departmentNumber.doc";
+			WordSelectPlayer ws = new WordSelectPlayer( );    //生成各部门的运动员号码
+			ws.SelPlaWD( filePath, fileName3 );
+			session.setAttribute("fileName3", fileName3);
+			out.print("success");
+			break;
+		case 4:
+			String fileName4 = "record.doc";
+			List gameRecord = wDemo.getGameRecord();
+			Map studentJudge = wDemo.SlipStudentJudgeMember(currSportsId);
 			WordGameRecordDao wRecord = new WordGameRecordDao();         //破记录
-			wRecord.wordGameRecord(gameRecord, studentJudge, fileName);
+			wRecord.wordGameRecord(filePath, gameRecord, studentJudge, fileName4);
+			session.setAttribute("fileName4", fileName4);
+			out.print("success");
+			
 			break;
 			
 		}
-	
-		response.sendRedirect("../group_success.jsp");
-		
+		}catch(Exception e){
+			out.print("error");
+		}
+		out.flush();
+		out.close();
 	}
 
 	/**

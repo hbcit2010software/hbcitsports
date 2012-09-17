@@ -1,4 +1,5 @@
 package cn.edu.hbcit.smms.pojo;
+
 /**
  * 赛事分组情况预览
  *
@@ -8,7 +9,9 @@ package cn.edu.hbcit.smms.pojo;
  * @author 韩鑫鹏
  * @version 1.00  2011/12/07 新規作成<br>
  */
+
 public class GameLookPojo {
+	
 	public String groupNum;
 	public String players;
 	public String nextFlag;
@@ -30,5 +33,6 @@ public class GameLookPojo {
 	public void setNextFlag(String nextFlag) {
 		this.nextFlag = nextFlag;
 	}
-
+	
+	
 }

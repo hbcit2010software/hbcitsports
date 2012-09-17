@@ -1,7 +1,6 @@
 package cn.edu.hbcit.smms.servlet.createprogramservlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -10,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.services.createprogramservices.CreateProgramGameGroupingServices;
+import cn.edu.hbcit.smms.pojo.GameLookPojo;
+import cn.edu.hbcit.smms.services.createprogramservices.DataManagerServices;
 
 /**
  * 接力分组信息查看servlet
@@ -54,33 +54,37 @@ public class ReailyLook extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		int finalId = 1;
-		CreateProgramGameGroupingServices cpgg = new CreateProgramGameGroupingServices(); //数据库操作类对象cpgg
+		int finalId = Integer.parseInt(request.getParameter("id")); 
+		DataManagerServices cpgg = new DataManagerServices(); //数据库操作类对象cpgg
 		ArrayList nextFlag = new ArrayList();
 		nextFlag = cpgg.slectFidRGnum(finalId);
 		ArrayList group = cpgg.selectTrackGroup(finalId);
 		ArrayList players = cpgg.slectRelayInfo(finalId);
+		System.out.println(players.size());
 		ArrayList allPlayers = new ArrayList();
 		int count = 0;
-		ArrayList groupNum = new ArrayList();
 		if (nextFlag != null && group != null && players != null){
+			
 			for (int i = 0; i < group.size(); i++){
-				String aa = "第" +(i+1)+ "组";
-				groupNum.add(aa);
-				int num = Integer.parseInt(group.get(i).toString());
-				String[] temp = new String[num];
-				for (int j = 0; j < num; j++){
-					temp[j] = players.get(count).toString();
-					count++;
-				}
-				allPlayers.add(temp);
-			}
+    			GameLookPojo glk = new GameLookPojo();
+    			String aa = "第" +(i+1)+ "组";
+    			
+    			int num = Integer.parseInt(group.get(i).toString());
+    			String temp = "";
+    			for (int j = 0; j < num; j++){
+    				temp += "   "+players.get(count).toString();
+    				count++;
+    			}
+    			String nfg = nextFlag.get(i).toString();
+    			glk.setGroupNum(aa);
+    			glk.setPlayers(temp);
+    			glk.setNextFlag(nfg);
+    			System.out.println(aa + " " + temp + "  "  + nfg);
+    			allPlayers.add(glk);
+    		}
 		}
-		
-		session.setAttribute("groupnum", groupNum);
 		session.setAttribute("trackPlayers", allPlayers);
-		session.setAttribute("trackFlag", nextFlag);
-		response.sendRedirect("../tracklock.jsp");
+		response.sendRedirect("../show_update_runway.jsp");
 	}
 
 	/**

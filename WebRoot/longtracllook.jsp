@@ -24,11 +24,16 @@
 			
 		});
 	   function	updateGroup(){
-	     var gnum = $("#num").val();
-	     var fnid = $("#hidden").val();
-
+	     var gnum = $("#text").val();
+	     var fnid = $("#ffid").val();
+	     var re = /[0-9]/;
+	     
 		if (gnum.length == 0) {
 		   alert("分组数目不能为空");
+			return false;
+		}
+		if(!re.test(gnum)){
+			alert("请输入数字！");
 			return false;
 		}
 
@@ -47,28 +52,56 @@
 	   });
     }
     
-    function clear(){
-        $("#num").val()=null;
-    }
+  
+   
+    
   </script>
 	</head>
 
 	<body>
-		<table class="stripe_tb">
-			<c:forEach items="${ longTrack }" var="temp">
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1"
+			bgcolor="#a8c7ce" class="stripe_tb">
+
+			<c:forEach items="${track1500teamnum}" var="temp" varStatus="status">
+
 				<tr>
-					<c:forEach items="${ temp }" var="mp">
-						<td>
-							${ mp }
-						</td>
-					</c:forEach>
+					<td>
+						第${status.count}组
+					</td>
 				</tr>
+				<tr>
+					<td>
+						<c:forEach items="${ track1500Playernum}" var="mp"
+							varStatus="mpstatus">
+							<c:if test="${status.count == mp.teamnum}">
+			
+			    
+			     
+			      ${ mp.playerNum }&nbsp;&nbsp;&nbsp;&nbsp;
+			      
+			      
+			      </c:if>
+
+						</c:forEach>
+					</td>
+				</tr>
+
 			</c:forEach>
+
 		</table>
-		<input type="text" id="num" value="请输入想要重新分组的数目" onfocus="clear()" />
+		
+			<input type="text"
+                 id="text"
+                 name="text"
+                 value="请输入想要重新分组的数目"
+                 onfocus="if(value == defaultValue){value='';this.style.color='#000'}"
+                 onblur="if(!value){value = defaultValue;this.style.color='#999'}"
+                 style="width:200px;color:#999999" />
+			
 		<input type="button" onclick="updateGroup()" value="重新分组">
-		<input type="hidden" value="${ sessionScope.fid } }" />
-		<a href="servlet/TrackGameLook?fid=${ sessionScope.fid }">信息刷新</a>
+		<input type="hidden" value="${ sessionScope.fid }" id="ffid" />
+		<a href="servlet/TrackGameLook?id=${ sessionScope.fid }">信息刷新</a>
 		<a href="servlet/SelectItemsServlet">返回</a>
 	</body>
 </html>

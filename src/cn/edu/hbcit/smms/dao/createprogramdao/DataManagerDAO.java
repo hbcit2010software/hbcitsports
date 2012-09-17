@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ import cn.edu.hbcit.smms.pojo.Track1500PlayerPojo;
  * 模块名称：     生成秩序册
  * 子模块名称：   赛事分组
  *
- * 备注： 赛事分组及生成秩序册需要的数据库操作类
+ * 备注： 赛事分组需要的数据库操作类
  *
  * 修改历史：
  * 时间			                 版本号	姓名		修改内容
@@ -34,101 +35,14 @@ import cn.edu.hbcit.smms.pojo.Track1500PlayerPojo;
  * @author 韩鑫鹏
  *
  */
-public class CreateProgramGameGrouping {
-	protected final Logger log = Logger.getLogger(CreateProgramGameGrouping.class.getName());
+public class DataManagerDAO {
+	protected final Logger log = Logger.getLogger(DataManagerDAO.class.getName());
 	DBConn db = new DBConn();
 	private PreparedStatement ps;
 	private ResultSet rs;
 	
-	/**
-	 * 根据运动会id查询部门的总数
-	 * @param sportsid
-	 * @return int
-	 */
-	public int selectDepartmentSum(int sportsid){
-		
-		int tieSum = 0;
-		String sql = "SELECT COUNT(*) FROM t_group2sports WHERE sportsid=?";
-        try {
-            Connection conn = db.getConn();
-            if(conn != null){
-            	
-                PreparedStatement statement = conn.prepareStatement(sql); 
-                statement.setInt(1, sportsid);
-                ResultSet rs = statement.executeQuery(); 
-                while(rs.next()){
-                	tieSum = rs.getInt(1);
-                    }
-                rs.close();
-                //db.closeRsAll(rs,conn);
-                }  
-            db.freeConnection(conn); 
-            
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-            return tieSum;
-    }
 	
-	/**
-	 * 根据   运动会id 部门总数    查询部门和运动会联系id 
-	 * @param sportsid  运动会id
-	 * @param departmentCount  部门数目
-	 * @return
-	 */
-	public int[] selectSp2dpid(int sportsid, int departmentCount){
-		
-		int[] sp2dpid = new int[departmentCount];
-		String sql = "SELECT id FROM t_group2sports WHERE sportsid=?";
-        try {
-            Connection conn = db.getConn();
-            if(conn != null){
-            	
-                PreparedStatement statement = conn.prepareStatement(sql); 
-                statement.setInt(1, sportsid);
-                ResultSet rs = statement.executeQuery(); 
-                while(rs.next()){
-                	for (int i = 0; i < departmentCount; i++){
-                		sp2dpid[i] = rs.getInt(1);
-                	}
-                }
-                rs.close();
-            }  
-            db.freeConnection(conn);  
-        }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-        return sp2dpid;
-    }
-	
-	/**
-	 * 根据运动会id查询每个项目各系的限报人数
-	 * @param 运动会id
-	 * @return int 
-	 */
-	public int selectPerDepartment(int sportsid){
-		
-		int confineNumber = 0;
-		String sql = "SELECT perdepartment FROM t_rule WHERE sportsid=?";
-        try {
-            Connection conn = db.getConn();
-            if(conn != null){
-            	
-                PreparedStatement statement = conn.prepareStatement(sql); 
-                statement.setInt(1, sportsid);
-                ResultSet rs = statement.executeQuery(); 
-                while(rs.next()){
-                	confineNumber = rs.getInt(1);
-                    }
-                //db.closeRsAll(rs,conn);
-                rs.close();
-                }  
-            
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-            return confineNumber;
-    }
-	
-	/**
+	/**公用
 	 * 根据sql语句添加数据
 	 * @param sql  要执行的sql语句
 	 * @return int
@@ -148,236 +62,32 @@ public class CreateProgramGameGrouping {
             e.printStackTrace(); } 
             return result;
     }
-	
+
 	/**
-	 * 根据     运动会的id、项目类型         查询该届运动会的所有能报的项目的    组别与运动会联系表id 项目id
-	 * @param sportId  运动会id
-	 * @param itemtype  项目类型(田赛和径赛还有接力)
-	 * @return   
+	 * 根据sportsid删除分组情况
+	 * @param sql
 	 */
-	public ArrayList selectGroupItem(int sportId, String itemtype){
-		
-		ArrayList group2itemArrayList = new ArrayList();
-		String sql = "SELECT * FROM t_group2item WHERE gp2spid IN (SELECT id FROM  t_group2sports WHERE sportsid=?) AND itemid IN (SELECT id FROM t_item WHERE itemtype=?)";
-		try {
-            Connection conn = db.getConn();
-            if(conn != null){
-            	ResultSet rs = null;
-                PreparedStatement statement = conn.prepareStatement(sql);
-                statement.setInt(1, sportId);
-                statement.setString(2, itemtype);
-                rs = statement.executeQuery(); 
-                while(rs.next()){
-                	Group2itemPojo g2i = new Group2itemPojo();
-                	g2i.setId(rs.getInt("id"));
-                	g2i.setGp2spid(rs.getInt("gp2spid"));
-                	g2i.setItemid(rs.getInt("itemid"));
-                	group2itemArrayList.add(g2i);
-                    }
-                rs.close();
-               }  
-            //conn.close();
-            
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-		return group2itemArrayList;
-	}
-
-/**
- * 根据    运动会id  查询    组别id  组别与运动会联系表id  
- * @param sportId    运动会id 
- * @return  HashMap
- */
-    public HashMap selectGroupItem(int sportId){
-		
-	    HashMap g2sHashMap = new HashMap();
-		String sql = "SELECT * FROM t_group2sports WHERE sportsid=?";
-		try {
-            Connection conn = db.getConn();
-            if(conn != null){
-            	ResultSet rs = null;
-                PreparedStatement statement = conn.prepareStatement(sql);
-                statement.setInt(1, sportId);
-                rs = statement.executeQuery(); 
-                while(rs.next()){
-                	Integer groupid = new Integer(rs.getInt("groupid"));
-                	Integer id = new Integer(rs.getInt("id"));
-                	g2sHashMap.put(groupid, id);
-                    }
-                rs.close();
-               }  
-            //conn.close();
-            
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-		return g2sHashMap;
-	}
-
-    /**
- * 根据运动会的id    查询运动员(以数字+运动员id的形式储存)、  组别与运动会表的id和项目id的结合  HashMap
- * @param sportId
- * @param g2sHashMap  
- * @return
- */
-public HashMap selectPlarerIdAndG2IId(int sportId, HashMap g2sHashMap){
-	int i = 0;
-    HashMap p2gHashMap = new HashMap(); //运动员、   组别运动会联系表id和项目结合    的id HashMap
-	String sql = "SELECT id,groupid,registitem FROM t_player WHERE groupid IN(SELECT groupid FROM t_group2sports WHERE sportsid=?)";
-	try {
-        Connection conn = db.getConn();
-        if(conn != null){
-        	ResultSet rs = null;
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, sportId);
-            rs = statement.executeQuery(); 
-            while(rs.next()){
-            	Integer playerid = new Integer(rs.getInt("id"));
-            	Integer groupid = new Integer(rs.getInt("groupid"));
-            	int g2sid = Integer.parseInt(g2sHashMap.get(groupid).toString());
-            	String items = rs.getString("registitem");
-            	String[] itemid = items.split(";");
-            	for (int j = 0; j < itemid.length; j++){
-            		String id = i + ";" + playerid;
-            		String item = itemid[j];
-                	String registitem = g2sid + ";" + item;
-                	p2gHashMap.put(id, registitem);
-                	i++;
-            	}
-            	
-             }
-            rs.close();
-           }  
-        //conn.close();
-        
-        db.freeConnection(conn);  
-        }catch (SQLException e) {                 
-        e.printStackTrace(); } 
-	return p2gHashMap;
-}
-
-/**
- * 根据运动会的id查询       运动员id、 部门与运动会联系表id   HashMap<运动员id,部门与运动会联系表id>
- * @param sportId 运动会id
- * @return  HashMap
- */
-public HashMap selectPlayerIdD2SId(int sportId){
-    HashMap player2d2sIDHashMap = new HashMap(); //运动员、  部门与运动会联系表    的id HashMap
-	String sql = "SELECT id,sp2dpid FROM t_player WHERE sp2dpid IN(SELECT id FROM t_sports2department WHERE sportsid=?)";
-	try {
-        Connection conn = db.getConn();
-        if(conn != null){
-        	ResultSet rs = null;
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, sportId);
-            rs = statement.executeQuery(); 
-            while(rs.next()){
-            	Integer playerid = new Integer(rs.getInt("id"));
-            	Integer sp2dpid = new Integer(rs.getInt("sp2dpid"));
-            	player2d2sIDHashMap.put(playerid, sp2dpid);
-                }
-            rs.close();
-           }  
-        //conn.close();
-        
-        db.freeConnection(conn);  
-        }catch (SQLException e) {                 
-        e.printStackTrace(); } 
-	return player2d2sIDHashMap;
-}
-
-    /**
-     * 根据运动会的id查询      最终项目表id（v）  与       组别与项目联系表的id（k）    的对应关系    
-     * @param sportId
-     * @return  HashMap
-     */
-    public HashMap selectG2itidVSd2s2gID(int sportId){
-        HashMap g2itidVSd2s2gID = new HashMap(); //最终项目表id  与       组别与项目联系表的id    的对应关系  
-	    String sql = "SELECT id,gp2itid FROM t_finalitem WHERE gp2itid IN(SELECT id FROM t_group2item WHERE gp2spid";
-	    sql = sql + " IN(SELECT id FROM t_group2sports WHERE sportsid=?))";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-        	    ResultSet rs = null;
-                PreparedStatement statement = conn.prepareStatement(sql);
-                statement.setInt(1, sportId);
-                rs = statement.executeQuery(); 
-                while(rs.next()){
-            	    Integer id = new Integer(rs.getInt("id"));
-            	    Integer gp2itid = new Integer(rs.getInt("gp2itid"));
-            	    g2itidVSd2s2gID.put(gp2itid, id);
-                    }
-                rs.close();
-               }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-	    return g2itidVSd2s2gID;
-    }
-    
-    /**
-     * 根据运动会的id查询   组别与项目联系表的id<v> 与     组别与运动会联系表的id与项目id联合起来 <k>      的关系
-     * @param sportId
-     * @return HashMap
-     */
-    public HashMap selectGp2itid(int sportId){
-        HashMap g2itidVSd2s2gID = new HashMap(); //最终项目表id  与       组别与项目联系表的id    的对应关系  
-	    String sql = "SELECT id,gp2spid,itemid FROM t_group2item WHERE gp2spid IN(SELECT id FROM t_group2sports WHERE sportsid=?)";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-        	    ResultSet rs = null;
-                PreparedStatement statement = conn.prepareStatement(sql);
-                statement.setInt(1, sportId);
-                rs = statement.executeQuery(); 
-                while(rs.next()){
-            	    Integer id = new Integer(rs.getInt("id"));
-            	    Integer gp2spid = new Integer(rs.getInt("gp2spid"));
-            	    Integer itemid = new Integer(rs.getInt("itemid"));
-            	    String temp = gp2spid + ";" + itemid;
-            	    g2itidVSd2s2gID.put(temp, id);
-                    }
-                rs.close();
-               }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-	    return g2itidVSd2s2gID;
-    }
-
-    /**
-     * 根据运动会的id 查询该届运动会的    itemid(k)  itemName(v)
-     * @param sportId
-     * @return  HashMap
-     */
-    public HashMap selectT_item(int sportId){
-        HashMap t_item = new HashMap(); 
-	    String sql = "SELECT id,itemname FROM t_item WHERE id IN (SELECT itemid FROM t_group2item WHERE gp2spid IN(SELECT id FROM t_group2sports WHERE sportsid=?))";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-        	    ResultSet rs = null;
-                PreparedStatement statement = conn.prepareStatement(sql);
-                statement.setInt(1, sportId);
-                rs = statement.executeQuery(); 
-                while(rs.next()){
-            	    Integer id = new Integer(rs.getInt("id"));
-            	    String temp = (String)rs.getString("itemname");
-            	    t_item.put(id, temp);
-                    }
-                rs.close();
-               }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-	    return t_item;
-    }
-    
-    /**
+	public void deleteT_matchBySid(int sportsid){
+			
+			String sql = "DELETE FROM t_match WHERE finalitemid IN(SELECT id FROM " +
+					"t_finalitem WHERE gp2itid IN(SELECT id FROM t_group2item WHERE " +
+					"gp2spid IN(SELECT id FROM t_group2sports WHERE sportsid = ?)))";
+	        try {
+	            Connection conn = db.getConn();
+	            if(conn != null){
+	                PreparedStatement statement = conn.prepareStatement(sql);
+	                statement.setInt(1, sportsid);
+	                statement.executeUpdate(); 
+	                log.debug("删除赛事分组信息");
+	            }
+	            db.freeConnection(conn);  
+	            }catch (SQLException e) {                 
+	            	
+	            e.printStackTrace(); } 
+	           
+	    }
+//************************************生成word**********************************************************	
+    /**word
      * 根据运动会id查询最终项目表女子组信息  finalitemid(k) finalitemPojo(v)
      * @param sportId
      * @return HashMap finalitemid(k) finalitemPojo(v)
@@ -418,7 +128,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return flaGirl;
     }
 
-    /**
+    /**word
      * 根据运动会id查询最终项目表男子组信息
      * @param sportId
      * @return HashMap finalitemid(k) finalitemPojo(v)
@@ -458,7 +168,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return flaBoy;
     }
 
-    /**
+    /**word
      * 根据最终项目表的id查询项目类型
      * @param finalItemId
      * @return  String
@@ -486,7 +196,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return itemType;
     }
    
-    /**
+    /**word
      * 根据最终项目表id径赛100类查询运动员编号(接力也可用此方法查询)
      * @param int finalItemId
      * @param HashMap players
@@ -515,7 +225,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return pnums;
     }
 
-    /**
+    /**word
      * 根据运动会的id查询运动员的id（k）与 号码（v）的关系
      * @param sportsId
      * @return  HashMap
@@ -544,7 +254,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return players;
     }
     
-    /**
+    /**word
      * 根据最终项目表id查询组别名称
      * @param finalItemId
      * @return int
@@ -573,7 +283,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return gname;
     }
     
-    /**
+    /**word
      * 根据最终项目表的id查询田赛运动员的编号
      * @param int finalItemId
      * @param HashMap players
@@ -602,7 +312,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return pnums;
     }
 
-    /**
+    /**word
      * 根据最终项目表id径赛查询1500类运动员编号 
      * @param int finalItemId
      * @param HashMap players
@@ -631,7 +341,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return pnums;
     }
 
-    /**
+    /**word
      * 根据运动会id查询部门的id（k） 名称（V）
      * @param int  sportsid
      * @return  HashMap
@@ -660,182 +370,8 @@ public HashMap selectPlayerIdD2SId(int sportId){
 	    return department;
     }
     
-    /**
-     * 根据运动会id查询T_group表信息 
-     * @param sportsid 
-     * @return  ArrayList
-     */
-    public ArrayList selectT_group(int sportsid){
-    	ArrayList groupinfo = new ArrayList();
-	    String sql = "SELECT * FROM t_group WHERE id IN (SELECT groupid FROM t_group2sports WHERE sportsid=?)";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-        	   ResultSet rs = null;
-               PreparedStatement statement = conn.prepareStatement(sql);
-               statement.setInt(1, sportsid);
-               rs = statement.executeQuery(); 
-               while(rs.next()){
-            	   T_groupPojo tgp = new T_groupPojo();
-            	   tgp.setId(rs.getInt("id"));
-            	   tgp.setGroupname(rs.getString("groupname"));
-            	   tgp.setGrouptype(rs.getInt("grouptype"));
-            	   groupinfo.add(tgp);
-                  }
-               rs.close();
-            }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-	    return groupinfo;
-    }
-    
-    /**
-     *根据运动会id查询组别与运动会表id（k）与 组别类型（v）
-     * @param sportsid
-     * @return
-     */
-    public HashMap selectGtype(int sportsid){
-    	HashMap groupinfo = new HashMap();
-	    String sql = "SELECT t_group2sports.id,grouptype FROM t_group JOIN t_group2sports ON" +
-	    		" t_group.id=t_group2sports.groupid WHERE t_group2sports.sportsid=?";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-        	   ResultSet rs = null;
-               PreparedStatement statement = conn.prepareStatement(sql);
-               statement.setInt(1, sportsid);
-               rs = statement.executeQuery(); 
-               while(rs.next()){
-            	   Integer id = new Integer(rs.getInt(1));
-            	   Integer grouptype = new Integer(rs.getInt(2));
-            	   groupinfo.put(id, grouptype);
-                  }
-               rs.close();
-            }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-	    return groupinfo;
-    }
-    
-    /**
-     * 根据运动会id查询部门id（k）与部门类型（v）的关系
-     * @param sportsid
-     * @return HashMap
-     */
-    public HashMap selectT_epartment(int sportsid){
-    	HashMap groupinfo = new HashMap();
-	    String sql = "SELECT id,departtype FROM t_department WHERE id IN (SELECT departid FROM t_sports2department WHERE sportsid=?)";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-        	   ResultSet rs = null;
-               PreparedStatement statement = conn.prepareStatement(sql);
-               statement.setInt(1, sportsid);
-               rs = statement.executeQuery(); 
-               while(rs.next()){
-            	   Integer id = new Integer(rs.getInt(1));
-            	   Integer grouptype = new Integer(rs.getInt(2));
-            	   groupinfo.put(id, grouptype);
-                  }
-               rs.close();
-            }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-	    return groupinfo;
-    }
-    
-    /**
-     * 根据运动会的id查询运动员id（k）与部门id（v）的关系
-     * @param sportsid
-     * @return HashMap
-     */
-    public HashMap selectPid2DidBySid(int sportsid){
-    	HashMap p2d = new HashMap();
-	    String sql = "SELECT t_player.id,t_department.id FROM t_player JOIN t_sports2department ON t_player.sp2dpid = t_player.id " +
-                      "JOIN t_department ON t_sports2department.departid = t_department.id " +
-                      "WHERE t_sports2department.sportsid = ?";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-        	   ResultSet rs = null;
-               PreparedStatement statement = conn.prepareStatement(sql);
-               statement.setInt(1, sportsid);
-               rs = statement.executeQuery(); 
-               while(rs.next()){
-            	   Integer pid = new Integer(rs.getInt(1));
-            	   Integer did = new Integer(rs.getInt(2));
-            	   p2d.put(pid, did);
-                  }
-               rs.close();
-            }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-	    return p2d;
-    }
-    
-    /**
-     * 根据运动会id查询最终项目表id（v） 与  组别与运动会联系表id_项目表id的关系（k）
-     * @param sportsid
-     * @return HashMap
-     */
-    public HashMap selectFidRg2s2IiD(int sportsid){
-    	HashMap p2d = new HashMap();
-	    String sql = "SELECT t_finalitem.id,t_group2item.gp2spid,t_group2item.itemid FROM t_finalitem " +
-	    		"JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id " +
-	    		"JOIN t_group2sports ON t_group2sports.id = t_group2item.gp2spid WHERE t_group2sports.sportsid = ?";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-        	   ResultSet rs = null;
-               PreparedStatement statement = conn.prepareStatement(sql);
-               statement.setInt(1, sportsid);
-               rs = statement.executeQuery(); 
-               while(rs.next()){
-            	   Integer fid = new Integer(rs.getInt(1));
-            	   int gid = rs.getInt(2);
-            	   int iid = rs.getInt(3);
-            	   String g_iid = gid + ";" + iid;
-            	   p2d.put(g_iid, fid);
-                  }
-               rs.close();
-            }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-	    return p2d;
-    }
-    
-    /**
-     * 根据最终项目id 更改最终项目表里面的groupnum
-     * @param groupnum int
-     * @param finalitemid int
-     */
-    public void uodateGroupnumByFid(int groupnum, int finalitemid){
-	    String sql = "UPDATE t_finalitem SET groupnum = ? WHERE id = ?";
-	    try {
-            Connection conn = db.getConn();
-            if(conn != null){
-               PreparedStatement statement = conn.prepareStatement(sql);
-               statement.setInt(1, groupnum);
-               statement.setInt(2, finalitemid);
-               statement.executeUpdate();
-            }
-        
-            db.freeConnection(conn);  
-            }catch (SQLException e) {                 
-            e.printStackTrace(); } 
-    }
-   
-    /**
+//********************************赛事查看********************************************
+    /**look
      * 根据finalitemid查询每个项目的每组的人数
      * @param finalitemid
      * @return ArrayList
@@ -863,7 +399,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             return groupnum;
     }
     
-    /**
+    /**look
      * 根据finalitemid查询每个径赛项目的各组运动员  编号（ArrayList）     跑道号（ArrayList）
      * @param finalitemid
      * @return ArrayList       <String>  编号+跑道号
@@ -900,7 +436,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             return pn;
     }
     
-    /**
+    /**look
      * 根据finalitemid查询接力的各组部门名
      * @param finalitemid 
      * @return  ArrayList
@@ -937,7 +473,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             return pn;
     }
     
-    /**
+    /**look
      * 根据finalitemid得到finalitemid与分组序号finalitemid + ";" + teamnum
      * @param finalitemid
      * @return ArrayList
@@ -967,7 +503,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             return trackInfo;
     }
     
-    /**
+    /**look
     * 根据最终项目名查询项目名称
     * @param finalitemid
     * @return
@@ -1000,8 +536,8 @@ public HashMap selectPlayerIdD2SId(int sportId){
      * 根据finalitemid查询长跑类运动员信息
      * @param finalitemid
      * @return  ArrayList  编号+组号
-     
-    public ArrayList slectTrack1500Ps(int finalitemid){
+     */
+   /* public ArrayList slectTrack1500Ps(int finalitemid){
     	
     	ArrayList pn = new ArrayList();
     	
@@ -1024,12 +560,16 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 
                 rs.close();
             }
+    
+    
+    
         
             db.freeConnection(conn);  
             }catch (SQLException e) {                 
             e.printStackTrace(); } 
             return pn;
     }*/
+    
     public List slectTrack1500Ps(int finalitemid){
     	List list = new ArrayList();
 		try {
@@ -1099,19 +639,13 @@ public HashMap selectPlayerIdD2SId(int sportId){
 		return track1500Map;
 	}
     
-    
-    
    
-    /**
+    /**look
      * 根据finalitemid查询田赛类运动员信息
      * @param finalitemid
      * @return  ArrayList  编号
      */
-     /**
-     * @param finalitemid
-     * @return
-     */
-    public ArrayList slectFilePs(int finalitemid){
+     public ArrayList slectFilePs(int finalitemid){
     	
     	ArrayList pn = new ArrayList();
     	
@@ -1125,11 +659,8 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 statement.setInt(1, finalitemid);
                 rs = statement.executeQuery(); 
                 while(rs.next()){
-                	//fildPlayerNumPojo fildNum = new fildPlayerNumPojo();
-                	//fildNum.setPlayerNum(rs.getString(1));
-             	    String pnum = rs.getString(1);
+             	   String pnum = rs.getString(1);
              	   pn.add(pnum);
-                	//pn.add(fildNum);
              	   
                 }
                 
@@ -1141,8 +672,8 @@ public HashMap selectPlayerIdD2SId(int sportId){
             e.printStackTrace(); } 
             return pn;
     }
-     
-     /**
+//************************************修改长跑分组数目******************************************    
+     /**update1500
       * 根据finalitemid查询该届运动会报名长跑运动员的id（分组后）    以( id+"")方式存储
       * @param finalitemid
       * @return  ArrayList
@@ -1175,7 +706,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
              return pn;
      }
      
-     /**
+     /**update1500
       * 根据finalitemid删除长跑运动员的分组信息
       * @param finalitemid
       * @return
@@ -1200,6 +731,368 @@ public HashMap selectPlayerIdD2SId(int sportId){
               e.printStackTrace(); } 
              
       }
+     
+
+    
+//*****************************赛事编排*********************************
+     /**
+      * 根据运动会id查询groupId+itemId
+      * @param sportsId 
+      * @param itemtype 
+      * @return ArrayList   <String>groupId;itemId
+      */
+     public ArrayList selectItemBySid(int sportsId, String itemtype){
+    	 ArrayList grp2item = new ArrayList();
+    	 String sql = "SELECT t_group.id,t_item.id FROM t_group " +
+    	 		"JOIN t_group2sports ON t_group.id = t_group2sports.groupid " +
+    	 		"JOIN t_group2item ON t_group2sports.id = t_group2item.gp2spid " +
+    	 		"JOIN t_item ON t_group2item.itemid = t_item.id " +
+    	 		"WHERE t_group2sports.sportsid = ? AND t_item.itemtype = ?";
+ 		 try {
+             Connection conn = db.getConn();
+             if(conn != null){
+             	 ResultSet rs = null;
+                 PreparedStatement statement = conn.prepareStatement(sql);
+                 statement.setInt(1, sportsId);
+                 statement.setString(2, itemtype);
+                 rs = statement.executeQuery(); 
+                 while(rs.next()){
+                 	String temp = "";
+                 	temp = rs.getInt(1) + ";" + rs.getInt(2);
+                 	grp2item.add(temp);
+                 }
+                 
+                 rs.close();
+                 statement.close();
+                }
+             db.freeConnection(conn);  
+             }catch (SQLException e) {                 
+             e.printStackTrace(); } 
+          log.debug("从数据库中取出的groupId+itemId" + grp2item);
+    	 return grp2item;
+    	 
+     }
+     
+     /**
+      * 根据sportsId查询项目的id与name
+      * @param sportsId
+      * @return HashMap<String,String>
+      */
+     public HashMap selectItemId2nameBySid(int sportsId){
+    	 HashMap itemId2name = new HashMap();
+    	 String sql = "SELECT * FROM t_item WHERE id IN" +
+    	 		"(SELECT itemid FROM t_group2item WHERE gp2spid " +
+    	 		"IN (SELECT id FROM t_group2sports WHERE sportsid = ?)) ";
+ 		 try {
+             Connection conn = db.getConn();
+             if(conn != null){
+             	 ResultSet rs = null;
+                 PreparedStatement statement = conn.prepareStatement(sql);
+                 statement.setInt(1, sportsId);
+                 rs = statement.executeQuery(); 
+                 while(rs.next()){
+                 	String itemId = (rs.getInt(1)+"").trim();
+                 	String itemName = rs.getString(2);
+                 	itemId2name.put(itemId, itemName);
+                    }
+                 rs.close();
+                 statement.close();
+                }
+             db.freeConnection(conn);  
+             }catch (SQLException e) {                 
+             e.printStackTrace(); } 
+    	 return itemId2name;
+     }
+     
+     /**
+      * 根据sportsId查询数字+运动员id，运动员组别id+所报项目id对照HashMap
+      * @param sportsId
+      * @return HashMap
+      */
+     public HashMap selectplayer2itemBySid(int sportsId){
+    	 HashMap itemId2name = new HashMap();
+    	 String sql = "SELECT id,groupid,registitem FROM t_player " +
+    	 		"WHERE sp2dpid IN" +
+    	 		"(SELECT id FROM t_sports2department WHERE sportsid = ?)";
+ 		 try {
+             Connection conn = db.getConn();
+             if(conn != null){
+             	 ResultSet rs = null;
+                 PreparedStatement statement = conn.prepareStatement(sql);
+                 statement.setInt(1, sportsId);
+                 rs = statement.executeQuery(); 
+                 while(rs.next()){
+                	int pid = rs.getInt(1);
+                	int pgid = rs.getInt(2); 
+                 	String registitem = rs.getString(3);
+                 	if (registitem == null || registitem.equals("")){
+                 		continue;
+                 	}
+                 	
+                 	if (registitem.indexOf(";") >= 0){
+                 		String[] pitem = null;
+                 		pitem = registitem.split(";");
+                 		for (int i = 0; i < pitem.length; i++){
+                     		String pidString = (i + ";" + pid).trim();
+                     		String g2i = (pgid + ";" + pitem[i]).trim();
+                     		itemId2name.put(pidString,g2i);
+                     	}
+                 	}else{
+                 		itemId2name.put(1+";"+pid, pgid + ";" + registitem);
+                 	}
+                 	
+                 	
+                 }
+                 rs.close();
+                 statement.close();
+                }
+             db.freeConnection(conn);  
+             }catch (SQLException e) {                 
+             e.printStackTrace(); } 
+    	 return itemId2name;
+     }
+     
+     /**
+ 	 * 根据运动会id查询每个项目各系的限报人数
+ 	 * @param 运动会id
+ 	 * @return int 
+ 	 */
+ 	public int selectPerDep(int sportsid){
+ 		
+ 		int confineNumber = 0;
+ 		String sql = "SELECT perdepartment FROM t_rule WHERE sportsid=?";
+         try {
+             Connection conn = db.getConn();
+             if(conn != null){
+             	
+                 PreparedStatement statement = conn.prepareStatement(sql); 
+                 statement.setInt(1, sportsid);
+                 ResultSet rs = statement.executeQuery(); 
+                 while(rs.next()){
+                 	confineNumber = rs.getInt(1);
+                     }
+                 //db.closeRsAll(rs,conn);
+                 rs.close();
+                 }  
+             
+             db.freeConnection(conn);  
+             }catch (SQLException e) {                 
+             e.printStackTrace(); } 
+             return confineNumber;
+     }
+ 	
+ 	/**
+ 	 * 根据sportsId查询部门id集合
+ 	 * @param sportsId
+ 	 * @return  ArrayList
+ 	 */
+ 	public ArrayList selectDepidBySid(int sportsId){
+   	 ArrayList depid = new ArrayList();
+   	 String sql = "SELECT id FROM t_department WHERE id IN " +
+   	 		"(SELECT departid FROM t_sports2department WHERE sportsid = ?)";
+		 try {
+            Connection conn = db.getConn();
+            if(conn != null){
+            	ResultSet rs = null;
+                PreparedStatement statement = conn.prepareStatement(sql);
+                statement.setInt(1, sportsId);
+                rs = statement.executeQuery(); 
+                while(rs.next()){
+                	String did = (rs.getInt(1)+"").trim();
+                	depid.add(did);
+                   }
+                
+                rs.close();
+                statement.close();
+               }
+            db.freeConnection(conn);  
+            }catch (SQLException e) {                 
+            e.printStackTrace(); } 
+   	 return depid;
+    }
+ 	
+ 	/**
+ 	 * 根据sportsId查询
+ 	 * @param sportsId运动员id，部门id对照 HashMap
+ 	 * @return HashMap
+ 	 */
+ 	public HashMap slectPlaid2DepidySid(int sportsId){
+   	 HashMap plaId2depid = new HashMap();
+   	 String sql = "SELECT t_player.id,t_sports2department.departid " +
+   	 		"FROM t_player JOIN t_sports2department ON " +
+   	 		"t_player.sp2dpid = t_sports2department.id WHERE t_sports2department.sportsid = ?";
+		 try {
+            Connection conn = db.getConn();
+            if(conn != null){
+            	 ResultSet rs = null;
+                PreparedStatement statement = conn.prepareStatement(sql);
+                statement.setInt(1, sportsId);
+                rs = statement.executeQuery(); 
+                while(rs.next()){
+                	String pid = (rs.getInt(1) + "").trim();
+                	String did = (rs.getInt(2) + "").trim();
+                	plaId2depid.put(pid, did);
+                }
+                rs.close();
+                statement.close();
+               }
+            db.freeConnection(conn);  
+            }catch (SQLException e) {                 
+            e.printStackTrace(); } 
+   	 return plaId2depid;
+    }
+ 	
+ 	/**
+ 	 * 根据sportsId查询组别id+项目id，最终项目id对应HashMap
+ 	 * @param sportsId
+ 	 * @return HashMap
+ 	 */
+ 	public HashMap slectItem2flaBySid(int sportsId){
+ 	   	 HashMap plaId2depid = new HashMap();
+ 	   	 String sql = "SELECT t_finalitem.id,t_group2item.itemid,t_group2sports.groupid " +
+ 	   	 		"FROM t_finalitem" +
+ 	   	 		" JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id " +
+ 	   	 		"JOIN t_group2sports ON t_group2item.gp2spid = t_group2sports.id " +
+ 	   	 		"WHERE t_group2sports.sportsid=?";
+ 			 try {
+ 	            Connection conn = db.getConn();
+ 	            if(conn != null){
+ 	            	 ResultSet rs = null;
+ 	                PreparedStatement statement = conn.prepareStatement(sql);
+ 	                statement.setInt(1, sportsId);
+ 	                rs = statement.executeQuery(); 
+ 	                while(rs.next()){
+ 	                	String fid = (rs.getInt(1) + "").trim();
+ 	                	String g2id = (rs.getInt(3) + ";" + rs.getInt(2)).trim();
+ 	                	plaId2depid.put(g2id, fid);
+ 	                }
+ 	                rs.close();
+ 	                statement.close();
+ 	               }
+ 	            db.freeConnection(conn);  
+ 	            }catch (SQLException e) {                 
+ 	            e.printStackTrace(); } 
+ 	   	 return plaId2depid;
+ 	    }
+    
+ 	/**
+     * 根据sportsId查询组别的id与name
+     * @param sportsId
+     * @return HashMap<String,String>
+     */
+    public HashMap slectGroupId2nameBySid(int sportsId){
+   	    HashMap itemId2name = new HashMap();
+   	    String sql = "SELECT * FROM t_group WHERE id IN" +
+   	    		"(SELECT groupid FROM t_group2sports WHERE sportsid = ?)";
+		try {
+            Connection conn = db.getConn();
+            if(conn != null){
+            	ResultSet rs = null;
+                PreparedStatement statement = conn.prepareStatement(sql);
+                statement.setInt(1, sportsId);
+                rs = statement.executeQuery(); 
+                while(rs.next()){
+                	String itemId = (rs.getInt("id")+"").trim();
+                	String itemName = rs.getString("groupname");
+                	itemId2name.put(itemId, itemName);
+                   }
+                rs.close();
+                statement.close();
+               }
+            db.freeConnection(conn);  
+            }catch (SQLException e) {                 
+            e.printStackTrace(); } 
+   	    return itemId2name;
+    }
+    
+    /**
+ 	 * 根据sportsId查询学生部门id集合
+ 	 * @param sportsId
+ 	 * @return  ArrayList
+ 	 */
+ 	public ArrayList slectStuDepidBySid(int sportsId){
+ 		ArrayList depid = new ArrayList();
+ 		String sql = "SELECT id FROM t_department WHERE id IN " +
+   	 		"(SELECT departid FROM t_sports2department WHERE sportsid = ?) AND departtype = 1";
+		try {
+            Connection conn = db.getConn();
+            if(conn != null){
+            	ResultSet rs = null;
+                PreparedStatement statement = conn.prepareStatement(sql);
+                statement.setInt(1, sportsId);
+                rs = statement.executeQuery(); 
+                while(rs.next()){
+                	String did = (rs.getInt(1)+"").trim();
+                	depid.add(did);
+                   }
+                
+                rs.close();
+                statement.close();
+               }
+            db.freeConnection(conn);  
+            }catch (SQLException e) {                 
+            e.printStackTrace(); } 
+         return depid;
+    }
+ 	
+ 	/**
+	 * 根据sql语句修改分组情况
+	 * @param sql
+	 */
+	public void updateGroupNumBySql(String sql){
+		String[] flag = sql.split("#");
+		
+        try {
+            Connection conn = db.getConn();
+            if(conn != null){
+                
+                for (int i = 0; i < flag.length; i++){
+                	String temp = flag[i];
+                	PreparedStatement statement = conn.prepareStatement(temp);
+                	statement.executeUpdate(); 
+                	statement.close();
+                }
+                
+            }
+            db.freeConnection(conn);  
+            }catch (SQLException e) {                 
+            	
+            e.printStackTrace(); } 
+            
+	}
+
+	/**
+	 * 检查是否已经分过组，若以分过返回“true” 否则返回“flase”
+	 * @param sportsId
+	 * @return String 
+	 */
+	public String checkGroup(int sportsId){
+		String flag = "flase";
+		String sql = "SELECT id FROM t_match WHERE finalitemid IN(SELECT id FROM t_finalitem WHERE " +
+				"gp2itid IN(SELECT id FROM t_group2item WHERE gp2spid IN" +
+				"(SELECT id FROM t_group2sports WHERE sportsid = ?)))" ;
+        try {
+            Connection conn = db.getConn();
+            if(conn != null){
+                
+            	    ResultSet rs = null;
+                	PreparedStatement statement = conn.prepareStatement(sql);
+                	statement.setInt(1, sportsId);
+                	rs = statement.executeQuery();
+                	while(rs.next()){
+                		flag = "true";
+                		break;
+                	}
+                	statement.close();
+                
+                
+            }
+            db.freeConnection(conn);  
+            }catch (SQLException e) {                 
+            	
+            e.printStackTrace(); } 
+           return flag;
+	}
 }
 
 

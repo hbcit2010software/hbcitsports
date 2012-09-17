@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import cn.edu.hbcit.smms.dao.createprogramdao.CreateProgramGameGrouping;
 
@@ -313,12 +314,26 @@ public HashMap selectPlayerIdD2SId(int sportId){
      * 根据finalitemid查询长跑类运动员信息
      * @param finalitemid
      * @return  ArrayList  编号+组号
-     */
+     
     public ArrayList slectTrack1500Ps(int finalitemid){
     	
     	return cpgg.slectTrack1500Ps(finalitemid);
-    }
+    }*/
    
+    
+    public Map getTrack1500(int finalitemid){
+    	return cpgg.getTrack1500(finalitemid);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * 根据finalitemid查询田赛类运动员信息
      * @param finalitemid
