@@ -25,6 +25,7 @@ import cn.edu.hbcit.smms.pojo.FinalItem;
 import cn.edu.hbcit.smms.pojo.Group;
 import cn.edu.hbcit.smms.pojo.Group2itemPojo;
 import cn.edu.hbcit.smms.pojo.Item;
+import cn.edu.hbcit.smms.pojo.PlayerNum;
 import cn.edu.hbcit.smms.pojo.Sports2department;
 
 /**
@@ -150,7 +151,7 @@ public class ItemDAO {
 	public ArrayList selectFinalItem(int sportsId) {
 		ArrayList list = new ArrayList();
 		// 查询项目名称、比赛阶段、项目类型、运动员类型等信息
-		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype,t_finalitem.date,t_finalitem.time,t_finalitem.promotionnum FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=? ORDER BY t_finalitem.finalitemtype,t_item.itemtype";
+		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype,t_finalitem.date,t_finalitem.time,t_finalitem.promotionnum FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=? ORDER BY t_finalitem.finalitemtype,t_item.itemtype,t_finalitem.finalitemname";
 		conn = db.getConn();
 		try {
 			pStatement = conn.prepareStatement(sql);
@@ -176,6 +177,37 @@ public class ItemDAO {
 		return list;
 	}
 
+	/**
+	 * 为前台页面显示而获取playernum信息
+	 * 
+	 * @param sportsId
+	 * @return
+	 */
+	public ArrayList selectPlayernum(int sportsId) {
+		ArrayList list = new ArrayList();
+		String sql = "SELECT t_playernum.id,t_department.departshortname,t_playernum.beginnum,t_playernum.endnum,t_playernum.numtype FROM t_playernum,t_sports2department,t_department WHERE t_playernum.sp2dpid=t_sports2department.id AND t_sports2department.departid=t_department.id AND t_sports2department.sportsid=? ORDER BY t_playernum.id ASC";
+		conn = db.getConn();
+		try {
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while (rs.next()) {
+				PlayerNum pn = new PlayerNum();
+				pn.setId(rs.getInt(1));
+				pn.setDepartshortname(rs.getString(2));
+				pn.setBeginnum(rs.getString(3));
+				pn.setEndnum(rs.getString(4));
+				pn.setNumtype(rs.getInt(5));
+				list.add(pn);
+			}
+			db.freeConnection(rs, pStatement, conn);
+		} catch (Exception e) {
+			log.error("获取此届运动会的playernum信息失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	
 	/**
 	 * 查询指定运动会的sp2dpid和departtype（该部门是否有学生）
 	 * @param sportsId
@@ -271,6 +303,30 @@ public class ItemDAO {
 		}
 		return flag;
 	}
+	
+	/**
+	 * 删除指定ID运动会的运动员编号信息
+	 */
+	public boolean removePlayernum(int sportsId) {
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_playernum WHERE t_playernum.sp2dpid IN (SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.sportsid=?)";
+		try {
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rst = pStatement.executeUpdate();
+			//
+			if (rst > 0) {
+				flag = true;
+			}
+			db.freeConnection(pStatement,conn);
+		} catch (Exception e) {
+			log.error("删除指定ID运动会的运动员编号信息失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 
 	/**
 	 * 为t_group2item表插入数据构建SQL语句 INSERT INTO t_group2item
@@ -333,6 +389,34 @@ public class ItemDAO {
 		return flag;
 	}
 
+	/**
+	 * 插入t_playernum
+	 * 
+	 * @param sql
+	 *            已构建好的insert语句
+	 * @return
+	 */
+	public boolean addT_playernum(String sql) {
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+
+		try {
+			pStatement = conn.prepareStatement(sql);
+			rst = pStatement.executeUpdate();
+			//
+			if (rst > 0) {
+				flag = true;
+			}
+			pStatement.close();
+			db.freeConnection(conn);
+		} catch (Exception e) {
+			log.error("插入t_playernum失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+	
 	/**
 	 * 获取t_group2item中符合本届运动会的数量
 	 * 
@@ -526,7 +610,56 @@ public class ItemDAO {
 		} finally {
 			db.freeConnection(pStatement, conn);
 		}
+		return flag;
+	}
+	/**
+	 * 更新t_playernum起始号段、结束号段
+	 * 
+	 * @param finalItem
+	 *            格式：id,beginnum,endnum
+	 * @return
+	 */
+	public boolean updatePlayerNum(String[] playerNum) {
+		boolean flag = false;
+		int count[];
+		String sql = "UPDATE t_playernum SET beginnum=?,endnum=? WHERE id=?";
+		try {
+			conn = db.getConn();
+			conn.setAutoCommit(false);
+			pStatement = conn.prepareStatement(sql);
 
+			for (int i = 0; i < playerNum.length; i++) {
+				// finalItem[i]格式：id,date,time,promotionnum
+				String[] tempArray = playerNum[i].split(",");
+				pStatement.setString(1, tempArray[1]);    //beginnum
+				pStatement.setString(2, tempArray[2]);    //endnum
+				pStatement.setInt(3, Integer.parseInt(tempArray[0]));    //id
+				pStatement.addBatch();
+			}
+			count = pStatement.executeBatch();
+			conn.commit();
+			for (int i : count) {
+				if (i == 0) {
+					conn.rollback(); // 回滚，非常重要
+					log.error("更新t_playernum数据出现异常，回滚=========》");
+					flag = false;
+					break;
+				} else {
+					flag = true;
+				}
+			}
+		} catch (Exception e) {
+			try {
+				// 回滚，非常重要
+				conn.rollback();
+			} catch (SQLException e1) {
+				log.error(e1.getMessage());
+			}
+			log.error("更新t_playernum数据失败！");
+			log.error(e.getMessage());
+		} finally {
+			db.freeConnection(pStatement, conn);
+		}
 		return flag;
 	}
 
@@ -582,6 +715,79 @@ public class ItemDAO {
 		return rst;
 	}
 
+	/**
+	 * 获取此届运动会的sports2department数量
+	 * 
+	 * @param sportsId
+	 * @return
+	 */
+	public int countSports2Department(int sportsId) {
+		int rst = 0;
+		String sql = "SELECT COUNT(*) FROM t_sports2department WHERE sportsid=?";
+		conn = db.getConn();
+		try {
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while (rs.next()) {
+				rst = rs.getInt(1);
+			}
+			db.freeConnection(rs, pStatement, conn);
+		} catch (Exception e) {
+			log.error("获取此届运动会的sports2department数量失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
+	}
+	
+	/**
+	 * 计算Numtype数量
+	 * @param sportsId
+	 * @return
+	 */
+	public int countNumtype(int sportsId) {
+		int rst = 0;
+		String sql = "SELECT ((SELECT COUNT(*) FROM t_department,t_sports2department WHERE t_sports2department.departid=t_department.id AND t_sports2department.sportsid=? AND t_department.departtype=0)+(SELECT COUNT(*) FROM t_department,t_sports2department WHERE t_sports2department.departid=t_department.id AND t_sports2department.sportsid=? AND t_department.departtype=1)*2)";
+		conn = db.getConn();
+		try {
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			pStatement.setInt(2, sportsId);
+			rs = pStatement.executeQuery();
+			while (rs.next()) {
+				rst = rs.getInt(1);
+			}
+			db.freeConnection(rs, pStatement, conn);
+		} catch (Exception e) {
+			log.error("获取此届运动会的Numtype数量失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
+	}
+	
+	/**
+	 * 计算当前运动会的t_playernum总数
+	 * @param sportsId
+	 * @return
+	 */
+	public int countT_playernum(int sportsId) {
+		int rst = 0;
+		String sql = "SELECT COUNT(*) FROM t_playernum,t_sports2department WHERE t_playernum.sp2dpid=t_sports2department.id AND t_sports2department.sportsid=?";
+		conn = db.getConn();
+		try {
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while (rs.next()) {
+				rst = rs.getInt(1);
+			}
+			db.freeConnection(rs, pStatement, conn);
+		} catch (Exception e) {
+			log.error("获取此届运动会的t_playernum数量失败！");
+			log.error(e.getMessage());
+		}
+		return rst;
+	}
 	/**
 	 * 删除指定ID运动会的Final Item信息
 	 * 

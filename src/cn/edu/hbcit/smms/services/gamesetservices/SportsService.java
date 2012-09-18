@@ -419,4 +419,64 @@ public class SportsService {
 	public String getSqlOfInsertT_playernum(ArrayList sourceArray){
 		return item.getSqlOfInsertT_playernum(sourceArray);
 	}
+	/**
+	 * 获取此届运动会的sports2department数量
+	 * 
+	 * @param sportsId
+	 * @return
+	 */
+	public int countSports2Department(int sportsId){
+		return item.countSports2Department(sportsId);
+	}
+	/**
+	 * 计算Numtype数量
+	 * @param sportsId
+	 * @return
+	 */
+	public int countNumtype(int sportsId){
+		return item.countNumtype(sportsId);
+	}
+	/**
+	 * 计算当前运动会的t_playernum总数
+	 * @param sportsId
+	 * @return
+	 */
+	public int countT_playernum(int sportsId){
+		return item.countT_playernum(sportsId);
+	}
+	/**
+	 * 删除指定ID运动会的运动员编号信息
+	 */
+	public boolean removePlayernum(int sportsId){
+		return item.removePlayernum(sportsId);
+	}
+	/**
+	 * 插入t_playernum
+	 * 
+	 * @param sql
+	 *            已构建好的insert语句
+	 * @return
+	 */
+	public boolean addT_playernum(String sql){
+		return item.addT_playernum(sql);
+	}
+	/**
+	 * 为前台页面显示而获取playernum信息
+	 * 
+	 * @param sportsId
+	 * @return
+	 */
+	public ArrayList selectPlayernum(int sportsId) {
+		return item.selectPlayernum(sportsId);
+	}
+	/**
+	 * 更新t_playernum起始号段、结束号段
+	 * 
+	 * @param finalItem
+	 *            格式：id,beginnum,endnum
+	 * @return
+	 */
+	public boolean updatePlayerNum(String[] playerNum){
+		return item.updatePlayerNum(playerNum);
+	}
 }

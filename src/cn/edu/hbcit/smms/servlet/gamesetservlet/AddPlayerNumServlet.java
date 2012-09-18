@@ -21,9 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import cn.edu.hbcit.smms.services.gamesetservices.SportsService;
 
 public class AddPlayerNumServlet extends HttpServlet {
+	protected final Logger log = Logger.getLogger(AddPlayerNumServlet.class.getName());
 
 	/**
 	 * Constructor of the object.
@@ -73,15 +76,42 @@ public class AddPlayerNumServlet extends HttpServlet {
 		SportsService ss = new SportsService();
 		ArrayList list = new ArrayList();
 		String insertSQL = "";
+		boolean flag_del = false;
+		boolean flag_insert = false;
+		int countPlayerNum = 0;
+		int countNumType = 0;
 		
 		HttpSession session = request.getSession();
 		int sportsId = 0;
 		if(session.getAttribute("currSportsId") != null){
 			sportsId = ((Integer)session.getAttribute("currSportsId")).intValue();
 		}
+		countPlayerNum = ss.countT_playernum(sportsId);
+		countNumType = ss.countNumtype(sportsId);
+		if(countPlayerNum == countNumType){
+			//如果相等，说明已有数据
+			log.debug("Player Num正常!");
+		}else if(countPlayerNum == 0){
+			//值为0，说明尚未插入数据
+			list = ss.selectSp2DpID(sportsId);
+			insertSQL = ss.getSqlOfInsertT_playernum(list); //构建的插入语句
+			flag_insert = ss.addT_playernum(insertSQL);//添加T_playernum
+		}else if(countPlayerNum != 0 && countPlayerNum != countNumType){
+			//否则说明数据有异常，删除原有数据后，重新插入数据
+			flag_del = ss.removePlayernum(sportsId);
+			if(flag_del){
+				list = ss.selectSp2DpID(sportsId);
+				insertSQL = ss.getSqlOfInsertT_playernum(list); //构建的插入语句
+				flag_insert = ss.addT_playernum(insertSQL);//添加T_playernum
+			}
+		}
+		if(flag_del == false && flag_insert == true){
+			request.setAttribute("msg", "参赛号段初始化成功！");
+		}else if(flag_del && flag_insert){
+			request.setAttribute("msg", "数据处理异常，可能是未按照顺序操作的缘故。请检查后续操作数据是否正常！");
+		}
+		request.getRequestDispatcher("ViewPlayerNumServlet").forward(request, response);
 		
-		list = ss.selectSp2DpID(sportsId);
-		insertSQL = ss.getSqlOfInsertT_playernum(list);
 	}
 
 	/**

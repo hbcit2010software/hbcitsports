@@ -551,6 +551,20 @@
     <servlet-name>AddPlayerNumServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.AddPlayerNumServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ViewPlayerNumServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.ViewPlayerNumServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdatePlayernumServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.UpdatePlayernumServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -948,12 +962,16 @@
     <url-pattern>/servlet/CheckGroupServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>UpdateFinalItemServlet</servlet-name>
-    <url-pattern>/servlet/UpdateFinalItemServlet</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
     <servlet-name>AddPlayerNumServlet</servlet-name>
     <url-pattern>/servlet/AddPlayerNumServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewPlayerNumServlet</servlet-name>
+    <url-pattern>/servlet/ViewPlayerNumServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePlayernumServlet</servlet-name>
+    <url-pattern>/servlet/UpdatePlayernumServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
