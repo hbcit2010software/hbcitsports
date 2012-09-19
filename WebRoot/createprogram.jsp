@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>无标题文档</title>
+		<title>赛事预览页面</title>
 		<link href="css/subcss.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 		<script type="text/javascript">
@@ -117,7 +117,7 @@
 					<!--内嵌表格end-->
 					<!--内嵌表格begin-->
 					<!--径赛Div begin-->
-					<div id="field1" style="display: none";">
+					<div id="field1" style="">
 						<table width="100%" border="0" cellpadding="0" cellspacing="1"
 							bgcolor="#a8c7ce" class="stripe_tb">
 							<tr class="tableTitle">

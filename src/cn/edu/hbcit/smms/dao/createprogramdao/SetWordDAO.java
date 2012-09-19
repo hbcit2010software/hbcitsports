@@ -103,7 +103,7 @@ public class SetWordDAO {
 			if (itemType.trim().equals("3")){
 				T_finalitemPojo finalInfo = (T_finalitemPojo)allBoyPlayers.get(allBoyFnId.get(i));
 				Integer gNum = new Integer(finalInfo.getGroupnum());
-				if (gNum == null){
+				if (gNum == null || gNum.intValue()==0){
 					ArrayList depName = new ArrayList();
 					depName = cpgg.selectMatchByFinId(finalitemid, department);
 					String title = count+"、" + gname + finalInfo.getFinalitemname() + "，"
@@ -186,7 +186,7 @@ public class SetWordDAO {
 			if (itemType.trim().equals("3")){
 				T_finalitemPojo finalInfo = (T_finalitemPojo)allGirlPlayers.get(allGirlFnId.get(i));
 				Integer gNum = new Integer(finalInfo.getGroupnum());
-				if (gNum == null){
+				if (gNum == null || gNum.intValue()==0){
 					ArrayList depName = new ArrayList();
 					depName = cpgg.selectMatchByFinId(finalitemid, department);
 					String title = count1+"、" + gname + finalInfo.getFinalitemname() + "，"

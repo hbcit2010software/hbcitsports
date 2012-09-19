@@ -27,10 +27,13 @@
 <script type="text/javascript" src="js/jquery.easing.js"></script>
 <script type="text/javascript" src="js/jquery.dimensions.js"></script>
 <script type="text/javascript" src="js/jquery.accordion.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
 
 		function checkgroup(){
-		alert('检查是否执行过赛事分组');
+		Dialog.alert('检查是否执行过赛事分组');
 		$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/CheckGroupServlet",
 					type : 'get',
@@ -51,18 +54,18 @@
 											var revalue=mm.replace(/\r\n/g,'');
 											if(revalue=="success")
 											{
-												alert("分组完成！");
+												Dialog.alert("分组完成！");
 											}
 											else{
-												alert("分组失败！");
+												Dialog.alert("分组失败！");
 											}
 										}
 									});	
 								}else{
-									alert('分组取消');
+									Dialog.alert('分组取消');
 								}
 							}else{
-								alert("按回车键  或者点击确定开始分组！");
+								Dialog.alert("按回车键  或者点击确定开始分组！");
 								$.ajax({
 									url :"${pageContext.request.contextPath }/servlet/GameGroupingServlet",
 									type : 'get',
@@ -73,10 +76,10 @@
 											var revalue=mm.replace(/\r\n/g,'');
 											if(revalue=="success")
 											{
-												alert("分组完成！");
+												Dialog.alert("分组完成！");
 											}
 											else{
-												alert("分组失败！");
+												Dialog.alert("分组失败！");
 											}
 										}
 								});	

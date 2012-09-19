@@ -42,7 +42,7 @@ public class WordSelectPlayer {
 		SelectPlayerDAO sd=new SelectPlayerDAO();
 		ArrayList departList = new ArrayList();
 		//ArrayList selectSportsid=new ArrayList();
-		departList=sd.selectDepartment();
+		departList=sd.selectDepartment(sportId);
 		//selectSportsid=sd.selectSportsid();
 		Document document = new Document(PageSize.A4);
 		try {

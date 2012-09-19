@@ -7,6 +7,9 @@
     
     <title>update_runway.jsp</title>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
    <script type="text/javascript">
    function update(){
   
@@ -14,7 +17,7 @@
       for( var i = 0; i < runway.length; i++){
           for(var j = i + 1; j < runway.length; j++){
               if(runway[i].value == runway[j].value){
-                alert("不能出现重复值!");
+                Dialog.alert("不能出现重复值!");
                  return false;
               }
            }
@@ -42,10 +45,10 @@
 				success :function(mm){
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success"){
-								alert("修改成功!");
+								Dialog.alert("修改成功!");
 							}
 							else{
-								alert("修改失败!");
+								Dialog.alert("修改失败!");
 								}
 						}
 		});

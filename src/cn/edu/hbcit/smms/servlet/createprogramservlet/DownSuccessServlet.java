@@ -1,29 +1,20 @@
 package cn.edu.hbcit.smms.servlet.createprogramservlet;
 
-
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.dao.createprogramdao.SelectItems;
-import cn.edu.hbcit.smms.pojo.FinalitemGroup;
-/**
- * 
- * @author lenovo
- *
- */
-public class SelectItemsServlet extends HttpServlet {
+public class DownSuccessServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public SelectItemsServlet() {
+	public DownSuccessServlet() {
 		super();
 	}
 
@@ -48,9 +39,20 @@ public class SelectItemsServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		this.doPost(request, response);
-		
-		
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		String filePath = request.getSession().getServletContext().getRealPath("/");
+		String fileName = request.getParameter("fileName");
+		String path = filePath + fileName;
+		File file = new File(path);
+		System.out.println(" path"+path);
+		if(!file.exists()){
+			out.print("success");
+		}else{
+			out.print("false");
+		}
+		out.flush();
+		out.close();
 	}
 
 	/**
@@ -66,25 +68,7 @@ public class SelectItemsServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-		SelectItems si=new SelectItems();
-		ArrayList ItemsList1=new ArrayList();
-		ArrayList ItemsList2=new ArrayList();
-		ArrayList ItemsList3=new ArrayList();
-		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString()); 
-		//int sportsid=1;
-	    String itemtype="1";
-	    String itemtype1="2";
-	    String itemtype2="3";
-	    ItemsList1 = si.selectItemsById(sportsid, itemtype);
-	    ItemsList2 = si.selectItemsById(sportsid, itemtype1);
-	    ItemsList3 = si.selectItemsById(sportsid, itemtype2);
-	   // System.out.println("hello"+ItemsList1.size());
-	    session.setAttribute("ItemsList", ItemsList1);
-	    session.setAttribute("ItemsList1", ItemsList2);
-	    session.setAttribute("ItemsList2", ItemsList3);
-	   //request.getRequestDispatcher("View.jsp").forward(request, response);
-	   response.sendRedirect("../createprogram.jsp");
+		this.doGet(request, response);
 	}
 
 	/**
