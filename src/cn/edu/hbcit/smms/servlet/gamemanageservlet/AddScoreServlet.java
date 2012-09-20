@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -77,8 +76,6 @@ public class AddScoreServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		HttpSession session = request.getSession();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -87,17 +84,20 @@ public class AddScoreServlet extends HttpServlet {
 		String score = request.getParameter("score");
 		String group = ctc.toUTF8( request.getParameter("group") );
 		String item = ctc.toUTF8(request.getParameter("item"));;
-		//int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());
-		//item = ctc.toUTF8(request.getParameter("item"));
 		
 		log.debug(playername+","+score+","+item);
-		
 		AddScoreServices ass = new AddScoreServices();
 		
 		boolean flag = false;
 		String str = "提交失败！";
 		flag = ass.isAddScore(playername, score, item , group);			//成绩添加是否成功
-		int num = ass.getIntegral(item, group);		//积分添加是否成功
+		
+		String finalitemType = ass.getFinalitemType(item);
+		int num = 0 ;
+		if( !"1".equals(finalitemType)){
+			num = ass.getIntegral(item, group);		//积分添加是否成功
+		}
+		
 		
 		if( flag ){
 			str = "提交成功！";
@@ -127,10 +127,8 @@ public class AddScoreServlet extends HttpServlet {
 		log.debug("getFormat：finalitemname="+finalitemname);
 		AddScoreServices ass = new AddScoreServices();
 		String reg = ass.getFormatReg(finalitemname);
+		//reg =  reg.substring(1, reg.length());
 		log.debug("getFormat="+reg);
-		HttpSession session = request.getSession();
-		
-		session.setAttribute("reg", reg);
 		out.println(reg);
 		out.flush();
 		out.close();

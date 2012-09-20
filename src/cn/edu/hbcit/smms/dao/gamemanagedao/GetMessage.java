@@ -17,7 +17,7 @@ public class GetMessage {
 	ResultSet rs = null;
 	//DBConn dbc = new DBConn();
 	/**
-	 * 获取某个项目的制定小组运动员的信息
+	 * 获取某个项目的指定小组运动员的信息
 	 * @param finalitemname
 	 * @param teamnum
 	 * @return	JSONArray
@@ -92,7 +92,7 @@ public class GetMessage {
 	 * @return	JSONArray
 	 */
 	public JSONArray getPlayerMessage( String finalitemname ){
-		
+		log.debug("finalitemname"+finalitemname);
 		JSONArray list = new JSONArray();
 		String sql = "SELECT COUNT(DISTINCT(teamnum)) FROM t_match WHERE finalitemid " +
 				"IN ( SELECT id FROM t_finalitem WHERE finalitemname = ? )";  //计算总共有几个小组的sql语句

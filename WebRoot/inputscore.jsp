@@ -1,9 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*,java.net.URLDecoder" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>inputscore.jsp</title>
+    <title>成绩录入</title>
     <link href="css/subcss.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript">
@@ -20,7 +20,7 @@
 	//根据组别获取相应的项目 	
 	
 	function gpchange(){
-		var option = $("#group").find("option:selected").text();	//被选取的组别
+		var option = $("#group").find("option:selected").text();	//被选取的组别 
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/GetConditonServlet?action=itmecondBygp",
 				type : 'get',
@@ -35,7 +35,7 @@
 					}	
 					$('#item').html(inhtml);
 				},
-				error : function(xhr, status, errorThrown) {
+				error : function(xhr, status, errorThrown) { 
 					alert("errorThrown=" + errorThrown);
 				}
 		});
@@ -166,20 +166,18 @@
 				playernum += playernumobj[i].value;
 				score += scoreobj[i].value;
 				if(scoreobj[i].value.length== 0){
-					alert("成绩未录入！ ");
-					return false;
+					alert("提示：有成绩未录入！  ");
+					break;
 				}
 				playernum += ",";
 				score += ",";	
 		}
-		
-		alert(playernum);alert(score);
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=addscore",
 				type : 'get',
 				data : {playername:playernum,score:score,item:item,group:group},
 				success : function(mm) {
-				alert(mm);	
+					alert(mm);
 				},
 				error : function(xhr, status, errorThrown) {
 					alert("errorThrown=" + errorThrown);
@@ -209,27 +207,32 @@
 	//验证 成绩格式 
 	function checkFormat(){
 		var item = $("#item").find("option:selected").text();
+		if( curInput!=null){
+		var score = curInput.value;
+			if( score == ''){
+			return false;
+			}
+		}
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=checkFormat",
 			type : 'get',
 			data : {finalitemname:item},
 			success : function(mm) {
-			
-				var reg = new RegExp(mm);
-				alert("reg="+reg);
+				var reg = new RegExp(eval(mm));
 				if( curInput!=null){
 						var score = curInput.value;
-						if( !reg.test(score) ){
-							alert("格式不正确！"+reg);
-							curInput.focus();
-							return false;
+						if( score != ''){
+							if( !reg.test(score) ){
+								alert("格式不正确！");
+								//curInput.focus();
+								return false;
+							}
 						}
-					}
+					} 
 			},
 			error : function(xhr, status, errorThrown) {
 					alert("errorThrown=" + errorThrown);
 				}
-		
 		});
 	}
 	
