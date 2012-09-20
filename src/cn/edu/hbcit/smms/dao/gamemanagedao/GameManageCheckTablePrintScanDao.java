@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import net.sf.json.JSONArray;
 
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageCheckTableServices;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 import com.lowagie.text.Cell;   
 import com.lowagie.text.Document;   
@@ -41,15 +42,18 @@ import com.lowagie.text.Table;
 import com.lowagie.text.pdf.BaseFont;   
 import com.lowagie.text.rtf.RtfWriter2;  
 public class GameManageCheckTablePrintScanDao {
-	 public void createDocContext(String file,String finalitemname,String itemtype,String groupname)throws DocumentException, IOException{ 
+	 public boolean createDocContext(String file,String finalitemname,String itemtype,String groupname)throws DocumentException, IOException{ 
 		 GameManageCheckTableDao gmctd = new GameManageCheckTableDao();
-		    
+		 boolean flag = false;
+		 UtilTools ul = new UtilTools();
 	       try{
+	    	   
 	    	   // 设置纸张大小
+	    	   
 	        Document document = new Document(PageSize.A4);   
 	        //建立一个书写器，与document对象关联   
 	        
-	        RtfWriter2.getInstance(document, new FileOutputStream(file)); 
+	        RtfWriter2.getInstance(document, new FileOutputStream(file+groupname+finalitemname+".doc"));
 	        
 	        document.open();   
 	        //设置中文字体   
@@ -57,12 +61,13 @@ public class GameManageCheckTablePrintScanDao {
 	        //标题字体风格   
 	        Font titleFont = new Font(bfChinese,12,Font.BOLD);   
 	        //正文字体风格   
-	        Font contextFont = new Font(bfChinese,10,Font.NORMAL);   
+	        Font contextFont = new Font(bfChinese,10,Font.BOLD);   
 	        Paragraph title = new Paragraph(gmctd.getSportsName());   
 	        //设置标题格式对齐方式   
 	        title.setAlignment(Element.ALIGN_CENTER);   
 	        title.setFont(titleFont);   
-	        document.add(title);   
+	        document.add(title);
+	       
 	        Paragraph context = new Paragraph(groupname+finalitemname);   
 	        context.setAlignment(Element.ALIGN_LEFT);   
 	        context.setFont(contextFont);   
@@ -76,9 +81,13 @@ public class GameManageCheckTablePrintScanDao {
 	        String beforeitemtype = gmctd.getMatchType(finalitemname);
 	        JSONArray array = gmctd.getItemPlayerMessageAllTeam(finalitemname, beforeitemtype);
 	        JSONArray array1 = new JSONArray();
+	        if(array.isEmpty()){
+	        	flag = false;
+	        }else{
 	         if(beforeitemtype.equals("1")||beforeitemtype.equals("3")){
+	        	 
 	        	 for(int i = 0; i < array.size() ;i++ ){
-	        		 array1 = array.getJSONArray(i);
+	        		array1 = array.getJSONArray(i);
 	        		Paragraph context1 = new Paragraph("第"+(i+1)+"组");   
 	     	        context1.setAlignment(Element.ALIGN_LEFT);   
 	     	        context1.setFont(contextFont);   
@@ -101,11 +110,12 @@ public class GameManageCheckTablePrintScanDao {
 	 	         for(int j = 0;j < array1.size();j++ ){
 	 	        	JSONArray array2 = new JSONArray();
 	 	        	array2 = array1.getJSONArray(j);
-	 	        	 table.addCell(new Cell(array2.getString(0)));   
-		    	       table.addCell(new Cell(array2.getString(1)));   
-		    	       table.addCell(new Cell(Integer.toString(array2.getInt(2))));
-		    	       table.addCell(new Cell());
-		    	       table.addCell(new Cell()); 
+	 	        	table.addCell(new Cell(array2.getString(0)));   
+		    	    table.addCell(new Cell(array2.getString(1)));   
+		    	    table.addCell(new Cell(Integer.toString(array2.getInt(2))));
+		    	    table.addCell(new Cell());
+		    	    table.addCell(new Cell()); 
+		    	   
 	 	         }
 	 	       
 	 	         document.add(table);
@@ -168,14 +178,14 @@ public class GameManageCheckTablePrintScanDao {
 	        
 	        
 	        
-	        document.close();   
-	        
+	        document.close(); 
+	        flag = true;
+	        }
 	        }catch(FileNotFoundException e){e.printStackTrace();}
 	        
-	        
+	        return flag;
 	    } 
-		 
-		 
+	 
 	
 	 }
 

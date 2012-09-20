@@ -13,7 +13,10 @@
 */
 package cn.edu.hbcit.smms.services.gamemanageservices;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import com.lowagie.text.DocumentException;
 
 import net.sf.json.JSONArray;
 
@@ -49,11 +52,10 @@ public class GameManageCheckTableServices {
 	public JSONArray getItemPlayerMessageAllTeam( String finalitemname ,String itemtype  ){
 		return GCTD.getItemPlayerMessageAllTeam(finalitemname, itemtype );
 	}
-	public void createDocContext(String file,String finalitemname,String itemType,String groupname){
-		try{
-			printScan.createDocContext(file, finalitemname, itemType,groupname);
-		}catch(Exception e){e.printStackTrace();}
-	}
+	public boolean createDocContext(String file,String finalitemname,String itemType,String groupname) throws Exception{
+		
+			return printScan.createDocContext(file, finalitemname, itemType,groupname);
+	}	
 	public String getSportsName(){
 		return GCTD.getSportsName();
 	}
