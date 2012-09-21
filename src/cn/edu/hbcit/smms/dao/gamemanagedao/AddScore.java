@@ -3,6 +3,7 @@ package cn.edu.hbcit.smms.dao.gamemanagedao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import net.sf.json.JSONArray;
 
@@ -20,7 +21,7 @@ public class AddScore {
 	
 	
 	/**
-	 * 判断指定条件的成绩是否插入
+	 * 判断指定条件的成绩是否插入(插入t_match表中)
 	 * @param teamnum
 	 * @param runway
 	 * @param score
@@ -31,11 +32,8 @@ public class AddScore {
 		String sql = "UPDATE t_match SET score = ?,recordlevel = ? WHERE finalitemid = " +
 				"(  SELECT id FROM t_finalitem WHERE finalitemname = ? ) AND " +
 				"playerid = (SELECT id FROM t_player WHERE playername = ?)";
-		
-		
-		
 		int num = 0;
-		boolean flag = false;
+		boolean flag = false;	//更改是否成功
 		
 		JSONArray list = new JSONArray();
 		AddScore as = new AddScore();
@@ -45,7 +43,11 @@ public class AddScore {
 		String recorelevel = list.get(2).toString();	//所破记录
 		String level = "0";
 		System.out.println("score="+score);
+		if("".equals(score)){
+			score = "0.0";
+		}
 		if( Double.parseDouble(score) > Double.parseDouble(recorescore)){
+			
 			if( recorelevel == "2"){
 				level = "2";
 			}
@@ -55,6 +57,9 @@ public class AddScore {
 			DBConn dbc = new DBConn();
 			conn = dbc.getConn();
 			pstmt = conn.prepareStatement(sql);
+			if(score.equals("0.0")){
+				score = "";
+			}
 			pstmt.setString(1, score);
 			pstmt.setString(2, level);
 			pstmt.setString(3, finalitemname);
@@ -67,15 +72,85 @@ public class AddScore {
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			log.debug("isAddOnlyScore"+e.getMessage());
 			flag = false;
 			e.printStackTrace();
-			log.debug("isAddOnlyScore"+e.getMessage());
+			
 		}
 		
 		return flag;
 		
 	}
-	
+	/**
+	 * 添加单个运动员的信息到t_position表中
+	 * @param finalitemid
+	 * @param playerid
+	 * @param position
+	 * @param score
+	 */
+	public void addOnlyScoreToPosition(int finalitemid,int playerid,int position,String score ){
+		String sql = "INSERT INTO t_position(finalitemid,playerid,position,score) VALUES (?,?,?,?)";
+		DBConn dbc = new DBConn();
+		conn = dbc.getConn();
+		int flag = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, finalitemid);
+			pstmt.setInt(2, playerid);
+			pstmt.setInt(3, position);
+			pstmt.setString(4, score);
+			flag = pstmt.executeUpdate();
+		} catch (Exception e) {
+			log.debug("addOnlyScoreToPosition---->flag="+e.getMessage());
+			log.debug("addOnlyScoreToPosition="+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 获取当前运动会，某个组别的某个项目的运动员的信息（含成绩）同时添加到t_position表中
+	 * @param finalitemname
+	 * @param sportsid
+	 * @param groupname
+	 */
+	public void getGpItPlayerMessage( String finalitemname ,int sportsid , String groupname ){
+		String itemType = getItemType(finalitemname);//1径赛；2田赛；3接力
+		String sql = null;
+		if( "2".equals(itemType) ){
+			sql = "SELECT t_finalitem.id,playerid,score FROM t_match " +
+			"JOIN t_finalitem ON t_match.finalitemid = t_finalitem.id " +
+			"JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id " +
+			"JOIN t_group2sports ON t_group2item.gp2spid = t_group2sports.id " +
+			"JOIN t_group ON t_group2sports.groupid = t_group.id " +
+			"WHERE t_group2sports.sportsid = ? AND  t_group.groupname = ? AND t_finalitem.finalitemname = ? ORDER BY t_match.score DESC";
+		}else{
+			sql = "SELECT t_finalitem.id,playerid,score FROM t_match " +
+			"JOIN t_finalitem ON t_match.finalitemid = t_finalitem.id " +
+			"JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id " +
+			"JOIN t_group2sports ON t_group2item.gp2spid = t_group2sports.id " +
+			"JOIN t_group ON t_group2sports.groupid = t_group.id " +
+			"WHERE t_group2sports.sportsid = ? AND  t_group.groupname = ? AND t_finalitem.finalitemname = ? ";
+		}
+		
+		DBConn dbc = new DBConn();
+		conn = dbc.getConn();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sportsid);
+			pstmt.setString(2, groupname);
+			pstmt.setString(3, finalitemname);
+			rs = pstmt.executeQuery();
+			int i = 0;
+			while( rs.next() ){
+				i++;
+				addOnlyScoreToPosition(rs.getInt(1), rs.getInt(2), i, rs.getString(3));//添加信息到t_position
+			}
+			dbc.freeConnection(conn);	//释放连接
+		} catch (Exception e) {
+			log.debug("getGpItPlayerMessage="+e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * 判断所有的成绩是否插入
 	 * @param playernum
@@ -90,12 +165,16 @@ public class AddScore {
 		boolean flag = false;	//接受成绩是否插入成功
 		String[] playernamea = playername.trim().split(regex);
 		String[] scorea = score.trim().split(regex);
-		for( int i = 0; i < playernamea.length; i++){
+		
+		for( int i = inputScoreIndex(scorea); i < playernamea.length; i++){
 			flag = this.isAddOnlyScore(playernamea[i], scorea[i], finalitemname , group);
 			if( !flag ){
 				break;
 			}
 		}
+		LoginDAO loginDAO = new LoginDAO();
+		int sportsid =loginDAO.selectCurrentSportsId();		//当前运动会的id
+		getGpItPlayerMessage( finalitemname, sportsid, group);//向t_position表中插入数据
 		return flag;
 	}
 
@@ -106,9 +185,8 @@ public class AddScore {
 	 * @return	JSONArray
 	 */
 	public JSONArray getAddIntegralMessage( String finalitemname){
-		String sql = "SELECT promotionnum FROM t_finalitem WHERE id = " +
-				"(SELECT id FROM t_finalitem WHERE gp2itid = (" +
-				"SELECT gp2itid FROM t_finalitem WHERE finalitemname= ?) AND finalitemtype = '1')";
+		String sql = "SELECT promotionnum FROM t_finalitem " +
+				"WHERE gp2itid IN ( SELECT gp2itid FROM t_finalitem WHERE finalitemname = ?) AND (finalitemtype = '1' OR finalitemtype = '3')";
 		
 		String sqltp = "SELECT finalitemtype FROM t_finalitem WHERE finalitemname = ? ";
 		AddScore as = new AddScore();
@@ -139,18 +217,20 @@ public class AddScore {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
-			rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();	//晋级人数
 			
 			pstmt3 = conn.prepareStatement(sqltp);
 			pstmt3.setString(1, finalitemname);
-			rs3 = pstmt3.executeQuery();
+			rs3 = pstmt3.executeQuery();	//预赛、决赛、预决赛
+			
 			int promotionnum = 0;
 			while( rs.next() ){	
 				promotionnum = rs.getInt(1);	//晋级数量
 			}
+			
 			String finalitemtype = null;
 			while( rs3.next() ){	
-				finalitemtype = rs3.getString(1);	//预赛、决赛、预决赛
+				finalitemtype = rs3.getString(1);	//1，预赛、2，决赛、3，预决赛
 			}
 			
 			if( finalitemtype.equals("2") || finalitemtype.equals("3")){
@@ -165,10 +245,6 @@ public class AddScore {
 						list.add(Integer.toString(rs2.getInt(3)));		//finalitemid
 						alllist.add(list);
 					}
-			}	
-			if( finalitemtype.equals("2")){
-				JSONArray list = new JSONArray();
-				alllist.add(list);
 			}
 			rs.close();
 			pstmt.close(); 
@@ -190,7 +266,7 @@ public class AddScore {
 	 */
 	public int getIntegral( String finalitemname ,String group){
 		LoginDAO loginDAO = new LoginDAO();
-		int sportsid =loginDAO.selectCurrentSportsId();
+		int sportsid =loginDAO.selectCurrentSportsId();		//当前运动会的id
 		String sql = "SELECT position,mark,recordmark_low,recordmark_high FROM t_rule WHERE sportsid = ?";
 		
 		ResultSet rs = null;		PreparedStatement pstmt = null;
@@ -203,9 +279,7 @@ public class AddScore {
 		int sum = 0;		//运动员的个人积分
 		int flag = 0;		//更改是否成功
 		
-		AddScore as = new AddScore();
-		JSONArray recordScore = new JSONArray();
-		recordScore = as.getRecordOnlyByitemgroup(group, finalitemname);
+		JSONArray recordScore = getRecordOnlyByitemgroup(group, finalitemname);
 		
 		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
@@ -214,7 +288,6 @@ public class AddScore {
 			pstmt.setInt(1, sportsid);
 			rs = pstmt.executeQuery();
 			while( rs.next() ){
-				log.debug("rs");
 				position = rs.getInt(1);
 				mark = rs.getString(2);
 				recordmark_low = rs.getInt(3);
@@ -223,10 +296,15 @@ public class AddScore {
 			log.debug("mark="+mark);
 			String[] markArray = mark.split(",");	//拆分积分
 			
-			JSONArray alllist = new JSONArray();
-			alllist = this.getAddIntegralMessage(finalitemname);
+			JSONArray alllist = getAddIntegralMessage(finalitemname);
+			
+			//组合积分字符串
+			for( int a = markArray.length - 1 ; a < alllist.size(); a++ ){
+				mark += ",0";
+			}
+			markArray = mark.split(",");	//重新拆分积分
 			for( int i = 0 ; i < alllist.size() ; i++ ){
-				sum = Integer.parseInt(markArray[i]);
+				sum = Integer.parseInt(markArray[i]);	//名次积分
 				JSONArray list = new JSONArray();
 				list = alllist.getJSONArray(i);
 				if( list.size() != 0 ){
@@ -236,23 +314,25 @@ public class AddScore {
 						int score =	Integer.parseInt(list.get(1).toString());
 						int finalitemid = Integer.parseInt(list.get(2).toString());
 						
-						if( score > Integer.parseInt(recordScore.getString(1))){
-							if( recordScore.getString(2).equals("1")){
+						if( score > Integer.parseInt(recordScore.getString(1))){	//破纪录积分
+							if( recordScore.getString(2).equals("0")){//院记录
 								sum += recordmark_low;
-								flag += as.updateRecord(finalitemid, playerid, sportsid, score);
-								flag += as.addIntegral(finalitemid, playerid, position, sum);
+								flag += updateRecord(finalitemid, playerid, "0", score);
+								flag += addIntegral(finalitemid, playerid, sum);
 							}
-							if( recordScore.getString(2).equals("2")){
+							if( recordScore.getString(2).equals("1")){//省记录
 								sum += recordmark_high;
-								flag += as.updateRecord(finalitemid, playerid, sportsid, score);
-								flag += as.addIntegral(finalitemid, playerid, position, sum);
+								flag += updateRecord(finalitemid, playerid, "1", score);
+								flag += addIntegral(finalitemid, playerid, sum);
 							}
-						}else{
-							flag = as.addIntegral(finalitemid, playerid, position, sum);
+						}else{		//未破记录积分
+							flag = addIntegral(finalitemid, playerid, sum);
 						}
+						addIntegralToMark(playerid, sum);//添加积分到t_position表中
 					}
 				}
 			}
+										
 			 rs.close();
 			 pstmt.close();
 		} catch (Exception e) {
@@ -298,68 +378,60 @@ public class AddScore {
 	 * @param sum
 	 * @return	int
 	 */
-	public int addIntegral( int finalitemid , int playerid , int position, int sum){
-		String sql = "INSERT INTO t_position(finalitemid,playerid,position,score) VALUES(?,?,?,?)";
-		DBConn dbc = new DBConn();
-		conn = dbc.getConn();
+	public int addIntegral( int finalitemid , int playerid , int sum){
+		String sql = "UPDATE t_position SET marks = ? WHERE finalitemid = ? AND playerid = ?";
 		int flag = 0;
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, finalitemid);
-			pstmt.setInt(2, playerid);
-			pstmt.setInt(3, position);
-			pstmt.setInt(4, sum);
-			flag = pstmt.executeUpdate();
-		} catch (Exception e) {
-			log.debug("addIntegral:"+e.getMessage());
-			e.printStackTrace();
-		}
+			DBConn dbc = new DBConn();
+			conn = dbc.getConn();
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, sum);
+				pstmt.setInt(2, finalitemid);
+				pstmt.setInt(3, playerid);
+				flag = pstmt.executeUpdate();
+			} catch (Exception e) {
+				log.debug("添加单个运动员的积分--->addIntegral:"+e.getMessage());
+				e.printStackTrace();
+			}
+		
 		return flag;
 	}
-	
 	/**
-	 * 更改记录表中的最优记录
+	 * 添加记录表中的最优记录
 	 * @param finalitemid
 	 * @param playerid
 	 * @param position
 	 * @param score
 	 * @return int
 	 */
-	public int updateRecord( int finalitemid , int playerid , int sportsid , int score){
-		String sql = "UPDATE t_record SET itemid=(SELECT itemid FROM t_group2item " +
-				"WHERE id=(SELECT gp2itid FROM t_finalitem WHERE id=?))," +
-				"sex=(SELECT playersex FROM t_player WHERE id=?)," +
-				"score=(SELECT score FROM t_match WHERE playerid=?)," +
-				"playername = (SELECT playername FROM t_player WHERE id = ?)," +
-				"departname = (SELECT departname FROM t_department " +
-				"WHERE id = ( SELECT departid FROM t_sports2department WHERE " +
-				"id = ( SELECT sp2dpid FROM t_player WHERE id = ?))),sportsname = (SELECT sportsname FROM t_sports WHERE id = ?)," +
-				"recordtime = (SELECT DATE FROM t_finalitem WHERE id = ?)," +
-				"recordlevel = (SELECT recordlevel FROM t_match WHERE finalitemid = ? AND playerid = ?)";
-		DBConn dbc = new DBConn();
-		conn = dbc.getConn();
+	public int updateRecord( int finalitemid , int playerid , String recordlevel , int score){
+		ArrayList playerMes = getPlayerMessage(playerid);// playername,playersex,departname2012-01
+		ArrayList itemMes = getItemMessage(finalitemid);//itemid,DATE
+		String sql = "INSERT INTO t_record(itemid,sex,score,playername,departname,recordtime,recordlevel) VALUES (?,?,?,?,?,?,?)";
 		int flag = 0;
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, finalitemid);
-			pstmt.setInt(2, playerid);
-			pstmt.setInt(3, playerid);
-			pstmt.setInt(4, playerid);
-			pstmt.setInt(5, playerid);
-			pstmt.setInt(6, sportsid);
-			pstmt.setInt(7, finalitemid);
-			pstmt.setInt(8, playerid);
-			flag = pstmt.executeUpdate();
-			
-		} catch (Exception e) {
-			log.debug("updateRecord:"+e.getMessage());
-			e.printStackTrace();
-		}
+			DBConn dbc = new DBConn();
+			conn = dbc.getConn();
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, (Integer)itemMes.get(0));
+				pstmt.setInt(2, (Integer)playerMes.get(1));
+				pstmt.setString(3, Integer.toString(score));
+				pstmt.setString(4, playerMes.get(0).toString());
+				pstmt.setString(5, playerMes.get(2).toString());
+				pstmt.setString(6, itemMes.get(1).toString().substring(0, 7));
+				pstmt.setString(7, recordlevel);
+				flag = pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				log.debug("添加记录表中的最优记录--->updateRecord:"+e.getMessage());
+				e.printStackTrace();
+			}
+		
 		return flag;
 	}
 	
 	/**
-	 * 获取某个组别中某个项目的最高纪录
+	 * 获取某个组别中某个项目的最高纪录 	id,score,recordlevel
 	 * @param group
 	 * @param finalitemname
 	 * @return	JSONArray
@@ -442,6 +514,7 @@ public class AddScore {
 			while( rs.next() ){
 				str = rs.getString(1);
 			}
+			log.debug("str="+str);
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -451,5 +524,196 @@ public class AddScore {
 		return str;
 	}
 	
-
+	/**
+	 * 获得成绩录入的下标
+	 * @param finalitmname
+	 * @return
+	 */
+	public int inputScoreIndex(String[] score){
+		int flag = 0;
+		for( int i = 0 ; i < score.length ; i++ ){
+			if( !"".equals( score[i]) || score[i] != null){
+				flag = i;
+				break;
+			}
+		}
+		return flag;
+	}
+	/**
+	 * 获取当前运动会的 运动会和部门id
+	 * @return
+	 */
+	public ArrayList getS2Did(){
+		String sql = "SELECT id FROM t_sports2department WHERE sportsid = ?";
+		LoginDAO loginDAO = new LoginDAO();
+		int sportsid = loginDAO.selectCurrentSportsId();
+		ArrayList s2did = new ArrayList();
+		
+		DBConn dbc = new DBConn();
+		conn = dbc.getConn();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sportsid );
+			rs = pstmt.executeQuery();
+			while( rs.next()){
+				s2did.add(rs.getInt(1));
+			}
+			dbc.freeConnection(conn);	//释放连接
+		} catch (Exception e) {
+			log.debug("addIntegralToMark="+e.getMessage());
+			e.printStackTrace();
+		}
+		return s2did;
+		
+	}
+	
+	/**
+	 * 向t_mark表插入积分
+	 * @param playerid
+	 * @param sum
+	 */
+	public void addIntegralToMark( int playerid, int sum){
+		addToMark();
+		String sqls = "SELECT sp2dpid,playertype FROM t_player WHERE id = ?";
+		int sp2dpid = 0;
+		int playertype = 0;//1,true stu ;0,false tea ;
+		DBConn dbc = new DBConn();
+		conn = dbc.getConn();
+		try {
+			//查询sp2dpid,playertype
+			pstmt = conn.prepareStatement(sqls);
+			pstmt.setInt(1, playerid);
+			rs = pstmt.executeQuery();
+			if( rs.next() ){
+				sp2dpid = rs.getInt(1);
+				playertype = rs.getInt(2);
+			}
+			rs.close();
+			pstmt.close();
+			
+			//加入积分
+			if( "1".equals( playertype )){	//学生的积分
+				String sql = "UPDATE t_mark SET stusum = ? WHERE sp2dpid = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, sum);
+				pstmt.setInt(2, sp2dpid);
+				int flag = pstmt.executeUpdate();
+				log.debug("addIntegralToMark---> student ="+flag);
+			}else{	//老师的积分
+				String sql = "UPDATE t_mark SET teasum = ? WHERE sp2dpid = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, sum);
+				pstmt.setInt(2, sp2dpid);
+				int flag = pstmt.executeUpdate();
+				log.debug("addIntegralToMark---> student ="+flag);
+			}
+			dbc.freeConnection(conn);	//释放连接
+		} catch (Exception e) {
+			log.debug("addIntegralToMark---> sqls ="+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 向t_mark表中插入sp2dpid
+	 */
+	public void addToMark(){
+		int flag = 0 ;
+		ArrayList s2pid = getS2Did();
+		String sql = "INSERT INTO t_mark(sp2dpid) VALUES (?)";
+		DBConn dbc = new DBConn();
+		conn = dbc.getConn();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			for( int i = 0 ; i < s2pid.size() ; i++ ){
+				pstmt.setInt(1, Integer.parseInt( s2pid.get(i).toString() ));
+				flag = pstmt.executeUpdate();
+				if( flag < 0){
+					log.debug("addIntegralToMark--->flag="+flag+"sp2dpid插入未成功");
+				}
+			}
+			dbc.freeConnection(conn);	//释放连接
+		} catch (Exception e) {
+			log.debug("addIntegralToMark="+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 获取该项目的比赛类型
+	 */
+	public String getFinalitemType( String finalitemname){
+		String finalitemType = null;
+		String sql = "SELECT finalitemtype FROM t_finalitem WHERE finalitemname = ?";//1预赛；2决赛；3预决赛
+		DBConn dbc = new DBConn();
+		conn = dbc.getConn();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, finalitemname);
+			rs = pstmt.executeQuery();
+			if( rs.next()){
+				finalitemType = rs.getString(1);
+			}
+			dbc.freeConnection(conn);	//释放连接
+		} catch (Exception e) {
+			log.debug("getFinalitemType="+e.getMessage());
+			e.printStackTrace();
+		}
+		return finalitemType;
+	}
+	/**
+	 * 获取运动员的部分信息    playername,playersex,departname
+	 * @param playerid
+	 * @return
+	 */
+	public ArrayList getPlayerMessage( int playerid){
+		String sql = "SELECT playername,playersex,departname FROM t_player " +
+				"JOIN t_sports2department ON t_player.sp2dpid = t_sports2department.id " +
+				"JOIN t_department ON t_sports2department.departid = t_department.id WHERE t_player.id = 1";
+		
+		ArrayList list = new ArrayList();
+		DBConn dbc = new DBConn();
+		conn = dbc.getConn();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, playerid);
+			rs = pstmt.executeQuery();
+			if( rs.next()){
+				list.add(rs.getString(1));
+				list.add(rs.getInt(2));
+				list.add(rs.getString(3));
+			}
+			dbc.freeConnection(conn);	//释放连接
+		} catch (Exception e) {
+			log.debug("getPlayerMessage="+e.getMessage());
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 获取项目的部分信息 		itemid,DATE
+	 * @param finalitemid
+	 * @return
+	 */
+	public ArrayList getItemMessage( int finalitemid){
+		String sql = "SELECT itemid,DATE FROM t_group2item " +
+				"JOIN t_finalitem ON t_group2item.id = t_finalitem.gp2itid WHERE t_finalitem.id = ? ";
+		ArrayList list = new ArrayList();
+		DBConn dbc = new DBConn();
+		conn = dbc.getConn();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, finalitemid);
+			rs = pstmt.executeQuery();
+			if( rs.next()){
+				list.add(rs.getInt(1));
+				list.add(rs.getString(2));
+			}
+			dbc.freeConnection(conn);	//释放连接
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

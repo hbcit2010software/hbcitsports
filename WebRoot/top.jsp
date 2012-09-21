@@ -41,8 +41,8 @@ a img {
             <td width="33" height="27"><img src="images/main_05.gif" width="33" height="27" /></td>
             <td width="248" background="images/main_06.gif"><table width="225" border="0" align="center" cellpadding="0" cellspacing="0">
               <tr>
-                <td height="17"><div align="right"><a href="pwd.php" target="rightFrame"><img src="images/pass.gif" width="69" height="17" /></a></div></td>
-                <td><div align="right"><a href="user.php" target="rightFrame"><img src="images/user.gif" width="69" height="17" /></a></div></td>
+                <td height="17"><div align="right"><a href="#" target="rightFrame"><img src="images/pass.gif" width="69" height="17" /></a></div></td>
+                <td><div align="right"><a href="#" target="rightFrame"><img src="images/user.gif" width="69" height="17" /></a></div></td>
                 <td><div align="right"><a href="${pageContext.request.contextPath }/servlet/LogoutServlet" target="_parent"><img src="images/quit.gif" alt=" " width="69" height="17" /></a></div></td>
               </tr>
             </table></td>
@@ -58,7 +58,7 @@ a img {
         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td width="21"><img src="images/main_13.gif" width="19" height="14" /></td>
-            <td width="35" class="STYLE7"><div align="center"><a href="main.jsp" target="rightFrame">首页</a></div></td>
+            <td width="35" class="STYLE7"><div align="center"><a href="main.jsp" target="_top" style="text-decoration:none">首页</a></div></td>
             <td width="21" class="STYLE7"><img src="images/main_17.gif" width="19" height="14" /></td>
             <td class="STYLE7"><div align="left">&nbsp;当前运动会是：${sessionScope.currSportsName }</div></td>
             <td>&nbsp;</td>

@@ -1,5 +1,4 @@
-<%@ page language="java" import="java.util.*,java.net.URLEncoder"
-	pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*,java.net.URLEncoder" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -10,7 +9,6 @@
 		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-		<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 		<script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){
@@ -22,7 +20,6 @@
 			
 		});
 </script>
-		<%// String filePath = request.getSession().getServletContext().getRealPath("/"); %>
 		<script type="text/javascript">
 
 		function checkword(obj)

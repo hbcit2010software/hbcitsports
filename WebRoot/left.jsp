@@ -168,7 +168,7 @@ body {
         <li><a href="servlet/GetGroupInfoServlet" target="rightFrame">组别设置</a></li>
         <li><a href="servlet/GetItemInfoServlet" target="rightFrame">项目设置</a></li>
         <li><a href="servlet/AddFinalItemServlet" target="rightFrame">日程安排</a></li>
-        <li><a href="servlet/ViewScheduleServlet" target="rightFrame">号段分配</a></li>
+        <li><a href="servlet/AddPlayerNumServlet" target="rightFrame">号段分配</a></li>
         <li><a href="#" target="rightFrame">赛事规程</a></li>
         <li><a href="#" target="rightFrame">会程设置</a></li>
         <li><a href="#" target="rightFrame">工作人员设置</a></li>
@@ -195,7 +195,7 @@ body {
 	<!--秩序册管理begin-->
     <li> <a class="head">秩序册管理</a>
       <ul>
-       <li><a href="#" onclick="checkgroup()">赛事分组</a></li>
+        <li><a href="#" onclick="checkgroup()">赛事分组</a></li>
         <li><a href="servlet/SelectItemsServlet" target="rightFrame">赛事浏览</a></li>
         <li><a href="creatword.jsp" target="rightFrame">秩序册生成</a></li>
       </ul>
@@ -206,7 +206,7 @@ body {
     <!--赛中管理begin-->
     <li> <a class="head">赛中管理</a>
       <ul>
-        <li><a href="#" target="rightFrame">生成检录表</a></li>
+        <li><a href="checktable.jsp" target="rightFrame">生成检录表</a></li>
         <li><a href="servlet/GetConditonServlet?action=allcond" target="rightFrame">成绩录入</a></li>
         <li><a href="servlet/GameManageGetGroupServlet" target="rightFrame">违纪管理</a></li>
         <li><a href="#" target="rightFrame">生成决赛名单</a></li>

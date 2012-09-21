@@ -30,7 +30,7 @@ $(document).ready(function(){
 					diag.Modal = false;
 					
 					diag.Width = 450;
-					diag.Height =600;
+					diag.Height = 600;
 					diag.Title = "ÐÞ¸ÄÅÜµÀ";
 					diag.URL = "${pageContext.request.contextPath }/servlet/AdjustByHandServlet?str="+obj.id;
 					diag.OKEvent = function() {

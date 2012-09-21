@@ -82,7 +82,7 @@ public class SelectGameInfoDao {
 	public List getOfficialMember(int sportId) {
 		List listOfficial = new ArrayList();
 		List list = this.getOfficialInfo(sportId);
-		log.debug("大会记录的总长度:"+list.size());
+		
 
 		try {
 
@@ -228,7 +228,7 @@ public class SelectGameInfoDao {
 			officialMap.put("openingceremony", official.getOpeningceremony());
 			officialMap.put("closingceremony", official.getClosingceremony());
 		}
-		log.debug("map的长度为"+officialMap.size());
+		
 		return officialMap;
 	}
 	

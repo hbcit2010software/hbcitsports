@@ -64,9 +64,6 @@ public class WordGameBeforInfoDao {
 				Paragraph presidiumInfo = new Paragraph("大会主席团及工作人员", new Font(Font.NORMAL, 18,
 						Font.BOLD, new Color(0, 0, 0)));
 				presidiumInfo.setAlignment(1);
-				
-				
-				
 				Paragraph presidiumInfo1= new Paragraph("大会主席团", new Font(Font.NORMAL, 13,
 						Font.BOLD, new Color(0, 0, 0)));
 				presidiumInfo1.setAlignment(1);
@@ -1133,18 +1130,8 @@ public class WordGameBeforInfoDao {
 					}else{
 						GameDateInfoTable.addCell("日期未设置");
 					}
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+
+
 					document.add(presidiumInfo);
 					document.add(presidiumInfo1);
 					document.add(presidiumTable);

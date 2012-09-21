@@ -1,9 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*,java.net.URLDecoder" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>inputscore.jsp</title>
+    <title>成绩录入</title>
     <link href="css/subcss.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript">
@@ -20,7 +20,7 @@
 	//根据组别获取相应的项目 	
 	
 	function gpchange(){
-		var option = $("#group").find("option:selected").text();	//被选取的组别
+		var option = $("#group").find("option:selected").text();	//被选取的组别 
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/GetConditonServlet?action=itmecondBygp",
 				type : 'get',
@@ -35,7 +35,7 @@
 					}	
 					$('#item').html(inhtml);
 				},
-				error : function(xhr, status, errorThrown) {
+				error : function(xhr, status, errorThrown) { 
 					alert("errorThrown=" + errorThrown);
 				}
 		});
@@ -166,20 +166,18 @@
 				playernum += playernumobj[i].value;
 				score += scoreobj[i].value;
 				if(scoreobj[i].value.length== 0){
-					alert("成绩未录入！ ");
-					return false;
+					alert("提示：有成绩未录入！  ");
+					break;
 				}
 				playernum += ",";
 				score += ",";	
 		}
-		
-		alert(playernum);alert(score);
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=addscore",
 				type : 'get',
 				data : {playername:playernum,score:score,item:item,group:group},
 				success : function(mm) {
-				alert(mm);	
+					alert(mm);
 				},
 				error : function(xhr, status, errorThrown) {
 					alert("errorThrown=" + errorThrown);
@@ -209,27 +207,32 @@
 	//验证 成绩格式 
 	function checkFormat(){
 		var item = $("#item").find("option:selected").text();
+		if( curInput!=null){
+		var score = curInput.value;
+			if( score == ''){
+			return false;
+			}
+		}
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=checkFormat",
 			type : 'get',
 			data : {finalitemname:item},
 			success : function(mm) {
-			
-				var reg = new RegExp(mm);
-				alert("reg="+reg);
+				var reg = new RegExp(eval(mm));
 				if( curInput!=null){
 						var score = curInput.value;
-						if( !reg.test(score) ){
-							alert("格式不正确！"+reg);
-							curInput.focus();
-							return false;
+						if( score != ''){
+							if( !reg.test(score) ){
+								alert("格式不正确！");
+								//curInput.focus();
+								return false;
+							}
 						}
-					}
+					} 
 			},
 			error : function(xhr, status, errorThrown) {
 					alert("errorThrown=" + errorThrown);
 				}
-		
 		});
 	}
 	
@@ -237,6 +240,14 @@
 	//清空所有成绩 
 	function empty(){
 		$("input[name=score]").val("");
+	}
+	
+	function getGpIt(){
+		var item = $("#item").find("option:selected").text();
+		var group = $("#group").find("option:selected").text();
+		
+		var inhtml = "<td id='title' height='20' width='100%' align='center' colspan='5'>"+group+"----->"+item+"</td>";
+		$('#title').html(inhtml);
 	}
 </script>
   </head>
@@ -261,8 +272,8 @@
             	<td height="20" colspan="7">请选择条件</td>
             </tr>
             <tr class="tableTitle" align="center" bgcolor="#a8c7ce">
-            	<td height="20">组别</td>
-                <td height="20">
+            	<td height="20" width='20%'>组别</td>
+                <td height="20" width='20%'>
                 	<select id="group" onChange="gpchange()">
                     	<option>--请选择--</option>
                     	<c:forEach items="${sessionScope.conditionlist}" var="gp">
@@ -270,15 +281,15 @@
                         </c:forEach>
                     </select>
                 </td>
-                <td height="20">项目名称</td>
-                <td height="20">
+                <td height="20" width='20%'>项目名称</td>
+                <td height="20" width='20%'>
                 	<select id="item" name="finalitem">
                     	<option>--请选择--</option> 
                     </select>
                 </td>
-                <td><input type="button" value="录入成绩"  onclick="getItemType(),getPlayerMessage(),getFormat();"/></td>
+                <td width='20%' height="20"><input type="button" value="录入成绩"  onclick="getItemType(),getPlayerMessage(),getFormat(),getFormat();"/></td>
             </tr>
-       
+       		<tr id="title"></tr>
         </table>
         <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce"  class="stripe_tb" id="content"> 
         </table>

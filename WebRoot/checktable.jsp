@@ -8,7 +8,7 @@
    <link href="css/subcss.css" rel="stylesheet" type="text/css" />
      <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
      <script type="text/javascript" src="js/GameManageGetGroup.js"></script>
-     <script type="text/javascript" src="js/GameManageGetItem.js"></script>
+     
       <script type="text/javascript" src="js/GameManagePrintScan.js" CharSet="utf-8"></script>
      <script type="text/javascript" language="javascript"> 
 	$(function(){
@@ -18,11 +18,18 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
+		$("#printScan").attr("disabled",true);
   function scan1(){
+            var groupvalue =$("#group").find("option:selected").val();
 			var groupname =$("#group").find("option:selected").text();
 			var finalitemname = $("#item").find("option:selected").text();
 			var finalitemtype = $("#item").find("option:selected").val();
-			
+			 if(groupvalue=="0"){
+				  alert("请选择组别");
+				  }else if(finalitemtype=="0"){
+				  alert("请选择项目");
+				  }else{
+				    $("#printScan").attr("disabled",false);
 			$.ajax( {
 				url : "${pageContext.request.contextPath}/servlet/GameManageCheckTableGetScanServlet",
 				type : 'get',
@@ -30,10 +37,11 @@
 				dataType : 'json',
 				data : {itemname:finalitemname,itemtype:finalitemtype},
 				success : function(json) {
+				  
 					$("#gpit").text(groupname+"-->"+finalitemname);
 					var inhtml = "";
 					for(i = 0; i < json.length; i++){
-					alert("json.length="+json.length);
+					
 							var json1 = json[i];
 							inhtml += "<tr class='tableTitle'><td colspan='5' width='10%' height='20' >第"+(i+1)+"小组</td></tr>";
 							for( j = 0 ; j < json1.length ; j++ ){
@@ -60,6 +68,27 @@
 					alert("errorThrown=" + errorThrown);
 				}
 			});
+			}
+		}
+		
+		function getItem(){
+			var groupid= $("#group").find("option:selected").val();
+			$.ajax({
+			url:"servlet/GameManageCheckTableGetItemServlet",
+			type:"get",
+			data:"groupid="+groupid,
+			contentType:"application/json;charset=utf-8",
+			dataType:"json",
+			success : function(json) {
+				var inhtml = "<option value=0>--请选择--</option>";
+				for (i = 0; i < json.contents.length; i++) {
+	
+					inhtml += "<option value='"+json.contents[i].itemtype+"'>" + json.contents[i].itemname + "</option>";
+				}
+				$('#item').html(inhtml);
+	
+			}
+		});	
 		}
 </script>      
   </head>
@@ -86,17 +115,17 @@
   <tr><td height="5px"></td></tr>
   <tr><td>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;请选择条件&nbsp;&nbsp;&nbsp;&nbsp;组别
-  <select id='group' >
-  <option id='0'> --请选择--</option>
+  <select id='group' onchange="getItem();">
+  <option value='0'> --请选择--</option>
   </select>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   项目<select id='item' style="width:100px" >
-  <option id='0'> --请选择项目--</option>
+  <option value='0'> --请选择项目--</option>
   </select>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="button" value="预览 " id="scan2" onclick="scan1()" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" value="打印预览" / id="printScan">
+    <input type="button" value="打印预览"  id="printScan" />
   </div>
   </td></tr>
  <tr><td height="10px"></td></tr>
@@ -104,25 +133,27 @@
     <td>
     <!--内嵌表格begin-->
     <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb"  id="table">
-    <tr class="tableTitle" >       
-       <td width="100%" height="20" colspan='5' ><div align="center" id="gpit"></div></td> 
-      </tr>
-    
-      <tr class="tableTitle">       
-        <td width="10%" height="20" ><div align="center"><span>号码</span></div></td>
-        <td width="15%" height="20" ><div align="center"><span>姓名</span></div></td>
-        <td width="14%" height="20" ><div align="center"><span>道次/出场顺序</span></div></td>
-        <td width="16%" height="20" ><div align="center"><span>成绩</span></div></td>
-        <td width="27%" height="20" ><div align="center"><span>备注</span></div></td>
-      </tr> </table>
-      <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb"  id="content">  
+	    <tr class="tableTitle" >       
+	       <td width="100%" height="20" colspan='5' ><div align="center" id="gpit"></div></td> 
+	      </tr>
+	    
+	      <tr class="tableTitle">       
+	        <td width="10%" height="20" ><div align="center"><span>号码</span></div></td>
+	        <td width="15%" height="20" ><div align="center"><span>姓名</span></div></td>
+	        <td width="14%" height="20" ><div align="center"><span>道次/出场顺序</span></div></td>
+	        <td width="16%" height="20" ><div align="center"><span>成绩</span></div></td>
+	        <td width="27%" height="20" ><div align="center"><span>备注</span></div></td>
+	      </tr> 
+      </table>
+    <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb"  id="content"> 
+       
     </table>
      <!--内嵌表格end-->
      <p>
      <%
       String a=(String)session.getAttribute("path"); 
       %>
-     <div id="href" style="align:right;width:100px"><a href="<%=a%>"><%=a %></a></div>
+     <div id="href"></div>
     </td>
   </tr>
 </table>

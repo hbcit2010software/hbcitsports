@@ -113,7 +113,7 @@ public class AddFinalItemServlet extends HttpServlet {
 			countSplited = ss.splitFinalitem(sportsId);     //后分
 			if(countSplited == countMatchtype){
 				log.debug("先删后拆操作成功！");
-				request.setAttribute("msg", "数据处理异常，请检查后续操作数据是否正常！");
+				request.setAttribute("msg", "数据处理异常，可能是未按照顺序操作的缘故。请检查后续操作数据是否正常！");
 			}else{
 				log.error("先删后拆出现异常，拆分出了" + countSplited + "条，应拆分出" + countMatchtype +"条");
 				request.setAttribute("msg", "FinalItem先删后拆出现异常，拆分出了" + countSplited + "条，应拆分出" + countMatchtype +"条！");

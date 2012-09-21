@@ -1,4 +1,5 @@
 $(function(){
+	$("#printScan").attr("disabled",true);
 	$.ajax( {
 		url : "servlet/GameManageCheckTableGetGroupServlet",
 		type : 'get',

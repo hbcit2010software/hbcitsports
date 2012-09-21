@@ -1,15 +1,14 @@
 /*
 * Copyright(C) 2004, XXXXXXXX.
 *
-* 模块名称：     AAAAAAAAAAA
-* 子模块名称：   BBBBBBBBBBB
+* 模块名称：    运动会管理系统
+* 子模块名称：   赛中管理
 *
 * 备注：
 *
 * 修改历史：
 * 时间			版本号	姓名		修改内容
-* 2004/12/12		0.1		张 三		新建
-* 2005/02/05		0.1		李 四		Bug修正
+* 2004/12/12		0.1		吴国法		新建
 */
 
 package cn.edu.hbcit.smms.services.gamemanageservices;

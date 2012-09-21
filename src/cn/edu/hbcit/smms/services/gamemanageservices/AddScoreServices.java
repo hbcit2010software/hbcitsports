@@ -16,4 +16,7 @@ public class AddScoreServices {
 	public String getFormat( String finalitemname ){
 		return new AddScore().getFormat(finalitemname);
 	}
+	public String getFinalitemType( String finalitemname){
+		return new AddScore().getFinalitemType(finalitemname);
+	}
 }
