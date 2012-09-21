@@ -27,6 +27,64 @@
 <script type="text/javascript" src="js/jquery.easing.js"></script>
 <script type="text/javascript" src="js/jquery.dimensions.js"></script>
 <script type="text/javascript" src="js/jquery.accordion.js"></script>
+<script type="text/javascript">
+
+		function checkgroup(){
+		alert('检查是否执行过赛事分组');
+		$.ajax({
+					url :"${pageContext.request.contextPath }/servlet/CheckGroupServlet",
+					type : 'get',
+				    // data : 'username='+username+'&password='+password+'&dj='+dj,
+					//data:{username:username},
+					success :function(mm){
+							var revalue=mm.replace(/\r\n/g,'');
+							if(revalue=="success"){
+								var flag = window.confirm("已经分过，是否重新分组？？？");
+								if (flag == true){
+									$.ajax({
+									url :"${pageContext.request.contextPath }/servlet/GameGroupingServlet",
+									type : 'get',
+								   // data : 'username='+username+'&password='+password+'&dj='+dj,
+									//data:{username:username},
+									
+									success :function(mm){
+											var revalue=mm.replace(/\r\n/g,'');
+											if(revalue=="success")
+											{
+												alert("分组完成！");
+											}
+											else{
+												alert("分组失败！");
+											}
+										}
+									});	
+								}else{
+									alert('分组取消');
+								}
+							}else{
+								alert("按回车键  或者点击确定开始分组！");
+								$.ajax({
+									url :"${pageContext.request.contextPath }/servlet/GameGroupingServlet",
+									type : 'get',
+								   // data : 'username='+username+'&password='+password+'&dj='+dj,
+									//data:{username:username},
+									
+									success :function(mm){
+											var revalue=mm.replace(/\r\n/g,'');
+											if(revalue=="success")
+											{
+												alert("分组完成！");
+											}
+											else{
+												alert("分组失败！");
+											}
+										}
+								});	
+							}
+					}
+		});
+	}
+</script>
 <script language="javascript">
 	jQuery().ready(function(){
 		jQuery('#navigation').accordion({
@@ -106,8 +164,8 @@ body {
         <li><a href="servlet/GetDepartInfoServlet" target="rightFrame">参赛单位设置</a></li>
         <li><a href="servlet/GetGroupInfoServlet" target="rightFrame">组别设置</a></li>
         <li><a href="servlet/GetItemInfoServlet" target="rightFrame">项目设置</a></li>
-        <li><a href="#" target="rightFrame">日程安排</a></li>
-        <li><a href="#" target="rightFrame">号段分配</a></li>
+        <li><a href="servlet/AddFinalItemServlet" target="rightFrame">日程安排</a></li>
+        <li><a href="servlet/AddPlayerNumServlet" target="rightFrame">号段分配</a></li>
         <li><a href="#" target="rightFrame">赛事规程</a></li>
         <li><a href="#" target="rightFrame">会程设置</a></li>
         <li><a href="#" target="rightFrame">工作人员设置</a></li>
@@ -134,10 +192,9 @@ body {
 	<!--秩序册管理begin-->
     <li> <a class="head">秩序册管理</a>
       <ul>
-        <li><a href="servlet/SelectItemsServlet" target="rightFrame">赛事编排</a></li>
-        <li><a href="#" target="rightFrame">秩序册预览</a></li>
-        <li><a href="#" target="rightFrame">秩序册生成</a></li>
-        <li><a href="#" target="rightFrame">赛事手工调整</a></li>
+        <li><a href="#" onclick="checkgroup()">赛事分组</a></li>
+        <li><a href="servlet/SelectItemsServlet" target="rightFrame">赛事浏览</a></li>
+        <li><a href="creatword.jsp" target="rightFrame">秩序册生成</a></li>
       </ul>
     </li>
     <!--秩序册管理end-->
