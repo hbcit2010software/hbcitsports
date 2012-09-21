@@ -22,21 +22,66 @@
 		});
 </script>
 <script type="text/javascript">
-function checkSubmit(){
-	var strFi=new Array();
+var strFi=new Array();
+var fiStu=new Array();
+var fiTea=new Array();
+	<c:set var="stu" value="0" scope="page" />
+	<c:set var="teacher" value="0" scope="page" />
 	<c:forEach var="pnl" items="${playerNumList}" varStatus="countItem">
 		strFi[${countItem.index}]="${pnl.id}";
+		<c:if test="${pnl.numtype eq 1}">
+			fiStu[${stu}] = ${pnl.id};
+			<c:set var="stu" value="${stu + 1}" scope="page" />
+		</c:if>
+		<c:if test="${pnl.numtype eq 0}">
+			fiTea[${teacher}] = ${pnl.id};
+			<c:set var="teacher" value="${teacher + 1}" scope="page" />
+		</c:if>
 	</c:forEach>
+
+//表单提交检测
+function checkSubmit(){
 	for(var i=0; i<strFi.length; i++){
 		var beginNum = document.getElementById("begin"+strFi[i]).value;
 		var endNum = document.getElementById("end"+strFi[i]).value;
 		document.getElementById("hidden"+strFi[i]).value = strFi[i] + "," + beginNum + "," + endNum;
 		if(beginNum == "" || endNum == ""){
-			Dialog.alert("不允许有空项，请检查后重试！");
+			Dialog.alert("请先自动分配号码！");
 			return false;
 		}
 	}
 	//document.forms[0].submit();
+}
+
+//分配号码
+function addNum(){
+	var initStu = 1001;
+	var initTeacher = 101;
+	var reg = /[0-9]/;
+	var step_stu,step_teacher;
+	if(reg.test(document.getElementById("step_stu").value) && reg.test(document.getElementById("step_teacher").value)){
+		step_stu = parseInt(document.getElementById("step_stu").value);
+		step_teacher = parseInt(document.getElementById("step_teacher").value);
+		if(step_stu >= 2 && step_teacher >= 2){
+			for(var i=0; i<fiStu.length; i++){
+				document.getElementById("begin"+fiStu[i]).value = initStu + step_stu*i;
+				document.getElementById("end" + fiStu[i]).value = initStu + step_stu*i + step_stu - 1;
+			}
+			for(var i=0; i<fiTea.length; i++){
+				document.getElementById("begin"+fiTea[i]).value = initTeacher + step_teacher*i;
+				document.getElementById("end" + fiTea[i]).value = initTeacher + step_teacher*i + step_teacher - 1;
+			}
+		}else{
+			Dialog.alert("输入的数字必须大于等于2！");
+		}
+		
+	
+	}else{
+		Dialog.alert("请输入数字！");
+	}
+	
+	
+	
 }
 </script>
 </head>
@@ -79,7 +124,7 @@ if(request.getAttribute("msg") != null){
     <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
     <!--学生组-->
     	<tr class="tableTitle">
-        <td height="20" colspan="3"><div align="center" style="font-weight:bold;">学生组</div></td>
+        <td height="20" colspan="3"><div align="center" style="font-weight:bold;">学生组&nbsp;&nbsp;&nbsp;&nbsp;每单位分配<input id="step_stu" type="text" size="5" value="250" />个号码</div></td>
         </tr>
       <tr class="tableTitle">
         <td width="40%" height="20"><div align="center">单位名称</div></td>
@@ -91,15 +136,15 @@ if(request.getAttribute("msg") != null){
        		<c:if test="${pnl.numtype eq 1}">
 	       <tr class="tableContent">
 	        <td><div align="center">${pnl.departshortname}</div></td>
-	        <td><div align="center"><input type="text" id="begin${pnl.id}" value="${pnl.beginnum}" /></div></td>
-	        <td><div align="center"><input type="text" id="end${pnl.id}" value="${pnl.endnum}" /></div></td>
+	        <td><div align="center"><input type="text" id="begin${pnl.id}" value="${pnl.beginnum}" readonly="readonly"/></div></td>
+	        <td><div align="center"><input type="text" id="end${pnl.id}" value="${pnl.endnum}" readonly="readonly"/></div></td>
             <input type="hidden" name="hid" id="hidden${pnl.id}" value="" />
 	        </tr>
             </c:if>
         </c:forEach>
         <!--教工组-->
     	<tr class="tableTitle">
-        <td height="20" colspan="3"><div align="center" style="font-weight:bold;">教工组</div></td>
+        <td height="20" colspan="3"><div align="center" style="font-weight:bold;">教工组&nbsp;&nbsp;&nbsp;&nbsp;每单位分配<input id="step_teacher" type="text" size="5" value="50" />个号码</div></td>
         </tr>
       <tr class="tableTitle">
         <td width="40%" height="20"><div align="center">单位名称</div></td>
@@ -111,8 +156,8 @@ if(request.getAttribute("msg") != null){
        		<c:if test="${pnl.numtype eq 0}">
 	       <tr class="tableContent">
 	        <td><div align="center">${pnl.departshortname}</div></td>
-	        <td><div align="center"><input type="text" id="begin${pnl.id}" value="${pnl.beginnum}" /></div></td>
-	        <td><div align="center"><input type="text" id="end${pnl.id}" value="${pnl.endnum}" /></div></td>
+	        <td><div align="center"><input type="text" id="begin${pnl.id}" value="${pnl.beginnum}" readonly="readonly"/></div></td>
+	        <td><div align="center"><input type="text" id="end${pnl.id}" value="${pnl.endnum}" readonly="readonly"/></div></td>
             <input type="hidden" name="hid" id="hidden${pnl.id}" value="" />
 	        </tr>
         	</c:if>
@@ -126,7 +171,8 @@ if(request.getAttribute("msg") != null){
 
 <div align="center">
 	<span class="pageJump">
-		<input type="submit" value="确  定" />
+    	<input type="button" value="自动分配号码" onclick="addNum();" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="submit" value="提  交" />
 		<!-- 
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="reset" value="重  置"/>
