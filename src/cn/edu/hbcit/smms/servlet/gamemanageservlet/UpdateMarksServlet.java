@@ -1,29 +1,21 @@
-package cn.edu.hbcit.smms.servlet.createprogramservlet;
-
+package cn.edu.hbcit.smms.servlet.gamemanageservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.dao.createprogramdao.SelectItems;
-import cn.edu.hbcit.smms.pojo.FinalitemGroup;
-/**
- * 
- * @author lenovo
- *
- */
-public class SelectItemsServlet extends HttpServlet {
+import cn.edu.hbcit.smms.dao.gamemanagedao.QueryMark;
+
+public class UpdateMarksServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public SelectItemsServlet() {
+	public UpdateMarksServlet() {
 		super();
 	}
 
@@ -49,8 +41,6 @@ public class SelectItemsServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		this.doPost(request, response);
-		
-		
 	}
 
 	/**
@@ -66,25 +56,27 @@ public class SelectItemsServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-		SelectItems si=new SelectItems();
-		ArrayList ItemsList1=new ArrayList();
-		ArrayList ItemsList2=new ArrayList();
-		ArrayList ItemsList3=new ArrayList();
-		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString()); 
-		//int sportsid=1;
-	    String itemtype="1";
-	    String itemtype1="2";
-	    String itemtype2="3";
-	    ItemsList1 = si.selectItemsById(sportsid, itemtype);
-	    ItemsList2 = si.selectItemsById(sportsid, itemtype1);
-	    ItemsList3 = si.selectItemsById(sportsid, itemtype2);
-	   // System.out.println("hello"+ItemsList1.size());
-	    session.setAttribute("ItemsList", ItemsList1);
-	    session.setAttribute("ItemsList1", ItemsList2);
-	    session.setAttribute("ItemsList2", ItemsList3);
-	   //request.getRequestDispatcher("View.jsp").forward(request, response);
-	   response.sendRedirect("../createprogram.jsp");
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-control", "no-cache");
+		response.setDateHeader("Expires", 0);
+		response.setContentType("text/html;utf-8");
+		response.setCharacterEncoding("utf-8");
+		
+		PrintWriter out = response.getWriter();
+		
+		String depName = request.getParameter("depName");
+		String finalsm = request.getParameter("finalsm");
+		String finaltm = request.getParameter("finaltm");
+		System.out.println("fuckmlgbsbyou------------"+depName+finalsm+finaltm);
+		
+		QueryMark qm = new QueryMark();
+		boolean flag = false;
+		flag = qm.updateMark(depName, Integer.parseInt(finalsm), Integer.parseInt(finaltm));
+		System.out.print(flag);
+		if(flag==true){
+		out.print("success");}
+		out.flush();
+		out.close();
 	}
 
 	/**

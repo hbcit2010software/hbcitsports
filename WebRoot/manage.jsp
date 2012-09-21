@@ -4,6 +4,7 @@
 <head>
 <title>成绩管理</title>
 <link href="css/subcss.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/zDialog_inner.js"></script>
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script language="javascript">
 function checkSelected()
@@ -307,7 +308,7 @@ function getPlayerInf()
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="text" align="right" id="playerNum" style=" color:#CCCCCC" value="请输入您要查找的号码" onfocus="if (value =='请输入您要查找的号码'){value =''};this.style.color='black'" onblur="if (value ==''){value='请输入您要查找的号码'};this.style.color='gray';"/>     
 		<input type="button" value="按号码查询" onclick="getPlayerInf()">
-		<a href="#" onclick="alert('输入运动员编号前，请先确认此运动员所属的组别及项目，选定组别及项目菜单后才能实现查询！！！');" style="font-size:12px">友情提示,请点击这里</a>
+		<a href="#" onclick="Dialog.alert('温情提示，请仔细查看：<br>输入运动员编号前，请先确认此运动员所属的组别及项目,选定组别及项目菜单后才能实现查询！！！请认真读完提示信息再操作，否则您的操作可能不起作用');" style="font-size:12px">友情提示,请点击这里</a>
 		</div>
 		</td></tr>
   	<tr><td>

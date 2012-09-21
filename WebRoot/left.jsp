@@ -27,6 +27,9 @@
 <script type="text/javascript" src="js/jquery.easing.js"></script>
 <script type="text/javascript" src="js/jquery.dimensions.js"></script>
 <script type="text/javascript" src="js/jquery.accordion.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
 
 		function checkgroup(){
@@ -207,7 +210,7 @@ body {
         <li><a href="servlet/GetConditonServlet?action=allcond" target="rightFrame">成绩录入</a></li>
         <li><a href="servlet/GameManageGetGroupServlet" target="rightFrame">违纪管理</a></li>
         <li><a href="#" target="rightFrame">生成决赛名单</a></li>
-        <li><a href="mark.jsp" target="rightFrame">积分管理</a></li>
+        <li><a href="${ pageContext.request.contextPath }/servlet/QueryMarkServlet" target="rightFrame">积分管理</a></li>
         <li><a href="#" target="rightFrame">成绩单管理</a></li>
       </ul>
     </li>

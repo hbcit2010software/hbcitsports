@@ -2,6 +2,8 @@ package cn.edu.hbcit.smms.servlet.gamemanageservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.QueryMarkServices;
 
 public class QueryMarkServlet extends HttpServlet {
@@ -41,11 +44,7 @@ public class QueryMarkServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
 		this.doPost(request, response);
-		out.flush();
-		out.close();
 	}
 
 	/**
@@ -61,57 +60,33 @@ public class QueryMarkServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		
-		String action = request.getParameter("action");
-		if( action.equals("QueryMarkdp")){
-			this.QueryMarkBydp(request, response);
-		}
-		if( action.equals("QueryMarkit")){
-			this.QueryMarkByitem(request, response);
-		}
-		out.flush();
-		out.close();
-	}
-	
-	public void QueryMarkBydp(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-			response.setContentType("text/html");
-			PrintWriter out = response.getWriter();
-			HttpSession sn = request.getSession();
-			
-			int departid = Integer.parseInt(request.getParameter("depart"));
-			int sportsid =	Integer.parseInt(sn.getAttribute("currSportsId").toString());
-			int grouptype = Integer.parseInt(request.getParameter("group"));
-			
-			QueryMarkServices qms = new QueryMarkServices();
-			int sum = 0 ; 
-			sum = qms.queryByGroup(departid, sportsid, grouptype);
-			out.println(sum);
-			out.flush();
-			out.close();
-}
-
-	
-	
-	public void QueryMarkByitem(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
-		
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		
-		int itemid = Integer.parseInt(request.getParameter("item"));
-		int grouptype = Integer.parseInt(request.getParameter("role"));
-		
+		HttpSession session = request.getSession();
+		ArrayList list1 = new ArrayList();
+		ArrayList list2 = new ArrayList();
+		ArrayList list3 = new ArrayList();
+		ArrayList list4 = new ArrayList();
+		ArrayList list5 = new ArrayList();
 		QueryMarkServices qms = new QueryMarkServices();
-		int sum = 0 ; 
-		sum = qms.queryBItem(grouptype, itemid);
-		out.println(sum);
-		out.flush();
-		out.close();
+		List<QueryMarkPoJo> depNameList = qms.getDepName();
+		List<QueryMarkPoJo> studentsMarkList = qms.getStudentsMark(depNameList);
+		List<QueryMarkPoJo> teacherMarkList = qms.getTeacherMark(depNameList);
+		List<QueryMarkPoJo> studentsFinalMarkList = qms.getStudentsFinalMark(depNameList);
+		List<QueryMarkPoJo> teacherFinalMarkList = qms.getTeacherFinalMark(depNameList);
+		list1.add(depNameList);
+		list2.add(studentsMarkList);
+		list3.add(teacherMarkList);
+		list4.add(studentsFinalMarkList);
+		list5.add(teacherFinalMarkList);
+		session.setAttribute("list1", list1);
+		session.setAttribute("list2", list2);
+		session.setAttribute("list3", list3);
+		session.setAttribute("list4", list4);
+		session.setAttribute("list5", list5);
+		System.out.println(studentsFinalMarkList.size());
+		response.sendRedirect("../mark.jsp");
+		
 	}
+	
 
 	/**
 	 * Initialization of the servlet. <br>

@@ -89,12 +89,14 @@ public class SelectPlayerDAO {
 	 * 
 	 * @return ArrayList
 	 */
-	public ArrayList selectDepartment(){
+	public ArrayList selectDepartment(int sportsid){
 		ArrayList departList = new ArrayList();
 		try {
 			conn = db.getConn();
-			rs = conn.createStatement().executeQuery(
-					" SELECT id FROM t_department  ORDER BY departtype DESC,id ");
+			ps = conn.prepareStatement(
+					" SELECT id FROM t_department WHERE  id IN(SELECT departid FROM t_sports2department WHERE sportsid=?) ORDER BY departtype DESC,id");
+			ps.setInt(1, sportsid);
+			rs = ps.executeQuery();
 			while (rs.next()) {
 			Integer ig=new Integer(rs.getInt(1));
 			departList.add(ig);
@@ -118,7 +120,7 @@ public class SelectPlayerDAO {
 		try {
 			conn = db.getConn();
 			ps = conn.prepareStatement(
-					"SELECT departid FROM t_sports2department WHERE id=?");
+					"SELECT departname FROM t_department WHERE id=?");
 			
 		     ps.setInt(1, id);
 		     //System.out.println("11111111111111111");

@@ -86,8 +86,8 @@ public class WordDemoServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		//int currSportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());   //运动会ID
-		int currSportsId = 1;
+		int currSportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());   //运动会ID
+		//int currSportsId = 1;
 		//String modelName = "program";                //模块名称：秩序册
 		//String fileName = currSportsId + "-" + modelName + "-" ;
 		int id = Integer.parseInt(request.getParameter("id".trim()));

@@ -6,7 +6,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>无标题文档</title>
 		<link href="css/subcss.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 		<script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){
@@ -18,7 +20,7 @@
 			
 		});
 </script>
-<script type="text/javascript">
+		<script type="text/javascript">
 
 		function checkword(obj)
 		{
@@ -32,16 +34,44 @@
 				success:function(mm){
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success"){
-								alert("生成成功!");
+								Dialog.alert("生成成功!");
+								
 							}
 							else{
-								alert("生成失败!");
+								Dialog.alert("生成失败!");
 								}
 						}
 		});
 		}
-</script>
 		
+	</script>	
+		
+		<script type="text/javascript">
+		
+
+       function checkfile(obj){
+			var fileName = obj.id;
+			
+			$.ajax({
+					url :"${pageContext.request.contextPath }/servlet/DownSuccessServlet",
+					type : 'post',
+					data : 'fileName='+fileName,
+					//data:{username:username},
+									
+					success :function(mm){
+							var revalue=mm.replace(/\r\n/g,'');
+							if(revalue=="success")
+							{
+								Dialog.alert("文件不存在，请先生成文件！");
+							}
+							else{
+								location.replace("download_word.jsp?fileName="+fileName);
+							}
+						}
+				});	
+		}
+		
+		</script>
 	</head>
 
 	<body>
@@ -70,7 +100,7 @@
 											</table>
 										</td>
 										<td>
-											
+
 										</td>
 									</tr>
 								</table>
@@ -83,43 +113,68 @@
 				<td>
 					<!--内嵌表格begin-->
 					<table>
-					<tr>
-					<td td colspan="3">
-					<b>秩序册</b>
-					</td>
-					</tr>
-					<%String filePath = (String)session.getAttribute("filePath");
-					  
-					 //if(filePath !=null && fileName1 !=null){}
-					 %>
-						   <tr>
-							<td>大会安排</td>
-							
-							<td><a href="#" id="1" onclick="checkword(this)"><input type="button" value="生成word文档"/></a></td>
-							<td><a href="download.jsp?file=<%=filePath %>&fileName=gameBeforeInfo.doc"><input type="button" value="下载" /></a></td>
-							</tr>
-							<tr>
-							<td>竞赛分组</td>
-							<td><a href="#" id="2" onclick="checkword(this)"><input type="button" value="生成word文档"/></a></td>
-							<td><a href="download.jsp?file=<%=filePath %>&fileName=createprogram.doc"><input type="button" value="下载" /></a></td>
-							</tr>
-							<tr>
-							<td>
-							运动员信息
+						<tr>
+							<td colspan="3">
+								<b>秩序册</b>
 							</td>
-							<td><a href="#" id="3" onclick="checkword(this)"><input type="button" value="生成word文档"/></a></td>
-							<td><a href="download.jsp?file=<%=filePath %>&fileName=departmentNumber.doc"><input type="button" value="下载" /></a></td>
-							</tr>
-							<tr>
+						</tr>
+
+						<tr>
 							<td>
-							运动会记录 
+								大会安排
 							</td>
-							<td><input type="button" id="4" onclick="checkword(this)" value="生成word文档"/></td>
-							<td><a href="download.jsp?file=<%= filePath%>&fileName=record.doc"><input type="button" value="下载" /></a></td>
-						    </tr>
-						 </table>
+
+							<td>
+								<input type="button" id="1" onclick="checkword(this)"
+									value="生成word文档" />
+							</td>
+							<td>
+								<input type="button" value="下载" id="gameBeforeInfo.doc"
+									onclick="checkfile(this)" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								竞赛分组
+							</td>
+							<td>
+								<input type="button" id="2" onclick="checkword(this)"
+									value="生成word文档" />
+							</td>
+							<td>
+								<input type="button" value="下载" id="createprogram.doc"
+									onclick="checkfile(this)" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								运动员信息
+							</td>
+							<td>
+								<input type="button" id="3" onclick="checkword(this)"
+									value="生成word文档" />
+							</td>
+							<td>
+								<input type="button" value="下载" id="departmentNumber.doc"
+									onclick="checkfile(this)" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								运动会记录
+							</td>
+							<td>
+								<input type="button" id="4" onclick="checkword(this)"
+									value="生成word文档" />
+							</td>
+							<td>
+								<input type="button" value="下载" id="record.doc"
+									onclick="checkfile(this)" />
+							</td>
+						</tr>
+					</table>
 					<!--内嵌表格end-->
-					
+
 				</td>
 			</tr>
 		</table>

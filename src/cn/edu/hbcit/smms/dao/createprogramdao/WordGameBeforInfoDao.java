@@ -64,8 +64,6 @@ public class WordGameBeforInfoDao {
 				Paragraph presidiumInfo = new Paragraph("大会主席团及工作人员", new Font(Font.NORMAL, 18,
 						Font.BOLD, new Color(0, 0, 0)));
 				presidiumInfo.setAlignment(1);
-				
-				
 				Paragraph presidiumInfo1= new Paragraph("大会主席团", new Font(Font.NORMAL, 13,
 						Font.BOLD, new Color(0, 0, 0)));
 				presidiumInfo1.setAlignment(1);
@@ -279,6 +277,7 @@ public class WordGameBeforInfoDao {
 				judgeTable.setBorder(0);
 				Cell judgeCell = new Cell("总裁判长：");
 				judgeCell.setBorderWidth(0);
+				judgeCell.setWidth(200);
 				judgeTable.addCell(judgeCell);
 				String[] chiefjudge1 = (String[])gameInfoMap.get("chiefjudge1");
 				for(int i = 0; i < chiefjudge1.length; i++){
@@ -902,7 +901,7 @@ public class WordGameBeforInfoDao {
 						Font.BOLD, new Color(0, 0, 0)));
 				gameRules.setAlignment(1);
 				
-				Paragraph date = new Paragraph("一、竞赛日期:" + getGameDate.get("sportsbegin") + "-" + getGameDate.get("sportsend"));
+				Paragraph date = new Paragraph("一、竞赛日期:" + getGameDate.get("sportsbegin") + "~" + getGameDate.get("sportsend"));
 				Paragraph address = new Paragraph("      地点：" + getGameDate.get("address"));
 				Paragraph item = new Paragraph("二、竞赛项目");
 				
@@ -995,6 +994,7 @@ public class WordGameBeforInfoDao {
 				
 				  Table GameDateInfoTable = new Table(3);
 					List gameDateList = (List)getGameDateInfo.get("dateList");
+					if(gameDateList.size() != 0 && gameDateList.get(0) != null){
 					List gameDateInfoList = (List)getGameDateInfo.get("gameInfoList");
 					for( int i = 0; i < gameDateList.size(); i++){
 			        	String gameDate = (String)gameDateList.get(i);
@@ -1018,8 +1018,10 @@ public class WordGameBeforInfoDao {
 			        		GameDatePlanPojo dp = (GameDatePlanPojo) gameDateInfoList.get(j);
 			        		if(gameDate.equals(((GameDatePlanPojo) gameDateInfoList.get(j)).getFinalDate())==true){
 			        		    String time =dp.getTime();
+			        		    System.out.println(time);
+			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
-			        			if(dp.getItemType().equals("1") && (time1 >= 8 && time1 <= 12)){
+			        			if(dp.getItemType().equals("1") && (time1 >= 1 && time1 <= 12)){
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
@@ -1030,6 +1032,7 @@ public class WordGameBeforInfoDao {
 			        				Time.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(Time);
 			        			}	
+			        		   }
 			        		}
 			        	}
 			        	
@@ -1043,8 +1046,9 @@ public class WordGameBeforInfoDao {
 			        		GameDatePlanPojo dp = (GameDatePlanPojo) gameDateInfoList.get(j);
 			        		if(gameDate.equals(((GameDatePlanPojo) gameDateInfoList.get(j)).getFinalDate())==true){
 			        		    String time =dp.getTime();
+			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
-			        			if(dp.getItemType().equals("2") && (time1 >= 8 && time1 <= 12)){
+			        			if(dp.getItemType().equals("2") && (time1 >= 1 && time1 <= 12)){
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
@@ -1055,6 +1059,7 @@ public class WordGameBeforInfoDao {
 			        				Time.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(Time);
 			        			}	
+			        		    }
 			        		}
 			        	}
 			        	
@@ -1074,8 +1079,9 @@ public class WordGameBeforInfoDao {
 			        		GameDatePlanPojo dp = (GameDatePlanPojo) gameDateInfoList.get(j);
 			        		if(gameDate.equals(((GameDatePlanPojo) gameDateInfoList.get(j)).getFinalDate())==true){
 			        		    String time =dp.getTime();
+			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
-			        			if(dp.getItemType().equals("1") && (time1 >= 2 && time1 <= 7)){
+			        			if(dp.getItemType().equals("1") && (time1 >= 13 && time1 <= 23)){
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
@@ -1086,6 +1092,7 @@ public class WordGameBeforInfoDao {
 			        				Time.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(Time);
 			        			}	
+			        		   }
 			        		}
 			        	}
 			        	
@@ -1102,8 +1109,9 @@ public class WordGameBeforInfoDao {
 			        		GameDatePlanPojo dp = (GameDatePlanPojo) gameDateInfoList.get(j);
 			        		if(gameDate.equals(((GameDatePlanPojo) gameDateInfoList.get(j)).getFinalDate())==true){
 			        		    String time =dp.getTime();
+			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
-			        			if(dp.getItemType().equals("2") && (time1 >= 2 && time1 <= 7)){
+			        			if(dp.getItemType().equals("2") && (time1 >= 13 && time1 <= 23)){
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
@@ -1114,23 +1122,16 @@ public class WordGameBeforInfoDao {
 			        				Time.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(Time);
 			        			}	
+			        		   }
 			        		}
 			        	}
 						
 			        }
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+					}else{
+						GameDateInfoTable.addCell("日期未设置");
+					}
+
+
 					document.add(presidiumInfo);
 					document.add(presidiumInfo1);
 					document.add(presidiumTable);

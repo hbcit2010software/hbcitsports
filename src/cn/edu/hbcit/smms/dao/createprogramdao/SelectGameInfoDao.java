@@ -43,6 +43,7 @@ public class SelectGameInfoDao {
 	 */
 	
 	 public List getOfficialInfo(int sportId) {
+		 log.debug("当前运动会为"+sportId);
 		 List list = new ArrayList();
 			DBConn db = new DBConn();
 
@@ -63,17 +64,25 @@ public class SelectGameInfoDao {
 						}
 						
 					}
+				}else{
+					for(int i = 3; i < 46; i++){
+						list.add("null");
+					}
 				}
+				
 				db.freeConnection(conn);
 			} catch (Exception e) {
 				e.getStackTrace();
 			}
+			
 			return list;
 	 }
 	
+	 
 	public List getOfficialMember(int sportId) {
 		List listOfficial = new ArrayList();
 		List list = this.getOfficialInfo(sportId);
+		
 
 		try {
 
@@ -219,6 +228,7 @@ public class SelectGameInfoDao {
 			officialMap.put("openingceremony", official.getOpeningceremony());
 			officialMap.put("closingceremony", official.getClosingceremony());
 		}
+		
 		return officialMap;
 	}
 	
@@ -339,13 +349,12 @@ public class SelectGameInfoDao {
 		DBConn db = new DBConn();
 		try {
 			conn = db.getConn();
-			String select = "SELECT t_item.itemname FROM t_item" +
+			String select = "SELECT DISTINCT (t_item.itemname) FROM t_item" +
 					" INNER JOIN t_group2item ON t_group2item.itemid=t_item.id" +
-					" INNER JOIN t_group2sports ON t_group2sports.id=t_group2item.gp2spid" +
-					" INNER JOIN t_group ON t_group2sports.groupid=t_group.id" +
-					" INNER JOIN t_sports ON t_sports.id=t_group2sports.sportsid" +
-					" WHERE t_group.groupname LIKE '%男%' AND t_sports.id=?" +
-					" ORDER BY t_item.itemtype";
+					" INNER JOIN t_finalitem ON t_finalitem.gp2itid=t_group2item.id " +
+					"INNER JOIN t_group2sports ON t_group2sports.id=t_group2item.gp2spid" +
+					" INNER JOIN t_group ON t_group.id=t_group2sports.groupid" +
+					" WHERE t_group.groupsex=1 AND t_group2sports.sportsid=?";
 			ps = conn.prepareStatement(select);
 			ps.setInt(1, sportId);
 			//System.out.println(select);
@@ -377,13 +386,12 @@ public class SelectGameInfoDao {
 		DBConn db = new DBConn();
 		try {
 			conn = db.getConn();
-			String select = "SELECT t_item.itemname FROM t_item" +
+			String select = "SELECT DISTINCT (t_item.itemname) FROM t_item" +
 					" INNER JOIN t_group2item ON t_group2item.itemid=t_item.id" +
+					" INNER JOIN t_finalitem ON t_finalitem.gp2itid=t_group2item.id" +
 					" INNER JOIN t_group2sports ON t_group2sports.id=t_group2item.gp2spid" +
-					" INNER JOIN t_group ON t_group2sports.groupid=t_group.id" +
-					" INNER JOIN t_sports ON t_sports.id=t_group2sports.sportsid" +
-					" WHERE t_group.groupname LIKE '%女%' AND t_sports.id=?" +
-					" ORDER BY t_item.itemtype";
+					" INNER JOIN t_group ON t_group.id=t_group2sports.groupid" +
+					" WHERE t_group.groupsex=0 AND t_group2sports.sportsid=?";
 			ps = conn.prepareStatement(select);
 			ps.setInt(1, sportId);
 			rs = ps.executeQuery();
@@ -488,7 +496,6 @@ public class SelectGameInfoDao {
 					"INNER JOIN t_group2sports ON t_group2sports.id=t_group2item.gp2spid " +
 					"INNER JOIN t_sports ON t_group2sports.sportsid=t_sports.id " +
 					"WHERE t_sports.id=? ";
-			System.out.println(conn);
 			ps = conn.prepareStatement(select);
 			ps.setInt(1, sportId);
 			rs = ps.executeQuery();
@@ -533,6 +540,7 @@ public class SelectGameInfoDao {
 			rs = ps.executeQuery();
 			sql.setLength(0);
 			int c = rs.getMetaData().getColumnCount();
+			if(rs.next()){
 			while (rs.next()) {
 				GameDatePlanPojo gd = new GameDatePlanPojo();
 				gd.setFinalDate(rs.getString(1));
@@ -546,6 +554,17 @@ public class SelectGameInfoDao {
                 }
 				list.add(gd);
 			}
+		}else{
+			GameDatePlanPojo gd = new GameDatePlanPojo();
+			gd.setFinalDate("null");
+			gd.setTime("null");
+			gd.setFinalItem("null");
+			gd.setGroupNum("null");
+			gd.setItemType("null");
+			
+			
+			list.add(gd);
+		}
 			db.freeConnection(conn);
 			}
 
