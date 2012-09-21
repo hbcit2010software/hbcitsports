@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*,cn.edu.hbcit.smms.services.systemmanageservices.AccountService" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 /**
  * 控制系统权限
