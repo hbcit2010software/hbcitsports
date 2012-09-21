@@ -31,14 +31,18 @@ function checkSubmit(){
 		var beginNum = document.getElementById("begin"+strFi[i]).value;
 		var endNum = document.getElementById("end"+strFi[i]).value;
 		document.getElementById("hidden"+strFi[i]).value = strFi[i] + "," + beginNum + "," + endNum;
+		if(beginNum == "" || endNum == ""){
+			Dialog.alert("不允许有空项，请检查后重试！");
+			return false;
+		}
 	}
-	document.forms[0].submit();
+	//document.forms[0].submit();
 }
 </script>
 </head>
 
 <body>
-<form method="post" action="${pageContext.request.contextPath }/servlet/UpdatePlayernumServlet" name="form01">
+<form method="post" action="${pageContext.request.contextPath }/servlet/UpdatePlayernumServlet" name="form01" onsubmit="return checkSubmit();">
 <%
 //如果有后台消息传来，则在前台页面弹出提示窗口
 if(request.getAttribute("msg") != null){
@@ -122,7 +126,7 @@ if(request.getAttribute("msg") != null){
 
 <div align="center">
 	<span class="pageJump">
-		<input type="button" value="提  交" onclick="checkSubmit();"/>
+		<input type="submit" value="确  定" />
 		<!-- 
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="reset" value="重  置"/>
