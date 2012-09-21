@@ -61,9 +61,25 @@ public class GameManageServices {
 		return gm.getPlayerList(playerNum,finalItemId);
 	}
 	
+	public String finalItemName(int matchid){
+		return new GameManageDao().getItemType(matchid);
+	}
+	
+	public String groupName(int matchid){
+		return new GameManageDao().groupName(matchid);
+	}
+	
+	public void deletePositionPlayer(String finalitemname,int sportsid,String groupname){
+		 new GameManageDao().deletePositionPlayer(finalitemname, sportsid, groupname);
+	}
+	
 	public boolean updateMatch(int playerNum,String score,int foul,int recordlevel)
 	{
 		return gm.updateMatch(playerNum, score, foul, recordlevel);
+	}
+	
+	public void deleteRecordPlayer(String finalitemname,int matchid){
+		new GameManageDao().deleteRecordPlayer(finalitemname, matchid);
 	}
 	
 	public ArrayList<GameManagePoJo> createWordOfAthleteInf(int finalItemId,String itemType)
