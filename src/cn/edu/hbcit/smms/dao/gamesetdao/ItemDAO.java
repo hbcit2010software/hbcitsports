@@ -631,14 +631,17 @@ public class ItemDAO {
 			for (int i = 0; i < playerNum.length; i++) {
 				// finalItem[i]格式：id,date,time,promotionnum
 				String[] tempArray = playerNum[i].split(",");
+				log.debug("updatePlayerNum的SQL语句为：UPDATE t_playernum SET beginnum="+tempArray[1]+",endnum="+tempArray[2]+" WHERE id="+tempArray[0]);
 				pStatement.setString(1, tempArray[1]);    //beginnum
 				pStatement.setString(2, tempArray[2]);    //endnum
 				pStatement.setInt(3, Integer.parseInt(tempArray[0]));    //id
 				pStatement.addBatch();
 			}
 			count = pStatement.executeBatch();
+			log.debug(count[0]);
 			conn.commit();
 			for (int i : count) {
+				log.debug("更新状态："+i);
 				if (i == 0) {
 					conn.rollback(); // 回滚，非常重要
 					log.error("更新t_playernum数据出现异常，回滚=========》");
