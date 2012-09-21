@@ -2,6 +2,8 @@ package cn.edu.hbcit.smms.servlet.gamemanageservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,16 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
-
+import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.QueryMarkServices;
 
-public class CreateMarkDocServlet extends HttpServlet {
+public class PrintMarkSerlvet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public CreateMarkDocServlet() {
+	public PrintMarkSerlvet() {
 		super();
 	}
 
@@ -42,16 +43,8 @@ public class CreateMarkDocServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html");
-		HttpSession session = request.getSession();
-		PrintWriter out = response.getWriter();
-		QueryMarkServices qms = new QueryMarkServices();
-		JSONArray list = new JSONArray();
-		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());
-		list = qms.getMarkDocMessage(sportsid);
-		out.flush();
-		out.close();
+
+		this.doPost(request, response);
 	}
 
 	/**
@@ -67,18 +60,38 @@ public class CreateMarkDocServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out
-				.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-		out.println("<HTML>");
-		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-		out.println("  <BODY>");
-		out.print("    This is ");
-		out.print(this.getClass());
-		out.println(", using the POST method");
-		out.println("  </BODY>");
-		out.println("</HTML>");
+
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-control", "no-cache");
+		response.setDateHeader("Expires", 0);
+		response.setContentType("text/html;utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();	
+		
+		QueryMarkServices qms = new QueryMarkServices();
+		List<QueryMarkPoJo> depNameList = qms.getDepName();
+		List<QueryMarkPoJo> studentsMarkList = qms.getStudentsMark(depNameList);
+		List<QueryMarkPoJo> teacherMarkList = qms.getTeacherMark(depNameList);
+		List<QueryMarkPoJo> studentsFinalMarkList = qms.getStudentsFinalMark(depNameList);
+		List<QueryMarkPoJo> teacherFinalMarkList = qms.getTeacherFinalMark(depNameList);
+		String filePath = request.getSession().getServletContext().getRealPath("/");
+
+		try{
+			qms.createMarksDocContext(filePath, depNameList, studentsMarkList, teacherMarkList, studentsFinalMarkList, teacherFinalMarkList);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("{");
+		buffer.append("\"contents\":[");
+		buffer.append("{");
+		buffer.append("\"file\":\"" + URLEncoder.encode(filePath,"UTF-8") + "\",");
+	    buffer.append("\"fileName1\":\"" + "部门积分表.doc" + "\"");
+	    buffer.append("}");
+	    buffer.append("]");
+		buffer.append("}");
+		out.println(buffer);
 		out.flush();
 		out.close();
 	}

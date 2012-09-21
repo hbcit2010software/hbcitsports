@@ -2,24 +2,20 @@ package cn.edu.hbcit.smms.servlet.gamemanageservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
-import cn.edu.hbcit.smms.services.gamemanageservices.QueryMarkServices;
+import cn.edu.hbcit.smms.dao.gamemanagedao.QueryMark;
 
-public class QueryMarkServlet extends HttpServlet {
-	
+public class UpdateMarksServlet extends HttpServlet {
+
 	/**
 	 * Constructor of the object.
 	 */
-	public QueryMarkServlet() {
+	public UpdateMarksServlet() {
 		super();
 	}
 
@@ -60,33 +56,28 @@ public class QueryMarkServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-		ArrayList list1 = new ArrayList();
-		ArrayList list2 = new ArrayList();
-		ArrayList list3 = new ArrayList();
-		ArrayList list4 = new ArrayList();
-		ArrayList list5 = new ArrayList();
-		QueryMarkServices qms = new QueryMarkServices();
-		List<QueryMarkPoJo> depNameList = qms.getDepName();
-		List<QueryMarkPoJo> studentsMarkList = qms.getStudentsMark(depNameList);
-		List<QueryMarkPoJo> teacherMarkList = qms.getTeacherMark(depNameList);
-		List<QueryMarkPoJo> studentsFinalMarkList = qms.getStudentsFinalMark(depNameList);
-		List<QueryMarkPoJo> teacherFinalMarkList = qms.getTeacherFinalMark(depNameList);
-		list1.add(depNameList);
-		list2.add(studentsMarkList);
-		list3.add(teacherMarkList);
-		list4.add(studentsFinalMarkList);
-		list5.add(teacherFinalMarkList);
-		session.setAttribute("list1", list1);
-		session.setAttribute("list2", list2);
-		session.setAttribute("list3", list3);
-		session.setAttribute("list4", list4);
-		session.setAttribute("list5", list5);
-		System.out.println(studentsFinalMarkList.size());
-		response.sendRedirect("../mark.jsp");
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-control", "no-cache");
+		response.setDateHeader("Expires", 0);
+		response.setContentType("text/html;utf-8");
+		response.setCharacterEncoding("utf-8");
 		
+		PrintWriter out = response.getWriter();
+		
+		String depName = request.getParameter("depName");
+		String finalsm = request.getParameter("finalsm");
+		String finaltm = request.getParameter("finaltm");
+		System.out.println("fuckmlgbsbyou------------"+depName+finalsm+finaltm);
+		
+		QueryMark qm = new QueryMark();
+		boolean flag = false;
+		flag = qm.updateMark(depName, Integer.parseInt(finalsm), Integer.parseInt(finaltm));
+		System.out.print(flag);
+		if(flag==true){
+		out.print("success");}
+		out.flush();
+		out.close();
 	}
-	
 
 	/**
 	 * Initialization of the servlet. <br>
