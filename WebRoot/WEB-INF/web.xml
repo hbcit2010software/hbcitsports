@@ -563,6 +563,18 @@
     <servlet-name>UpdatePlayernumServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.UpdatePlayernumServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateMarksServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.UpdateMarksServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PrintMarkSerlvet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamemanageservlet.PrintMarkSerlvet</servlet-class>
+  </servlet>
    <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
@@ -978,10 +990,18 @@
     <servlet-name>UpdatePlayernumServlet</servlet-name>
     <url-pattern>/servlet/UpdatePlayernumServlet</url-pattern>
   </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>UpdateMarksServlet</servlet-name>
+    <url-pattern>/servlet/UpdateMarksServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PrintMarkSerlvet</servlet-name>
+    <url-pattern>/servlet/PrintMarkSerlvet</url-pattern>
+  </servlet-mapping>
    <servlet-mapping>
     <servlet-name>DownSuccessServlet</servlet-name>
     <url-pattern>/servlet/DownSuccessServlet</url-pattern>
-  </servlet-mapping>
+ </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
