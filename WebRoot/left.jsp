@@ -22,12 +22,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
-<script type="text/javascript" src="js/chili-1.7.pack.js"></script>
-<script type="text/javascript" src="js/jquery.easing.js"></script>
-<script type="text/javascript" src="js/jquery.dimensions.js"></script>
-<script type="text/javascript" src="js/jquery.accordion.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/chili-1.7.pack.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.easing.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.dimensions.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.accordion.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
