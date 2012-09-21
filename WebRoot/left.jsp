@@ -33,7 +33,7 @@
 <script type="text/javascript">
 
 		function checkgroup(){
-		Dialog.alert('检查是否执行过赛事分组');
+		alert('检查是否执行过赛事分组');
 		$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/CheckGroupServlet",
 					type : 'get',
@@ -54,18 +54,18 @@
 											var revalue=mm.replace(/\r\n/g,'');
 											if(revalue=="success")
 											{
-												Dialog.alert("分组完成！");
+												alert("分组完成！");
 											}
 											else{
-												Dialog.alert("分组失败！");
+												alert("分组失败！");
 											}
 										}
 									});	
 								}else{
-									Dialog.alert('分组取消');
+									alert('分组取消');
 								}
 							}else{
-								Dialog.alert("按回车键  或者点击确定开始分组！");
+								alert("按回车键  或者点击确定开始分组！");
 								$.ajax({
 									url :"${pageContext.request.contextPath }/servlet/GameGroupingServlet",
 									type : 'get',
@@ -76,10 +76,10 @@
 											var revalue=mm.replace(/\r\n/g,'');
 											if(revalue=="success")
 											{
-												Dialog.alert("分组完成！");
+												alert("分组完成！");
 											}
 											else{
-												Dialog.alert("分组失败！");
+												alert("分组失败！");
 											}
 										}
 								});	

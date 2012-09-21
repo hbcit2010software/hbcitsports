@@ -280,6 +280,7 @@ public class WordGameBeforInfoDao {
 				judgeTable.setBorder(0);
 				Cell judgeCell = new Cell("总裁判长：");
 				judgeCell.setBorderWidth(0);
+				judgeCell.setWidth(200);
 				judgeTable.addCell(judgeCell);
 				String[] chiefjudge1 = (String[])gameInfoMap.get("chiefjudge1");
 				for(int i = 0; i < chiefjudge1.length; i++){
