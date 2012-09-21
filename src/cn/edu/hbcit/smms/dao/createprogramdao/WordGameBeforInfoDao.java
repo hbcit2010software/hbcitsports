@@ -1021,7 +1021,7 @@ public class WordGameBeforInfoDao {
 			        		    System.out.println(time);
 			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
-			        			if(dp.getItemType().equals("1") && (time1 >= 1 && time1 <= 12)){
+			        			if(dp.getItemType().equals("1") && (time1 >= 0 && time1 <= 12)){
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
@@ -1048,7 +1048,7 @@ public class WordGameBeforInfoDao {
 			        		    String time =dp.getTime();
 			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
-			        			if(dp.getItemType().equals("2") && (time1 >= 1 && time1 <= 12)){
+			        			if(dp.getItemType().equals("2") && (time1 >= 0 && time1 <= 12)){
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
@@ -1081,7 +1081,7 @@ public class WordGameBeforInfoDao {
 			        		    String time =dp.getTime();
 			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
-			        			if(dp.getItemType().equals("1") && (time1 >= 13 && time1 <= 23)){
+			        			if(dp.getItemType().equals("1") && (time1 >= 13 && time1 <= 24)){
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
@@ -1111,7 +1111,7 @@ public class WordGameBeforInfoDao {
 			        		    String time =dp.getTime();
 			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
-			        			if(dp.getItemType().equals("2") && (time1 >= 13 && time1 <= 23)){
+			        			if(dp.getItemType().equals("2") && (time1 >= 13 && time1 <= 24)){
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
