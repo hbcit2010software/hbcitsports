@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.edu.hbcit.smms.dao.gamemanagedao.AddScore;
+import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageServices;
 
 /*
@@ -78,8 +80,25 @@ public class GameManageUpdateMatchByPlayerNum extends HttpServlet {
 		String matchid = request.getParameter("matchid");
 		System.out.println("================================"+playerNum+score+foul+recordlevel+matchid);
 		GameManageServices gm = new GameManageServices();
-        boolean flag = false;
-        flag = gm.updateMatch(Integer.parseInt(matchid),score,Integer.parseInt(foul),Integer.parseInt(recordlevel));
+		
+		String finalItemName = gm.finalItemName(Integer.parseInt(matchid));
+		String groupName = gm.groupName(Integer.parseInt(matchid));
+		
+		boolean flag = false;
+	    flag = gm.updateMatch(Integer.parseInt(matchid),score,Integer.parseInt(foul),Integer.parseInt(recordlevel));
+	           
+		LoginDAO ld = new LoginDAO();
+		int sportsid = ld.selectCurrentSportsId();
+		
+		//**********************更改t_position中指定数据***********************/
+		AddScore aScore = new AddScore();
+		gm.deletePositionPlayer(finalItemName, sportsid, groupName);//先根据指定参数删除t_position中数据
+		aScore.getGpItPlayerMessage(finalItemName, sportsid, groupName);//根据指定参数向t_position数据
+		
+		//更改t_position(积分)同时更改t_record表中记录
+		gm.deleteRecordPlayer(finalItemName, Integer.parseInt(matchid));
+		aScore.getIntegral(finalItemName, groupName);
+       
         if(flag)
         {
         	out.println("success");

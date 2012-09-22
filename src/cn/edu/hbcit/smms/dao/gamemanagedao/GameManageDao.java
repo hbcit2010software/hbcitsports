@@ -298,6 +298,76 @@ public class GameManageDao {
 	}
 	
 	/**
+	 * 
+	 * @param matchid
+	 * @return  获取项目名称
+	 */
+	public String finalItemName(int matchid){
+		String finalItemName = "";
+		DBConn db = new DBConn();
+		try{
+			conn = db.getConn();
+			String sql = "SELECT t_finalitem.finalitemname FROM t_finalitem WHERE id=(SELECT t_match.finalitemid FROM t_match WHERE id=?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, matchid);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				finalItemName = rs.getString(1);
+				System.out.println("finalItemName========="+finalItemName);
+			}
+		}catch (Exception e) {
+			log.debug(e);
+		}
+		return finalItemName;
+	}
+	
+	/**
+	 * 
+	 * @param matchid
+	 * @return  获取组别名称
+	 */
+	public String groupName(int matchid){
+		String groupName = "";
+		DBConn db = new DBConn();
+		try{
+			conn = db.getConn();
+			String sql = "SELECT t_group.groupname FROM t_group WHERE id=(SELECT t_player.groupid FROM t_player WHERE t_player.id=(SELECT t_match.playerid FROM t_match WHERE t_match.id=?))";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, matchid);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				groupName = rs.getString(1);
+				System.out.println("groupName========="+groupName);
+			}
+		}catch (Exception e) {
+			log.debug(e);
+		}
+		return groupName;
+	}
+	
+	/**
+	 * 根据参数删除指定t_position中数据
+	 * @param finalitemname
+	 * @param sportsid
+	 * @param groupname
+	 */
+	public void deletePositionPlayer(String finalitemname,int sportsid,String groupname){
+		DBConn db = new DBConn();
+		try{
+			conn = db.getConn();
+			String sql = "DELETE t_position WHERE t_position.finalitemid=(SELECT id FROM t_finalitem WHERE t_finalitem.finalitemname='学生女子组100米预赛' AND t_finalitem.sportsid='2') AND " +
+					"t_position.playerid=(SELECT t_player.id FROM t_player WHERE t_player.groupid=(SELECT t_group.id FROM t_group WHERE groupname='学生男子组'))";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, finalitemname);
+			pstmt.setInt(2, sportsid);
+			pstmt.setString(3, groupname);
+			pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
      * 更新运动员成绩基本信息
      * @return flag
      */
@@ -325,6 +395,21 @@ public class GameManageDao {
 		}
 		return flag;
 	}	
+	
+	public void deleteRecordPlayer(String finalitemname,int matchid){
+		DBConn db = new DBConn();
+		try{
+			conn = db.getConn();
+			String sql = "DELETE t_record WHERE t_record.itemid=(SELECT t_group2item.itemid FROM t_group2item WHERE id=(SELECT gp2itid FROM t_finalitem WHERE t_finalitem.finalitemname=?)) AND " +
+					"t_record.playername=(SELECT playername FROM t_player WHERE id=(SELECT t_match.playerid FROM t_match WHERE id=?))";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, finalitemname);
+			pstmt.setInt(2, matchid);
+			pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
      * 根据项目打印本项目的word文档
