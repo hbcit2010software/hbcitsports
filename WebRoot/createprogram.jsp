@@ -117,7 +117,7 @@
 					<!--内嵌表格end-->
 					<!--内嵌表格begin-->
 					<!--径赛Div begin-->
-					<div id="field1" style="display: none";">
+					<div id="field1" style="";">
 						<table width="100%" border="0" cellpadding="0" cellspacing="1"
 							bgcolor="#a8c7ce" class="stripe_tb">
 							<tr class="tableTitle">

@@ -43,7 +43,7 @@ public class SelectItems {
 							+ "JOIN t_group2sports ON t_group2item.gp2spid = t_group2sports.id "
 							+ "JOIN t_group ON t_group2sports.groupid = t_group.id "
 							+ "JOIN t_item ON t_group2item.itemid = t_item.id "
-							+ "WHERE t_group2sports.sportsid = ? AND t_item.itemtype = ?");
+							+ "WHERE t_group2sports.sportsid = ? AND t_item.itemtype = ? and t_finalitem.finalitemtype != 2");
 			ps.setInt(1, sportsid);
 			ps.setString(2, itemtype);
 			rs = ps.executeQuery();

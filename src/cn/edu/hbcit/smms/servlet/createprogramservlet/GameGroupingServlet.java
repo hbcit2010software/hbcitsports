@@ -106,6 +106,7 @@ public class GameGroupingServlet extends HttpServlet {
 	    departments = dataManager.selectDepidBySid(sportsId);
 	    HashMap player2item = new HashMap(); // 数字+运动员id，运动员组别id+所报项目id对照HashMap
 	    player2item = dataManager.selectplayer2itemBySid(sportsId);
+	    log.debug("数字+运动员id，运动员组别id+所报项目id对照HashMap:"+player2item);
 	    HashMap pla2dep = new HashMap(); // 运动员id，部门id对照 HashMap
 	    pla2dep = dataManager.slectPlaid2DepidySid(sportsId);
 	    HashMap item2finalitem = new HashMap(); // 组别id+项目id，最终项目id对应HashMap

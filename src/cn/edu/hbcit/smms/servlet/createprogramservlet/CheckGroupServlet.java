@@ -50,7 +50,7 @@ public class CheckGroupServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
 		DataManagerServices dms = new DataManagerServices();
-		int sportsId = 1;
+		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString()); 
 		String flag = dms.checkGroup(sportsId);
 		log.debug("flag"+ flag);
 		if (flag.trim().equals("true")){

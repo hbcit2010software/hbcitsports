@@ -66,6 +66,7 @@ public class GameGroupingDAO {
 				    }
 					for (int ak = group[1]; ak < eItemPlayers.size(); ak++){
 				    	int playerid = Integer.parseInt(eItemPlayers.get(ak).toString().trim());
+				    	if (acount > 0){ addSql.append(","); }
 				    	addSql.append("(" + finalitemid + "," + 2 + "," + null + "," + playerid + ")");
 				    	++acount;
 				    }
@@ -89,6 +90,8 @@ public class GameGroupingDAO {
 			}else{
 				ArrayList playersPailei = new ArrayList();
 				playersPailei = mud.plaSortByDep(eItemPlayers, pla2dep, departments, pernums);
+				log.debug("径赛运动员排列前id"+eItemPlayers.size());
+				log.debug("径赛运动员排列后id"+playersPailei);
 				int[] group = mud.trackGrouping(playersPailei.size());
 				//mud.sqlTrack(addSql, group, playersPailei, finalitemid, acount);
 				
@@ -102,7 +105,7 @@ public class GameGroupingDAO {
 			    		qw.add(playersPailei.get(count1));
 			    		log.debug("径赛sql连接eGroupNum的值是：" + eGroupNum);
 			    		log.debug("径赛sql连接count1的值是：" + count1);
-			    		++acount;
+			    		++count1;
 			    	}
 			    	qw = mud.arrayListRandom(qw);
 					int teamnum = groupNum + 1;
@@ -114,6 +117,7 @@ public class GameGroupingDAO {
 			    		//finalitemid,teamnum,runway,playerid 顺序
 			    		int runway = ee + 1;
 			    		int playerid = Integer.parseInt(qw.get(ee).toString().trim());
+			    		log.debug("sql连接前运动员id："+playerid);
 			    		addSql.append("("+  finalitemid + "," + teamnum + "," + runway + "," + playerid + ")");
 			    		++acount;
 			    	}

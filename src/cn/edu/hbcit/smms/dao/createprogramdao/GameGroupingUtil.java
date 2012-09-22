@@ -311,7 +311,7 @@ public class GameGroupingUtil {
 					for (int plaid = 0; plaid < players.size(); plaid++){
 						String str1 = pla2dep.get(players.get(plaid)).toString().trim();
 						if (str1.equals(str)){
-							arrayList.add(str1);
+							arrayList.add(players.get(plaid));
 							players.remove(plaid);
 							break;
 						}

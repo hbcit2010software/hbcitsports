@@ -29,8 +29,8 @@ $(document).ready(function(){
 				
 					diag.Modal = false;
 					
-					diag.Width = 450;
-					diag.Height = 600;
+					diag.Width = 300;
+					diag.Height = 500;
 					diag.Title = "ÐÞ¸ÄÅÜµÀ";
 					diag.URL = "${pageContext.request.contextPath }/servlet/AdjustByHandServlet?str="+obj.id;
 					diag.OKEvent = function() {
