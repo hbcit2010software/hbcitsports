@@ -427,7 +427,7 @@ public class SelectGameInfoDao {
 					" t_sports2department.id=t_playernum.sp2dpid" +
 					" INNER JOIN t_department ON t_department.id=t_sports2department.departid" +
 					" INNER JOIN t_sports ON t_sports.id=t_sports2department.sportsid" +
-					" WHERE t_sports.id=? AND t_department.departtype=1";
+					" WHERE t_sports.id=? AND t_playernum.numtype=1";
 			ps = conn.prepareStatement(select);
 			ps.setInt(1, sportId);
 			rs = ps.executeQuery();
@@ -462,7 +462,7 @@ public class SelectGameInfoDao {
 					" t_sports2department.id=t_playernum.sp2dpid" +
 					" INNER JOIN t_department ON t_department.id=t_sports2department.departid" +
 					" INNER JOIN t_sports ON t_sports.id=t_sports2department.sportsid" +
-					" WHERE t_sports.id=? AND t_department.departtype=0";
+					" WHERE t_sports.id=? AND t_playernum.numtype=0";
 			ps = conn.prepareStatement(select);
 			ps.setInt(1, sportId);
 			rs = ps.executeQuery();
