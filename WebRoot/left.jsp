@@ -163,6 +163,7 @@ body {
     <li> <a class="head">赛前设置</a>
       <ul>
         <li><a href="servlet/GetSportsInfoServlet" target="rightFrame">运动会管理</a></li>
+        <li><a href="servlet/GetRuleServlet" target="rightFrame">规则管理</a></li>
         <li><a href="servlet/GetDepartInfoServlet" target="rightFrame">参赛单位设置</a></li>
         <li><a href="servlet/GetGroupInfoServlet" target="rightFrame">组别设置</a></li>
         <li><a href="servlet/GetItemInfoServlet" target="rightFrame">项目设置</a></li>
@@ -194,7 +195,7 @@ body {
 	<!--秩序册管理begin-->
     <li> <a class="head">秩序册管理</a>
       <ul>
-        <li><a href="#" onclick="checkgroup()">赛事分组</a></li>
+        <li><a href="#" onClick="checkgroup()">赛事分组</a></li>
         <li><a href="servlet/SelectItemsServlet" target="rightFrame">赛事浏览</a></li>
         <li><a href="creatword.jsp" target="rightFrame">秩序册生成</a></li>
       </ul>

@@ -22,6 +22,7 @@ import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.Department;
 import cn.edu.hbcit.smms.pojo.Group;
 import cn.edu.hbcit.smms.pojo.Group2Sports;
+import cn.edu.hbcit.smms.pojo.Rule;
 import cn.edu.hbcit.smms.pojo.Sports;
 import cn.edu.hbcit.smms.pojo.Sports2department;
 
@@ -396,6 +397,45 @@ public class SportsDAO {
 		}
 		return flag;
 	}
+	
+	/**
+	 * 修改赛事规则
+	 * @param id
+	 * @param position
+	 * @param mark
+	 * @param perman
+	 * @param perdepartment
+	 * @param recordmark_low
+	 * @param recordmark_high
+	 * @return
+	 */
+	public boolean updateRule(int id ,int position, String mark, int perman, int perdepartment, int recordmark_low, int recordmark_high){
+
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "UPDATE t_rule SET position=?,mark=?,recordmark_low=?,recordmark_high=?,perman=?,perdepartment=? WHERE id=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, position);
+			pStatement.setString(2, mark);
+			pStatement.setInt(3, recordmark_low);
+			pStatement.setInt(4, recordmark_high);
+			pStatement.setInt(5, perman);
+			pStatement.setInt(6, perdepartment);
+			pStatement.setInt(7, id);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			db.freeConnection(pStatement,conn);
+		}catch(Exception e){
+			log.error("修改赛事规则rule失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 
 	/**
 	 * 删除指定ID运动会
@@ -587,6 +627,37 @@ public class SportsDAO {
 		return list;
 	}
 	/**
+	 * 获取指定届次的运动会规则
+	 * @param sportsId
+	 * @return
+	 */
+	public ArrayList selectRule(int sportsId){
+		ArrayList list = new ArrayList();
+		String sql = "SELECT id,position,mark,recordmark_low,recordmark_high,perman,perdepartment FROM t_rule WHERE sportsid=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				Rule rule = new Rule();
+				rule.setId(rs.getInt(1));
+				rule.setPosition(rs.getInt(2));
+				rule.setMark(rs.getString(3));
+				rule.setRecordmark_low(rs.getInt(4));
+				rule.setRecordmark_high(rs.getInt(5));
+				rule.setPerman(rs.getInt(6));
+				rule.setPerdepartment(rs.getInt(7));
+				list.add(rule);
+			}
+			db.freeConnection(rs,pStatement,conn);
+		}catch(Exception e){
+			log.error("获取指定届次的运动会规则失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
+	/**
 	 * 将指定部门添加到指定运动会
 	 * @param sportsId
 	 * @param departmentId
@@ -698,5 +769,29 @@ public class SportsDAO {
 		}
 		return flag;
 	}
-	
+	/**
+	 * 是否存在当届运动会规则
+	 * @param sportsId
+	 * @return
+	 */
+	public boolean isRuleExist(int sportsId){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "SELECT COUNT(*) FROM t_rule WHERE sportsid=?"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rst = pStatement.executeUpdate();
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			db.freeConnection(pStatement,conn);
+		}catch(Exception e){
+			log.error("获取是否存在当届运动会规则失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
 }

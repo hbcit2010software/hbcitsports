@@ -479,4 +479,39 @@ public class SportsService {
 	public boolean updatePlayerNum(String[] playerNum){
 		return item.updatePlayerNum(playerNum);
 	}
+	/**
+	 * 是否存在当届运动会规则
+	 * @param sportsId
+	 * @return
+	 */
+	public boolean isRuleExist(int sportsId){
+		return sp.isRuleExist(sportsId);
+	}
+	/**
+	 * 获取指定届次的运动会规则
+	 * @param sportsId
+	 * @return
+	 */
+	public ArrayList selectRule(int sportsId){
+		return sp.selectRule(sportsId);
+	}
+	/**
+	 * 修改赛事规则
+	 * @param id
+	 * @param position
+	 * @param mark
+	 * @param perman
+	 * @param perdepartment
+	 * @param recordmark_low
+	 * @param recordmark_high
+	 * @return
+	 */
+	public boolean updateRule(String id ,String position, String mark, String perman, String perdepartment, String recordmark_low, String recordmark_high){
+		if(ut.isNumeric(id) && ut.isNumeric(position) && ut.isNumeric(perman) && ut.isNumeric(perdepartment) && ut.isNumeric(recordmark_low) && ut.isNumeric(recordmark_high)){
+			return sp.updateRule(Integer.parseInt(id), Integer.parseInt(position), mark, Integer.parseInt(perman), Integer.parseInt(perdepartment), Integer.parseInt(recordmark_low), Integer.parseInt(recordmark_high));
+		}else{
+			return false;
+		}
+		
+	}
 }
