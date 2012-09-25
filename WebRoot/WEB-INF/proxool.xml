@@ -2,8 +2,8 @@
 <something-else-entirely>
      <proxool>
                 <alias>smms</alias>
-                <driver-url>jdbc:mysql://127.0.0.1:3306/smms</driver-url>
-                <!-- 测试服务器 222.30.190.91 -->
+                <driver-url>jdbc:mysql://222.30.190.91:3306/smms</driver-url>
+                <!-- 测试服务器 222.30.190.91-->
                 <!-- 本机  127.0.0.1 -->
                 <driver-class>com.mysql.jdbc.Driver</driver-class>
                 <driver-properties>
