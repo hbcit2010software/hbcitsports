@@ -28,6 +28,27 @@
 			var perdepartment = document.getElementById("perdepartment").value;
 			var recordmark_low = document.getElementById("recordmark_low").value;
 			var recordmark_high = document.getElementById("recordmark_high").value;
+			var reg = /[0-9]/;
+			var regMark;
+			var tempStr;
+
+			if(position=="" || mark=="" || perman=="" || perdepartment=="" || recordmark_low=="" || recordmark_high==""){
+				Dialog.alert("不能有空项！");
+				return false;
+			}
+			if( !(reg.test(position) && reg.test(perman) && reg.test(perdepartment) && reg.test(recordmark_low) && reg.test(recordmark_high)) ){
+				Dialog.alert("请填写数字！");
+				return false;
+			}
+			var tempInt = parseInt(position)-1;
+			tempStr = "/^(\\d,){" + tempInt + "}(\\d)$/";
+			//alert(tempStr);
+			regMark = eval(tempStr);
+			if(!regMark.test(mark)){
+				Dialog.alert("\"各名次获得的积分\"格式错误！");
+				return false;
+			}
+			
 		$.ajax({
 			url :"${pageContext.request.contextPath }/servlet/UpdateRule",
 			type : 'post',
