@@ -169,11 +169,11 @@ body {
         <li><a href="servlet/GetItemInfoServlet" target="rightFrame">项目设置</a></li>
         <li><a href="servlet/AddFinalItemServlet" target="rightFrame">日程安排</a></li>
         <li><a href="servlet/AddPlayerNumServlet" target="rightFrame">号段分配</a></li>
-        <li><a href="#" target="rightFrame">赛事规程</a></li>
-        <li><a href="#" target="rightFrame">会程设置</a></li>
-        <li><a href="#" target="rightFrame">工作人员设置</a></li>
-        <li><a href="#" target="rightFrame">赛事纪律设置</a></li>
-        <li><a href="#" target="rightFrame">赛会纪录</a></li>
+        <li><a href="set_guicheng.jsp" target="rightFrame">赛事规程</a></li>
+        <li><a href="set_officialset.jsp" target="rightFrame">会程设置</a></li>
+        <li><a href="servlet/SelectAllItemServlet" target="rightFrame">工作人员设置</a></li>
+        <li><a href="set_dahuijilv.jsp" target="rightFrame">赛事纪律设置</a></li>
+        <li><a href="set_sturecord.jsp" target="rightFrame">赛会纪录</a></li>
       </ul>
     </li>
 	<!--赛前设置end-->
