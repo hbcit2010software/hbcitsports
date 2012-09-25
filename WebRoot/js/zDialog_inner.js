@@ -38,6 +38,7 @@ Array.prototype.remove = function (s, dust) { //如果dust为ture，则返回被
 var $topWindow = function () {
     var parentWin = window;
     while (parentWin != parentWin.parent) {
+		//原始代码：if (parentWin.parent.document.getElementsByTagName("FRAMESET").length > 0) break; 李玮修改
         if (parentWin.parent.document.getElementsByTagName("iframe").length > 0) break;
         parentWin = parentWin.parent;
     }

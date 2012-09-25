@@ -57,6 +57,9 @@
 					if(revalue=="success"){
 						Dialog.alert("添加新帐号成功!初始密码为111111",function(){window.location.reload();});
 					}
+					if(revalue=="exist"){
+						Dialog.alert("添加新帐号失败!原因可能是您输入的用户名已经存在。",function(){window.location.reload();});
+					}
 				}
 			});
 		}
