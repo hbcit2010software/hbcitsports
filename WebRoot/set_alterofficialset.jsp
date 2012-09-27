@@ -183,13 +183,12 @@ body {
 					</tr>
                   </c:forEach>
 				<tr class="tableContent" >
-					<td>
-						<a href="#" onClick="alter()">保存修改</a>
-					</td>
-					<td>
-					<a href="set_officialset.jsp">返回</a>
+					<td colspan="3">
+				<input type="button" name="button" id="button" value="保存修改" onClick="alter()">
+				<input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/set_officialset.jsp'">
 					</td>
 			   </tr>
 			</table>
 </body>
 </html>
+  

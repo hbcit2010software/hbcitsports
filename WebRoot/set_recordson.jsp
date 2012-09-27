@@ -111,7 +111,7 @@
             </p>
              
 <div style="position:relative; margin:0 auto;"> 
-	  <table border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
+	  <table border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
                 	<tr class="tableTitle" height="45">
 	  	  			<td colspan="2" align="center" height="45">添加学生记录</td>
                     </tr>

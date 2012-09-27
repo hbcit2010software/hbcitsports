@@ -62,15 +62,15 @@ function deleteRecordcertain(recordId) {
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr bgcolor="#353c44">
                 <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->赛会纪录</span></td>
+                <td width="100%" valign="bottom"><span class="pageTitle">赛前设置-->赛会纪录</span></td>
               </tr>
             </table>
             
-            <p><input type="button" name="button3" id="button3"  onClick="window.location.href='set_record.jsp'" value="返回主菜单">
+
              
-            </p>
-  <div style="position:relative; margin:0 auto; width: 1033px; height: 612px;">
-    <table width="1033" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
+
+  <%-- <div style="position:relative; margin:0 auto; width: 1033px; height: 612px;">--%>
+    <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
        
 <tr class="tableTitle" height="45">
 <td align="center">
@@ -126,6 +126,9 @@ function deleteRecordcertain(recordId) {
 						<a title="删除" onClick="deleteRecordcertain('${re.recordId}')" href="#">删除</a>					</td>
 		</tr>
 			</c:forEach>
+			<tr><td colspan="10" align="center">
+			<input type="button" name="button3" id="button3"  onClick="window.location.href='set_record.jsp'" value="返回主菜单">
+			</td></tr>
     </table>
   </div>
   </body>

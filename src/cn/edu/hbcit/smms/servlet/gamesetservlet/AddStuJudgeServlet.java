@@ -69,6 +69,7 @@ public class AddStuJudgeServlet extends HttpServlet {
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		request.setCharacterEncoding("utf-8");
 		String insertSql = request.getParameter("insertString");
 		log.debug("insertSql:"+insertSql);
 		OfficialSetService off = new OfficialSetService();

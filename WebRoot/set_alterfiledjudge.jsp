@@ -134,11 +134,9 @@ body {
 						</td>
 					</tr>
 					<tr  class="tableContent" >
-					<td>
-						<a href="#" onclick="alter()">保存修改</a>
-					</td>
-					<td>
-					<a href="${pageContext.request.contextPath }/servlet/SelectAllItemServlet">返回</a>
+					<td colspan="3">
+				<input type="button" name="button" id="button" value="保存修改" onClick="alter()">
+				<input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllItemServlet'">
 					</td>
 					</tr>
                 </c:forEach>

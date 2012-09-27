@@ -116,7 +116,7 @@ function alterRecord() {
               </label>
             </p>
             <div style="position:relative; margin:0 auto;">
-			<table border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
+			<table border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 				<c:forEach items="${adminList}" var="es">
             		 
                     

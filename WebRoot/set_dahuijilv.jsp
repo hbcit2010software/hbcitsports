@@ -79,13 +79,15 @@
 
 <body>
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td height="24" bgcolor="#353c44"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <td height="24" bgcolor="#353c44">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
                 <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->赛事纪律设置</span></td>
@@ -100,12 +102,11 @@
     <td>
     <!--内嵌表格begin-->
 
-   <table border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
+   <table border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
   <tr class="tableTitle">
-    <td width="540" align="center"><div class="jilv"><span>大会纪律</span>
-    </div>
-      <hr class="hr1"/></td>
-    <td width="90" align="center"><a href="${pageContext.request.contextPath }/servlet/SelectDaHuiJiLvServlet">查看并修改</a></td>
+    <td width="540" height="30" align="center"><div class="jilv"><span>大会纪律</span></div>
+    <hr class="hr1"/></td>
+    <td width="90" align="center"><a href="${pageContext.request.contextPath }/servlet/SelectDaHuiJiLvServlet"><font>查看并修改</font></a></td>
   </tr>
   
   <tr class="tableContent">
@@ -126,7 +127,7 @@
   </tr>
  
   <tr class="tableContent">
-    <td colspan="2" align="center"><input type="button" id="button" value="保存" onClick="addjl()" >
+    <td colspan="2" align="center"><input type="button" id="button" value="提交" onClick="addjl()" >
     &nbsp;&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>

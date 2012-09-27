@@ -99,94 +99,74 @@ body {
   </head>
   
   <body>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#353c44">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="24" bgcolor="#353c44">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td>
+             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#353c44">
               <tr>
                 <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
                 <td width="94%" valign="bottom"><span class="pageTitle">赛前设置--&gt;基本规程设置修改</span></td>
               </tr>
-  </table>
-  <div style="position:relative; margin:0 auto;  width: 702px; height: 1033px; border: 2px outset #0099FF; ">
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td>
+   
+  <%-- <div style="position:relative; margin:0 auto;  width: 702px; height: 1033px; border: 2px outset #0099FF; ">--%>
     <c:forEach items="${set}" var="es">
-    <table width="702" height="54" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+    <table width="655" height="54" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 	  	<tr class="tableTitle" height="30">
-	  	  <td width="702" align="center">基本规程</td>
+	  	  <td width="702" align="center" colspan="3">基本规程</td>
   	  </tr>
-	  	  
-  	</table>
-  	
-    <table width="702" height="1041" border="0" class="stripe_tb">
        
       <tr class="tableContent">
-        <td width="132" align="center">参赛办法 ：</td>
-        <td colspan="2"><label>
+        
+        <td colspan="3"><label>
         <div align="right">
           <input type="button" name="button2" id="button2" onClick="window.location.href='set_guicheng.jsp'" value="返回">
         </div>
         </label></td>
       </tr>
       <tr class="tableContent">
-        <td>&nbsp;</td>
+        <td width="132" align="center">参赛办法 ：</td>
         <td colspan="2"><textarea name="action" id="action" cols="60" rows="15">${es.rems1}
 </textarea></td>
       </tr>
       <tr class="tableContent">
         <td align="center">竞赛说明：</td>
-        <td colspan="2"><label></label></td>
-      </tr>
-      <tr class="tableContent">
-        <td>&nbsp;</td>
         <td colspan="2"><textarea name="conts" id="conts" cols="60" rows="15">${es.rems2}</textarea></td>
       </tr>
       <tr class="tableContent">
         <td align="center">计分方法：</td>
-        <td colspan="2"><label></label></td>
-      </tr>
-      <tr class="tableContent">
-        <td>&nbsp;</td>
         <td colspan="2"><textarea name="pionts" id="pionts" cols="60" rows="15">${es.rems3}</textarea></td>
-      </tr>
-      <tr class="tableContent">
-        <td align="center">其他：</td>
-        <td colspan="2"><label></label></td>
-      </tr>
        <tr class="tableContent">
-        <td width="132" height="1">&nbsp;</td>
+        <td width="132" height="1">其他：</td>
         <td colspan="2"><label>
           <textarea name="others" id="others" cols="60" rows="15">${es.rems4}</textarea>
         </label></td>
       </tr>
        <tr class="tableContent">
-        <td>&nbsp;</td>
-        <td width="144"><label>
-          <div Style="text-align: 'center'">
-			<input type="button" name="button" id="button" onClick="altergc()" value="提交">
-		</div>
-        </label> 
-         <label></label></td>
-<td width="412"><label>
-            
-        </label></td>
+        
+        <td width="144" colspan="3" align="center">
+         <input type="button" name="button" id="button" onClick="altergc()" value="保存修改">
+         </td>
       </tr>
     </table>
     </c:forEach>
-  </div>
-  <p>
-    <label></label>
-    </p>
-    <p>&nbsp;</p>
-    <p>
-      <label></label>
-    </p>
-    <p>&nbsp;</p>
-    <p>
-      <label></label>
-    </p>
-    <p>&nbsp;</p>
-    <p>
-      <label></label>
-    </p>
-    <p><br>
-      </p>
-</body>
-  <body><br></body>
+  <!--内嵌表格end-->
+    </td>
+  </tr>
+</table>
+<br />
+<div align="center"><span class="pageJump">当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>1</b>&nbsp;页&nbsp;&nbsp;</span></div>
+  </body>
 </html>
