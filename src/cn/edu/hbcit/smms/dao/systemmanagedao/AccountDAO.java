@@ -280,5 +280,60 @@ public class AccountDAO {
 		}
 		return rst;
 	}
+	
+	/**
+	 * 修改密码
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public boolean updatePassword(String username, String password){
+		int rst = 0;
+		boolean flag = false;
+		conn = db.getConn();
+		String sql = "UPDATE t_sysadmin SET password=? WHERE username=?";
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, password);
+			pStatement.setString(2, username);
+			rst = pStatement.executeUpdate();
+			db.freeConnection(pStatement,conn);
+		}catch(Exception e){
+			log.error("修改用户信息失败！");
+			log.error(e.getMessage());
+		}
+		if(rst > 0){
+			flag = true;
+		}
+		return flag;
+	}
+	
+	/**
+	 * 检查用户名是否存在
+	 * @param username
+	 * @return 返回值true：存在；false：不存在
+	 */
+	public boolean checkAccountExist(String username){
+		int rst = 0;
+		boolean flag = false;
+		conn = db.getConn();
+		String sql = "SELECT COUNT(*) FROM t_sysadmin WHERE username=?";
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setString(1, username);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				rst = rs.getInt(1);
+			}
+			db.freeConnection(rs,pStatement,conn);
+		}catch(Exception e){
+			log.error("检查用户名是否存在失败！");
+			log.error(e.getMessage());
+		}
+		if(rst > 0){
+			flag = true;
+		}
+		return flag;
+	}
 
 }

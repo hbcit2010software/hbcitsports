@@ -135,4 +135,22 @@ public class AccountService {
 		}
 		return rst;
 	}
+	
+	/**
+	 * 检查用户名是否存在
+	 * @param username
+	 * @return 返回值true：存在；false：不存在
+	 */
+	public boolean checkAccountExist(String username){
+		return ad.checkAccountExist(username);
+	}
+	/**
+	 * 修改密码
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public boolean updatePassword(String username, String password){
+		return ad.updatePassword(username, password);
+	}
 }
