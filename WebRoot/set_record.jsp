@@ -36,24 +36,20 @@
                 <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->学生记录基本操作</span></td>
               </tr>
   </table>
-  <div style="position:relative; margin:0 auto;">
+  <%-- <div style="position:relative; margin:0 auto;">--%>
   <form id="form1" name="form1" method="post" action="servlet/SelectCertainRecordServlet">
-    <table width="528" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
+    <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
       <tr class="tableTitle">
         <td height="45" colspan="2" align="center">学生记录基本操作</td>
       </tr>
       <tr class="tableContent">
-        <td width="81" height="40"><label>
+        <td width="81" height="40" colspan="2"><label>
         <a title="添加新记录"
-							href="${pageContext.request.contextPath }/servlet/SeleteItemRecordSonServlet">添加新记录</a>
+							href="${pageContext.request.contextPath }/servlet/SeleteItemRecordSonServlet"><font>添加新记录</font></a>
           
            
         </label></td>
-        <td width="295"><label>
-         
-							  
-          
-        </label></td>
+
       </tr>
        
       <tr class="tableContent">
@@ -80,7 +76,6 @@
       </tr>
     </table>
     </form>
-  </div>
   <br>
   </body>
 </html>

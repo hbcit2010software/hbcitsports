@@ -88,11 +88,8 @@ function uadateJudge(obj) {
 				</tr> 
 				
 	</c:forEach>
-	<tr class="tableContent" ><td></td>
-	<td></td>
-	<td><input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/set_officialjudge.jsp'"></td>
-	<td></td>
-	<td></td>
+	<tr class="tableContent" >
+	<td colspan="5" align="center"><input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/set_officialjudge.jsp'"></td>
 	</tr>
 </table>
     

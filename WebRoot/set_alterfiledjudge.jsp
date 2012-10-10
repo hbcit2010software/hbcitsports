@@ -62,19 +62,28 @@ body {
 
 	</head>
  <body>
- 	<table width="100%" height="24" bgcolor="#353c44" align="center" border="0" cellpadding="0" cellspacing="0" >
-	<tr>
-		<td>
-         <table width="100%" height="19"  border="0" cellpadding="0" cellspacing="0" >
-			<tr>
-				<td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
+ <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="24" bgcolor="#353c44">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
                 <td width="94%" valign="bottom"><span class="pageTitle">赛前设置--修改田赛裁判员</span></td>
-			</tr>
-		</table> 
-		</td>
-	</tr>
-</table> 
- <table width="50%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td>
+ <table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 
 <c:forEach items="${officialsetlist1}" var="officialsetlist1">
 					<tr  class="tableContent" >
@@ -82,7 +91,7 @@ body {
 							田赛裁判长：
 							</td>
 							<td>
-						 <input type="text" name="fieldjudge" id="fieldjudge" value="${officialsetlist1.fieldjudge}" />
+						 <input type="text" name="fieldjudge" id="fieldjudge" value="${officialsetlist1.fieldjudge}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
 					    </td>
                     </tr>
 					<tr  class="tableContent" >
@@ -90,7 +99,7 @@ body {
 							总记录裁判长：
 							</td>
 							<td>
-							<input type="text" name="fieldjudge_1" id="fieldjudge_1" value="${officialsetlist1.fieldjudge_1}" />
+							<input type="text" name="fieldjudge_1" id="fieldjudge_1" value="${officialsetlist1.fieldjudge_1}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
 						</td>
 					</tr>
 					<tr  class="tableContent" >
@@ -98,7 +107,7 @@ body {
 							记录员：
 							</td>
 							<td>
-							<textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5" >${officialsetlist1.fieldjudge_2}</textarea>
+							<textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">${officialsetlist1.fieldjudge_2}</textarea>
 						</td>
 					</tr>
                     <tr  class="tableContent" >
@@ -106,7 +115,7 @@ body {
 							检查长：
 							</td>
 							<td>
-							<input type="text" name="fieldjudge_3" id="fieldjudge_3" value="${officialsetlist1.fieldjudge_3}" />
+							<input type="text" name="fieldjudge_3" id="fieldjudge_3" value="${officialsetlist1.fieldjudge_3}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
 						</td>
 					</tr>
                   	<tr  class="tableContent" >
@@ -114,7 +123,7 @@ body {
 							检查员：
 							</td>
 							<td>
-							<textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5" >${officialsetlist1.fieldjudge_4}</textarea>
+							<textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">${officialsetlist1.fieldjudge_4}</textarea>
 						</td>
 					</tr>
                     <tr  class="tableContent" >
@@ -122,7 +131,7 @@ body {
 							场地器材组长：
 							</td>
 							<td>
-							<input type="text" name="fieldjudge_5" id="fieldjudge_5" value="${officialsetlist1.fieldjudge_5}" />
+							<input type="text" name="fieldjudge_5" id="fieldjudge_5" value="${officialsetlist1.fieldjudge_5}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
 						</td>
 					</tr>
                     <tr  class="tableContent" >
@@ -130,19 +139,20 @@ body {
 							器材员：
 							</td>
 							<td>
-							<textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5" >${officialsetlist1.fieldjudge_6}</textarea>
+							<textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">${officialsetlist1.fieldjudge_6}</textarea>
 						</td>
 					</tr>
 					<tr  class="tableContent" >
-					<td>
-						<a href="#" onclick="alter()">保存修改</a>
-					</td>
-					<td>
-					<a href="${pageContext.request.contextPath }/servlet/SelectAllItemServlet">返回</a>
+					<td colspan="3">
+				<input type="button" name="button" id="button" value="保存修改" onClick="alter()">
+				<input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllItemServlet'">
 					</td>
 					</tr>
                 </c:forEach>
-				</table> 		
+				</table> 
+				</td>
+				</tr>
+				</table>		
 </body>
 </html>
 

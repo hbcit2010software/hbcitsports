@@ -88,19 +88,28 @@ body {
 	</head>
   
 <body>
-	<table width="100%" height="24" bgcolor="#353c44" align="center" border="0" cellpadding="0" cellspacing="0" >
-	<tr>
-		<td>
-         <table width="100%" height="19"  border="0" cellpadding="0" cellspacing="0" >
-			<tr>
-				<td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="24" bgcolor="#353c44">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
                 <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->修改径赛裁判员</span></td>
-			</tr>
-		</table> 
-		</td>
-	</tr>
-</table> 
- <table width="50%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td> 
+ <table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 
 <c:forEach items="${officialsetlist1}" var="officialsetlist1">
 					<tr class="tableContent" >
@@ -177,7 +186,7 @@ body {
 					</tr>
                     	<tr class="tableContent" >
 						<td>
-							计时长：
+							记时长：
 							</td>
 							<td>
 							<input type="text" name="timejudge_1" id="timejudge_1" value="${officialsetlist1.timejudge_1}" />
@@ -185,7 +194,7 @@ body {
 					</tr>
                     	<tr class="tableContent" >
 						<td>
-							计时员：
+							记时员：
 							</td>
 							<td>
 							<textarea name="timejudge_2" id="timejudge_2" cols="45" rows="5">${officialsetlist1.timejudge_2}</textarea>
@@ -241,14 +250,13 @@ body {
 					</tr>
                   </c:forEach>
 				<tr class="tableContent" >
-					<td>
-						<a href="#" onclick="alter()">保存修改</a>
-					</td>
-					<td>
-					<a
-							href="${pageContext.request.contextPath }/servlet/SelectAllItemServlet">返回</a>
-					</td>
+				<td colspan="3">
+				<input type="button" name="button" id="button" value="保存修改" onClick="alter()">
+				<input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllItemServlet'">
 			  </tr>
+			</table>
+			</td>
+			</tr>
 			</table>
 </body>
 </html>
