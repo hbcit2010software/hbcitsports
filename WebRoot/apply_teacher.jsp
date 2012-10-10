@@ -8,7 +8,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 //隔行变色
 $(document).ready(function(){
 	
@@ -217,13 +217,13 @@ function submitCheck(){
 		for(var j=0 ;j<itemSix.length; j++){
 			for(var k=0; k<itemNoPlus.length; k++){
 				//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
-				if(arrGroup[2] == groupId[0] && itemNoPlus[k]==itemSix[j]){
+				if(arrGroup[2] == groupId[0] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
 					itemCountOldMan[j]++;
-				}else if(arrGroup[2] == groupId[1] && itemNoPlus[k]==itemSix[j]){
+				}else if(arrGroup[2] == groupId[1] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
 					itemCountOldWoman[j]++;
-				}else if(arrGroup[2] == groupId[2] && itemNoPlus[k]==itemSix[j]){
+				}else if(arrGroup[2] == groupId[2] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
 					itemCountYoungMan[j]++;
-				}else if(arrGroup[2] == groupId[3] && itemNoPlus[k]==itemSix[j]){
+				}else if(arrGroup[2] == groupId[3] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
 					itemCountYoungWoman[j]++;
 				}
 			}
