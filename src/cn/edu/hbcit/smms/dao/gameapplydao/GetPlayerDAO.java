@@ -165,7 +165,7 @@ public class GetPlayerDAO {
 	public int getItemNumber( int sportsid,int grouptype){
 		int flag = 0;
 		String sql = "SELECT COUNT(itemname) FROM t_item WHERE id IN " +
-				"(SELECT itemid FROM t_group2item WHERE gp2spid IN " +
+				"(SELECT itemid FROM t_group2item WHERE matchtype<>0 AND gp2spid IN " +
 				"(SELECT id FROM t_group2sports WHERE groupid IN " +
 				"(SELECT id FROM t_group WHERE grouptype = ?) AND sportsid IN " +
 				"(SELECT id FROM t_sports WHERE sportsid = ?	)))";
@@ -194,7 +194,7 @@ public class GetPlayerDAO {
 	public ArrayList getItemName(int sportsid,int grouptype){
 		ArrayList list = new ArrayList();
 		String sql = "SELECT id,itemname,itemtype FROM t_item WHERE id IN " +
-				"(SELECT itemid FROM t_group2item WHERE gp2spid IN " +
+				"(SELECT itemid FROM t_group2item WHERE matchtype<>0 AND gp2spid IN " +
 				"(SELECT id FROM t_group2sports WHERE groupid IN " +
 				"(SELECT id FROM t_group WHERE grouptype = ?) AND sportsid IN " +
 				"(SELECT id FROM t_sports WHERE sportsid = ?	)))";
