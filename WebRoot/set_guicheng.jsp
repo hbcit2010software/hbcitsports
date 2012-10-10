@@ -101,7 +101,7 @@ body {
   <tr>
     <td>
   <%-- <div style="position:relative; margin:0 auto;  width: 702px; height: 1310px; border: 2px outset #0099FF; ">--%>
-    <table width="655" height="54" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+    <table width="55%" height="54" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 	  	<tr class="tableTitle" height="30" >
 	  	  <td width="702" align="center" colspan="3">基本规程</td>
        </tr>
@@ -130,7 +130,7 @@ body {
         </label></td>
       </tr>
        <tr class="tableContent">
-        <td width="144" colspan="3" align="center">
+        <td  colspan="3" align="center">
         
 			<input type="button" name="button" id="button" onClick="addgc()" value="提交">
 			

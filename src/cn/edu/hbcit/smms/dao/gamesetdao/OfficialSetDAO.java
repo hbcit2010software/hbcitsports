@@ -226,7 +226,8 @@ public ArrayList selectAllItem(int sportsid) {
 		DBConn db = new DBConn();
 		String sql = "SELECT t_item.itemname,t_group2item.id FROM t_item JOIN t_group2item " +
 				"ON t_item.id = t_group2item.itemid JOIN t_group2sports ON t_group2item.gp2spid " +
-				"= t_group2sports.id WHERE t_group2sports.sportsid=? AND t_item.itemtype=2";
+				"= t_group2sports.id WHERE t_group2sports.sportsid=? AND t_item.itemtype=2 AND " +
+				"(t_group2item.matchtype=1 OR t_group2item.matchtype=2)";
 		try {
 			 Connection conn = db.getConn();
 			 if(conn != null){

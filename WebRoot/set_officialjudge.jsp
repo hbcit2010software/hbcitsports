@@ -174,101 +174,101 @@ font-size:16px;}
 <div id="tabs-1" >
 <div id="caipan1">
     <span class="STYLE5">总裁判长：</span>
-    <input type="text" name="chiefjudge_1" id="chiefjudge_1"></div>
+    <input type="text" name="chiefjudge_1" id="chiefjudge_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></div>
 <div id="caipan2"><span class="STYLE5">副总裁判长：</span>
-  <input type="text" name="chiefjudge_2" id="chiefjudge_2"></div>
+  <input type="text" name="chiefjudge_2" id="chiefjudge_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></div>
 <p>&nbsp;</p>
 		<p align="left" class="STYLE4"><span class="STYLE7">径赛显示区</span>：</p>
 <table width="1024" border="0" >
           <tr>
             <td width="154"><span class="STYLE5">径赛裁判长:</span></td>
 <td width="854"><label>
-              <input type="text" name="trackjudge" id="trackjudge">
+              <input type="text" name="trackjudge" id="trackjudge" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检录裁判长：</span></td>
 <td><label>
-              <input type="text" name="trackjudge_rollcall_1" id="trackjudge_rollcall_1">
+              <input type="text" name="trackjudge_rollcall_1" id="trackjudge_rollcall_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检录裁判长助理：</span></td>
 <td><label>
-              <input type="text" name="trackjudge_rollcall_2" id="trackjudge_rollcall_2">
+              <input type="text" name="trackjudge_rollcall_2" id="trackjudge_rollcall_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检录员：</span></td>
 <td><label>
-              <textarea name="trackjudge_rollcall_3" id="trackjudge_rollcall_3" cols="45" rows="5"></textarea>
+              <textarea name="trackjudge_rollcall_3" id="trackjudge_rollcall_3" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">起点裁判长：</span></td>
 <td><label>
-              <input type="text" name="startingpoint_1" id="startingpoint_1">
+              <input type="text" name="startingpoint_1" id="startingpoint_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">起点裁判长助理：</span></td>
 <td><label>
-              <input type="text" name="startingpoint_2" id="startingpoint_2">
+              <input type="text" name="startingpoint_2" id="startingpoint_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">发令员：</span></td>
 <td><label>
-              <textarea name="startingpoint_3" id="startingpoint_3" cols="45" rows="5"></textarea>
+              <textarea name="startingpoint_3" id="startingpoint_3" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">计时长：</span></td>
 <td><label>
-              <input type="text" name="timejudge_1" id="timejudge_1">
+              <input type="text" name="timejudge_1" id="timejudge_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">计时员：</span></td>
 <td><label>
-              <textarea name="timejudge_2" id="timejudge_2" cols="45" rows="5"></textarea>
+              <textarea name="timejudge_2" id="timejudge_2" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">司线员：</span></td>
 <td><label>
-              <input type="text" name="timejudge_3" id="timejudge_3">
+              <input type="text" name="timejudge_3" id="timejudge_3" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">终点裁判长：</span></td>
 <td><label>
-              <input type="text" name="endpoint_1" id="endpoint_1">
+              <input type="text" name="endpoint_1" id="endpoint_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">终点裁判长助理：</span></td>
 <td><label>
-              <input type="text" name="endpoint_2" id="endpoint_2">
+              <input type="text" name="endpoint_2" id="endpoint_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">终点裁判员：</span></td>
   <td>
  <label>
-              <textarea name="endpoint_3" id="endpoint_3" cols="45" rows="5"></textarea>
+              <textarea name="endpoint_3" id="endpoint_3" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
             </label></td>
           </tr>
            <tr>
             <td><span class="STYLE5">终点记录长：</span></td>
 <td><label>
-              <input type="text" name="endpoint_4" id="endpoint_4">
+              <input type="text" name="endpoint_4" id="endpoint_4" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">终点记录员：</span></td>
 <td><label>
-              <input type="text" name="endpoint_5" id="endpoint_5">
+              <input type="text" name="endpoint_5" id="endpoint_5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
         </table>
@@ -287,43 +287,43 @@ font-size:16px;}
           <tr>
             <td width="154"><span class="STYLE5">田赛裁判长：</span></td>
     <td width="854"><label>
-              <input type="text" name="fieldjudge" id="fieldjudge">
+              <input type="text" name="fieldjudge" id="fieldjudge" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">总记录裁判长：</span></td>
     <td><label>
-              <input type="text" name="fieldjudge_1" id="fieldjudge_1">
+              <input type="text" name="fieldjudge_1" id="fieldjudge_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">记录员：</span></td>
             <td><label>
-            <textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5"></textarea>
+            <textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检查长：</span></td>
             <td><label>
-            <input type="text" name="fieldjudge_3" id="fieldjudge_3">
+            <input type="text" name="fieldjudge_3" id="fieldjudge_3" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检查员：</span></td>
             <td><label>
-            <textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5"></textarea>
+            <textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">场地器材组长：</span></td>
     <td><label>
-              <input type="text" name="fieldjudge_5" id="fieldjudge_5">
+              <input type="text" name="fieldjudge_5" id="fieldjudge_5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">器材员：</span></td>
     <td><label>
-              <textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5"></textarea>
+              <textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
             </label></td>
           </tr>
          </table>
@@ -349,9 +349,9 @@ font-size:16px;}
 					<td width="20%">
 					<input type="hidden" id="id<%=judNum %>"  value="${item[1]}" />
 					<input type="text" id="<%=judNum %>"  value="${item[0]}" /></td>
-					<td><input type="text"  name="judge_1<%=judNum %>" /></td>
-					<td><input type="text"  name="judge_2<%=judNum %>" /></td>
-					<td><input type="text"  name="judge_3<%=judNum %>" /></td>
+					<td><input type="text"  name="judge_1<%=judNum %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
+					<td><input type="text"  name="judge_2<%=judNum %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
+					<td><input type="text"  name="judge_3<%=judNum %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
 				</tr> 
 				<% judNum++; %>
 			</c:forEach>
@@ -429,9 +429,9 @@ font-size:16px;}
 					<input type="hidden" id="depid<%=num %>" value="${dep[0]}" />
 					<input type="text"  id="depname<%=num %>" value="${dep[1]}" />	</td>
 					
-					<td><input type="text"  id="person<%=num %>" /></td>
+					<td><input type="text"  id="person<%=num %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
 					<td><input type="text"  id="phone<%=num %>" /></td>
-					<td><input type="text"  id="judges<%=num %>" /></td>
+					<td><input type="text"  id="judges<%=num %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
 					
 				</tr>
 				<%

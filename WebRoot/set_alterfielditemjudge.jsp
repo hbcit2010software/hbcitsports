@@ -61,7 +61,7 @@ body {
 							项目裁判长：
 							</td>
 							<td>
-							<input id="judge_1" "  type="text" value="${field[0]}" />
+							<input id="judge_1" "  type="text" value="${field[0]}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
 						</td>
 					</tr>
 					<tr class="tableContent">
@@ -69,7 +69,7 @@ body {
 							裁判长助理：
 							</td>
 							<td>
-							<input id="judge_2" type="text" value="${field[1]}" />
+							<input id="judge_2" type="text" value="${field[1]}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
 						</td>
 					</tr>
 					<tr class="tableContent">
@@ -77,7 +77,7 @@ body {
 							裁判员：
 							</td>
 							<td>
-							<input id="judge_3" type="text" value="${field[2]}" />
+							<input id="judge_3" type="text" value="${field[2]}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
 						</td>
 					</tr>
 					<tr class="tableContent">
