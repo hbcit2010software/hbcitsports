@@ -185,7 +185,7 @@ body {
         <li><a href="apply_teamleader.jsp" target="rightFrame">领队报名</a></li>
         <li><a href="servlet/GetItemNameServlet" target="rightFrame">学生组报名</a></li>
         <li><a href="servlet/GetPlayerServlet" target="rightFrame">教工组报名</a></li>
-        <li><a href="servlet/SelectGroupNameBySportsIdServlet" target="rightFrame">报名情况查询</a></li>
+        <li><a href="servlet/ApplyInfomationServlet?action=doPost" target="rightFrame">报名情况查询</a></li>
         <li><a href="#" target="rightFrame">报名审核</a></li>
       </ul>
     </li>

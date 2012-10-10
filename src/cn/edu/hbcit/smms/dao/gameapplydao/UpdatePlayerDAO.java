@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
@@ -34,10 +35,10 @@ public class UpdatePlayerDAO {
 	 * @param groupSex
 	 * @return
 	 */
-	public int GetGroupIdBySex(boolean playerSex){
+	public int getGroupIdBySex(boolean playerSex){
 		conn = db.getConn();
 		String sql = "SELECT id FROM t_group WHERE groupsex=? " +
-				"AND grouptype=TRUE;";
+				"AND grouptype=TRUE";
 		int flag = 0;
 		 try {
 	        	pStatement = conn.prepareStatement(sql);
@@ -54,14 +55,14 @@ public class UpdatePlayerDAO {
 	}
 	
 	/**
-	 * 根据运动员号码插入（修改）运动员信息
+	 * 根据运动员号码插入运动员信息
 	 * @param playerName
 	 * @param playerSex
 	 * @param registItem
 	 * @param playerNum
 	 * @return
 	 */
-	public int UpdatePlayerByNum(String playerName,boolean playerSex,
+	public int updatePlayerByNum(String playerName,boolean playerSex,
 			String registItem,int groupId,int sp2dpid,String playerNum){
 		conn = db.getConn();
 		//GetPlayerDAO getPlayerDao = new GetPlayerDAO();
@@ -88,9 +89,9 @@ public class UpdatePlayerDAO {
 	}
 	
 	/**
-	 * 插入（修改）教工信息
+	 * 插入（修改）教工（学生）信息
 	 */
-	public int UpdatePlayer(String[] allstr,int sp2dpid){
+	public int updatePlayer(String[] allstr,int sp2dpid){
 		conn = db.getConn();
 		String sql = "update t_player set playername=?,playersex=?,registitem=?," +
 				"groupid=? where sp2dpid=? and playernum=?";
@@ -99,10 +100,21 @@ public class UpdatePlayerDAO {
 		try {
 			
 			for(int i = 0; i < allstr.length; i++ ){
+				int count = 0;
 				String mystr = allstr[i];
 				String[] myPlayer = mystr.split(",");
+				for(int k=0; k<myPlayer.length; k++){
+					log.debug("K:"+k +" myPlayer[k]:"+myPlayer[k]);
+					if(myPlayer[k].equals("")){
+						count++;
+					}
+				}
+				if(count > 0){
+					log.debug("第"+i +"次:"+ count);
+					continue;
+				}
 				String playerNum = myPlayer[0];//运动员号码
-				String playerName = myPlayer[1];//运动员姓名
+				String playerName = myPlayer[1].trim();//运动员姓名
 				boolean playerSex = true;
 				int groupid = Integer.parseInt(myPlayer[2]);//组别的id
 				System.out.println(groupid);
@@ -120,9 +132,7 @@ public class UpdatePlayerDAO {
 					playerSex = false;
 				}
 				//System.out.println(playerSex);
-/*************吕志瑶
- * 去掉项目类型分隔符
- * ******************/
+/*************吕志瑶* 去掉项目类型分隔符* ******************/
 				String registItem = "";//myPlayer[3]:运动员所报项目的id "2+3;4+5"
 				String[] itemIdArr =  myPlayer[3].split(";");  //{"2+3","4+5"}
 				for(int j=0; j<itemIdArr.length; j++){
@@ -158,7 +168,203 @@ public class UpdatePlayerDAO {
 		return flag;
 	}
 	
+	/**
+	 * 限制六项
+	 * 把学生报名前台传过来的值整理后放进ArrayList中,第一个集合存放要更改数据库的信息，第二个集合存报名出错的运动员的名字
+	 * @param pageString 前台隐藏域里面的值
+	 * @param sex 学生性别
+	 * @param dataInfo 已报项目的运动员的数量Map	
+	 * @param perNum 限报人数
+	 * @param sp2dpid 组别与运动会id
+	 * @return  ArrayList
+	 */
+	public ArrayList getPageInfo(String[] pageString, HashMap sex, HashMap dataInfo, int perNum,int sp2dpid){
+		ArrayList addInfo = new ArrayList(); //要返回的信息
+		ArrayList errorInfo = new ArrayList(); //报名超过限制的人的姓名
+		HashMap pageInfo = new HashMap(); //前台的信息，<组别+项目id，项目人数>
+		StringBuffer addSql = new StringBuffer(); //添加sql语句
+		int addCount = 0;
+		for (int i = 0; i < pageString.length; i++){
+			String[] plarerInfo = pageString[i].trim().split(",");
+			String playerNum = plarerInfo[0].trim();
+			String playerName = plarerInfo[1].trim();
+			String playerSex = plarerInfo[2].trim();
+			int newsex = Integer.parseInt(playerSex);
+			int group = Integer.parseInt(sex.get(playerSex).toString().trim());
+			String[] playerItem = plarerInfo[3].trim().split(";");
+			boolean flag = false;
+			String pitem = "";
+			for (int j = 0; j < playerItem.length; j++){
+				String[] item1 = playerItem[j].trim().split("#");
+				String key = playerSex + item1[0];
+				if (pageInfo.containsKey(key)){
+					int number = Integer.parseInt(pageInfo.get(key).toString());
+					int newNmuber = number + 1;
+					int oldNumber = 0;
+					if (dataInfo.containsKey(key)){
+						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
+					}
+					if (newNmuber + oldNumber > perNum){
+						flag = true;
+					}
+				}else{
+					int oldNumber = 0;
+					if (dataInfo.containsKey(key)){
+						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
+						if (oldNumber > perNum){
+							flag = true;
+						}
+					}	
+				}
+			}
+		 if (flag == false){
+			 for (int playerItemNum = 0; playerItemNum < playerItem.length; playerItemNum++){
+				 String key = playerSex + playerItem[playerItemNum];
+				 if (pageInfo.containsKey(key)){
+					 int newNum = Integer.parseInt(pageInfo.get(key).toString())+1;
+					 pageInfo.put(key, newNum+"");
+				 }else{
+					 pageInfo.put(key, "1");
+				 }
+				 
+			 }
+			 for (int j = 0; j < playerItem.length; j++){
+				    if (j > 0){
+				    	pitem += ";";
+				    }
+					String[] item1 = playerItem[j].trim().split("#");
+					pitem += item1[0];
+			 }
+			 String temp = "UPDATE t_player SET playername="+playerName+",playersex="
+			 +playerSex+",groupid="+group+",registitem="+pitem+" WHERE playernum="+playerNum+" AND sp2dpid="+sp2dpid;
+			 if (addCount > 0){
+				 addSql.append("#");
+			 }
+			 addSql.append(temp);
+			 addCount++;
+		 }else{
+			    errorInfo.add(playerName);
+			}
+		}
+		
+		addInfo.add(addSql);
+		addInfo.add(errorInfo);
+		return addInfo;
+	}
+
+	/**
+	 * 根据sp2dpid查询已报运动员的信息
+	 * @param sp2dpid
+	 * @return
+	 */
+	public HashMap selectPlayerByspSdpid(int sp2dpid){
+		HashMap dataInfo = new HashMap();
+		conn = db.getConn();
+		String sql = "SELECT playersex,registitem FROM t_player WHERE sp2dpid=? AND registitem IS NOT null";
+        try {
+        	pStatement = conn.prepareStatement(sql);
+        	pStatement.setInt(1, sp2dpid);
+        	rs = pStatement.executeQuery();
+        	while(rs.next()){
+        		String[] items = rs.getString(2).trim().split(";");
+        		int sex = rs.getInt(1);
+        		for (int i = 0; i < items.length; i++){
+        			String key = sex + items[i].trim();
+        			if (dataInfo.containsKey(key)){
+        				String newNum = (Integer.parseInt(dataInfo.get(key).toString().trim())+1)+"";
+        				log.debug("数据库中旧人数："+Integer.parseInt(dataInfo.get(key).toString().trim()));
+        				log.debug("数据库中新人数："+newNum);
+        				dataInfo.put(key, newNum);
+        			}else{
+        				dataInfo.put(key, "1");
+        			}
+        		}
+        	}
+        	pStatement.close();
+            db.freeConnection(conn);
+        }catch (SQLException e) {                 
+            log.error("添加运动员失败！");
+    		log.error(e.getMessage());   
+        }
+        return dataInfo;
+	}
 	
-
-
+	/**
+	 * 根据sportsid查询学生组别信息
+	 * @param sportsid
+	 * @return
+	 */
+	public HashMap selectStuGroupByspSdpid(int sportsid){
+		HashMap group = new HashMap();
+		conn = db.getConn();
+		String sql = "SELECT id,groupsex FROM t_group WHERE id IN(SELECT groupid FROM t_group2sports WHERE sportsid=?)";
+        try {
+        	pStatement = conn.prepareStatement(sql);
+        	pStatement.setInt(1, sportsid);
+        	rs = pStatement.executeQuery();
+        	while(rs.next()){
+        		int id = rs.getInt(1);
+        		int sex = rs.getInt(2);
+        		String key = sex + "";
+        		group.put(key, id+"");
+        	}
+        	pStatement.close();
+            db.freeConnection(conn);
+        }catch (SQLException e) {                 
+            log.error("添加运动员失败！");
+    		log.error(e.getMessage());   
+        }
+        return group;
+	}
+	
+	/**
+	 * 根据sql语句修改运动员报名信息
+	 * @param sql
+	 * @return int
+	 */
+	public int updatePlayerBySql(String sql){
+		conn = db.getConn();
+		int flag=0;
+		String[] newSql = sql.split("#");
+		for(int i = 0; i < newSql.length; i++){
+			try {
+	        	pStatement = conn.prepareStatement(sql);
+	        	flag = pStatement.executeUpdate(); 
+	        	pStatement.close();
+	            db.freeConnection(conn);
+	        }catch (SQLException e) {                 
+	            log.error("添加运动员失败！");
+	    		log.error(e.getMessage());   
+	        }
+		}
+        return flag;
+	}
+	 /**
+ 	 * 根据运动会id查询每个项目各系的限报人数
+ 	 * @param 运动会id
+ 	 * @return int 
+ 	 */
+ 	public int selectPerDep(int sportsid){
+ 		
+ 		int confineNumber = 0;
+ 		String sql = "SELECT perdepartment FROM t_rule WHERE sportsid=?";
+         try {
+             Connection conn = db.getConn();
+             if(conn != null){
+             	
+                 PreparedStatement statement = conn.prepareStatement(sql); 
+                 statement.setInt(1, sportsid);
+                 ResultSet rs = statement.executeQuery(); 
+                 while(rs.next()){
+                 	confineNumber = rs.getInt(1);
+                     }
+                 //db.closeRsAll(rs,conn);
+                 rs.close();
+                 }  
+             
+             db.freeConnection(conn);  
+             }catch (SQLException e) {                 
+             e.printStackTrace(); } 
+             return confineNumber;
+     }
 }

@@ -2,7 +2,6 @@ package cn.edu.hbcit.smms.servlet.gameapplyservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,8 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.services.gameapplyservices.GameApplyService;
-
+import cn.edu.hbcit.smms.services.gameapplyservices.SelGameApplyService;
 
 /*
  * Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
@@ -19,21 +17,21 @@ import cn.edu.hbcit.smms.services.gameapplyservices.GameApplyService;
  * 模块名称：   赛事报名
  * 子模块名称：   报名情况查询
  *
- * 备注：根据号码查询运动员信息
+ * 备注：根据号码修改运动员信息,重新报名
  *
  * 修改历史：
  * 时间			版本号	姓名		修改内容
- * 2012/6/25            
+ * 2012/9/6
  */
 /**
  * @author 陈丹凤
  */
-public class SelectAllPlayerByNumServlet extends HttpServlet {
+public class UpdateLeaderByUserNameServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public SelectAllPlayerByNumServlet() {
+	public UpdateLeaderByUserNameServlet() {
 		super();
 	}
 
@@ -58,34 +56,9 @@ public class SelectAllPlayerByNumServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//查询运动员信息
-		response.setHeader("Pragma", "No-cache");
-		response.setHeader("Cache-control", "no-cache");
-		response.setDateHeader("Expires", 0);
-		response.setContentType("text/html;utf-8");
-		response.setCharacterEncoding("utf-8");
-		GameApplyService allPlayerService = new GameApplyService();
-		HttpSession session = request.getSession();	
-		ArrayList playerList = new ArrayList();
-		String num = request.getParameter("playernum");
-		playerList = allPlayerService.selectAllPlayerByNum(num);
-		session.setAttribute("playerList", playerList);
-
-		//根据组别类型查询该届运动会所有项目
-		ArrayList itemList = new ArrayList();
-		GameApplyService groupItemService = new GameApplyService();
-		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());//获取当前运动会id
-		String id = request.getParameter("groupid");	
-		int groupid = Integer.parseInt(id);	
-		int grouptype = groupItemService.getGroupType(groupid);
-		//根据组别类型获取该组的分组
-		ArrayList groupList = new ArrayList();
-		groupList = groupItemService.selectGroupNameByGroupType(sportsid, grouptype);		
-		itemList = groupItemService.selectAllItemsByGroupType(sportsid, grouptype);
-		session.setAttribute("groupList", groupList);		
-		session.setAttribute("itemList", itemList);
-		response.sendRedirect("../update_player.jsp");	
+		this.doPost(request, response);
 	}
+
 	/**
 	 * The doPost method of the servlet. <br>
 	 *
@@ -99,7 +72,25 @@ public class SelectAllPlayerByNumServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		this.doGet(request, response);
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-control", "no-cache");
+		response.setDateHeader("Expires", 0);
+		response.setContentType("text/html;utf-8");
+		response.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		SelGameApplyService gas = new SelGameApplyService();
+		String username = (String)session.getAttribute("username");//获取用户名
+		String teamleader = request.getParameter("teamleader").trim();
+		String coach = request.getParameter("coach").trim();
+		String doctor = request.getParameter("doctor").trim();	
+		if (gas.updateLeaderByUserName(username, teamleader, coach, doctor))
+			out.println("success");
+		else
+			out.println("error");
+		out.flush();
+		out.close();		
 	}
 
 	/**

@@ -1,3 +1,4 @@
+
 package cn.edu.hbcit.smms.servlet.gameapplyservlet;
 
 import java.io.IOException;
@@ -68,13 +69,16 @@ public class GetPlayerServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		GetPlayerService itemName  = new GetPlayerService();
-
 		GetPlayerService spn = new GetPlayerService();
 		//String sportsname = spn.getSportsName();//获取当前运动会名称
 		int sportsId = 0;
 		if(session.getAttribute("currSportsId") != null){
 			sportsId = ((Integer)session.getAttribute("currSportsId")).intValue();
 		}
+//		String registend = spn.getRegistend();
+//		if(){
+//			
+//		}
 		int grouptype = 0;//组别类型设为教工
 		int sum = spn.getItemNumber(sportsId,grouptype);
 		ArrayList list = new ArrayList();
@@ -92,15 +96,19 @@ public class GetPlayerServlet extends HttpServlet {
 		//
 		GetPlayerDAO getPlayerDao = new GetPlayerDAO();
 		ArrayList list1 = new ArrayList();
+		
 		list1 = getPlayerDao.getPlayerNum(flag1,0);//根据组别id及运动会id获取运动员号码布
 		session.setAttribute("playernum",list1);
 		//
 		GetPlayerService playernum = new GetPlayerService(); 
+		ArrayList playerNumList = new ArrayList();
 		int sp2dpid2 = Integer.parseInt(session.getAttribute("flag1").toString());//得到sp2dpid
 		boolean numtype = false;//定义号码的类型
 		int sums = playernum.selectPlayerNum(sp2dpid2, numtype);//根据号码的类型得知数据库中的numid
+		
 		if(sums==0){
-			response.sendRedirect("../query_game.jsp");
+			session.setAttribute("msg","还未分配号码簿！！！");
+			response.sendRedirect("../apply_playershow.jsp");
 		}else{
 		if(!list.isEmpty()){
 		PlayerNum p = (PlayerNum)list1.get(0);
@@ -123,13 +131,19 @@ public class GetPlayerServlet extends HttpServlet {
 		}
 		}
 		}
-		//
+		//2012-10-10移动语句
+		playerNumList = playernum.getPlayernum(sp2dpid2, numtype);  //查询未分配的号段
 		
 		ArrayList groupList = new ArrayList();
 		GetPlayerService getGroupService = new GetPlayerService();
 		groupList=getGroupService.selectAllGroupName();
 		session.setAttribute("grouplist", groupList);//获取教工组的所有组别
-		response.sendRedirect("../apply_teacher.jsp");
+		int perMan = getGroupService.selRule(sportsId);//获得每人限报的项目数量
+		int perDepartment = getGroupService.selRule2(sportsId);//获得每一组每个项目限报的数量
+		session.setAttribute("perMan", Integer.valueOf(perMan));
+		session.setAttribute("perDepartment", Integer.valueOf(perDepartment));
+		request.setAttribute("playerNumList", playerNumList);
+		request.getRequestDispatcher("/apply_teacher.jsp").forward(request, response);
 		
 	}
 	}

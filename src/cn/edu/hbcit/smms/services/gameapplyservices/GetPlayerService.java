@@ -42,4 +42,25 @@ public class GetPlayerService {
 	public int selNameByNumid(int sums){
 		return getPlayerDao.selNameByNumid(sums);
 	}
+	public int selRule(int sportsid){
+		return getPlayerDao.selRule(sportsid);
+	}
+	public int selRule2(int sportsid){
+		return getPlayerDao.selRule2(sportsid);
+	}
+	/**
+	 * 查询所有未分配的运动员号码
+	 * @param sp2dpid
+	 * @param numtype
+	 * @return
+	 */
+	public ArrayList getPlayernum(int sp2dpid, boolean numtype){
+		return getPlayerDao.getPlayernum(sp2dpid, numtype);
+	}
+	/**
+	 * 获取当前运动会截止报名的日期
+	 */
+//	public String getRegistend(){
+//		return getPlayerDao.getRegistend();
+//	}
 }

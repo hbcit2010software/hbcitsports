@@ -79,11 +79,8 @@ public class GetItemNameServlet extends HttpServlet {
 		int sum = spn.getItemNumber(sportsId,grouptype);
 		ArrayList list = new ArrayList();
 		list = itemName.getItemName(sportsId,grouptype);
-		
 		session.setAttribute("mylist", list);//获取当前页面运动会所有项目
-		
 		session.setAttribute("num", Integer.valueOf(sum));//获取当前页面运动会项目总数量
-		//System.out.println(sum+"jjjjjjjj");
 		//
 		GetPlayerService player = new GetPlayerService();
 		int flag = 0;
@@ -95,6 +92,7 @@ public class GetItemNameServlet extends HttpServlet {
 		//GetPlayerDAO getPlayerDao = new GetPlayerDAO();
 		GetPlayerService playernum = new GetPlayerService(); 
 		ArrayList list1 = new ArrayList();
+		ArrayList playerNumList = new ArrayList();
 		list1 = playernum.getPlayerNum(sp2dpid,1);//根据部门id及运动会id获取运动员号码簿
 		session.setAttribute("playernum",list1);
 		
@@ -102,8 +100,10 @@ public class GetItemNameServlet extends HttpServlet {
 		int sp2dpid2 = Integer.parseInt(session.getAttribute("sp2dpid").toString());//得到sp2dpid
 		boolean numtype = true;//定义号码的类型
 		int sums = playernum.selectPlayerNum(sp2dpid2,numtype);//根据号码的类型得知数据库中的numid
+		
 		if(sums==0){
-			response.sendRedirect("../query_game.jsp");
+			session.setAttribute("msg","还未分配号码簿！！！");
+			response.sendRedirect("../apply_playershow.jsp");
 		}else{
 		if(!list.isEmpty()){
 		PlayerNum p = (PlayerNum)list1.get(0);
@@ -130,9 +130,15 @@ public class GetItemNameServlet extends HttpServlet {
 		}
 		}
 		}
-		//}
-		
-		response.sendRedirect("../apply_student.jsp");
+		playerNumList = playernum.getPlayernum(sp2dpid, numtype);  //查询未分配的号段
+		GetPlayerService getGroupService = new GetPlayerService();
+		int perMan = getGroupService.selRule(sportsId);//获得每人限报的项目数量
+		int perDepartment = getGroupService.selRule2(sportsId);//获得每一组每个项目限报的数量
+		session.setAttribute("perMan", Integer.valueOf(perMan));
+		session.setAttribute("perDepartment", Integer.valueOf(perDepartment));
+		request.setAttribute("playerNumList", playerNumList);
+		request.getRequestDispatcher("/apply_student.jsp").forward(request, response);
+		//response.sendRedirect("../apply_student.jsp");
 	}
 	}
 

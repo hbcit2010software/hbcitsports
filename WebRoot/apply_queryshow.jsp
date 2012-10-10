@@ -6,14 +6,16 @@
    <title>My JSP 'cc.jsp' starting page</title>
    <%String msg= (String)session.getAttribute("msg");%>
     <script type="text/javascript">
-    
+   
    function show() {
-     alert( "<%=msg%>"); 
-     location.replace("servlet/ApplyInfomationServlet?action=doPost");
+   	<%
+   		String grouptypes = (String)session.getAttribute("match");
+   	%>
+     alert( "<%=msg%>");
+     location.replace("${pageContext.request.contextPath }/servlet/ApplyInfomationServlet?action=pageinf&matchgroup="+<%=grouptypes%>);
      }
      </script>
   </head>
-  
   <body onLoad= "show()">
     
   </body>

@@ -19,8 +19,8 @@ public class AddTeamleaderService {
 	/**
 	 * 插入t_ports2Department表信息
 	 */
-	public int AddSports2Department(int sportsId,int departId,String teamLeader,String coach,String doctor){
-		return addTeamleaderDAO.AddSports2Department(sportsId, departId, teamLeader, coach, doctor);
+	public int addSports2Department(int sportsId,int departId,String teamLeader,String coach,String doctor){
+		return addTeamleaderDAO.addSports2Department(sportsId, departId, teamLeader, coach, doctor);
 	
 	}
 	public int updatePlayerNum( int sportsId,int departId){

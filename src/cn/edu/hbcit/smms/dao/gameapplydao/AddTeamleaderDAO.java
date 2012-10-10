@@ -36,23 +36,22 @@ public class AddTeamleaderDAO {
 	 * @param doctor
 	 * @return
 	 */
-	public int AddSports2Department(int sportsId,int departId,String teamLeader,
+	public int addSports2Department(int sportsId,int departId,String teamLeader,
 			String coach,String doctor){
 		conn = db.getConn();
-		String sql = "insert into t_sports2department(sportsid,departid," +
-				"teamleader,coach,doctor) values(?,?,?,?,?)";
+		String sql = "update t_sports2department set teamleader=?,coach=?,doctor=? where sportsId=? and departId=?";
 		int flag = 0;
 		 try {
 			 pStatement = conn.prepareStatement(sql);
-			 pStatement.setInt(1, sportsId);
-	         pStatement.setInt(2, departId);
-	         pStatement.setString(3, teamLeader);
-	         pStatement.setString(4, coach);
-	         pStatement.setString(5, doctor);
+	         pStatement.setString(1, teamLeader);
+	         pStatement.setString(2, coach);
+	         pStatement.setString(3, doctor);
+	         pStatement.setInt(4, sportsId);
+	         pStatement.setInt(5, departId);
 	         flag = pStatement.executeUpdate();
-		 }catch (SQLException e) {                 
-			 log.error("添加失败！");
-	    	 log.error(e.getMessage());
+		 }catch (SQLException e) { 
+			 log.debug("添加失败！");
+	    	 log.debug(e.getMessage());
 	    	 System.out.println(e);       
 		 }
 		 return flag;
@@ -64,7 +63,7 @@ public class AddTeamleaderDAO {
  */
 	public int updatePlayerNum( int sportsId,int departId){
 		int flag = 0;
-		String sql = "SELECT COUNT(*) FROM t_sports2department where sportsid = ? and departid = ?";
+		String sql = "SELECT COUNT(teamleader) FROM t_sports2department where sportsid = ? and departid = ?";
 		try{
 			conn = db.getConn();
 			pStatement = conn.prepareStatement(sql);

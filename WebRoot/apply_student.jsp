@@ -4,19 +4,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="css/subcss.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <%
-	int num = ((Integer)session.getAttribute("num")).intValue();	
-%>	
-<%
-	//int sumnumid = ((Integer)session.getAttribute("sumnumid")).intValue();
-	//System.out.println("fffffffffff"+sumnumid);
-	//String ids = (String)session.getAttribute("i");
-	//System.out.println("fffffffffff"+ids);
-%>	
+	int num = ((Integer)session.getAttribute("num")).intValue();
+	int perMan = Integer.parseInt(session.getAttribute("perMan").toString());
+	int perDepartment = Integer.parseInt(session.getAttribute("perDepartment").toString());	
+%>		
 <%
 	ArrayList list = (ArrayList)session.getAttribute("playernum");
    	PlayerNum p = null;
@@ -44,16 +40,21 @@ $(document).ready(function(){
 //判断每项男女限报6人用的全局变量
 <%
 	ArrayList itemlist =(ArrayList)session.getAttribute("mylist");
-	
+	ArrayList playerNumList =(ArrayList)request.getAttribute("playerNumList");
 	int[] itemid=new int[itemlist.size()];
 	String[] itemtype = new String[itemlist.size()];
 	out.print("var itemSix = new Array();");
+	out.print("var playerNum = new Array();");
 	for(int j = 0;j<itemlist.size();j++ ){
 		Item item = (Item)itemlist.get(j);
 		itemid[j]=item.getItemid();
 		itemtype[j]= item.getItemtype();
 		out.print("itemSix["+j+"] = "+ item.getItemid()+";");
 		
+	}
+	for(int j = 0;j<playerNumList.size();j++ ){
+		PlayerNum pn = (PlayerNum)playerNumList.get(j);
+		out.print("playerNum["+j+"] = "+ pn.getPlayerNum()+";");
 	}
 	//System.out.println(itemlist);
 %> 
@@ -63,7 +64,7 @@ var sum = 0;
 var cover = "cover";
 var add = 0;
 var number = 0;
-number = <%=begin%>;
+//number = <%=begin%>;
 var itemids = new Array(<%for(int i=0;i < itemid.length;i++){out.print(itemid[i]);if(i!=itemid.length-1)out.print(","); }   %>);
 var itemtypes = new Array(<%for(int i=0;i<itemtype.length;i++){out.print(itemtype[i]);if(i!=itemtype.length-1)out.print(","); }   %>);
 function checkItem(obj){
@@ -73,20 +74,20 @@ function checkItem(obj){
 	var count = 0;
 	for(var i=0; i<arr.length; i++){
 		var temp;
-		temp = arr[i].value.split("+");
+		temp = arr[i].value.split("#");
 		if( arr[i].checked == true && temp[1] != "3"){
 			count++;
 		}
 	}
-	if(count > 2){
+	if(count > <%=perMan%>){
 		Dialog.alert("除接力比赛外，每人限报2项！");
 		obj.checked = false;
 	}
 }
 function addRow(obj)
         {
-        if(number><%=end%>){
-        Dialog.alert("您的号码布有限，请重新分配！ ");
+        if(number > playerNum.length){
+        Dialog.alert("您的号码簿有限，请重新分配！ ");
         return false;
         }
        var stuentApply = document.getElementById("stuentApply");
@@ -102,22 +103,22 @@ function addRow(obj)
 		var newTd2 = newTr.insertCell(2);
 		//newTd0.style.height=30;
         //设置列内容和属性
-        newTd0.innerHTML = '<td><div align="center"><lable><input type="hidden" name="hide" id="'+cover+'"><input type=text size="4" readonly="true" id="num_'+sample+'" name="num_'+sample+'"  value='+number+'></lable></div></td>'; 
-		newTd1.innerHTML = '<td><div align="center"><input type=text size="6" name="name_'+sample+'" id="name_'+sample+'"></div></td>'; 
+        newTd0.innerHTML = '<td><div align="center"><lable><input type="hidden" name="hide" id="'+cover+'"><input type=text size="4" readonly="true" id="num_'+sample+'" name="num_'+sample+'"  value='+playerNum[number]+'></lable></div></td>'; 
+		newTd1.innerHTML = '<td><div align="center"><input type="text" size="6" name="name_'+sample+'" id="name_'+sample+'"></div></td>'; 
 		newTd2.innerHTML = '<td align="center" valign="middle"><div align="center">'+
 		'<input type="radio" name="sex_'+sample+'" value="true" checked="checked">男&nbsp;'+
-		'<input type="radio" name="sex_'+sample+'" value="false">女</div></td>';        
+		'<input type="radio" name="sex_'+sample+'" value="false">女</div></td>';
          var i = 3;
          for(i = 3;i <= <%=num+2%>; i++){
         	newTr.insertCell(i).innerHTML= '<td><div align="center"><input onchange="checkItem(this);" type="checkbox" name="'+sample+'" value="'+itemids[i-3]+'#'+itemtypes[i-3]+'"></div></td>';
          }
-         sum=sum+1;
+         sum=sum + 1;
          add=add+1;
          number = number+1;
-         if(number<=<%=end%>){
+         if(number <= playerNum.length){
          	return number;
          }else{  	
-         	Dialog.alert("您的号码布有限，请重新分配！ ");
+         	Dialog.alert("您的号码簿有限，请重新分配！ ");
          }
     }
 
@@ -156,8 +157,16 @@ function test(){
 				jj++;
 			}
 		}
-		var str = num+","+name+","+sex_str+","+allitem;
+		var str;
+		if(name != "" && allitem == ""){
+			//Dialog.alert(name+"的项目未选，请选择后再提交！ ");
+			str = num+","+""+","+sex_str+","+allitem;
+		}else{
+			str = num+","+name+","+sex_str+","+allitem;
+		}
+		//var str = num+","+name+","+sex_str+","+allitem;
 		document.getElementById(cover).value=str;
+		//alert(document.getElementById(cover).value);
 		str = "";
 		add+=1;
 		sum+=1;
@@ -165,6 +174,7 @@ function test(){
 }
 function submitCheck(){
 //判断每项限报6人
+
 	var countMan = 0;
 	var countWoman = 0;
 	var myobj=document.getElementsByName("hide");
@@ -196,11 +206,11 @@ function submitCheck(){
 	}
 	for(var i = 0;i<itemCountWoman.length;i++){
 		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);
-		if(itemCountMan[i] > 2){
+		if(itemCountMan[i] > <%=perDepartment%>){
 			Dialog.alert("男子组中有一些项目报名人数超过6人，请检查！");
 			return false;
 		}
-		if(itemCountWoman[i] > 2){
+		if(itemCountWoman[i] > <%=perDepartment%>){
 			Dialog.alert("女子组中有一些项目报名人数超过6人，请检查！");
 			return false;
 		}
@@ -216,7 +226,7 @@ function submitCheck(){
 -->
 </style>
 </head>
-  <form action="servlet/UpdatePlayerServlet" method="post" onsubmit="return submitCheck();">
+  <form action="${pageContext.request.contextPath }/servlet/UpdatePlayerServlet" method="post" onsubmit="return submitCheck();">
     <table id="stuentApply" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
       <tr class="tableTitle">
         <td height="20" colspan="17" ><div align="center">

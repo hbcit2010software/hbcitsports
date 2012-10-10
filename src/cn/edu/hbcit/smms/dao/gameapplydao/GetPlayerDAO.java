@@ -94,7 +94,38 @@ public class GetPlayerDAO {
 		}
 		return rst ;
 	}
-	
+	/**
+	 * 查询所有未分配的运动员号码
+	 * @param sp2dpid
+	 * @param numtype
+	 * @return
+	 */
+	public ArrayList getPlayernum(int sp2dpid, boolean numtype){
+		log.debug(sp2dpid+" WWWWWWWWWWW "+numtype);
+		ArrayList list = new ArrayList();
+		String sql = "SELECT t_player.playernum FROM t_player,t_playernum WHERE playername IS NULL AND t_playernum.numtype=? AND t_player.sp2dpid=? AND t_playernum.id=t_player.numid";
+		DBConn db = new DBConn();
+			try{
+				conn = db.getConn();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(2, sp2dpid);
+				pstmt.setBoolean(1, numtype);
+				rs = pstmt.executeQuery();
+				while( rs.next() ){
+					PlayerNum num = new PlayerNum();
+					num.setPlayerNum(rs.getString(1));
+					log.debug(rs.getString(1));
+					//System.out.println(rs.getString(1)+rs.getString(2));
+					list.add(num);
+					
+				}
+				db.freeConnection(conn);
+			}catch( Exception e){
+				e.getStackTrace();
+				System.out.println(e.getMessage());
+			}
+			return list;
+		}
 	/**
 	 * 根据sp2dpid查找运动员号码
 	 * @param sp2dpid
@@ -288,6 +319,7 @@ public class GetPlayerDAO {
 	
 	/*
 	 * 根据sql语句查询运动员号码是否有冲突
+	 * 
 	 */
 	public int selectPlayerNum(int sp2dpid2,boolean numtype){
 		int flag = 0;
@@ -354,5 +386,103 @@ public class GetPlayerDAO {
 		}
 		return flag;
 	}
+	
+	
+	/*
+	 * 通过运动会id获取当前运动会的项目限制数量
+	 */
+	public int selRule(int sportsid){
+		int flag = 0;
+		String sql = "SELECT perman FROM t_rule WHERE sportsid = ?";
+		try{
+			conn = db.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sportsid);
+			rs = pstmt.executeQuery();
+			while( rs.next() ){
+				flag = rs.getInt(1);
+			}
+			db.freeConnection(conn);
+		}catch( Exception e){
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return flag;
+	}
+	
+	
+	public int selRule2(int sportsid){
+		int flag = 0;
+		String sql = "SELECT perdepartment FROM t_rule WHERE sportsid = ?";
+		try{
+			conn = db.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sportsid);
+			rs = pstmt.executeQuery();
+			while( rs.next() ){
+				flag = rs.getInt(1);
+			}
+			db.freeConnection(conn);
+		}catch( Exception e){
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return flag;
+	}
+	
+	/**
+	 * 根据
+	 * @param sp2dpid
+	 * @param groupid
+	 * @return
+	 */
+	public ArrayList getItemId( int sp2dpid,int groupid){
+		ArrayList registitem = new ArrayList();
+		String sql = "SELECT registitem FROM t_player WHERE sp2dpid = ? AND groupid = ?";
+		try{
+			conn = db.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sp2dpid);
+			pstmt.setInt(2, groupid);
+			rs = pstmt.executeQuery();
+			while( rs.next() ){
+				String itemids = rs.getString(1);
+				String[] itemid =itemids.split(";");
+				for (int i = 0; i < itemid.length; i++){
+					String id = itemid[i];
+					String flag = groupid+";"+id;
+					registitem.add(flag);
+				}
+				
+			}	
+			db.freeConnection(conn);
+		}catch( Exception e){
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return registitem;
+	}
+/**
+ * 获取当前运动会截止报名的日期
+ */
+//	public String getRegistend()
+//	{
+//		String registend = null;
+//		String sql="SELECT registend FROM t_sports WHERE current = 1";
+//		try{
+//			conn=db.getConn();
+//			pstmt = conn.prepareStatement(sql);
+//			rs = pstmt.executeQuery();
+//			while(rs.next()){
+//				registend = rs.getString(1);
+//			}
+//			db.freeConnection(conn);
+//		}catch(Exception e){
+//			e.getStackTrace();
+//		    System.out.println(e.getMessage());
+//		}
+//		
+//		return registend;
+//	}
 }
 

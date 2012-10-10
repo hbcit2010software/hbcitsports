@@ -1,16 +1,30 @@
 package cn.edu.hbcit.smms.pojo;
 
-public class GameApplyPJ {
-
+public class SelPlayerByGroupPojo {
+	private int playernumID ;
 	private int id ;
 	private String groupname;
 	private int grouptype;
+	
 	private String playernum;
 	private String playername;
 	private int  playersex;
 	private int groupid;
 	private String registitem;
 	private int sp2dpid;
+	private String items[];
+	public int getPlayernumID() {
+		return playernumID;
+	}
+	public void setPlayernumID(int playernumID) {
+		this.playernumID = playernumID;
+	}
+	public String[] getItems() {
+		return items;
+	}
+	public void setItems(String[] items) {
+		this.items = items;
+	}
 	public int getId() {
 		return id;
 	}
@@ -84,6 +98,13 @@ public class GameApplyPJ {
 	}
 	private int itemid;
 	private String itemname;
+	private String itemtype;
+	public String getItemtype() {
+		return itemtype;
+	}
+	public void setItemtype(String itemtype) {
+		this.itemtype = itemtype;
+	}
 	public int getItemid() {
 		return itemid;
 	}
@@ -96,4 +117,26 @@ public class GameApplyPJ {
 	public void setItemname(String itemname) {
 		this.itemname = itemname;
 	}
+	private String teamleader;
+	private String coach;
+	private String doctor;
+	public String getTeamleader() {
+		return teamleader;
+	}
+	public void setTeamleader(String teamleader) {
+		this.teamleader = teamleader;
+	}
+	public String getCoach() {
+		return coach;
+	}
+	public void setCoach(String coach) {
+		this.coach = coach;
+	}
+	public String getDoctor() {
+		return doctor;
+	}
+	public void setDoctor(String doctor) {
+		this.doctor = doctor;
+	}
+
 }

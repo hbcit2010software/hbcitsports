@@ -91,7 +91,7 @@ public class AddTeamleaderServlet extends HttpServlet {
 			String teamLeader = request.getParameter("teamleader");//获得领队名字
 			String coach = request.getParameter("coach");//获得教练名字
 			String doctor = request.getParameter("doctor");//获得队医名字
-			flag = addTeamleaderService.AddSports2Department(sportsId, departId, teamLeader, coach, doctor);	
+			flag = addTeamleaderService.addSports2Department(sportsId, departId, teamLeader, coach, doctor);	
 		}
 		if(flag == 1){
 			session.setAttribute("msg","添加成功！");

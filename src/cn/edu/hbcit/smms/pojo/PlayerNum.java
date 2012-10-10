@@ -6,7 +6,14 @@ public class PlayerNum {
 	private String departshortname;
 	private int numtype;
 	private int id;
+	private String playerNum;
 
+	public String getPlayerNum() {
+		return playerNum;
+	}
+	public void setPlayerNum(String playerNum) {
+		this.playerNum = playerNum;
+	}
 	public String getBeginnum() {
 		return beginnum;
 	}
