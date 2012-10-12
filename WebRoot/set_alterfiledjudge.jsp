@@ -7,8 +7,9 @@
 	 <link href="css/subcss.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 		<script language="javascript" type="text/javascript"
-			src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
-</script>
+			src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+			<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 		<script language="JavaScript">
 
 function alter() {
@@ -19,6 +20,23 @@ function alter() {
 			var  fieldjudge_4=$('#fieldjudge_4').val();
 			var  fieldjudge_5=$('#fieldjudge_5').val();
 			var  fieldjudge_6=$('#fieldjudge_6').val();
+			
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	        if(!tempStr.test(fieldjudge)){
+		      Dialog.alert("田赛裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_1)){
+	          Dialog.alert("总记录裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_2)){
+	          Dialog.alert("记录员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_3)){
+	          Dialog.alert("检查长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_4)){
+	          Dialog.alert("检查员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_5)){
+	          Dialog.alert("场地器材组长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_6)){
+	          Dialog.alert("器材员包含特殊字符，请以英文逗号进行分隔");
+	        }else{
 						
 			$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/UpdateFiledJudgeServlet",
@@ -30,11 +48,12 @@ function alter() {
 			var revalue = mm.replace(/\r\n/g, '');
 
 			if (revalue == "success") {
-				alert("修改成功!");
+				Dialog.alert("修改成功!");
 			} else
-				alert("修改失败!");
+				Dialog.alert("修改失败!");
 		}
 	});
+}
 }
 
 //隔行变色
@@ -91,7 +110,7 @@ body {
 							田赛裁判长：
 							</td>
 							<td>
-						 <input type="text" name="fieldjudge" id="fieldjudge" value="${officialsetlist1.fieldjudge}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+						 <input type="text" name="fieldjudge" id="fieldjudge" value="${officialsetlist1.fieldjudge}" />
 					    </td>
                     </tr>
 					<tr  class="tableContent" >
@@ -99,7 +118,7 @@ body {
 							总记录裁判长：
 							</td>
 							<td>
-							<input type="text" name="fieldjudge_1" id="fieldjudge_1" value="${officialsetlist1.fieldjudge_1}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="fieldjudge_1" id="fieldjudge_1" value="${officialsetlist1.fieldjudge_1}" />
 						</td>
 					</tr>
 					<tr  class="tableContent" >
@@ -107,7 +126,7 @@ body {
 							记录员：
 							</td>
 							<td>
-							<textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">${officialsetlist1.fieldjudge_2}</textarea>
+							<textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5" >${officialsetlist1.fieldjudge_2}</textarea>
 						</td>
 					</tr>
                     <tr  class="tableContent" >
@@ -115,7 +134,7 @@ body {
 							检查长：
 							</td>
 							<td>
-							<input type="text" name="fieldjudge_3" id="fieldjudge_3" value="${officialsetlist1.fieldjudge_3}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="fieldjudge_3" id="fieldjudge_3" value="${officialsetlist1.fieldjudge_3}" />
 						</td>
 					</tr>
                   	<tr  class="tableContent" >
@@ -123,7 +142,7 @@ body {
 							检查员：
 							</td>
 							<td>
-							<textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">${officialsetlist1.fieldjudge_4}</textarea>
+							<textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5" >${officialsetlist1.fieldjudge_4}</textarea>
 						</td>
 					</tr>
                     <tr  class="tableContent" >
@@ -131,7 +150,7 @@ body {
 							场地器材组长：
 							</td>
 							<td>
-							<input type="text" name="fieldjudge_5" id="fieldjudge_5" value="${officialsetlist1.fieldjudge_5}" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="fieldjudge_5" id="fieldjudge_5" value="${officialsetlist1.fieldjudge_5}" />
 						</td>
 					</tr>
                     <tr  class="tableContent" >
@@ -139,7 +158,7 @@ body {
 							器材员：
 							</td>
 							<td>
-							<textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">${officialsetlist1.fieldjudge_6}</textarea>
+							<textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5" >${officialsetlist1.fieldjudge_6}</textarea>
 						</td>
 					</tr>
 					<tr  class="tableContent" >

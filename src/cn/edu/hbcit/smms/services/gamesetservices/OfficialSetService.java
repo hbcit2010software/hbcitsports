@@ -1,7 +1,11 @@
 package cn.edu.hbcit.smms.services.gamesetservices;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.dao.gamesetdao.OfficialSetDAO;
 
 public class OfficialSetService {
@@ -104,4 +108,40 @@ public class OfficialSetService {
 	public boolean updateStuJudge(int id, String contact,String tel,String member){
 		return peoplesetDAO.updateStuJudge(id,contact, tel, member);
 	}
+	
+	/**
+	 * 根据sportsid检查是否添加过学生裁判
+	 * @param sportsid
+	 * @return
+	 */
+	public boolean checkStuJudge(int sportsid) {
+			return peoplesetDAO.checkStuJudge(sportsid);       
 	}
+	
+	/**
+	 * 根据sportsid检查是否添加过田赛裁判
+	 * @param sportsid
+	 * @return
+	 */
+	public boolean checkFiledJudge(int sportsid) {
+		return peoplesetDAO.checkFiledJudge(sportsid);        
+	}
+	
+	/**
+	 * 根据sportsid删除田赛裁判
+	 * @param sportsid
+	 * @return
+	 */
+	public void deleteFiledJudge(int sportsid) {
+		peoplesetDAO.deleteFiledJudge(sportsid);
+	}
+	
+	/**
+	 * 根据sportsid删除学生裁判
+	 * @param sportsid
+	 * @return
+	 */
+	public void deleteStuJudge(int sportsid) {
+		peoplesetDAO.deleteStuJudge(sportsid);
+	}
+}

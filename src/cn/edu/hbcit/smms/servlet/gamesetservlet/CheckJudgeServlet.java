@@ -2,7 +2,6 @@ package cn.edu.hbcit.smms.servlet.gamesetservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,21 +11,16 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-
+import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.services.gamesetservices.OfficialSetService;
 
-/**添加学生裁判集合
- * 
- * @author Administrator
- *
- */
-public class AddStuJudgeServlet extends HttpServlet {
+public class CheckJudgeServlet extends HttpServlet {
 
-	protected final Logger log = Logger.getLogger(AddStuJudgeServlet.class.getName());
+	protected final Logger log = Logger.getLogger(LoginDAO.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
-	public AddStuJudgeServlet() {
+	public CheckJudgeServlet() {
 		super();
 	}
 
@@ -51,7 +45,31 @@ public class AddStuJudgeServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		this.doPost(request, response);
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		OfficialSetService off = new OfficialSetService();
+		HttpSession session = request.getSession();
+		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());  
+		
+		String judType = "";
+		judType = request.getParameter("judType");
+		log.debug("*******************************judType*"+judType);
+		boolean flag = false;
+		if (judType.trim().equals("stu")){
+			flag = off.checkStuJudge(sportsid);
+			if (flag == true){
+				session.setAttribute("stuJudge", "have");
+				out.println("success");
+			}	
+		}else{
+			flag = off.checkFiledJudge(sportsid);
+			if (flag == true){
+				session.setAttribute("fieJudge", "have");
+				out.println("success");
+			}
+		} 
+		out.flush();
+		out.close();
 	}
 
 	/**
@@ -67,39 +85,8 @@ public class AddStuJudgeServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
-		OfficialSetService off = new OfficialSetService();
-		String insertSql = request.getParameter("insertString");
-		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());  
-		log.debug("insertSql:"+insertSql);
-		String type = request.getParameter("judType");
-		if (type.equals("stu")){
-			if (session.getAttribute("stuJudge") != null){
-				off.deleteStuJudge(sportsid);
-			}
-		}
-		if (type.equals("fil")){
-			if (session.getAttribute("fieJudge") != null){
-				off.deleteFiledJudge(sportsid);
-			}
-		}
-		int flag = off.addRecordBySql(insertSql);
-		if(flag > 0){
-			out.println("success");
-		}else{
-			out.println("false");
-		}
-       	
-        out.flush();
-   	    out.close();
-
-  	 }			
-  	   
-  	
-     
+		this.doGet(request, response);
+	}
 
 	/**
 	 * Initialization of the servlet. <br>
