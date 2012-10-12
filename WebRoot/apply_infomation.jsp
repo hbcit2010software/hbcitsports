@@ -54,7 +54,15 @@ if(request.getAttribute("itemList")!=null&&request.getAttribute("groupList")!=nu
 %>
 
 function showSelectValue(){ 
-			document.forms[0].submit();
+
+ var matchgroup = document.getElementById("matchgroup").value;
+	if(matchgroup==0||matchgroup==1){
+		document.forms[0].submit();
+		
+	}else{
+		alert("请选择参赛组别"+matchgroup);
+		return false;
+			}
 }
 
 //限制每人项目个数
@@ -81,6 +89,10 @@ function submitCheck(){
 	var countYoungMan = 0;
 	var countYoungWoman = 0;
 	var myobj=document.getElementsByName("hide");
+	if(myobj.length==0){
+	 alert("请选择参赛组别！");
+		return false;
+	}
 	var itemNoPlus = new Array();
 	var itemCountOldMan = new Array();
 	var itemCountOldWoman = new Array();
@@ -92,7 +104,6 @@ function submitCheck(){
 		itemCountYoungMan[i]=0;
 		itemCountYoungWoman[i]=0;
 	}
-	alert("itemCountOldWoman.length="+itemCountOldWoman.length);
 	for(var i = 0; i<myobj.length; i++){
 		var arrGroup = myobj[i].value.split(",");	//{"20031","张三","教工青年男子组","2+3;4+5"}    11112,jjjjsssss,2,1;2
 		var itemId = arrGroup[3].split(";");   //{"1","2"}
@@ -112,7 +123,6 @@ function submitCheck(){
 	}
 	
 	for(var i = 0;i<itemCountOldWoman.length;i++){
-		alert(itemCountOldMan[i]+","+itemCountOldWoman[i]+","+itemCountYoungMan[i]+","+itemCountYoungWoman[i]);
 		if(itemCountOldMan[i] > <%=perDepartment%>){
 			alert(groupName[0]+"中有一些项目报名人数超过6人，请检查！");
 			//Dialog.alert(groupName[0]+"中有一些项目报名人数超过6人，请检查！");
@@ -139,6 +149,10 @@ function submitCheck(){
 function upDate(){
 	document.getElementById("hidselectGroup").value = document.getElementById("matchgroup").value
 	var myobj=document.getElementsByName("hide");
+	if(myobj.length==0){
+	 alert("请选择参赛组别！");
+		return false;
+	}else{
 	for(var i = 1;i <= myobj.length+1; i++){
 		var num = document.getElementById("num_"+i).value;
 		var name = document.getElementById("name_"+i).value;
@@ -168,6 +182,7 @@ function upDate(){
 		//alert(str);
 		document.getElementById(i+"_cover").value=str;
 		str = "";
+		}
 		}
 }
 
@@ -219,7 +234,7 @@ function upDate(){
     <div class="centent">
     <div>
     <select id="matchgroup" name="matchgroup">
-    		<option>-请选择-</option>      
+    		<option value="">-请选择-</option>      
             <%
     			try{
     				String match = (String)request.getAttribute("grouptypes");

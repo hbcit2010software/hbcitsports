@@ -1,0 +1,88 @@
+package cn.edu.hbcit.smms.servlet.gameapplyservlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import cn.edu.hbcit.smms.services.gameapplyservices.GetPlayerService;
+
+public class GetItemGroupServlet extends HttpServlet {
+
+	/**
+	 * Constructor of the object.
+	 */
+	public GetItemGroupServlet() {
+		super();
+	}
+
+	/**
+	 * Destruction of the servlet. <br>
+	 */
+	public void destroy() {
+		super.destroy(); // Just puts "destroy" string in log
+		// Put your code here
+	}
+
+	/**
+	 * The doGet method of the servlet. <br>
+	 *
+	 * This method is called when a form has its tag value method equals to get.
+	 * 
+	 * @param request the request send by the client to the server
+	 * @param response the response send by the server to the client
+	 * @throws ServletException if an error occurred
+	 * @throws IOException if an error occurred
+	 */
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		this.doPost(request, response);
+	}
+
+	/**
+	 * The doPost method of the servlet. <br>
+	 *
+	 * This method is called when a form has its tag value method equals to post.
+	 * 
+	 * @param request the request send by the client to the server
+	 * @param response the response send by the server to the client
+	 * @throws ServletException if an error occurred
+	 * @throws IOException if an error occurred
+	 */
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
+		HttpSession session = request.getSession();
+		GetPlayerService gps = new GetPlayerService();
+		ArrayList list = new ArrayList();
+		int sportsid = 0;
+		if(session.getAttribute("currSportsId") != null){
+			sportsid = ((Integer)session.getAttribute("currSportsId")).intValue();
+		}
+		System.out.println("sportsid"+sportsid);
+		list = gps.getGroupItem(sportsid);
+		System.out.println("bbbbb"+list.size());
+		request.setAttribute("itemGroup", list);
+		request.getRequestDispatcher("/apply_groupitem.jsp").forward(request, response);
+		//response.sendRedirect("../apply_groupitem.jsp");
+	}
+
+	/**
+	 * Initialization of the servlet. <br>
+	 *
+	 * @throws ServletException if an error occurs
+	 */
+	public void init() throws ServletException {
+		// Put your code here
+	}
+
+}

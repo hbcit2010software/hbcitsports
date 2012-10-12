@@ -17,11 +17,23 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
+		
+		
+function check(){
+	var teamleader=$("#teamleader").val();
+	var coach=$("#coach").val();
+	var doctor=$("#doctor").val();
+	if(teamleader == "" || teamleader == null || coach == "" || coach == null || doctor == null || doctor ==""){
+		alert("你的领队、教练、队医都不能为空才能提交！");
+		return false;
+	}
+}
+		
 </script>
 </head>
 
 <body>
-<form  action="servlet/AddTeamleaderServlet" method="post"> 
+<form  action="servlet/AddTeamleaderServlet" method="post" onsubmit="return check();"> 
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -36,7 +48,7 @@
             </table></td>
             <td>
             <div align="right"><span class="pageTitle">
-              <img src="images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF">添加新运动会</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+              <img src="images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF"></a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
             </div>
             </td>
           </tr>
@@ -54,12 +66,12 @@
         <td width="3%" height="20"><div align="center" >队医</div></td>
       </tr>
        <tr class="tableContent">
-        <td><div align="center"><input type="text" name="teamleader"/></div></td>
-        <td><div align="center"><input type="text" name="coach"/></div></td>
-        <td><div align="center"><input type="text" name="doctor"/></div></td>
+        <td><div align="center"><input type="text" name="teamleader" id="teamleader"/></div></td>
+        <td><div align="center"><input type="text" name="coach" id="coach"/></div></td>
+        <td><div align="center"><input type="text" name="doctor" id="doctor"/></div></td>
       </tr>  
     </table>
-    	<center><input type="submit" name="button" id="button"  style="width:80px;height:30px;" value="提   交"></center>
+    	<center><input type="submit" name="button" id="button"  style="width:80px;height:30px;" value="提   交" ></center>
     </form>
      <!--内嵌表格end-->
     </td>

@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
+import cn.edu.hbcit.smms.pojo.Group2item;
 import cn.edu.hbcit.smms.pojo.Item;
 import cn.edu.hbcit.smms.pojo.Player;
 import cn.edu.hbcit.smms.pojo.Player;
@@ -465,24 +466,60 @@ public class GetPlayerDAO {
 /**
  * 获取当前运动会截止报名的日期
  */
-//	public String getRegistend()
-//	{
-//		String registend = null;
-//		String sql="SELECT registend FROM t_sports WHERE current = 1";
-//		try{
-//			conn=db.getConn();
-//			pstmt = conn.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//			while(rs.next()){
-//				registend = rs.getString(1);
-//			}
-//			db.freeConnection(conn);
-//		}catch(Exception e){
-//			e.getStackTrace();
-//		    System.out.println(e.getMessage());
-//		}
-//		
-//		return registend;
-//	}
+	public String getRegistend()
+	{
+		String registend = null;
+		String sql="SELECT registend FROM t_sports WHERE current = 1";
+		try{
+			conn=db.getConn();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				registend = rs.getString(1);
+			}
+			db.freeConnection(conn);
+		}catch(Exception e){
+			e.getStackTrace();
+		    System.out.println(e.getMessage());
+		}
+		
+		return registend;
+	}
+	
+	/**
+	 * 根据运动会id获取每组所能报名的项目
+	 * @param sportsid
+	 * @return
+	 */
+		
+		public ArrayList getGroupItem(int sportsid){
+			ArrayList list = new ArrayList();
+			String sql = "SELECT t_item.itemname,t_group.groupname FROM t_group " +
+					"JOIN t_group2sports ON t_group2sports.groupid = t_group.id " +
+					"JOIN t_group2item ON t_group2item.gp2spid = t_group2sports.id " +
+					"JOIN t_item ON t_item.id = t_group2item.itemid " +
+					"WHERE t_group2sports.sportsid = ? AND t_group2item.matchtype <> 0";
+			try{
+				conn = db.getConn();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, sportsid);
+				rs = pstmt.executeQuery();
+				while( rs.next() ){
+					Group2item itemnames = new Group2item();
+					itemnames.setItemname(rs.getString(1));
+					itemnames.setGroupname(rs.getString(2));
+					//log.debug(itemname.getItemid()+"))))"+itemname.getItemname());
+					list.add(itemnames);
+					
+				}
+				System.out.println("aaaa"+list.size());
+				
+			}catch( Exception e){
+				e.getStackTrace();
+				System.out.println(e.getMessage());
+			}
+			db.freeConnection(conn);
+			return list;
+		}
 }
 
