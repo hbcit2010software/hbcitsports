@@ -102,7 +102,7 @@
     <td>
     <!--内嵌表格begin-->
 
-   <table border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+   <table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
   <tr class="tableTitle">
     <td width="540" height="30" align="center"><div class="jilv"><span>大会纪律</span></div>
     <hr class="hr1"/></td>

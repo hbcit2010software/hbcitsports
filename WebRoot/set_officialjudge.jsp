@@ -16,6 +16,8 @@
 	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 	<link type="text/css" href="css/demos.css" rel="stylesheet" />
 	
 	<script type="text/javascript">
@@ -55,6 +57,43 @@ $(document).ready(function() {
 			var  endpoint_3=$('#endpoint_3').val();
 			var  endpoint_4=$('#endpoint_4').val();
 			var  endpoint_5=$('#endpoint_5').val();
+			
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	        if(!tempStr.test(chiefjudge_1)){
+		      Dialog.alert("总裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(chiefjudge_2)){
+	          Dialog.alert("副总裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(trackjudge)){
+	          Dialog.alert("径赛裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(trackjudge_rollcall_1)){
+	          Dialog.alert("检录裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(trackjudge_rollcall_2)){
+	          Dialog.alert("检录裁判长助理包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(trackjudge_rollcall_3)){
+	          Dialog.alert("检录员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(startingpoint_1)){
+	          Dialog.alert("起点裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(startingpoint_2)){
+	          Dialog.alert("起点裁判长助理包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(startingpoint_3)){
+	          Dialog.alert("发令员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(timejudge_1)){
+	          Dialog.alert("记时长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(timejudge_2)){
+	          Dialog.alert("记时员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(timejudge_3)){
+	          Dialog.alert("司线员会包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_1)){
+	          Dialog.alert("终点裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_2)){
+	          Dialog.alert("终点裁判长助理包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_3)){
+	          Dialog.alert("终点裁判员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_4)){
+	          Dialog.alert("终点记录长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_5)){
+	          Dialog.alert("终点记录员包含特殊字符，请以英文逗号进行分隔");
+	        }else{
 									
 			$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/AddTrackjudgeServlet",
@@ -70,12 +109,13 @@ $(document).ready(function() {
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-								alert("添加成功!",function(){window.location.reload();});
+								Dialog.alert("添加成功!",function(){window.location.reload();});
 							}
 							else
-								alert("添加失败!");
+								Dialog.alert("添加失败!");
 						}
 					});	
+				}
 		}
 
 		function alterpws2()
@@ -87,6 +127,23 @@ $(document).ready(function() {
 			var  fieldjudge_4=$('#fieldjudge_4').val();
 			var  fieldjudge_5=$('#fieldjudge_5').val();
 			var  fieldjudge_6=$('#fieldjudge_6').val();
+			
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	        if(!tempStr.test(fieldjudge)){
+		      Dialog.alert("田赛裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_1)){
+	          Dialog.alert("总记录裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_2)){
+	          Dialog.alert("记录员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_3)){
+	          Dialog.alert("检查长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_4)){
+	          Dialog.alert("检查员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_5)){
+	          Dialog.alert("场地器材组长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(fieldjudge_6)){
+	          Dialog.alert("器材员包含特殊字符，请以英文逗号进行分隔");
+	        }else{
 						
 			$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/AddFieldjudgeServlet",
@@ -98,12 +155,13 @@ $(document).ready(function() {
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-								alert("添加成功!",function(){window.location.reload();});
+								Dialog.alert("添加成功!",function(){window.location.reload();});
 							}
 							else
-								alert("添加失败!");
+								Dialog.alert("添加失败!");
 						}
 					});	
+				}
 		}
 		
 		
@@ -174,101 +232,101 @@ font-size:16px;}
 <div id="tabs-1" >
 <div id="caipan1">
     <span class="STYLE5">总裁判长：</span>
-    <input type="text" name="chiefjudge_1" id="chiefjudge_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></div>
+    <input type="text" name="chiefjudge_1" id="chiefjudge_1"></div>
 <div id="caipan2"><span class="STYLE5">副总裁判长：</span>
-  <input type="text" name="chiefjudge_2" id="chiefjudge_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></div>
+  <input type="text" name="chiefjudge_2" id="chiefjudge_2"></div>
 <p>&nbsp;</p>
 		<p align="left" class="STYLE4"><span class="STYLE7">径赛显示区</span>：</p>
 <table width="1024" border="0" >
           <tr>
             <td width="154"><span class="STYLE5">径赛裁判长:</span></td>
 <td width="854"><label>
-              <input type="text" name="trackjudge" id="trackjudge" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="trackjudge" id="trackjudge">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检录裁判长：</span></td>
 <td><label>
-              <input type="text" name="trackjudge_rollcall_1" id="trackjudge_rollcall_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="trackjudge_rollcall_1" id="trackjudge_rollcall_1">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检录裁判长助理：</span></td>
 <td><label>
-              <input type="text" name="trackjudge_rollcall_2" id="trackjudge_rollcall_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="trackjudge_rollcall_2" id="trackjudge_rollcall_2">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检录员：</span></td>
 <td><label>
-              <textarea name="trackjudge_rollcall_3" id="trackjudge_rollcall_3" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+              <textarea name="trackjudge_rollcall_3" id="trackjudge_rollcall_3" cols="45" rows="5"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">起点裁判长：</span></td>
 <td><label>
-              <input type="text" name="startingpoint_1" id="startingpoint_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="startingpoint_1" id="startingpoint_1">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">起点裁判长助理：</span></td>
 <td><label>
-              <input type="text" name="startingpoint_2" id="startingpoint_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="startingpoint_2" id="startingpoint_2">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">发令员：</span></td>
 <td><label>
-              <textarea name="startingpoint_3" id="startingpoint_3" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+              <textarea name="startingpoint_3" id="startingpoint_3" cols="45" rows="5"></textarea>
             </label></td>
           </tr>
           <tr>
-            <td><span class="STYLE5">计时长：</span></td>
+            <td><span class="STYLE5">记时长：</span></td>
 <td><label>
-              <input type="text" name="timejudge_1" id="timejudge_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="timejudge_1" id="timejudge_1">
             </label></td>
           </tr>
           <tr>
-            <td><span class="STYLE5">计时员：</span></td>
+            <td><span class="STYLE5">记时员：</span></td>
 <td><label>
-              <textarea name="timejudge_2" id="timejudge_2" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+              <textarea name="timejudge_2" id="timejudge_2" cols="45" rows="5"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">司线员：</span></td>
 <td><label>
-              <input type="text" name="timejudge_3" id="timejudge_3" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="timejudge_3" id="timejudge_3">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">终点裁判长：</span></td>
 <td><label>
-              <input type="text" name="endpoint_1" id="endpoint_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="endpoint_1" id="endpoint_1">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">终点裁判长助理：</span></td>
 <td><label>
-              <input type="text" name="endpoint_2" id="endpoint_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="endpoint_2" id="endpoint_2">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">终点裁判员：</span></td>
   <td>
  <label>
-              <textarea name="endpoint_3" id="endpoint_3" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+              <textarea name="endpoint_3" id="endpoint_3" cols="45" rows="5"></textarea>
             </label></td>
           </tr>
            <tr>
             <td><span class="STYLE5">终点记录长：</span></td>
 <td><label>
-              <input type="text" name="endpoint_4" id="endpoint_4" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="endpoint_4" id="endpoint_4">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">终点记录员：</span></td>
 <td><label>
-              <input type="text" name="endpoint_5" id="endpoint_5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="endpoint_5" id="endpoint_5">
             </label></td>
           </tr>
         </table>
@@ -287,43 +345,43 @@ font-size:16px;}
           <tr>
             <td width="154"><span class="STYLE5">田赛裁判长：</span></td>
     <td width="854"><label>
-              <input type="text" name="fieldjudge" id="fieldjudge" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="fieldjudge" id="fieldjudge">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">总记录裁判长：</span></td>
     <td><label>
-              <input type="text" name="fieldjudge_1" id="fieldjudge_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="fieldjudge_1" id="fieldjudge_1">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">记录员：</span></td>
             <td><label>
-            <textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+            <textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检查长：</span></td>
             <td><label>
-            <input type="text" name="fieldjudge_3" id="fieldjudge_3" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+            <input type="text" name="fieldjudge_3" id="fieldjudge_3">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">检查员：</span></td>
             <td><label>
-            <textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+            <textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5"></textarea>
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">场地器材组长：</span></td>
     <td><label>
-              <input type="text" name="fieldjudge_5" id="fieldjudge_5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')">
+              <input type="text" name="fieldjudge_5" id="fieldjudge_5">
             </label></td>
           </tr>
           <tr>
             <td><span class="STYLE5">器材员：</span></td>
     <td><label>
-              <textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+              <textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5"></textarea>
             </label></td>
           </tr>
          </table>
@@ -349,9 +407,9 @@ font-size:16px;}
 					<td width="20%">
 					<input type="hidden" id="id<%=judNum %>"  value="${item[1]}" />
 					<input type="text" id="<%=judNum %>"  value="${item[0]}" /></td>
-					<td><input type="text"  name="judge_1<%=judNum %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
-					<td><input type="text"  name="judge_2<%=judNum %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
-					<td><input type="text"  name="judge_3<%=judNum %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
+					<td><input type="text"  name="judge_1<%=judNum %>" /></td>
+					<td><input type="text"  name="judge_2<%=judNum %>" /></td>
+					<td><input type="text"  name="judge_3<%=judNum %>" /></td>
 				</tr> 
 				<% judNum++; %>
 			</c:forEach>
@@ -386,22 +444,55 @@ font-size:16px;}
 	    		var idnew = parseInt(id); 
 	    		insertString = insertString + "("+idnew+",'"+person+"','"+phone+"','"+judges+"')";
 	    	}
+	    	var type = "fil";
+	    
 	    	
 	    	$.ajax({
-					url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
+					url :"${pageContext.request.contextPath }/servlet/CheckJudgeServlet",
 					type : 'post',
-				   	data:{insertString:insertString},
-					
+				   	data:{judType:type},
 					success :function(mm){
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-								alert("添加成功!");
+							    var flag = Dialog.confirm("田赛裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
+								if(flag == true){
+									$.ajax({
+											url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
+											type : 'post',
+										   	data:{insertString:insertString,judType:type},
+											
+											success :function(mm){
+													var revalue=mm.replace(/\r\n/g,'');
+													if(revalue=="success")
+													{
+														Dialog.alert("添加成功!");
+													}
+													else
+														Dialog.alert("添加失败！");
+												}
+											});	
+								}
 							}
 							else
-								alert("添加失败！");
+								$.ajax({
+											url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
+											type : 'post',
+										   	data:{insertString:insertString,judType:type},
+											
+											success :function(mm){
+													var revalue=mm.replace(/\r\n/g,'');
+													if(revalue=="success")
+													{
+														Dialog.alert("添加成功!");
+													}
+													else
+														Dialog.alert("添加失败！");
+												}
+											});	
 						}
 					});	
+	    	
 	    }
 	    </script>
 		
@@ -429,9 +520,9 @@ font-size:16px;}
 					<input type="hidden" id="depid<%=num %>" value="${dep[0]}" />
 					<input type="text"  id="depname<%=num %>" value="${dep[1]}" />	</td>
 					
-					<td><input type="text"  id="person<%=num %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
+					<td><input type="text"  id="person<%=num %>" /></td>
 					<td><input type="text"  id="phone<%=num %>" /></td>
-					<td><input type="text"  id="judges<%=num %>" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/></td>
+					<td><input type="text"  id="judges<%=num %>" /></td>
 					
 				</tr>
 				<%
@@ -454,6 +545,7 @@ font-size:16px;}
 			
 
 		function insertStuJudge(){
+		
 	    	var num1 = <%=num %>;
 	    	var insertString = "INSERT INTO t_stujudge(sp2dpid,contact,tel,member) VALUES ";
 	    	for(var i=0;i<num1;i++){
@@ -470,24 +562,68 @@ font-size:16px;}
 	    		var flag5 = "judges"+i;
 	    		var judges=document.getElementById(flag5).value;
 	    		var idnew = parseInt(id); 
+	    		
+	    		
+	        
+	    		
 	    		insertString = insertString + "("+idnew+",'"+person+"','"+phone+"','"+judges+"')";
 	    	}
+	    	var type = "stu";
 	    	
+	    	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	    	if(!tempStr.test(person)){
+		      Dialog.alert("系部联系人包含特殊字符，请以英文逗号进行分隔");
+	        }
+	         if(!tempStr.test(judges)){
+	          Dialog.alert("学生裁判包含特殊字符，请以英文逗号进行分隔");
+	        }
 	    	$.ajax({
-					url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
+					url :"${pageContext.request.contextPath }/servlet/CheckJudgeServlet",
 					type : 'post',
-				   	data:{insertString:insertString},
-					
+				   	data:{judType:type},
 					success :function(mm){
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-								alert("添加成功!");
+								//var flag = window.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
+								var flag = Dialog.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
+								if(flag == true){
+									$.ajax({
+										url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
+										type : 'post',
+									   	data:{insertString:insertString,judType:type},
+										
+										success :function(mm){
+												var revalue=mm.replace(/\r\n/g,'');
+												if(revalue=="success")
+												{
+													Dialog.alert("添加成功!");
+												}
+												else
+													Dialog.alert("添加失败！");
+											}
+										});	
+								}
 							}
 							else
-								alert("添加失败！");
+								$.ajax({
+										url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
+										type : 'post',
+									   	data:{insertString:insertString,judType:type},
+										
+										success :function(mm){
+												var revalue=mm.replace(/\r\n/g,'');
+												if(revalue=="success")
+												{
+													Dialog.alert("添加成功!");
+												}
+												else
+													Dialog.alert("添加失败！");
+											}
+										});	
 						}
 					});	
+	    	
 	    }
 	    </script>
 

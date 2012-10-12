@@ -1,7 +1,7 @@
 <%@page language="java" import="java.net.URLEncoder,java.io.*,java.net.URLDecoder" contentType="application/x-msdownload" pageEncoding="gb2312"%>   
 <!-- 此页面用于秩序册下载时实现，使用文件流方式下载资源        -->
 <!-- 田小英  2012-9-19       -->
-<% String filePath = request.getSession().getServletContext().getRealPath("/"); %>
+<% String filePath = request.getSession().getServletContext().getRealPath("/")+"word/";  %>
 <%    
 		  //关于文件下载时采用文件流输出的方式处理：    
 		  //加上response.reset()，并且所有的％>后面不要换行，包括最后一个；    

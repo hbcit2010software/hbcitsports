@@ -70,9 +70,22 @@ public class AddStuJudgeServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		request.setCharacterEncoding("utf-8");
-		String insertSql = request.getParameter("insertString");
-		log.debug("insertSql:"+insertSql);
+		HttpSession session = request.getSession();
 		OfficialSetService off = new OfficialSetService();
+		String insertSql = request.getParameter("insertString");
+		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());  
+		log.debug("insertSql:"+insertSql);
+		String type = request.getParameter("judType");
+		if (type.equals("stu")){
+			if (session.getAttribute("stuJudge") != null){
+				off.deleteStuJudge(sportsid);
+			}
+		}
+		if (type.equals("fil")){
+			if (session.getAttribute("fieJudge") != null){
+				off.deleteFiledJudge(sportsid);
+			}
+		}
 		int flag = off.addRecordBySql(insertSql);
 		if(flag > 0){
 			out.println("success");
