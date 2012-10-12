@@ -55,7 +55,7 @@ public class SetWordDAO {
 				ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
 				T_finalitemPojo finalInfo = (T_finalitemPojo)allBoyPlayers.get(allBoyFnId.get(i));
 				
-				String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+				String title = count+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
 				+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 				swd.addFiledTable(docu, title, pnums, 8);
 				count++;
@@ -70,20 +70,20 @@ public class SetWordDAO {
 						if (finalInfo.getGroupnum() > 0){
 							ArrayList pnums = cpgg.select1500ByFinId(finalitemid, players);
 							int[] groupInfo = swcu.slectGroupInfoByFid(finalitemid);
-							String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
+							String title = count+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
 							               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 							swd.add1500Table(docu, title, pnums, 9, groupInfo);
 							count++;
 						}else{
 							ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
-							String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+							String title = count+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
 							+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 							swd.addFiledTable(docu, title, pnums, 8);
 							count++;
 						}
 					}else{
 						ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
-						String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+						String title = count+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
 						+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 						swd.addFiledTable(docu, title, pnums, 8);
 						count++;
@@ -92,7 +92,7 @@ public class SetWordDAO {
 				}else{
 					ArrayList pnums = cpgg.selectMatchByFinId(finalitemid, players);
 					int[] groupInfo = swcu.slectGroupInfoByFid(finalitemid);
-					String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
+					String title = count+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
 					               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 					swd.add100Table(docu, title, pnums, 9, groupInfo);
 					count++;
@@ -106,7 +106,7 @@ public class SetWordDAO {
 				if (gNum == null || gNum.intValue()==0){
 					ArrayList depName = new ArrayList();
 					depName = cpgg.selectMatchByFinId(finalitemid, department);
-					String title = count+"、" + gname + finalInfo.getFinalitemname() + "，"
+					String title = count+"、" + finalInfo.getFinalitemname() + "，"
 		               + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 					swd.addFiledTable(docu, title, depName, 6);
 					count++;
@@ -114,7 +114,7 @@ public class SetWordDAO {
 					ArrayList depName = new ArrayList();
 					int[] groupNum = swcu.slectGroupInfoByFid(finalitemid);
 					depName = cpgg.selectMatchByFinId(finalitemid, department);
-					String title = count+"、" + gname + finalInfo.getFinalitemname() + "（" + depName.size() +"队），"
+					String title = count+"、" + finalInfo.getFinalitemname() + "（" + depName.size() +"队），"
 		               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 					swd.add1500Table(docu, title, depName, 6, groupNum);
 					count++;
@@ -142,7 +142,7 @@ public class SetWordDAO {
 				ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
 				T_finalitemPojo finalInfo = (T_finalitemPojo)allGirlPlayers.get(allGirlFnId.get(i));
 				
-				String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+				String title = count1+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
 				+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 				swd.addFiledTable(docu, title, pnums, 8);
 			}
@@ -156,19 +156,19 @@ public class SetWordDAO {
 						if (finalInfo.getGroupnum() > 0){
 							ArrayList pnums = cpgg.select1500ByFinId(finalitemid, players);
 							int[] groupInfo = swcu.slectGroupInfoByFid(finalitemid);
-							String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
+							String title = count1+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
 							               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 							swd.add1500Table(docu, title, pnums, 9, groupInfo);
 						}else{
 							ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
-							String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+							String title = count1+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
 							+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 							swd.addFiledTable(docu, title, pnums, 8);
 							
 						}
 					}else{
 						ArrayList pnums = cpgg.selectFilePnumByFid(finalitemid, players);
-						String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
+						String title = count1+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人）"
 						+ "，按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 						swd.addFiledTable(docu, title, pnums, 8);
 					}
@@ -176,7 +176,7 @@ public class SetWordDAO {
 				}else{
 					ArrayList pnums = cpgg.selectMatchByFinId(finalitemid, players);
 					int[] groupInfo = swcu.slectGroupInfoByFid(finalitemid);
-					String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
+					String title = count1+"、" + finalInfo.getFinalitemname() + "（" + pnums.size() +"人），"
 					               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 					swd.add100Table(docu, title, pnums, 9, groupInfo);
 				}
@@ -189,14 +189,14 @@ public class SetWordDAO {
 				if (gNum == null || gNum.intValue()==0){
 					ArrayList depName = new ArrayList();
 					depName = cpgg.selectMatchByFinId(finalitemid, department);
-					String title = count1+"、" + gname + finalInfo.getFinalitemname() + "，"
+					String title = count1+"、" + finalInfo.getFinalitemname() + "，"
 		               + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 					swd.addFiledTable(docu, title, depName, 6);
 				}else{
 					ArrayList depName = new ArrayList();
 					int[] groupNum = swcu.slectGroupInfoByFid(finalitemid);
 					depName = cpgg.selectMatchByFinId(finalitemid, department);
-					String title = count1+"、" + gname + finalInfo.getFinalitemname() + "（" + depName.size() +"队），"
+					String title = count1+"、" + finalInfo.getFinalitemname() + "（" + depName.size() +"队），"
 		               + finalInfo.getGroupnum() + "组" + "按成绩取前" + finalInfo.getPromotionnum() + "名参加决赛";
 					swd.add1500Table(docu, title, depName, 6, groupNum);
 				}
