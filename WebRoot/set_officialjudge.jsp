@@ -227,7 +227,8 @@ font-size:16px;}
 	<ul class="STYLE5">
 		<li><strong><a href="#tabs-1">径赛裁判员</a></strong></li>
 		<li><strong><a href="#tabs-2">田赛裁判员</a></strong></li>
-		<li><strong><a href="#tabs-3">学生裁判员</a></strong></li>
+		<li><strong><a href="#tabs-3">田赛项目裁判</a></strong></li>
+		<li><strong><a href="#tabs-4">学生裁判员</a></strong></li>
 	</ul>
 <div id="tabs-1" >
 <div id="caipan1">
@@ -392,7 +393,13 @@ font-size:16px;}
      
         </p>
         
-<table class="stripe_tb" border="1" align="left" width="600">
+
+		
+         
+	</div>
+	<div id="tabs-3" >
+	<p align="left" class="STYLE7">田赛项目裁判：</p>
+	<table class="stripe_tb" border="1" align="left" width="600">
 			<tr>
 				<td><div align="center" class="STYLE7">项目名称</div></td>
 <td>
@@ -407,9 +414,9 @@ font-size:16px;}
 					<td width="20%">
 					<input type="hidden" id="id<%=judNum %>"  value="${item[1]}" />
 					<input type="text" id="<%=judNum %>"  value="${item[0]}" /></td>
-					<td><input type="text"  name="judge_1<%=judNum %>" /></td>
-					<td><input type="text"  name="judge_2<%=judNum %>" /></td>
-					<td><input type="text"  name="judge_3<%=judNum %>" /></td>
+					<td><input type="text"  id="judge_1<%=judNum %>" /></td>
+					<td><input type="text"  id="judge_2<%=judNum %>" /></td>
+					<td><input type="text"  id="judge_3<%=judNum %>" /></td>
 				</tr> 
 				<% judNum++; %>
 			</c:forEach>
@@ -428,6 +435,8 @@ font-size:16px;}
 		function insertFileJudge(){
 	    	var num1 = <%=judNum %>;
 	    	var insertString = "INSERT INTO t_fieldjudge(gp2itid,judge_1,judge_2,judge_3) values ";
+	    	
+	    	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
 	    	for(var i=0;i<num1;i++){
 	    		if (i>0){
 	    			insertString = insertString+",";
@@ -437,10 +446,22 @@ font-size:16px;}
 	    		var id=document.getElementById(flag1).value;
 	    		var flag3 = "judge_1"+i;
 	    		var person=document.getElementById(flag3).value;
+	    		if(!tempStr.test(person)){
+				      Dialog.alert("项目裁判长包含特殊字符，请以英文逗号进行分隔");
+				      return;
+			        }
 	    		var flag4 = "judge_2"+i;
 	    		var phone=document.getElementById(flag4).value;
+	    		if(!tempStr.test(phone)){
+				      Dialog.alert("裁判长助理包含特殊字符，请以英文逗号进行分隔");
+				      return;
+			        }
 	    		var flag5 = "judge_3"+i;
 	    		var judges=document.getElementById(flag5).value;
+	    		if(!tempStr.test(judges)){
+				      Dialog.alert("裁判员包含特殊字符，请以英文逗号进行分隔");
+				      return;
+			        }
 	    		var idnew = parseInt(id); 
 	    		insertString = insertString + "("+idnew+",'"+person+"','"+phone+"','"+judges+"')";
 	    	}
@@ -455,7 +476,7 @@ font-size:16px;}
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-							    var flag = Dialog.confirm("田赛裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
+							    var flag = window.confirm("田赛裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
 								if(flag == true){
 									$.ajax({
 											url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
@@ -495,24 +516,16 @@ font-size:16px;}
 	    	
 	    }
 	    </script>
-		
-         
 	</div>
-	<div id="tabs-3" >
+	<div id="tabs-4" >
 		<p align="left" class="STYLE7">学生裁判：</p>
 
 <table class="stripe_tb" border="1" align="left" width="600">
 			<tr>
-				<td><div align="center"><span class="STYLE7">
-				  系部名称</span></div></td>
-<td><div align="center"><span class="STYLE7">
-  系部联系人</span></div></td>
-<td><div align="center"><span class="STYLE7">
-  联系人电话
-</span></div></td>
-<td><div align="center"><span class="STYLE7">
-  裁判员
-</span></div></td>
+				<td><div align="center" class="STYLE7"> 系部名称</div></td>
+                <td><div align="center" class="STYLE7">系部联系人</div></td>
+                <td><div align="center" class="STYLE7">联系人电话</div></td>
+                <td><div align="center" class="STYLE7">裁判员</div></td>
 		</tr>
 			<c:forEach items="${sessionScope.departmentlist1}" var="dep">
 				<tr background="">
@@ -548,6 +561,8 @@ font-size:16px;}
 		
 	    	var num1 = <%=num %>;
 	    	var insertString = "INSERT INTO t_stujudge(sp2dpid,contact,tel,member) VALUES ";
+	    	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	    	var phoneStr = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
 	    	for(var i=0;i<num1;i++){
 	    		if (i>0){
 	    			insertString = insertString+",";
@@ -557,10 +572,22 @@ font-size:16px;}
 	    		var id=document.getElementById(flag1).value;
 	    		var flag3 = "person"+i;
 	    		var person=document.getElementById(flag3).value;
+	    		if(!tempStr.test(person)){
+			      Dialog.alert("系部联系人包含特殊字符，请以英文逗号进行分隔");
+			      return;
+		        }
 	    		var flag4 = "phone"+i;
 	    		var phone=document.getElementById(flag4).value;
+	    		if(!phoneStr.test(phone)){
+			      Dialog.alert("电话号码不正确");
+			      return;
+		        }
 	    		var flag5 = "judges"+i;
 	    		var judges=document.getElementById(flag5).value;
+	    		if(!tempStr.test(judges)){
+		          Dialog.alert("裁判员包含特殊字符，请以英文逗号进行分隔");
+		          return;
+		        }
 	    		var idnew = parseInt(id); 
 	    		
 	    		
@@ -570,13 +597,6 @@ font-size:16px;}
 	    	}
 	    	var type = "stu";
 	    	
-	    	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
-	    	if(!tempStr.test(person)){
-		      Dialog.alert("系部联系人包含特殊字符，请以英文逗号进行分隔");
-	        }
-	         if(!tempStr.test(judges)){
-	          Dialog.alert("学生裁判包含特殊字符，请以英文逗号进行分隔");
-	        }
 	    	$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/CheckJudgeServlet",
 					type : 'post',
@@ -585,8 +605,8 @@ font-size:16px;}
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-								//var flag = window.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
-								var flag = Dialog.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
+								var flag = window.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
+								//var flag = Dialog.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
 								if(flag == true){
 									$.ajax({
 										url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
