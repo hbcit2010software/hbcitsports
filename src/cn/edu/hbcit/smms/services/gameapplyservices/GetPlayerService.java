@@ -66,4 +66,12 @@ public class GetPlayerService {
 	public ArrayList getGroupItem(int sportsid){
 		return getPlayerDao.getGroupItem(sportsid);
 	}
+	/**
+	 * 查询当届运动会的所有参赛组别
+	 * @param sportsid
+	 * @return
+	 */
+	public ArrayList getGroup(int sportsid){
+		return getPlayerDao.getGroup(sportsid);
+	}
 }

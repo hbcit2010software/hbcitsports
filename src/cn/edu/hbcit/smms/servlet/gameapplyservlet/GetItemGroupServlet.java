@@ -63,15 +63,17 @@ public class GetItemGroupServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		GetPlayerService gps = new GetPlayerService();
-		ArrayList list = new ArrayList();
+		ArrayList list_groupItem = new ArrayList();
+		ArrayList list_group = new ArrayList();
 		int sportsid = 0;
 		if(session.getAttribute("currSportsId") != null){
 			sportsid = ((Integer)session.getAttribute("currSportsId")).intValue();
 		}
-		System.out.println("sportsid"+sportsid);
-		list = gps.getGroupItem(sportsid);
-		System.out.println("bbbbb"+list.size());
-		request.setAttribute("itemGroup", list);
+		//System.out.println("sportsid"+sportsid);
+		list_groupItem = gps.getGroupItem(sportsid);
+		list_group = gps.getGroup(sportsid);
+		request.setAttribute("itemGroup", list_groupItem);
+		request.setAttribute("group", list_group);
 		request.getRequestDispatcher("/apply_groupitem.jsp").forward(request, response);
 		//response.sendRedirect("../apply_groupitem.jsp");
 	}

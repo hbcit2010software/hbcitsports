@@ -521,5 +521,36 @@ public class GetPlayerDAO {
 			db.freeConnection(conn);
 			return list;
 		}
+		
+		/**
+		 * 查询当届运动会的所有参赛组别
+		 * @param sportsid
+		 * @return
+		 */
+		public ArrayList getGroup(int sportsid){
+			ArrayList list = new ArrayList();
+			String sql = "SELECT t_group.groupname FROM t_group2sports,t_group WHERE t_group2sports.sportsid=? AND t_group2sports.groupid=t_group.id";
+			try{
+				conn = db.getConn();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, sportsid);
+				rs = pstmt.executeQuery();
+				while( rs.next() ){
+					Group2item itemnames = new Group2item();
+					//itemnames.setItemname(rs.getString(1));
+					itemnames.setGroupname(rs.getString(1));
+					log.debug("查询结果："+itemnames.getGroupname());
+					list.add(itemnames);
+					
+				}
+				//System.out.println("aaaa"+list.size());
+				
+			}catch( Exception e){
+				e.getStackTrace();
+				//System.out.println(e.getMessage());
+			}
+			db.freeConnection(conn);
+			return list;
+		}
 }
 
