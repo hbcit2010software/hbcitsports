@@ -104,9 +104,11 @@
 
    <table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
   <tr class="tableTitle">
-    <td width="540" height="30" align="center"><div class="jilv"><span>大会纪律</span></div>
-    <hr class="hr1"/></td>
-    <td width="90" align="center"><a href="${pageContext.request.contextPath }/servlet/SelectDaHuiJiLvServlet"><font>查看并修改</font></a></td>
+    <td width="540" height="30" align="center"><div class="jilv">
+      <h2><span><strong>大会纪律</strong></span></h2>
+    </div>
+    </td>
+   
   </tr>
   
   <tr class="tableContent">
@@ -114,8 +116,10 @@
       <textarea name="rule" id="rule" cols="70" rows="25"></textarea></td>
   </tr>
   <tr class="tableContent">
-    <td colspan="2" align="center"><div class="jilv"><span>大会程序</span></div>
-      <hr class="hr1"/></td>
+    <td colspan="2" align="center"><div class="jilv">
+      <h2><span><strong>大会程序</strong></span></h2>
+    </div>
+      </td>
   </tr>
   <tr class="tableContent">
     <td colspan="2" align="center"><span>开幕式内容:</span><br />
@@ -128,7 +132,7 @@
  
   <tr class="tableContent">
     <td colspan="2" align="center"><input type="button" id="button" value="提交" onClick="addjl()" >
-    &nbsp;&nbsp;&nbsp;&nbsp;</td>
+    &nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/servlet/SelectDaHuiJiLvServlet"><input style="font-size:12px" type="button" value="修改" /></a></td></td>
   </tr>
 </table>
 
