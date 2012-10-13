@@ -7,6 +7,7 @@ import net.sf.json.JSONArray;
 
 import cn.edu.hbcit.smms.dao.gamequerydao.GameQueryDAO;
 import cn.edu.hbcit.smms.dao.gamequerydao.GameQuerySelectInfDAO;
+import cn.edu.hbcit.smms.dao.gamequerydao.SelectTeamLeaderDao;
 import cn.edu.hbcit.smms.pojo.QueryRegistitemToItems;
 
 /*
@@ -34,6 +35,7 @@ public class GameQueryServices {
 	 */
 	GameQueryDAO gqd = new GameQueryDAO();
 	GameQuerySelectInfDAO gqs = new GameQuerySelectInfDAO();
+	SelectTeamLeaderDao stld = new SelectTeamLeaderDao();
 	public ArrayList getSportsName(){
 		return gqd.getSportsName();
 	}
@@ -52,5 +54,8 @@ public class GameQueryServices {
 	}
 	public JSONArray selectInQuestion(int sportsid,String sportname,int departname,int province,String itemtype,int item,String score1,String score2,String breakrecord){
 		return gqs.selectInQuestion(sportsid, sportname, departname, province, itemtype, item, score1, score2, breakrecord);
+	}
+	public JSONArray SelectTeamLeader(int sportid,int departid){
+		return stld.SelectTeamLeader(sportid, departid);
 	}
 }

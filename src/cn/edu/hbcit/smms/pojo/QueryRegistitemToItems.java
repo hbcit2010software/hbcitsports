@@ -50,7 +50,7 @@ public class QueryRegistitemToItems {
 		ArrayList finalitemnames = new ArrayList();
 		String finalitemname ="";
 		JSONArray jsonarray = new JSONArray();
-			String sql = " SELECT t_finalitem.finalitemname"+
+			String sql = " SELECT DISTINCT t_finalitem.finalitemname"+
 			" FROM t_position " +
 			" JOIN t_player ON t_position.playerid = t_player.id"+
 			" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id"+ 
@@ -86,14 +86,20 @@ public class QueryRegistitemToItems {
 	 * */
 	public JSONArray getScores( String playernum){
 		JSONArray jsonarray = new JSONArray();
-			String sql = " SELECT t_position.score"+
+			String sql = " SELECT DISTINCT t_position.score,t_position.finalitemid"+
 			" FROM t_position" +
 			" JOIN t_player ON t_position.playerid = t_player.id"+
-			" WHERE t_player.playernum =?";
+			" WHERE t_player.playernum =?" +
+			" ORDER BY t_position.finalitemid IN(SELECT DISTINCT t_finalitem.id" +
+			" FROM t_position " +
+			" JOIN t_player ON t_position.playerid = t_player.id" +
+			" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id" +
+			" WHERE t_player.playernum = ? )";
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, playernum);
+				pstmt.setString(2, playernum);
 				rs = pstmt.executeQuery();
 				while(rs.next()){
 					jsonarray.add(rs.getString(1));
@@ -112,7 +118,7 @@ public class QueryRegistitemToItems {
 	 * */
 	public JSONArray getPosition( String playernum){
 		JSONArray jsonarray = new JSONArray();
-			String sql = "SELECT t_position.position"+
+			String sql = "SELECT DISTINCT t_position.position"+
 			" FROM t_position" +
 			" JOIN t_player ON t_position.playerid = t_player.id"+
 			" WHERE t_player.playernum =?";
@@ -140,7 +146,7 @@ public class QueryRegistitemToItems {
 		String[] finalitemname = (String[])listfinames.toArray(new String[size]); 
 		for(int i=0;i<finalitemname.length;i++){ 
 			String finalitem = finalitemname[i];
-			String sql = "SELECT t_match.recordlevel FROM t_match " +
+			String sql = "SELECT DISTINCT t_match.recordlevel FROM t_match " +
 					" JOIN t_finalitem ON t_finalitem.id = t_match.finalitemid" +
 					" JOIN t_player ON t_player.id = t_match.playerid" +
 					" WHERE t_finalitem.finalitemname=? AND t_player.playernum=?";
@@ -154,7 +160,7 @@ public class QueryRegistitemToItems {
 				while(rs.next()){
 					String rel = "";
 					if(rs.getString(1).equals("0")){
-						 rel = "";
+						 rel = "无";
 					}else if(rs.getString(1).equals("1")){
 						 rel = "院";
 					}else if(rs.getString(1).equals("2")){
@@ -178,7 +184,7 @@ public class QueryRegistitemToItems {
 	 * */
 	public JSONArray getItem( String playernum,String item){
 		JSONArray jsonarray = new JSONArray();
-			String sql = "SELECT t_finalitem.finalitemname" +
+			String sql = "SELECT DISTINCT t_finalitem.finalitemname" +
 					" FROM t_position JOIN t_player ON t_position.playerid = t_player.id" +
 					" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id" +
 					" WHERE t_player.playernum = ? AND t_finalitem.finalitemname LIKE \"%\"?\"%\"";
@@ -206,7 +212,7 @@ public class QueryRegistitemToItems {
 	 * */
 	public JSONArray getScore( String playernum ,String item){
 		JSONArray jsonarray = new JSONArray();
-			String sql = "SELECT t_position.score" +
+			String sql = "SELECT DISTINCT t_position.score" +
 					" FROM t_position " +
 					" JOIN t_player ON t_position.playerid = t_player.id" +
 					" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id" +
@@ -235,7 +241,7 @@ public class QueryRegistitemToItems {
 	 * */
 	public JSONArray getPosition1( String playernum, String item){
 		JSONArray jsonarray = new JSONArray();
-			String sql = "SELECT t_position.position" +
+			String sql = "SELECT DISTINCT t_position.position" +
 			" FROM t_position " +
 			" JOIN t_player ON t_position.playerid = t_player.id" +
 			" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id" +
@@ -262,7 +268,7 @@ public class QueryRegistitemToItems {
 	 * */
 	public JSONArray getRecordlevel2( String playernum,String item){
 		JSONArray jsonarray = new JSONArray();
-			String sql = "SELECT recordlevel FROM t_match" +
+			String sql = "SELECT DISTINCT recordlevel FROM t_match" +
 					" JOIN t_player ON t_player.id = t_match.playerid" +
 					" JOIN t_finalitem ON t_finalitem.id = t_match.finalitemid" +
 					" WHERE t_player.playernum=? AND t_finalitem.finalitemname=?";
@@ -276,7 +282,7 @@ public class QueryRegistitemToItems {
 				while(rs.next()){
 					String rel = "";
 					if(rs.getString(1).equals("0")){
-						 rel = "";
+						 rel = "无";
 					}else if(rs.getString(1).equals("1")){
 						 rel = "院";
 					}else if(rs.getString(1).equals("2")){
