@@ -92,7 +92,7 @@ function checkItem(obj){
 		}
 	}
 	if(count ><%=perMan%>){
-		Dialog.alert("除接力比赛外，每人限报2项！");
+		Dialog.alert("除接力比赛外，每人限报<%=perMan%>项！");
 		obj.checked = false;
 	}
 	//alert(count);
@@ -233,19 +233,19 @@ function submitCheck(){
 	for(var i = 0;i<itemCountOldWoman.length;i++){
 		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);
 		if(itemCountOldMan[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[0]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[0]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountOldWoman[i] > <%=perDepartment %>){
-			Dialog.alert(groupName[1]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[1]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountYoungMan[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[2]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[2]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountYoungWoman[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[3]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[3]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 	}
