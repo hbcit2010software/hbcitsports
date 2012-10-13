@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
+import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import net.sf.json.JSONArray;
 
 public class GetMessage {
@@ -15,6 +16,7 @@ public class GetMessage {
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
+	LoginDAO dao = new LoginDAO();
 	//DBConn dbc = new DBConn();
 	/**
 	 * 获取某个项目的指定小组运动员的信息
@@ -26,10 +28,10 @@ public class GetMessage {
 		System.out.println("finalitemname="+finalitemname);
 		String sql = "SELECT playernum,playername,score,runway FROM t_player JOIN " +
 				"t_match t_match ON t_match.playerid = t_player.id " +
-				"WHERE finalitemid IN (SELECT id FROM t_finalitem WHERE finalitemname = ?) " +
+				"WHERE finalitemid IN (SELECT id FROM t_finalitem WHERE finalitemname = ?  AND sportsid = ?) " +
 				"AND teamnum = ? ORDER BY runway ";
 		String sqlrelay = "SELECT departname,runway,score FROM t_match JOIN t_department ON t_department.id = t_match.playerid WHERE" +
-				"finalitemid IN ( SELECT id FROM t_finalitem WHERE finalitemname = ?)";
+				"finalitemid IN ( SELECT id FROM t_finalitem WHERE finalitemname = ?  AND sportsid = ?)";
 
 		
 		JSONArray list = new JSONArray();
@@ -43,6 +45,7 @@ public class GetMessage {
 			try {
 				pstmt = conn.prepareStatement(sqlrelay);
 				pstmt.setString(1, finalitemname);
+				pstmt.setInt(2, dao.selectCurrentSportsId());
 				rs = pstmt.executeQuery();
 				while( rs.next() ){
 					JSONArray pm = new JSONArray();
@@ -64,7 +67,8 @@ public class GetMessage {
 			try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, finalitemname);
-				pstmt.setString(2, teamnum);
+				pstmt.setInt(2, dao.selectCurrentSportsId());
+				pstmt.setString(3, teamnum);
 				rs = pstmt.executeQuery();
 				
 				while( rs.next() ){
@@ -110,6 +114,7 @@ public class GetMessage {
 			int flag = 0;
 			if( rs.next() ){
 				flag = rs.getInt(1);	//项目的小组数
+				System.out.println("flag = rs.getInt(1)="+flag);
 			}
 			for( int i = 1 ;i < flag + 1 ;i++ ){
 				list.add( getPlayerMessageOnlyTeam( finalitemname, Integer.toString(i) ) );
@@ -177,7 +182,7 @@ public class GetMessage {
 				itemtype = rs.getString(1);
 				log.debug(rs.getString(1));
 			}
-				dbc.freeConnection(conn);	//释放连接
+			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

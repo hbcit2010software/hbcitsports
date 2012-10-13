@@ -209,7 +209,11 @@ function getPlayerInf()
         var foul = $("#foul").val();
         var recordlevel = $("#recordlevel").val();
         var b = /\d{1}/;
-        if((score=="") || (foul=="") || (recordlevel=="") || (!b.test(foul)) || (!b.test(recordlevel)) || parseInt(foul)>1 || parseInt(recordlevel)>2 )
+        var reg1 = /^[1-5]?\d\.\d\d$/;
+        var reg2 = /^[1-5]?\d\.[1-5]\d\.\d\d$/;
+        var reg3 = /^\d\d\.\d\d$/;
+        var reg4 = /^[1-2]?\d\.[1-5]\d\.[1-5]\d\$/;
+        if(((!reg1.test(score)) && (!reg2.test(score)) && (!reg3.test(score)) && (!reg4.test(score))) || (score=="") || (foul=="") || (recordlevel=="") || (!b.test(foul)) || (!b.test(recordlevel)) || parseInt(foul)>1 || parseInt(recordlevel)>2 )
                { alert("填写数据不正确，请重新填写后提交");return false; }
         else 
         {

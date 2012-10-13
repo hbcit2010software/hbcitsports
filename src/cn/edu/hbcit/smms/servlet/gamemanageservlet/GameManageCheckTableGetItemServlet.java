@@ -26,6 +26,7 @@ import cn.edu.hbcit.smms.pojo.GameManageCheckTablePojo;
 import cn.edu.hbcit.smms.pojo.GameManagePoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageCheckTableServices;
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageServices;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 /**
  * XXXXXXXXXXXXXXXXXXXXXXXX类
@@ -38,7 +39,7 @@ import cn.edu.hbcit.smms.services.gamemanageservices.GameManageServices;
  */
 
 public class GameManageCheckTableGetItemServlet extends HttpServlet {
-
+	private UtilTools tools;
 	/**
 	 * Constructor of the object.
 	 */
@@ -74,35 +75,40 @@ public class GameManageCheckTableGetItemServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		PrintWriter out = response.getWriter();
-		StringBuffer buffer = new StringBuffer();
-		String groupid = request.getParameter("groupid");
-		ArrayList itemList = new ArrayList();
-		GameManageCheckTableServices gm = new GameManageCheckTableServices();
-		System.out.println("groupid="+groupid);
-		if(!groupid.equals("")){
-			    itemList = gm.getItemList(Integer.parseInt(groupid));
-				buffer.append("{");
-				buffer.append("\"contents\":[");
-
-				for (int i = 0; i < itemList.size(); i++) {
-					GameManageCheckTablePojo pj = (GameManageCheckTablePojo)itemList.get(i);
-					if (i > 0) {
-						buffer.append(",");
-					}
-
+		String action = request.getParameter("action");
+		if( "checkDate".equals(action)){
+			checkData(request, response);
+		}else{
+			StringBuffer buffer = new StringBuffer();
+			String groupid = request.getParameter("groupid");
+			ArrayList itemList = new ArrayList();
+			GameManageCheckTableServices gm = new GameManageCheckTableServices();
+			System.out.println("groupid="+groupid);
+			if(!groupid.equals("")){
+				    itemList = gm.getItemList(Integer.parseInt(groupid));
 					buffer.append("{");
-					buffer.append("\"itemtype\":\"" + pj.getItemType() + "\",");
-					buffer.append("\"itemname\":\"" + pj.getItemName() + "\"");// 项目内容
+					buffer.append("\"contents\":[");
+
+					for (int i = 0; i < itemList.size(); i++) {
+						GameManageCheckTablePojo pj = (GameManageCheckTablePojo)itemList.get(i);
+						if (i > 0) {
+							buffer.append(",");
+						}
+
+						buffer.append("{");
+						buffer.append("\"itemtype\":\"" + pj.getItemType() + "\",");
+						buffer.append("\"itemname\":\"" + pj.getItemName() + "\"");// 项目内容
+						buffer.append("}");
+					}
+					buffer.append("]");
 					buffer.append("}");
-				}
-				buffer.append("]");
-				buffer.append("}");
-				out.println(buffer);
-				out.flush();
-				out.close();
-				
-		}				
-	}
+					out.println(buffer);
+					out.flush();
+					out.close();	
+			}}
+		}
+					
+	
 
 	/**
 	 * The doPost method of the servlet. <br>
@@ -132,7 +138,24 @@ public class GameManageCheckTableGetItemServlet extends HttpServlet {
 		out.flush();
 		out.close();
 	}
-
+	public void checkData(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
+		
+		int flag = 1;
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		System.out.println("---------------------------+finalitemname+finalitemtype");
+		String finalitemname = new String(request.getParameter("itemname").getBytes("ISO-8859-1"),"utf-8");
+		
+		String finalitemtype = new String(request.getParameter("itemtype").getBytes("ISO-8859-1"),"utf-8");
+		System.out.println("---------------------------"+finalitemname+finalitemtype);
+		GameManageCheckTableServices gm = new GameManageCheckTableServices();
+		flag = gm.getdate(finalitemname, finalitemtype);
+		out.println(flag);
+		out.flush();
+		out.close();
+		
+	}
 	/**
 	 * Initialization of the servlet. <br>
 	 *

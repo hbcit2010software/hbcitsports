@@ -59,5 +59,8 @@ public class GameManageCheckTableServices {
 	public String getSportsName(){
 		return GCTD.getSportsName();
 	}
+	public int getdate( String finalitemname,String finalitemtype){
+		return GCTD.getdate(finalitemname, finalitemtype);
+	}
 	
 }

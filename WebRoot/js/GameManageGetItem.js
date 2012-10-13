@@ -1,5 +1,9 @@
 $(function(){
+	$("#item").change(function(){
+		$("#printScan").attr("disabled",true);
+	});
 	$("#group").change(function(){
+		$("#printScan").attr("disabled",true);
 		var groupid= $("#group").find("option:selected").val();
 		$.ajax({
 		url:"servlet/GameManageCheckTableGetItemServlet",
