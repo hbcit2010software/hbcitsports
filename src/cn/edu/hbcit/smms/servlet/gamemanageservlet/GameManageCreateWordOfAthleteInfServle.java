@@ -83,7 +83,7 @@ public class GameManageCreateWordOfAthleteInfServle extends HttpServlet {
 		athleteList = gm.createWordOfAthleteInf(Integer.parseInt(finalItemId),itemType);
         
 		//获取服务器路径  
-		String file = request.getSession().getServletContext().getRealPath("/");
+		String file = request.getSession().getServletContext().getRealPath("/")+"word/";
 		
 		//String file = request.getContextPath()+"/";
 		//request.setAttribute(file, "file");
