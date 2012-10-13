@@ -195,6 +195,7 @@ function submitCheck(){
 	var countYoungMan = 0;
 	var countYoungWoman = 0;
 	var myobj=document.getElementsByName("hide");
+	if(myobj.length==0){ Dialog.alert("您未点击添加！"); return false;}
 	var itemNoPlus = new Array();
 	var itemCountOldMan = new Array();
 	var itemCountOldWoman = new Array();
@@ -217,13 +218,13 @@ function submitCheck(){
 		for(var j=0 ;j<itemSix.length; j++){
 			for(var k=0; k<itemNoPlus.length; k++){
 				//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
-				if(arrGroup[2] == groupId[0] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
+				if(arrGroup[2] == groupId[0] && itemNoPlus[k]==itemSix[j]){
 					itemCountOldMan[j]++;
-				}else if(arrGroup[2] == groupId[1] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
+				}else if(arrGroup[2] == groupId[1] && itemNoPlus[k]==itemSix[j]){
 					itemCountOldWoman[j]++;
-				}else if(arrGroup[2] == groupId[2] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
+				}else if(arrGroup[2] == groupId[2] && itemNoPlus[k]==itemSix[j]){
 					itemCountYoungMan[j]++;
-				}else if(arrGroup[2] == groupId[3] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
+				}else if(arrGroup[2] == groupId[3] && itemNoPlus[k]==itemSix[j]){
 					itemCountYoungWoman[j]++;
 				}
 			}
@@ -250,6 +251,25 @@ function submitCheck(){
 	}
 	
 }
+//报名注意事项
+function selGroup(){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 600;
+			diag.Height = 400;
+			diag.Title = "报名注意事项";
+			diag.URL = "${pageContext.request.contextPath }/servlet/GetListServlet";
+			//diag.OKEvent = function(){
+			//	window.location.reload();
+				//diag.close();
+			//};
+			diag.ShowCloseButton=true;
+			//diag.MessageTitle = "添加运动会提示：";
+			//diag.Message = "填完各项内容后不要忘记先\"确认添加\"，然后才可关闭窗口";
+			diag.show();
+			//diag.okButton.value="确定";
+			diag.cancelButton.value="关闭";
+	}
 </SCRIPT>
 
 
@@ -269,7 +289,11 @@ function submitCheck(){
       <tr class="tableTitle">
         <td height="20" colspan="17" ><div align="center">
           <h1>教工组报名页面  </h1>
-        </div></td>
+        </div>
+        <div align="right">
+        <a href="#" style="color:#ff0000" onclick="selGroup();">报名注意事项</a>
+        </div>
+        </td>
       </tr>
       
       <tr><td valign="middle" height="20" colspan="17"><div align="center"><input type="button" name="button" id="button"  style="width:80px;height:30px;" value="添   加" onclick="addRow()"></div></td></tr>
