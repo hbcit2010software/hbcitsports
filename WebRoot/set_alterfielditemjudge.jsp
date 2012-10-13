@@ -8,7 +8,7 @@
         <link href="css/subcss.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script language="javascript">
 
 function alterUser(obj) {

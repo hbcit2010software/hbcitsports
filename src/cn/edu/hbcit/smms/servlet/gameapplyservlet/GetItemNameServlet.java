@@ -83,7 +83,7 @@ public class GetItemNameServlet extends HttpServlet {
 		
 		//String dateTime = format.format(date);
 		System.out.println("date============="+date+"registedTime========"+registedTime);
-		if(date.getDay()>registedTime.getDay()){
+		if(date.getDate()>registedTime.getDate()){
 			session.setAttribute("msg","报名日期已过！！！");
 			response.sendRedirect("../apply_playershow.jsp");
 		}else{

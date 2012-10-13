@@ -197,14 +197,14 @@ function submitCheck(){
 		
 		for(var j=0 ;j<itemSix.length; j++){
 			for(var k=0; k<itemNoPlus.length; k++){
-				//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
-				if(arrSex[2] == "true" && itemNoPlus[k]==itemSix[j]){
+//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
+				if(arrSex[2] == "true" && (arrSex[1]!="" && arrSex[3]!="") && itemNoPlus[k]==itemSix[j]){
 					itemCountMan[j]++;
-				}else if(arrSex[2] == "false" && itemNoPlus[k]==itemSix[j]){
+				}else if(arrSex[2] == "false" && (arrSex[1]!="" && arrSex[3]!="") && itemNoPlus[k]==itemSix[j]){
 					itemCountWoman[j]++;
 				}
-			}
 		}
+}
 	}
 	for(var i = 0;i<itemCountWoman.length;i++){
 		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);

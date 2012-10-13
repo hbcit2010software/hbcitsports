@@ -215,20 +215,20 @@ function submitCheck(){
 			itemNoPlus[p] = tempStr[0]; //{"2","4"}
 		}
 		
-		for(var j=0 ;j<itemSix.length; j++){
-			for(var k=0; k<itemNoPlus.length; k++){
-				//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
-				if(arrGroup[2] == groupId[0] && itemNoPlus[k]==itemSix[j]){
-					itemCountOldMan[j]++;
-				}else if(arrGroup[2] == groupId[1] && itemNoPlus[k]==itemSix[j]){
-					itemCountOldWoman[j]++;
-				}else if(arrGroup[2] == groupId[2] && itemNoPlus[k]==itemSix[j]){
-					itemCountYoungMan[j]++;
-				}else if(arrGroup[2] == groupId[3] && itemNoPlus[k]==itemSix[j]){
-					itemCountYoungWoman[j]++;
+			for(var j=0 ;j<itemSix.length; j++){
+				for(var k=0; k<itemNoPlus.length; k++){
+					//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
+					if(arrGroup[2] == groupId[0] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
+						itemCountOldMan[j]++;
+					}else if(arrGroup[2] == groupId[1] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
+						itemCountOldWoman[j]++;
+					}else if(arrGroup[2] == groupId[2] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
+						itemCountYoungMan[j]++;
+					}else if(arrGroup[2] == groupId[3] && itemNoPlus[k]==itemSix[j] && (arrGroup[1]!="" && arrGroup[3]!="")){
+						itemCountYoungWoman[j]++;
+					}
 				}
 			}
-		}
 	}
 	for(var i = 0;i<itemCountOldWoman.length;i++){
 		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);
