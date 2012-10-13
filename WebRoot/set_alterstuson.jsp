@@ -29,7 +29,7 @@ function alterUser(obj) {
     //alert("judge_1");
 	$.ajax( {
 		url : "${pageContext.request.contextPath }/servlet/UpdateStuJudgeServlet",
-		type : 'get',
+		type : 'post',
 		data : 'id=' + id +'&contact=' + contact + '&tel=' + tel + '&member='+ member,
 		dataType:"html",
 		success : function(mm) {
