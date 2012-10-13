@@ -8,7 +8,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 //隔行变色
 $(document).ready(function(){
 	
@@ -255,8 +255,8 @@ function submitCheck(){
 function selGroup(){
 		var diag = new Dialog();
 			diag.Top =20;
-			diag.Width = 400;
-			diag.Height = 200;
+			diag.Width = 600;
+			diag.Height = 400;
 			diag.Title = "报名注意事项";
 			diag.URL = "${pageContext.request.contextPath }/servlet/GetListServlet";
 			//diag.OKEvent = function(){

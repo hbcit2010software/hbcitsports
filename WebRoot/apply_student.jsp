@@ -223,8 +223,8 @@ function submitCheck(){
 function selGroup(){
 		var diag = new Dialog();
 			diag.Top =20;
-			diag.Width = 400;
-			diag.Height = 200;
+			diag.Width = 600;
+			diag.Height = 400;
 			diag.Title = "报名注意事项";
 			diag.URL = "${pageContext.request.contextPath }/servlet/GetListServlet";
 			//diag.OKEvent = function(){
