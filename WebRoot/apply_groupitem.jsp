@@ -16,6 +16,10 @@ $(document).ready(function(){
 			 $(this).removeClass("over");}) //移除该行的class
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 		});
+		
+function jump(path){
+	self.location=path;
+}
 </script>
 <style type="text/css">
 <!--
@@ -48,12 +52,10 @@ a {
          </td>
        </tr>
        </c:forEach>
-       <td width="49%" align="center"><a href="${pageContext.request.contextPath }/servlet/GetItemNameServlet" style="color:#ff0000"><input type="submit" name="button" id="button" value="进入学生报名" />
-
-</a></td>
-         <td width="51%" align="center"><a href="${pageContext.request.contextPath }/servlet/GetPlayerServlet" style="color:#ff0000"><input type="submit" name="button" id="button" value="进入教工报名" />
-
-</a></td>
+       <tr>
+       <td width="49%" align="center"><input type="button" name="button" id="button01" value="进入学生报名" onclick="jump('${pageContext.request.contextPath }/servlet/GetItemNameServlet');" /></td>
+         <td width="51%" align="center"><input type="button" name="button" id="button02" value="进入教工报名" onclick="jump('${pageContext.request.contextPath }/servlet/GetPlayerServlet');" /></td>
+         </tr>
      </table>
   </body>
 </html>

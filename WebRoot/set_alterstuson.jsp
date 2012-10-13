@@ -1,20 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 	<head>
         <link href="css/subcss.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
-            <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-</script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
+
 
 <script language="javascript">
 
 function alterUser(obj) {
 	var id=obj.id;
-	alert(id);
+	//alert(id);
 	var contact = $("#contact").val();
 	var tel = $("#tel").val();
 	var member = $('#member').val();
@@ -32,6 +31,7 @@ function alterUser(obj) {
 		url : "${pageContext.request.contextPath }/servlet/UpdateStuJudgeServlet",
 		type : 'get',
 		data : 'id=' + id +'&contact=' + contact + '&tel=' + tel + '&member='+ member,
+		dataType:"html",
 		success : function(mm) {
 			var revalue = mm.replace(/\r\n/g, '');
 

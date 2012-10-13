@@ -8,7 +8,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 //隔行变色
 $(document).ready(function(){
 	
@@ -92,7 +92,7 @@ function checkItem(obj){
 		}
 	}
 	if(count ><%=perMan%>){
-		Dialog.alert("除接力比赛外，每人限报2项！");
+		Dialog.alert("除接力比赛外，每人限报<%=perMan%>项！");
 		obj.checked = false;
 	}
 	//alert(count);
@@ -233,19 +233,19 @@ function submitCheck(){
 	for(var i = 0;i<itemCountOldWoman.length;i++){
 		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);
 		if(itemCountOldMan[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[0]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[0]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountOldWoman[i] > <%=perDepartment %>){
-			Dialog.alert(groupName[1]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[1]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountYoungMan[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[2]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[2]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountYoungWoman[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[3]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[3]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 	}
@@ -255,8 +255,8 @@ function submitCheck(){
 function selGroup(){
 		var diag = new Dialog();
 			diag.Top =20;
-			diag.Width = 400;
-			diag.Height = 200;
+			diag.Width = 600;
+			diag.Height = 400;
 			diag.Title = "报名注意事项";
 			diag.URL = "${pageContext.request.contextPath }/servlet/GetListServlet";
 			//diag.OKEvent = function(){

@@ -63,19 +63,25 @@ public class UpdateFieldItemJudgeServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		
+
+		response.setContentType("text/html");
+		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		FieldjudgeService fieldjudgeService=new FieldjudgeService();
 		//String fieldjudge=request.getParameter("fieldjudge");
 		int id=Integer.parseInt(request.getParameter("id").trim());
-		log.debug("id_________________"+id);
-        String judge_1=request.getParameter("judge_1").toString().trim();
-        log.debug("judge_1_________________"+judge_1);
-        String judge_2=request.getParameter("judge_2").toString().trim();
-        log.debug("judge_2_________________"+judge_2);
-        String judge_3=request.getParameter("judge_3").toString().trim();
-        log.debug("judge_3_________________"+judge_3);
+//		log.debug("id_________________"+id);
+//        String judge_1=new String(request.getParameter("judge_1").getBytes("ISO-8859-1"),"UTF-8");
+//        String judge_2=new String(request.getParameter("judge_2").getBytes("ISO-8859-1"),"UTF-8");
+//        String judge_3=new String(request.getParameter("judge_3").getBytes("ISO-8859-1"),"UTF-8");
+//        log.debug("judge_1_________________"+judge_1);
+//        log.debug("judge_2_________________"+judge_2);
+//        log.debug("judge_3_________________"+judge_3);
+		String judge_1 = request.getParameter("judge_1");
+		String judge_2 = request.getParameter("judge_2");
+		String judge_3 = request.getParameter("judge_3");
+		log.debug("UpdateFieldItemJudgeServlet乱码："+judge_1+"..."+judge_2+"..."+judge_3);
         if (fieldjudgeService.updateFiledItemJudge(id,judge_1, judge_2, judge_3))
 		{
         	out.println("success");

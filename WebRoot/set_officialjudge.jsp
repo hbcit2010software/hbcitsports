@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
@@ -6,11 +6,8 @@
 <% int judNum = 0; %>
 	
 	<title>jQuery UI Tabs - Default functionality</title>
-	<link href="${pageContext.request.contextPath }/css/subcss.css"
-			type="text/css" rel="stylesheet" />
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath }/jjs/jquery-1.6.min.js">
-</script>
+	<link href="${pageContext.request.contextPath }/css/subcss.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/jjs/jquery-1.6.min.js"></script>
 	<link type="text/css" href="css/themes/base/jquery.ui.all.css" rel="stylesheet" />
 	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
@@ -333,8 +330,8 @@ font-size:16px;}
         </table>
         <p>&nbsp;</p>
       <p>
-        <div align="center" > <input type="button" id="button2" value="提交" onClick="alterpws1()">
-        <input type="button" value="修改" onclick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllTrackjudgeServlet?sportsid==sportsid}'">
+        <div align="center" > <input style="font-size:12px;" type="button"  id="button2" value="提 交" onClick="alterpws1()">
+        <input style="font-size:12px;" type="button"  value="修 改" onClick="window.location.href='${pageContext.request.contextPath}/servlet/SelectAllTrackjudgeServlet?sportsid==sportsid}'">
         </div>
         
         </p>
@@ -387,8 +384,8 @@ font-size:16px;}
           </tr>
          </table>
            <p>
-      <div align="center"> <input type="button" id="button1" value="提交" onClick="alterpws2()">
-       <input type="button" value="修改" onclick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllFiledjudgeServlet?sportsid==sportsid}'">
+      <div align="center"> <input style="font-size:12px;" type="button"  id="button1" value="提 交" onClick="alterpws2()">
+       <input  style="font-size:12px;" type="button" value="修 改" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllFiledjudgeServlet?sportsid==sportsid}'">
       </div>
      
         </p>
@@ -397,7 +394,7 @@ font-size:16px;}
 		
          
 	</div>
-	<div id="tabs-3" >
+	<div id="tabs-3" style="height:100%;">
 	<p align="left" class="STYLE7">田赛项目裁判：</p>
 	<table class="stripe_tb" border="1" align="left" width="600">
 			<tr>
@@ -422,8 +419,8 @@ font-size:16px;}
 			</c:forEach>
 			<tr>
 					<td colspan="4" align="center">
-						<a href="#" onclick="insertFileJudge()"><font>提交</font></a>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/servlet/SelectFieldItemJudgeServlet"><font>查看并修改</font></a>
+						<a href="#" onClick="insertFileJudge()"><font style="font-size:12px;">提 交</font></a>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/servlet/SelectFieldItemJudgeServlet"><font style="font-size:12px;">查看并修改</font></a>
 					</td>
 				</tr>
 		</table>  
@@ -517,39 +514,40 @@ font-size:16px;}
 	    }
 	    </script>
 	</div>
-	<div id="tabs-4" >
+	<div id="tabs-4" style="height:100%;">
+    <div>
 		<p align="left" class="STYLE7">学生裁判：</p>
 
-<table class="stripe_tb" border="1" align="left" width="600">
+		<table class="stripe_tb" border="1" align="left" width="600">
 			<tr>
 				<td><div align="center" class="STYLE7"> 系部名称</div></td>
                 <td><div align="center" class="STYLE7">系部联系人</div></td>
                 <td><div align="center" class="STYLE7">联系人电话</div></td>
                 <td><div align="center" class="STYLE7">裁判员</div></td>
-		</tr>
-			<c:forEach items="${sessionScope.departmentlist1}" var="dep">
-				<tr background="">
-					<td width="20%">
-					<input type="hidden" id="depid<%=num %>" value="${dep[0]}" />
-					<input type="text"  id="depname<%=num %>" value="${dep[1]}" />	</td>
-					
-					<td><input type="text"  id="person<%=num %>" /></td>
-					<td><input type="text"  id="phone<%=num %>" /></td>
-					<td><input type="text"  id="judges<%=num %>" /></td>
-					
-				</tr>
+			</tr>
+				<c:forEach items="${sessionScope.departmentlist1}" var="dep">
+					<tr background="">
+						<td width="20%">
+						<input type="hidden" id="depid<%=num %>" value="${dep[0]}" />
+						<input type="text"  id="depname<%=num %>" value="${dep[1]}" />	</td>
+						
+						<td><input type="text"  id="person<%=num %>" /></td>
+						<td><input type="text"  id="phone<%=num %>" /></td>
+						<td><input type="text"  id="judges<%=num %>" /></td>
+						
+					</tr>
 				<%
 					    num++;
 				%>
 			</c:forEach>
 			<tr>
 					<td colspan="4" align="center">
-						<a href="#" onclick="insertStuJudge()"><font>提交</font></a>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/servlet/SelectStuentJudgeServlet"><font>查看并修改</font></a>
+						<a href="#" onClick="insertStuJudge()"><font style="font-size:12px;">提 交</font></a>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/servlet/SelectStuentJudgeServlet"><font style="font-size:12px;">查看并修改</font></a>
 					</td>
 				</tr>
 		</table>
-		
+		</div>
 </div>
 
 </div><!-- End demo -->

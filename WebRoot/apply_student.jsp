@@ -80,7 +80,7 @@ function checkItem(obj){
 		}
 	}
 	if(count > <%=perMan%>){
-		Dialog.alert("除接力比赛外，每人限报2项！");
+		Dialog.alert("除接力比赛外，每人限报<%=perMan%>项！");
 		obj.checked = false;
 	}
 }
@@ -209,11 +209,11 @@ function submitCheck(){
 	for(var i = 0;i<itemCountWoman.length;i++){
 		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);
 		if(itemCountMan[i] > <%=perDepartment%>){
-			Dialog.alert("男子组中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert("男子组中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountWoman[i] > <%=perDepartment%>){
-			Dialog.alert("女子组中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert("女子组中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 	}
@@ -223,8 +223,8 @@ function submitCheck(){
 function selGroup(){
 		var diag = new Dialog();
 			diag.Top =20;
-			diag.Width = 400;
-			diag.Height = 200;
+			diag.Width = 600;
+			diag.Height = 400;
 			diag.Title = "报名注意事项";
 			diag.URL = "${pageContext.request.contextPath }/servlet/GetListServlet";
 			//diag.OKEvent = function(){
