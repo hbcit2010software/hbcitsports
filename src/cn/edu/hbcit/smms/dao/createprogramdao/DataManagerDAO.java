@@ -94,7 +94,7 @@ public class DataManagerDAO {
      */
     public HashMap selectFlaGirl(int sportId){
     	HashMap flaGirl = new HashMap(); 
-	    String sql = "SELECT * FROM t_finalitem WHERE gp2itid IN (SELECT id FROM t_group2item" +
+	    String sql = "SELECT * FROM t_finalitem WHERE finalitemtype!='2' and gp2itid IN (SELECT id FROM t_group2item" +
 	    		" WHERE gp2spid IN (SELECT id FROM t_group2sports WHERE sportsid=? "
 	            + "AND groupid IN(SELECT id FROM t_group WHERE groupname LIKE '%女%' " +
 	            		"AND groupname NOT  LIKE '%男女%')))";
@@ -135,7 +135,7 @@ public class DataManagerDAO {
      */
     public HashMap selectFlaBoy(int sportId){
     	HashMap flaBoy = new HashMap(); 
-	    String sql = "SELECT * FROM t_finalitem WHERE gp2itid IN (SELECT id FROM t_group2item" +
+	    String sql = "SELECT * FROM t_finalitem WHERE finalitemtype!='2' and gp2itid IN (SELECT id FROM t_group2item" +
 	    		" WHERE gp2spid IN (SELECT id FROM t_group2sports WHERE sportsid=? "
 	            + "AND groupid IN(SELECT id FROM t_group WHERE groupname LIKE '%男%')))";
 	    try {
@@ -953,7 +953,7 @@ public class DataManagerDAO {
  	   	 		"FROM t_finalitem" +
  	   	 		" JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id " +
  	   	 		"JOIN t_group2sports ON t_group2item.gp2spid = t_group2sports.id " +
- 	   	 		"WHERE t_group2sports.sportsid=?";
+ 	   	 		"WHERE t_group2sports.sportsid=? and t_finalitem.finalitemtype !=2";
  			 try {
  	            Connection conn = db.getConn();
  	            if(conn != null){

@@ -80,7 +80,7 @@ public class QueryMark {
 			  conn = dbc.getConn(); 
 			  String sql = "SELECT SUM(marks) FROM t_position " +
 			  		"JOIN t_player ON t_position.playerid=t_player.id WHERE" +
-			  		" (t_player.sp2dpid=(SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid=" +
+			  		" (t_player.sp2dpid IN (SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid IN" +
 			  		"(SELECT t_department.id FROM t_department WHERE t_department.departname=?)) " +
 			  		"AND t_player.playertype='1')";
 			  pstmt = conn.prepareStatement(sql);
@@ -113,7 +113,7 @@ public class QueryMark {
 			  conn = dbc.getConn(); 
 			  String sql = "SELECT SUM(marks) FROM t_position " +
 			  		"JOIN t_player ON t_position.playerid=t_player.id WHERE" +
-			  		" (t_player.sp2dpid=(SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid=" +
+			  		" (t_player.sp2dpid IN (SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid IN " +
 			  		"(SELECT t_department.id FROM t_department WHERE t_department.departname=?)) " +
 			  		"AND t_player.playertype='0')";
 			  pstmt = conn.prepareStatement(sql);

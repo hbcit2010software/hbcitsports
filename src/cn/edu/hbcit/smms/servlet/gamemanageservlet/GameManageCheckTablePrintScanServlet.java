@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import cn.edu.hbcit.smms.pojo.GameManagePoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageCheckTableServices;
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageServices;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 /**
  * XXXXXXXXXXXXXXXXXXXXXXXX类
@@ -39,7 +40,7 @@ import cn.edu.hbcit.smms.services.gamemanageservices.GameManageServices;
  */
 
 public class GameManageCheckTablePrintScanServlet extends HttpServlet {
-
+	UtilTools tools = new UtilTools();
 	/**
 	 * Constructor of the object.
 	 */
@@ -76,8 +77,8 @@ public class GameManageCheckTablePrintScanServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		StringBuffer buffer = new StringBuffer();
-		String finalitemname = request.getParameter("finalitemname");
-		String finalitemtype = request.getParameter("finalitemtype");
+		String finalitemname = tools.toUTF8(request.getParameter("finalitemname"));
+		String finalitemtype = tools.toUTF8( request.getParameter("finalitemtype"));
 		String groupname = new String(request.getParameter("groupname").getBytes("ISO-8859-1"),"UTF-8");
 		System.out.println(groupname);
 		GameManageCheckTableServices gs = new GameManageCheckTableServices();
