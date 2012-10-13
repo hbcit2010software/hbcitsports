@@ -9,7 +9,7 @@
    
    function show() {
    	<%
-   		String grouptypes = (String)session.getAttribute("match");
+   		String grouptypes = (String)request.getAttribute("match");
    	%>
      alert( "<%=msg%>");
      location.replace("${pageContext.request.contextPath }/servlet/ApplyInfomationServlet?action=pageinf&matchgroup="+<%=grouptypes%>);

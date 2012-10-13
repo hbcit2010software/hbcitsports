@@ -180,7 +180,15 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 			jsonobj.put("itemname", rs.getString(5));
 			jsonobj.put("score", rs.getString(6));
 			jsonobj.put("position", rs.getString(7));
-			jsonobj.put("recordlevel",rs.getString(8));
+			String rec=null;
+			if(rs.getString(8).equals("")){
+				rec = "无";
+			}else if(rs.getString(8).equals("0")){
+				rec = "院";
+			}else if(rs.getString(8).equals("1")){
+				rec = "省";
+			}
+			jsonobj.put("recordlevel",rec);
 			jsonarray.add(jsonobj);
 		}
 		rs.close();

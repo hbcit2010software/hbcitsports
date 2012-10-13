@@ -3,7 +3,9 @@ package cn.edu.hbcit.smms.servlet.gameapplyservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -70,15 +72,27 @@ public class GetPlayerServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		GetPlayerService itemName  = new GetPlayerService();
 		GetPlayerService spn = new GetPlayerService();
+		//
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date registedTime = null;
+		try{
+		      registedTime = format.parse(spn.getRegistend());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Date date = new Date();
+		
+		//String dateTime = format.format(date);
+		System.out.println("date============="+date+"registedTime========"+registedTime);
+		if(date.getDate()>registedTime.getDate()){
+			session.setAttribute("msg","报名日期已过！！！");
+			response.sendRedirect("../apply_playershow.jsp");
+		}else{
 		//String sportsname = spn.getSportsName();//获取当前运动会名称
 		int sportsId = 0;
 		if(session.getAttribute("currSportsId") != null){
 			sportsId = ((Integer)session.getAttribute("currSportsId")).intValue();
 		}
-//		String registend = spn.getRegistend();
-//		if(){
-//			
-//		}
 		int grouptype = 0;//组别类型设为教工
 		int sum = spn.getItemNumber(sportsId,grouptype);
 		ArrayList list = new ArrayList();
@@ -145,6 +159,7 @@ public class GetPlayerServlet extends HttpServlet {
 		request.setAttribute("playerNumList", playerNumList);
 		request.getRequestDispatcher("/apply_teacher.jsp").forward(request, response);
 		
+	}
 	}
 	}
 

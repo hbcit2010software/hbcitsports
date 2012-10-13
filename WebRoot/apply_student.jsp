@@ -80,7 +80,7 @@ function checkItem(obj){
 		}
 	}
 	if(count > <%=perMan%>){
-		Dialog.alert("除接力比赛外，每人限报2项！");
+		Dialog.alert("除接力比赛外，每人限报<%=perMan%>项！");
 		obj.checked = false;
 	}
 }
@@ -128,6 +128,7 @@ function test(){
 	var add = 0;
 	var sample = "sample";
 	var sum = 0;
+	//if(myobj.length==0){ Dialog.alert("您未添加运动员所报项目"); return false;}
 	for(var i = 0;i < myobj.length; i++){
 		cover = cover + add;
 		sample = sample + sum;
@@ -178,6 +179,7 @@ function submitCheck(){
 	var countMan = 0;
 	var countWoman = 0;
 	var myobj=document.getElementsByName("hide");
+	if(myobj.length==0){ Dialog.alert("您未点击添加！"); return false;}
 	var itemNoPlus = new Array();
 	var itemCountMan = new Array();
 	var itemCountWoman = new Array();
@@ -195,28 +197,47 @@ function submitCheck(){
 		
 		for(var j=0 ;j<itemSix.length; j++){
 			for(var k=0; k<itemNoPlus.length; k++){
-				//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
+//alert(k +"==arrSex[2]:"+arrSex[2]+"--itemNoPlus[k]: "+itemNoPlus[k] + "--itemSix[j]:"+itemSix[j]);
 				if(arrSex[2] == "true" && (arrSex[1]!="" && arrSex[3]!="") && itemNoPlus[k]==itemSix[j]){
 					itemCountMan[j]++;
 				}else if(arrSex[2] == "false" && (arrSex[1]!="" && arrSex[3]!="") && itemNoPlus[k]==itemSix[j]){
 					itemCountWoman[j]++;
 				}
-			}
 		}
+}
 	}
 	for(var i = 0;i<itemCountWoman.length;i++){
 		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);
 		if(itemCountMan[i] > <%=perDepartment%>){
-			Dialog.alert("男子组中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert("男子组中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountWoman[i] > <%=perDepartment%>){
-			Dialog.alert("女子组中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert("女子组中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 	}
 	
 }
+//报名注意事项
+function selGroup(){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 600;
+			diag.Height = 400;
+			diag.Title = "报名注意事项";
+			diag.URL = "${pageContext.request.contextPath }/servlet/GetListServlet";
+			//diag.OKEvent = function(){
+				//window.location.reload();
+				//diag.close();
+			//};
+			diag.ShowCloseButton=true;
+			//diag.MessageTitle = "添加运动会提示：";
+			//diag.Message = "填完各项内容后不要忘记先\"确认添加\"，然后才可关闭窗口";
+			diag.show();
+			//diag.okButton.value="确定";
+			diag.cancelButton.value="关闭";
+	}
 </SCRIPT>
 
 
@@ -231,7 +252,11 @@ function submitCheck(){
       <tr class="tableTitle">
         <td height="20" colspan="17" ><div align="center">
           <h1>学生组报名页面  </h1>
-        </div></td>
+        </div>
+        <div align="right">
+        <a href="#" style="color:#ff0000" onclick="selGroup();">报名注意事项</a>
+        </div>
+        </td>
       </tr>  
       <tr><td valign="middle" height="20" colspan="17"><div align="center"><input type="button" name="button" id="button"  style="width:80px;height:30px;" value="添   加" onclick="addRow();"></div></td></tr>
     <tr id="tabletitle">

@@ -131,7 +131,7 @@
 							<c:forEach items="${ItemsList}" var="user">
 								<tr class="tableContent">
 									<td>
-										${user.groupname}${user.finalitemname}
+										${user.finalitemname}
 									</td>
 
 									<td>
@@ -158,7 +158,7 @@
 							<c:forEach items="${ItemsList1}" var="user">
 								<tr class="tableContent">
 									<td>
-										${user.groupname}${user.finalitemname}
+										${user.finalitemname}
 									</td>
 
 									<td>
@@ -185,7 +185,7 @@
 							<c:forEach items="${ItemsList2}" var="user">
 								<tr class="tableContent">
 									<td>
-										${user.groupname}${user.finalitemname}
+										${user.finalitemname}
 									</td>
 
 									<td>

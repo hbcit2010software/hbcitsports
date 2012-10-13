@@ -1,32 +1,23 @@
-package cn.edu.hbcit.smms.servlet.gamesetservlet;
+package cn.edu.hbcit.smms.servlet.gamequeryservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import net.sf.json.JSONArray;
 
+import cn.edu.hbcit.smms.services.gamequeryservices.GameQueryServices;
 
-import cn.edu.hbcit.smms.services.gamesetservices.OfficialSetService;
+public class SelectTeamleaderServlet extends HttpServlet {
 
-/**添加学生裁判集合
- * 
- * @author Administrator
- *
- */
-public class AddStuJudgeServlet extends HttpServlet {
-
-	protected final Logger log = Logger.getLogger(AddStuJudgeServlet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
-	public AddStuJudgeServlet() {
+	public SelectTeamleaderServlet() {
 		super();
 	}
 
@@ -68,38 +59,21 @@ public class AddStuJudgeServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
-		OfficialSetService off = new OfficialSetService();
-		String insertSql = request.getParameter("insertString");
-		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());  
-		log.debug("insertSql:"+insertSql);
-		String type = request.getParameter("judType");
-		if (type.equals("stu")){
-			if (session.getAttribute("stuJudge") != null){
-				off.deleteStuJudge(sportsid);
-			}
-		}
-		if (type.equals("fil")){
-			if (session.getAttribute("fieJudge") != null){
-				off.deleteFiledJudge(sportsid);
-			}
-		}
-		int flag = off.addRecordBySql(insertSql);
-		if(flag > 0){
-			out.println("success");
-		}else{
-			out.println("false");
-		}
-       	
-        out.flush();
-   	    out.close();
-
-  	 }			
-  	   
-  	
-     
+		String id = request.getParameter("sportsid");//获取的运动会届次id
+		int sportsid = Integer.parseInt(id);
+		String departid = request.getParameter("departname");
+		int depart = Integer.parseInt(departid);
+		System.out.println(sportsid);
+		System.out.println(depart);
+		GameQueryServices gqs = new GameQueryServices();
+		JSONArray jsonarray = new JSONArray();
+		jsonarray = gqs.SelectTeamLeader(sportsid, depart);
+		out.print(jsonarray);
+		out.flush();
+		out.close();
+	}
 
 	/**
 	 * Initialization of the servlet. <br>

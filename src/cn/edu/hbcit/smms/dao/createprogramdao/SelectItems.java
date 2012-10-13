@@ -50,7 +50,7 @@ public class SelectItems {
 
 			while (rs.next()) {
 				FinalitemGroup fg=new FinalitemGroup();
-				fg.setGroupname(rs.getString(1));
+				//fg.setGroupname(rs.getString(1));
 				fg.setFinalitemname(rs.getString(2));
 				fg.setFmid(rs.getInt(3));
 				ItemsList.add(fg);

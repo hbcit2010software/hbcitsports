@@ -153,7 +153,7 @@ public class SelGameApplyDAO {
 	public ArrayList selectAllItemsByGroupType(int sportsid , int grouptype){
 		ArrayList itemList = new ArrayList();
 		String sql="SELECT id, itemname,itemtype FROM t_item WHERE id IN " +
-					"(SELECT itemid FROM t_group2item WHERE gp2spid IN " +
+					"(SELECT itemid FROM t_group2item WHERE matchtype<>0 AND gp2spid IN " +
 					"(SELECT id FROM t_group2sports WHERE sportsid =? AND groupid IN" +
 					" (SELECT id FROM t_group WHERE grouptype=?)))";
 		try{
@@ -239,7 +239,7 @@ public class SelGameApplyDAO {
 	public String[] getItemCountBySportsId(String registitem,int sportsid,int grouptype){
 		ArrayList list = new ArrayList();
 		String sql = "SELECT id, itemname FROM t_item WHERE id IN " +
-				"(SELECT itemid FROM t_group2item WHERE gp2spid IN " +
+				"(SELECT itemid FROM t_group2item WHERE matchtype<>0 AND gp2spid IN " +
 				"(SELECT id FROM t_group2sports WHERE sportsid =? AND groupid IN" +
 				"(SELECT id FROM t_group WHERE grouptype=?))) ORDER BY t_item.id";
 		conn = db.getConn();

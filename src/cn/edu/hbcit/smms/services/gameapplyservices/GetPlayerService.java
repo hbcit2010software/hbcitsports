@@ -60,7 +60,18 @@ public class GetPlayerService {
 	/**
 	 * 获取当前运动会截止报名的日期
 	 */
-//	public String getRegistend(){
-//		return getPlayerDao.getRegistend();
-//	}
+	public String getRegistend(){
+		return getPlayerDao.getRegistend();
+	}
+	public ArrayList getGroupItem(int sportsid){
+		return getPlayerDao.getGroupItem(sportsid);
+	}
+	/**
+	 * 查询当届运动会的所有参赛组别
+	 * @param sportsid
+	 * @return
+	 */
+	public ArrayList getGroup(int sportsid){
+		return getPlayerDao.getGroup(sportsid);
+	}
 }

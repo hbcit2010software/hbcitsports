@@ -1,7 +1,8 @@
-package cn.edu.hbcit.smms.servlet.gamesetservlet;
+package cn.edu.hbcit.smms.servlet.gameapplyservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,20 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import cn.edu.hbcit.smms.services.gameapplyservices.GetPlayerService;
 
-import cn.edu.hbcit.smms.dao.databasedao.DBTest;
-import cn.edu.hbcit.smms.services.gamesetservices.FieldjudgeService;
-import cn.edu.hbcit.smms.services.gamesetservices.UpdateOfficialSetService;
+public class GetListServlet extends HttpServlet {
 
-public class UpdateFieldItemJudgeServlet extends HttpServlet {
-	
-	protected final Logger log = Logger.getLogger(UpdateFieldItemJudgeServlet.class.getName());
-
-	/**修改小框中田赛项目裁判
+	/**
 	 * Constructor of the object.
 	 */
-	public UpdateFieldItemJudgeServlet() {
+	public GetListServlet() {
 		super();
 	}
 
@@ -63,39 +58,26 @@ public class UpdateFieldItemJudgeServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-
 		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		FieldjudgeService fieldjudgeService=new FieldjudgeService();
-		//String fieldjudge=request.getParameter("fieldjudge");
-		int id=Integer.parseInt(request.getParameter("id").trim());
-//		log.debug("id_________________"+id);
-//        String judge_1=new String(request.getParameter("judge_1").getBytes("ISO-8859-1"),"UTF-8");
-//        String judge_2=new String(request.getParameter("judge_2").getBytes("ISO-8859-1"),"UTF-8");
-//        String judge_3=new String(request.getParameter("judge_3").getBytes("ISO-8859-1"),"UTF-8");
-//        log.debug("judge_1_________________"+judge_1);
-//        log.debug("judge_2_________________"+judge_2);
-//        log.debug("judge_3_________________"+judge_3);
-		String judge_1 = request.getParameter("judge_1");
-		String judge_2 = request.getParameter("judge_2");
-		String judge_3 = request.getParameter("judge_3");
-		log.debug("UpdateFieldItemJudgeServlet乱码："+judge_1+"..."+judge_2+"..."+judge_3);
-        if (fieldjudgeService.updateFiledItemJudge(id,judge_1, judge_2, judge_3))
-		{
-        	out.println("success");
-		}else{
-			out.println("error");
+		GetPlayerService gps = new GetPlayerService();
+		ArrayList list_groupItem = new ArrayList();
+		ArrayList list_group = new ArrayList();
+		int sportsid = 0;
+		if(session.getAttribute("currSportsId") != null){
+			sportsid = ((Integer)session.getAttribute("currSportsId")).intValue();
 		}
-			
-
-		out.flush();
-		out.close();    
+		//System.out.println("sportsid"+sportsid);
+		list_groupItem = gps.getGroupItem(sportsid);
+		list_group = gps.getGroup(sportsid);
+		//System.out.println("bbbbb"+list.size());
+		request.setAttribute("itemGroup", list_groupItem);
+		request.setAttribute("group", list_group);
+		request.getRequestDispatcher("/apply_listinfo.jsp").forward(request, response);
+		//response.sendRedirect("../apply_groupitem.jsp");
 	}
-      
-        
-		
 
 	/**
 	 * Initialization of the servlet. <br>

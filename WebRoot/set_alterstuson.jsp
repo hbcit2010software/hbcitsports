@@ -1,35 +1,47 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 	<head>
         <link href="css/subcss.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
-</script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
+
 
 <script language="javascript">
 
 function alterUser(obj) {
 	var id=obj.id;
-	alert(id);
+	//alert(id);
 	var contact = $("#contact").val();
 	var tel = $("#tel").val();
 	var member = $('#member').val();
+	
+	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	    	if(!tempStr.test(contact)){
+		      Dialog.alert("系部联系人包含特殊字符，请以英文逗号进行分隔");
+	        }
+	         if(!tempStr.test(member)){
+	          Dialog.alert("学生裁判包含特殊字符，请以英文逗号进行分隔");
+	        }else{
+	
     //alert("judge_1");
 	$.ajax( {
 		url : "${pageContext.request.contextPath }/servlet/UpdateStuJudgeServlet",
-		type : 'get',
+		type : 'post',
 		data : 'id=' + id +'&contact=' + contact + '&tel=' + tel + '&member='+ member,
+		dataType:"html",
 		success : function(mm) {
 			var revalue = mm.replace(/\r\n/g, '');
 
 			if (revalue == "success") {
-				alert("修改信息成功!");
+				Dialog.alert("修改信息成功!");
 			} else
-				alert("修改信息失败!");
+				Dialog.alert("修改信息失败!");
 		}
 	});
+}
 }
 
 //隔行变色

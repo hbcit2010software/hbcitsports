@@ -11,6 +11,8 @@
 		<script type="text/javascript"
 			src="${pageContext.request.contextPath }/jjs/jquery-1.6.min.js">
 </script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 		<script type="text/javascript">
 
 $(document).ready(function() {
@@ -41,6 +43,43 @@ function alter() {
 			var  endpoint_3=$('#endpoint_3').val();
 			var  endpoint_4=$('#endpoint_4').val();
 			var  endpoint_5=$('#endpoint_5').val();
+			
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	        if(!tempStr.test(chiefjudge_1)){
+		      Dialog.alert("总裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(chiefjudge_2)){
+	          Dialog.alert("副总裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(trackjudge)){
+	          Dialog.alert("径赛裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(trackjudge_rollcall_1)){
+	          Dialog.alert("检录裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(trackjudge_rollcall_2)){
+	          Dialog.alert("检录裁判长助理包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(trackjudge_rollcall_3)){
+	          Dialog.alert("检录员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(startingpoint_1)){
+	          Dialog.alert("起点裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(startingpoint_2)){
+	          Dialog.alert("起点裁判长助理包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(startingpoint_3)){
+	          Dialog.alert("发令员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(timejudge_1)){
+	          Dialog.alert("记时长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(timejudge_2)){
+	          Dialog.alert("记时员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(timejudge_3)){
+	          Dialog.alert("司线员会包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_1)){
+	          Dialog.alert("终点裁判长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_2)){
+	          Dialog.alert("终点裁判长助理包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_3)){
+	          Dialog.alert("终点裁判员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_4)){
+	          Dialog.alert("终点记录长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(endpoint_5)){
+	          Dialog.alert("终点记录员包含特殊字符，请以英文逗号进行分隔");
+	        }else{
 									
 			$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/UpdateTrackJudgeServlet",
@@ -55,11 +94,13 @@ function alter() {
 			var revalue = mm.replace(/\r\n/g, '');
 
 			if (revalue == "success") {
-				alert("修改成功!");
+				Dialog.alert("修改成功!");
 			} else
-				alert("修改失败!");
+				Dialog.alert("修改失败!");
 		}
 	});
+	
+	}
 }
 
 //隔行变色
@@ -108,7 +149,7 @@ body {
     </table></td>
   </tr>
   <tr>
-    <td> 
+    <td>
  <table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 
 <c:forEach items="${officialsetlist1}" var="officialsetlist1">
@@ -186,7 +227,7 @@ body {
 					</tr>
                     	<tr class="tableContent" >
 						<td>
-							记时长：
+							计时长：
 							</td>
 							<td>
 							<input type="text" name="timejudge_1" id="timejudge_1" value="${officialsetlist1.timejudge_1}" />
@@ -194,7 +235,7 @@ body {
 					</tr>
                     	<tr class="tableContent" >
 						<td>
-							记时员：
+							计时员：
 							</td>
 							<td>
 							<textarea name="timejudge_2" id="timejudge_2" cols="45" rows="5">${officialsetlist1.timejudge_2}</textarea>

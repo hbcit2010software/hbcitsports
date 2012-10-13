@@ -14,6 +14,8 @@ package cn.edu.hbcit.smms.servlet.gameapplyservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -80,7 +82,7 @@ public class AddTeamleaderServlet extends HttpServlet {
 		//PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		
-		AddTeamleaderService addTeamleaderService =new AddTeamleaderService();		
+		AddTeamleaderService addTeamleaderService =new AddTeamleaderService();	
 		int flag = 0;
 		String username = (String)session.getAttribute("username");//获取用户名
 		GetPlayerService player = new GetPlayerService();
@@ -88,9 +90,9 @@ public class AddTeamleaderServlet extends HttpServlet {
 		int departId = player.getDepartid(username);//获取部门id
 		int sum = addTeamleaderService.updatePlayerNum(sportsId, departId);
 		if(sum==0){
-			String teamLeader = request.getParameter("teamleader");//获得领队名字
-			String coach = request.getParameter("coach");//获得教练名字
-			String doctor = request.getParameter("doctor");//获得队医名字
+			String teamLeader = request.getParameter("teamleader").trim();//获得领队名字
+			String coach = request.getParameter("coach").trim();//获得教练名字
+			String doctor = request.getParameter("doctor").trim();//获得队医名字
 			flag = addTeamleaderService.addSports2Department(sportsId, departId, teamLeader, coach, doctor);	
 		}
 		if(flag == 1){
@@ -100,6 +102,8 @@ public class AddTeamleaderServlet extends HttpServlet {
 		}
 		response.sendRedirect("../apply_show.jsp");
 	}
+
+	
 
 	/**
 	 * Initialization of the servlet. <br>

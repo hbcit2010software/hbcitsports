@@ -8,6 +8,8 @@
         <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 		<script language="javascript" type="text/javascript"
 			src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+			<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+            <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <title>大会主席团及工作人员</title>
 <script type="text/javascript">
 function alterpws()
@@ -26,6 +28,33 @@ function alterpws()
 			var  secretariat_7=$('#secretariat_7').val();
 			var  arbitration=$('#arbitration').val();
 			
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	        if(!tempStr.test(presidium)){
+		      Dialog.alert("大会主席团包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(org_committee_1)){
+	          Dialog.alert("大会组委会主任包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(org_committee_2)){
+	          Dialog.alert("大会组委会副主任包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(org_committee_3)){
+	          Dialog.alert("大会组委委员包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(secretariat_1)){
+	          Dialog.alert("大会秘书长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(secretariat_2)){
+	          Dialog.alert("大会副秘书长包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(secretariat_3)){
+	          Dialog.alert("会务组负责人包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(secretariat_4)){
+	          Dialog.alert("宣传组负责人包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(secretariat_5)){
+	          Dialog.alert("奖品组负责人包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(secretariat_6)){
+	          Dialog.alert("保卫组负责人包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(secretariat_7)){
+	          Dialog.alert("后勤保障组负责人包含特殊字符，请以英文逗号进行分隔");
+	        }else if(!tempStr.test(arbitration)){
+	          Dialog.alert("大会仲裁委员会包含特殊字符，请以英文逗号进行分隔");
+	        }else{
+			
 			$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/AddOfficialSetServlet",
 					type : 'post',
@@ -38,17 +67,14 @@ function alterpws()
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-								alert("添加成功!",function(){window.location.reload();});
+								Dialog.alert("添加成功!",function(){window.location.reload();});
 							}
 							else
-								alert("添加失败!");
+								Dialog.alert("添加失败!");
 						}
 					});	
+				}
 		}
-		
-		
-	
-		
 </script>
 <script type="text/javascript">
 //隔行变色
@@ -88,7 +114,7 @@ body {
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->添加工作人员设置</span></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->工作人员设置</span></td>
               </tr>
             </table></td>
           </tr>
@@ -104,7 +130,7 @@ body {
 							大会主席团：
 							</td>
 							<td>
-						 <textarea name="presidium" id="presidium" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+						 <textarea name="presidium" id="presidium" cols="45" rows="5"></textarea>
 					    </td>
                     </tr>
 					<tr class="tableContent" >
@@ -112,7 +138,7 @@ body {
 							大会组委会主任：
 							</td>
 							<td>
-							<input type="text" name="org_committee_1" id="org_committee_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="org_committee_1" id="org_committee_1" />
 						</td>
 					</tr>
 					<tr class="tableContent" >
@@ -120,7 +146,7 @@ body {
 							大会组委会副主任：
 							</td>
 							<td>
-							<input type="text" name="org_committee_2" id="org_committee_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="org_committee_2" id="org_committee_2" />
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -128,7 +154,7 @@ body {
 							大会组委委员:
 							</td>
 							<td>
-				<textarea name="org_committee_3" id="org_committee_3" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+				<textarea name="org_committee_3" id="org_committee_3" cols="45" rows="5"></textarea>
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -136,7 +162,7 @@ body {
 							大会秘书长：
 							</td>
 							<td>
-							<input type="text" name="secretariat_1" id="secretariat_1" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="secretariat_1" id="secretariat_1" />
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -144,7 +170,7 @@ body {
 							大会副秘书长：
 							</td>
 							<td>
-							<input type="text" name="secretariat_2" id="secretariat_2" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="secretariat_2" id="secretariat_2" />
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -152,7 +178,7 @@ body {
 							会务组负责人：
 							</td>
 							<td>
-							<input type="text" name="secretariat_3" id="secretariat_3" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="secretariat_3" id="secretariat_3" />
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -160,7 +186,7 @@ body {
 							宣传组负责人：
 							</td>
 							<td>
-							<input type="text" name="secretariat_4" id="secretariat_4" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="secretariat_4" id="secretariat_4"/>
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -168,7 +194,7 @@ body {
 							奖品组负责人：
 							</td>
 							<td>
-							<input type="text" name="secretariat_5" id="secretariat_5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="secretariat_5" id="secretariat_5"/>
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -176,7 +202,7 @@ body {
 							保卫组负责人 ：
 							</td>
 							<td>
-							<input type="text" name="secretariat_6" id="secretariat_6" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="secretariat_6" id="secretariat_6"/>
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -184,7 +210,7 @@ body {
 							后勤保障组负责人：
 							</td>
 							<td>
-							<input type="text" name="secretariat_7" id="secretariat_7" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"/>
+							<input type="text" name="secretariat_7" id="secretariat_7"/>
 						</td>
 					</tr>
                     	<tr class="tableContent" >
@@ -192,7 +218,7 @@ body {
 							大会仲裁委员会：
 							</td>
 							<td>
-							<textarea name="arbitration" id="arbitration" cols="45" rows="5" onKeyUp="this.value=this.value.replace(/[， ]/g,',')"></textarea>
+							<textarea name="arbitration" id="arbitration" cols="45" rows="5"></textarea>
 						</td>
 					</tr>
 						<tr class="tableContent" >

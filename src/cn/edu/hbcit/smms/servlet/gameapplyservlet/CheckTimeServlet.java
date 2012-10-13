@@ -1,7 +1,21 @@
-package cn.edu.hbcit.smms.servlet.gamesetservlet;
+/**
+ * Copyright(C) 2012, 河北工业职业技术学院.
+ *
+ * 模块名称：	赛事报名
+ * 子模块名称：	领队报名时间验证
+ *
+ * 备注：
+ *
+ * 修改历史：
+ * 时间			版本号		姓名			修改内容
+ * 2012-10-11			        陈系晶                          新建
+*/
+package cn.edu.hbcit.smms.servlet.gameapplyservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,20 +23,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import cn.edu.hbcit.smms.services.gameapplyservices.AddTeamleaderService;
+import cn.edu.hbcit.smms.services.gameapplyservices.GetPlayerService;
 
-import cn.edu.hbcit.smms.dao.databasedao.DBTest;
-import cn.edu.hbcit.smms.services.gamesetservices.FieldjudgeService;
-import cn.edu.hbcit.smms.services.gamesetservices.UpdateOfficialSetService;
+public class CheckTimeServlet extends HttpServlet {
 
-public class UpdateFieldItemJudgeServlet extends HttpServlet {
-	
-	protected final Logger log = Logger.getLogger(UpdateFieldItemJudgeServlet.class.getName());
-
-	/**修改小框中田赛项目裁判
+	/**
 	 * Constructor of the object.
 	 */
-	public UpdateFieldItemJudgeServlet() {
+	public CheckTimeServlet() {
 		super();
 	}
 
@@ -63,39 +72,30 @@ public class UpdateFieldItemJudgeServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-		HttpSession session = request.getSession();
-		FieldjudgeService fieldjudgeService=new FieldjudgeService();
-		//String fieldjudge=request.getParameter("fieldjudge");
-		int id=Integer.parseInt(request.getParameter("id").trim());
-//		log.debug("id_________________"+id);
-//        String judge_1=new String(request.getParameter("judge_1").getBytes("ISO-8859-1"),"UTF-8");
-//        String judge_2=new String(request.getParameter("judge_2").getBytes("ISO-8859-1"),"UTF-8");
-//        String judge_3=new String(request.getParameter("judge_3").getBytes("ISO-8859-1"),"UTF-8");
-//        log.debug("judge_1_________________"+judge_1);
-//        log.debug("judge_2_________________"+judge_2);
-//        log.debug("judge_3_________________"+judge_3);
-		String judge_1 = request.getParameter("judge_1");
-		String judge_2 = request.getParameter("judge_2");
-		String judge_3 = request.getParameter("judge_3");
-		log.debug("UpdateFieldItemJudgeServlet乱码："+judge_1+"..."+judge_2+"..."+judge_3);
-        if (fieldjudgeService.updateFiledItemJudge(id,judge_1, judge_2, judge_3))
-		{
-        	out.println("success");
-		}else{
-			out.println("error");
-		}
-			
-
-		out.flush();
-		out.close();    
-	}
-      
-        
+		response.setCharacterEncoding("utf-8");
+		HttpSession session = request.getSession();	
 		
+		GetPlayerService spn = new GetPlayerService();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date registedTime = null;
+		try{
+		      registedTime = format.parse(spn.getRegistend());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Date date = new Date();
+		
+		//String dateTime = format.format(date);
+		System.out.println("date============="+date+"registedTime========"+registedTime);
+		if(date.getDate()>registedTime.getDate()){
+			session.setAttribute("msg","报名日期已过！！！");
+			response.sendRedirect("../apply_playershow.jsp");
+		}else{
+			response.sendRedirect("../apply_teamleader.jsp");
+		}
+	}
 
 	/**
 	 * Initialization of the servlet. <br>

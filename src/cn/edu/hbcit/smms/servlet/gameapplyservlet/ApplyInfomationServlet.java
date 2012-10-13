@@ -2,7 +2,9 @@ package cn.edu.hbcit.smms.servlet.gameapplyservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -70,12 +72,30 @@ public class ApplyInfomationServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("utf-8");
+		HttpSession session = request.getSession();	
+		GetPlayerService spn = new GetPlayerService();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date registedTime = null;
+		try{
+		      registedTime = format.parse(spn.getRegistend());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Date date = new Date();
+		
+		//String dateTime = format.format(date);
+		System.out.println("date============="+date+"registedTime========"+registedTime);
+		if(date.getDate()>registedTime.getDate()){
+			session.setAttribute("msg","报名日期已过！！！");
+			response.sendRedirect("../apply_playershow.jsp");
+		}else{
 		String action = request.getParameter("action");
 		if(action==null)action = "";
 		if(action.equals("doPost"))applyPageAgin(request,response);//页面信息
 		if(action.equals("leader"))applyLeader(request,response);//教练信息
 		if(action.equals("pageinf"))applyItems(request,response);//按条件查询出的信息
 		if(action.equals("updateinf"))upDateInfo(request,response);//修改
+	}
 	}
 	
 	public void applyPageAgin(HttpServletRequest request, HttpServletResponse response)
@@ -127,7 +147,8 @@ public class ApplyInfomationServlet extends HttpServlet {
         String group = request.getParameter("matchgroup");//获取项目类型id
         int grouptype = Integer.parseInt(group);
         request.setAttribute("grouptypes", group);
-    	String username = (String)session.getAttribute("username");//获取用户名	
+        session.setAttribute("grouptypes1", group);
+    	String username = (String)session.getAttribute("username");//获取用户名
 		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());//获取当前运动会id
 		ArrayList playerinf = new ArrayList();
 		playerinf = sgas.selectPlayerItemsMessage(username, sportsId, grouptype);
@@ -149,19 +170,26 @@ public class ApplyInfomationServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		PlayerService playerService = new PlayerService();
+		GetPlayerService player = new GetPlayerService(); 
 		int flag = 0;
+		
 		String[] allstr = request.getParameterValues("hide");//获取页面上所有隐藏文本框的字符串
 		System.out.println("upDateInfo"+allstr[0]);
-		int sp2dpid = Integer.parseInt(session.getAttribute("flag1").toString());//获取sp2dpid
-		//int sp2dpid = 4;
+		int flag1 = 0;
+		String username = (String)session.getAttribute("username");//获取用户名
+		flag1 = player.getDepartid(username);//根据用户名获取部门id
+		int sp2dpid = player.getSp2dpid(flag1);//获取当前部门id及运动会的id
+		System.out.println("sp2dpid"+sp2dpid);
+		//int sp2dpid = Integer.parseInt(session.getAttribute("flag1").toString());//获取sp2dpid
 		flag = playerService.updatePlayer(allstr, sp2dpid);
 		if(flag ==0){
 			session.setAttribute("msg","修改失败！");
 		}else{
 			session.setAttribute("msg","修改成功！请根据条件查询");
 		}
-		String matchgroup = (String)session.getAttribute("grouptypes");
+		String matchgroup = (String)session.getAttribute("grouptypes1");
 		request.setAttribute("match", matchgroup);
+		session.removeAttribute("grouptypes1");
 		request.getRequestDispatcher("/apply_queryshow.jsp").forward(request, response);
 
 }

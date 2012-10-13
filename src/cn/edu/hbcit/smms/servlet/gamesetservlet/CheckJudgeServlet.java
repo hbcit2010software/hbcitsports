@@ -7,18 +7,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.services.gamesetservices.OfficialSetService;
 
-public class UpdateStuJudgeServlet extends HttpServlet {
+public class CheckJudgeServlet extends HttpServlet {
 
-	protected final Logger log = Logger.getLogger(UpdateStuJudgeServlet.class.getName());
-	/**修改小框中学生裁判
+	protected final Logger log = Logger.getLogger(LoginDAO.class.getName());
+	/**
 	 * Constructor of the object.
 	 */
-	public UpdateStuJudgeServlet() {
+	public CheckJudgeServlet() {
 		super();
 	}
 
@@ -33,61 +35,54 @@ public class UpdateStuJudgeServlet extends HttpServlet {
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
-	 * This method is called when a form has its tag value method equals to 
-
-get.
+	 * This method is called when a form has its tag value method equals to get.
 	 * 
 	 * @param request the request send by the client to the server
 	 * @param response the response send by the server to the client
 	 * @throws ServletException if an error occurred
 	 * @throws IOException if an error occurred
 	 */
-	public void doGet(HttpServletRequest request, HttpServletResponse 
-
-response)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-         
-		response.setHeader("Pragma", "No-cache");
-		response.setHeader("Cache-control", "no-cache");
-		response.setDateHeader("Expires", 0);
-		response.setContentType("text/html;utf-8");
-		response.setCharacterEncoding("utf-8");
-		request.setCharacterEncoding("utf-8");
+
+		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		OfficialSetService officialsetService=new OfficialSetService();
-		int id=Integer.parseInt(request.getParameter("id"));
-		log.debug("id------------------"+id);
-        String contact=request.getParameter("contact");
-        log.debug("contant---------------------"+contact);
-        String tel=request.getParameter("tel");
-        String member=request.getParameter("member");
-        boolean flag = false;
-        log.debug("flag------------------"+flag);
-        flag = officialsetService.updateStuJudge(id,contact, tel, member);
-        if (flag == true){
-        	out.println("success");
-        }else{
-        	out.println("error");
-        }
-        out.flush();
-		out.close();  
+		OfficialSetService off = new OfficialSetService();
+		HttpSession session = request.getSession();
+		int sportsid = Integer.parseInt(session.getAttribute("currSportsId").toString());  
+		
+		String judType = "";
+		judType = request.getParameter("judType");
+		log.debug("*******************************judType*"+judType);
+		boolean flag = false;
+		if (judType.trim().equals("stu")){
+			flag = off.checkStuJudge(sportsid);
+			if (flag == true){
+				session.setAttribute("stuJudge", "have");
+				out.println("success");
+			}	
+		}else{
+			flag = off.checkFiledJudge(sportsid);
+			if (flag == true){
+				session.setAttribute("fieJudge", "have");
+				out.println("success");
+			}
+		} 
+		out.flush();
+		out.close();
 	}
 
 	/**
 	 * The doPost method of the servlet. <br>
 	 *
-	 * This method is called when a form has its tag value method equals to 
-
-post.
+	 * This method is called when a form has its tag value method equals to post.
 	 * 
 	 * @param request the request send by the client to the server
 	 * @param response the response send by the server to the client
 	 * @throws ServletException if an error occurred
 	 * @throws IOException if an error occurred
 	 */
-	public void doPost(HttpServletRequest request, HttpServletResponse 
-
-response)
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		this.doGet(request, response);

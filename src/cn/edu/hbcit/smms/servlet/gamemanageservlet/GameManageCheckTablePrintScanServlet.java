@@ -83,7 +83,7 @@ public class GameManageCheckTablePrintScanServlet extends HttpServlet {
 		System.out.println(groupname);
 		GameManageCheckTableServices gs = new GameManageCheckTableServices();
 		int a = 0;
-		String file = request.getSession().getServletContext().getRealPath("/");
+		String file = request.getSession().getServletContext().getRealPath("/")+"word/";
 		HttpSession  session = request.getSession();
 		session.setAttribute("file", file);
 		try{

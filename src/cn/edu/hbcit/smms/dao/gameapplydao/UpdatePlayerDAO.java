@@ -105,7 +105,7 @@ public class UpdatePlayerDAO {
 				String[] myPlayer = mystr.split(",");
 				for(int k=0; k<myPlayer.length; k++){
 					log.debug("K:"+k +" myPlayer[k]:"+myPlayer[k]);
-					if(myPlayer[k].equals("")){
+					if(myPlayer[k].equals("")){        //如果有一条记录中有为空的，停止本次循环
 						count++;
 					}
 				}

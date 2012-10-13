@@ -170,8 +170,8 @@ body {
         <li><a href="servlet/AddFinalItemServlet" target="rightFrame">日程安排</a></li>
         <li><a href="servlet/AddPlayerNumServlet" target="rightFrame">号段分配</a></li>
         <li><a href="set_guicheng.jsp" target="rightFrame">赛事规程</a></li>
-        <li><a href="set_officialset.jsp" target="rightFrame">会程设置</a></li>
-        <li><a href="servlet/SelectAllItemServlet" target="rightFrame">工作人员设置</a></li>
+        <li><a href="set_officialset.jsp" target="rightFrame">工作人员设置</a></li>
+        <li><a href="servlet/SelectAllItemServlet" target="rightFrame">裁判人员设置</a></li>
         <li><a href="set_dahuijilv.jsp" target="rightFrame">赛事纪律设置</a></li>
         <li><a href="set_sturecord.jsp" target="rightFrame">赛会纪录</a></li>
       </ul>
@@ -182,11 +182,10 @@ body {
     <!--赛事报名begin-->
 	<li> <a class="head">赛事报名</a>
       <ul>
-        <li><a href="apply_teamleader.jsp" target="rightFrame">领队报名</a></li>
-        <li><a href="servlet/GetItemNameServlet" target="rightFrame">学生组报名</a></li>
-        <li><a href="servlet/GetPlayerServlet" target="rightFrame">教工组报名</a></li>
+      	<li><a href="servlet/GetItemGroupServlet" target="rightFrame">报名规则</a></li>
+        <li><a href="servlet/CheckTimeServlet" target="rightFrame">领队报名</a></li>
+        <li><a href="servlet/GetItemGroupServlet" target="rightFrame">参赛报名</a></li>
         <li><a href="servlet/ApplyInfomationServlet?action=doPost" target="rightFrame">报名情况查询</a></li>
-        <li><a href="#" target="rightFrame">报名审核</a></li>
       </ul>
     </li>
      <!--赛事报名end-->

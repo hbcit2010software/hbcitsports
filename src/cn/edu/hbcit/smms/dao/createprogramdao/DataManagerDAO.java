@@ -115,7 +115,7 @@ public class DataManagerDAO {
                 	finalg.setFinalitemtype(rs.getString("finalitemtype"));
                 	finalg.setDate(rs.getString("date"));
                 	finalg.setTime(rs.getString("time"));
-                	finalg.setGp2itid(rs.getInt("groupnum"));
+                	finalg.setGroupnum(rs.getInt("groupnum"));
                 	finalg.setPromotionnum(rs.getInt("promotionnum"));
                 	flaGirl.put(flaid, finalg);
                     }
@@ -155,7 +155,7 @@ public class DataManagerDAO {
                 	finalg.setFinalitemtype(rs.getString("finalitemtype"));
                 	finalg.setDate(rs.getString("date"));
                 	finalg.setTime(rs.getString("time"));
-                	finalg.setGp2itid(rs.getInt("groupnum"));
+                	finalg.setGroupnum(rs.getInt("groupnum"));
                 	finalg.setPromotionnum(rs.getInt("promotionnum"));
                 	flaBoy.put(flaid, finalg);
                     }
@@ -953,7 +953,7 @@ public class DataManagerDAO {
  	   	 		"FROM t_finalitem" +
  	   	 		" JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id " +
  	   	 		"JOIN t_group2sports ON t_group2item.gp2spid = t_group2sports.id " +
- 	   	 		"WHERE t_group2sports.sportsid=? and t_finalitem.finalitemtype !=2";
+ 	   	 		"WHERE t_group2sports.sportsid=? and t_finalitem.finalitemtype!='2'";
  			 try {
  	            Connection conn = db.getConn();
  	            if(conn != null){

@@ -97,27 +97,28 @@ public class OfficialSetDAO {
 	          if(conn != null){
 	        	    String sql ="INSERT INTO t_official(presidium,org_committee_1,org_committee_2," +
 	        	    		"org_committee_3,secretariat_1,secretariat_2,secretariat_3,secretariat_4," +
-	        	    		"secretariat_5,secretariat_6,secretariat_7,arbitration)values(?,?,?,?,?,?,?,?,?,?,?,?) where sportsid=?";
+	        	    		"secretariat_5,secretariat_6,secretariat_7,arbitration,sportsid)values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	        	    psmt=conn.prepareStatement(sql);
 	        	    //System.out.println(sql);
-	        	    psmt.setInt(1, sportsid);
-	        	    psmt.setString(2, presidium);
-	        	   	psmt.setString(3, org_committee_1);
-	    			psmt.setString(4, org_committee_2);
-	    			psmt.setString(5, org_committee_3);
-	    			psmt.setString(6, secretariat_1);
-	    			psmt.setString(7, secretariat_2);
-	    			psmt.setString(8, secretariat_3);
-	    			psmt.setString(9, secretariat_4);
-	    			psmt.setString(10, secretariat_5);
-	    			psmt.setString(11, secretariat_6);
-	    			psmt.setString(12, secretariat_7);
-	    			psmt.setString(13, arbitration);
+	        	    
+	        	    psmt.setString(1, presidium);
+	        	   	psmt.setString(2, org_committee_1);
+	    			psmt.setString(3, org_committee_2);
+	    			psmt.setString(4, org_committee_3);
+	    			psmt.setString(5, secretariat_1);
+	    			psmt.setString(6, secretariat_2);
+	    			psmt.setString(7, secretariat_3);
+	    			psmt.setString(8, secretariat_4);
+	    			psmt.setString(9, secretariat_5);
+	    			psmt.setString(10, secretariat_6);
+	    			psmt.setString(11, secretariat_7);
+	    			psmt.setString(12, arbitration);
+	    			psmt.setInt(13, sportsid);
 	    			flag=psmt.executeUpdate();
 	    			if(flag>0){
 	    			retuValue = true;
 	    			}
-	    			conn.close();
+	    			//conn.close();
 	    			//System.out.println(sql);
 	}	
 	          psmt.close();
@@ -145,31 +146,32 @@ public class OfficialSetDAO {
 	        	    String sql = "INSERT INTO t_official(chiefjudge_1, chiefjudge_2,trackjudge,trackjudge_rollcall_1," +
 	        	    		"trackjudge_rollcall_2,trackjudge_rollcall_3,startingpoint_1,startingpoint_2," +
 	        	    		"startingpoint_3,timejudge_1,timejudge_2,timejudge_3,endpoint_1,endpoint_2," +
-	        	    		"endpoint_3,endpoint_4,endpoint_5)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)where sportsid=?";
+	        	    		"endpoint_3,endpoint_4,endpoint_5,sportsid)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	                psmt=conn.prepareStatement(sql);
-	                psmt.setInt(1, sportsid);
-	                psmt.setString(2, chiefjudge_1);
-	    			psmt.setString(3, chiefjudge_2);
-	    			psmt.setString(4, trackjudge);
-	    			psmt.setString(5, trackjudge_rollcall_1);
-	    			psmt.setString(6, trackjudge_rollcall_2);
-	    			psmt.setString(7, trackjudge_rollcall_3);
-	    			psmt.setString(8, startingpoint_1);
-	    			psmt.setString(9, startingpoint_2);
-	    			psmt.setString(10, startingpoint_3);
-	    			psmt.setString(11, timejudge_1);
-	    			psmt.setString(12, timejudge_2);
-	    			psmt.setString(13, timejudge_3);
-	    			psmt.setString(14, endpoint_1);
-	    			psmt.setString(15, endpoint_2);
-	    			psmt.setString(16, endpoint_3);
-	    			psmt.setString(17, endpoint_4);
-	    			psmt.setString(18, endpoint_5);
+	                
+	                psmt.setString(1, chiefjudge_1);
+	    			psmt.setString(2, chiefjudge_2);
+	    			psmt.setString(3, trackjudge);
+	    			psmt.setString(4, trackjudge_rollcall_1);
+	    			psmt.setString(5, trackjudge_rollcall_2);
+	    			psmt.setString(6, trackjudge_rollcall_3);
+	    			psmt.setString(7, startingpoint_1);
+	    			psmt.setString(8, startingpoint_2);
+	    			psmt.setString(9, startingpoint_3);
+	    			psmt.setString(10, timejudge_1);
+	    			psmt.setString(11, timejudge_2);
+	    			psmt.setString(12, timejudge_3);
+	    			psmt.setString(13, endpoint_1);
+	    			psmt.setString(14, endpoint_2);
+	    			psmt.setString(15, endpoint_3);
+	    			psmt.setString(16, endpoint_4);
+	    			psmt.setString(17, endpoint_5);
+	    			psmt.setInt(18, sportsid);
 	    			flag=psmt.executeUpdate();
 	    			if(flag>0){
 	    			retuValue = true;
 	    			}
-	    			conn.close();
+	    			//conn.close();
 	    		}
 	     psmt.close();
          db.freeConnection(conn);
@@ -191,21 +193,22 @@ public class OfficialSetDAO {
 	          Connection conn = db.getConn();
 	           if(conn != null){
 	        	    String sql = "INSERT INTO t_official(fieldjudge,fieldjudge_1,fieldjudge_2,fieldjudge_3,fieldjudge_4," +
-	        	    		"fieldjudge_5,fieldjudge_6)values(?,?,?,?,?,?,?) where sportsid=?";
+	        	    		"fieldjudge_5,fieldjudge_6,sportsid)values(?,?,?,?,?,?,?,?)";
 	        	    psmt=conn.prepareStatement(sql);
-	        	    psmt.setInt(1, sportsid);
-	        	    psmt.setString(2, fieldjudge);
-	    			psmt.setString(3, fieldjudge_1);
-	    			psmt.setString(4, fieldjudge_2);
-	    			psmt.setString(5, fieldjudge_3);
-	    			psmt.setString(6, fieldjudge_4);
-	    			psmt.setString(7, fieldjudge_5);
-	    			psmt.setString(8, fieldjudge_6);
+	        	    
+	        	    psmt.setString(1, fieldjudge);
+	    			psmt.setString(2, fieldjudge_1);
+	    			psmt.setString(3, fieldjudge_2);
+	    			psmt.setString(4, fieldjudge_3);
+	    			psmt.setString(5, fieldjudge_4);
+	    			psmt.setString(6, fieldjudge_5);
+	    			psmt.setString(7, fieldjudge_6);
+	    			psmt.setInt(8, sportsid);
 	    			flag=psmt.executeUpdate();
 	    			if(flag>0){
 	    			retuValue = true;
 	    			}
-	    			conn.close();
+	    			//conn.close();
 	    		}
 	     psmt.close();      
          db.freeConnection(conn);
@@ -536,4 +539,103 @@ public ArrayList selectAllStuJudge(int sportsid) {
 	     }
 	     return retuValue;
 	 } 
+	
+	/**
+	 * 根据sportsid检查是否添加过学生裁判
+	 * @param sportsid
+	 * @return
+	 */
+	public boolean checkStuJudge(int sportsid) {
+		boolean flag = false;
+		DBConn db = new DBConn();
+		String sql = "SELECT * FROM t_stujudge WHERE sp2dpid IN(SELECT id FROM t_sports2department WHERE sportsid=?)";
+		try {
+			 Connection conn = db.getConn();
+			 if(conn != null){
+				 psmt = conn.prepareStatement(sql);
+			     psmt.setInt(1, sportsid);
+			     ResultSet rs = psmt.executeQuery();
+			     while (rs.next()) {
+	        	 flag = true;
+	        	 break;
+	 			}  
+			 rs.close();
+			 }
+	    db.freeConnection(conn);
+		} catch (SQLException e) {                 
+		    e.printStackTrace();       
+		}
+			return flag;       
+	}
+	
+	/**
+	 * 根据sportsid检查是否添加过田赛裁判
+	 * @param sportsid
+	 * @return
+	 */
+	public boolean checkFiledJudge(int sportsid) {
+		boolean flag = false;
+		DBConn db = new DBConn();
+		String sql = "select * FROM t_fieldjudge WHERE gp2itid IN(SELECT id FROM t_group2item " +
+				"WHERE gp2spid IN(SELECT id FROM t_group2sports WHERE sportsid = ?))";
+		try {
+			 Connection conn = db.getConn();
+			 if(conn != null){
+				 psmt = conn.prepareStatement(sql);
+			     psmt.setInt(1, sportsid);
+			     ResultSet rs = psmt.executeQuery();
+	         while (rs.next()) {
+	        	 flag = true;
+	        	 break;
+	 			}  
+			 rs.close();
+			 }
+	    db.freeConnection(conn);
+		} catch (SQLException e) {                 
+		    e.printStackTrace();       
+		}
+			return flag;       
+	}
+	
+	/**
+	 * 根据sportsid删除田赛裁判
+	 * @param sportsid
+	 * @return
+	 */
+	public void deleteFiledJudge(int sportsid) {
+		DBConn db = new DBConn();
+		String sql = "delete FROM t_fieldjudge WHERE gp2itid IN(SELECT id FROM t_group2item " +
+				"WHERE gp2spid IN(SELECT id FROM t_group2sports WHERE sportsid = ?))";
+		try {
+			 Connection conn = db.getConn();
+			 if(conn != null){
+				 psmt = conn.prepareStatement(sql);
+			     psmt.setInt(1, sportsid);
+			     psmt.executeUpdate();
+			 }
+	    db.freeConnection(conn);
+		} catch (SQLException e) {                 
+		    e.printStackTrace();       
+		}    
+	}
+	/**
+	 * 根据sportsid删除学生裁判
+	 * @param sportsid
+	 * @return
+	 */
+	public void deleteStuJudge(int sportsid) {
+		DBConn db = new DBConn();
+		String sql = "delete FROM t_stujudge WHERE sp2dpid IN(SELECT id FROM t_sports2department WHERE sportsid=?)";
+		try {
+			 Connection conn = db.getConn();
+			 if(conn != null){
+				 psmt = conn.prepareStatement(sql);
+			     psmt.setInt(1, sportsid);
+			     psmt.executeUpdate();
+			 }
+	    db.freeConnection(conn);
+		} catch (SQLException e) {                 
+		    e.printStackTrace();       
+		}    
+	}
 }

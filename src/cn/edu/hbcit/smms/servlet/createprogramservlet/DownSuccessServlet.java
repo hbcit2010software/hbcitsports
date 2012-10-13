@@ -41,7 +41,7 @@ public class DownSuccessServlet extends HttpServlet {
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String filePath = request.getSession().getServletContext().getRealPath("/");
+		String filePath = request.getSession().getServletContext().getRealPath("/")+"word/"; 
 		String fileName = request.getParameter("fileName");
 		String path = filePath + fileName;
 		File file = new File(path);
