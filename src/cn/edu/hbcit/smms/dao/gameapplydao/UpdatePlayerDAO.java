@@ -255,7 +255,7 @@ public class UpdatePlayerDAO {
 						pitem += item1[0];
 				 }
 				 String temp = "UPDATE t_player SET playername='"+playerName+"',playersex="
-				 +playerSex+",groupid="+group+",playertype"+1+",registitem='"+pitem+"' WHERE playernum="+playerNum+" AND sp2dpid="+sp2dpid;
+				 +playerSex+",groupid="+group+",playertype="+1+",registitem='"+pitem+"' WHERE playernum='"+playerNum+"' AND sp2dpid="+sp2dpid;
 				 if (addCount > 0){
 					 addSql.append("#");
 				 }
@@ -353,7 +353,7 @@ public class UpdatePlayerDAO {
 						pitem += item1[0];
 				 }
 				 String temp = "UPDATE t_player SET playername='"+playerName+"',playersex="
-				 +playerSex+",playertype"+0+",groupid="+groupid+",registitem='"+pitem+"' WHERE playernum="+playerNum+" AND sp2dpid="+sp2dpid;
+				 +playerSex+",playertype="+0+",groupid="+groupid+",registitem='"+pitem+"' WHERE playernum='"+playerNum+"' AND sp2dpid="+sp2dpid;
 				 if (addCount > 0){
 					 addSql.append("#");
 				 }
