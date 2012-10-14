@@ -50,6 +50,7 @@ public class AddRecordServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		request.setCharacterEncoding("utf-8");
 		
+		
 		String plaName = request.getParameter("plaName").trim();
 		String sportsName = request.getParameter("sportsName").trim();
 		String recTime = request.getParameter("recTime").trim();

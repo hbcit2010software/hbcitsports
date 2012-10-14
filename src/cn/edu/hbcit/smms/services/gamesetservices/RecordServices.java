@@ -94,9 +94,9 @@ public boolean addRecord(String plaName,String sportsName1,String recTime,String
  * @return boolean
  * @version 1.00  2012/6/15  新建
  */
-public boolean updateRecord(String plaName, int newIteId, String sportsName1,String newRecTime,String recLevel,int plaSex,String sor, String depName, int recordId)
+public boolean updateRecord(String plaName, String sportsName1,String newRecTime,String recLevel,int plaSex,String sor, String depName, int recordId)
 {
-	return re.updateRecord(plaName, newIteId, sportsName1, newRecTime, recLevel, plaSex, sor, depName, recordId);
+	return re.updateRecord(plaName, sportsName1, newRecTime, recLevel, plaSex, sor, depName, recordId);
 }
 /**
  * 删除记录

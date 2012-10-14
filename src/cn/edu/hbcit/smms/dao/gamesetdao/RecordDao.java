@@ -14,7 +14,7 @@ import cn.edu.hbcit.smms.dao.databasedao.DBTest;
 import cn.edu.hbcit.smms.pojo.Admin;
 
 public class RecordDao {
-	protected final Logger log = Logger.getLogger(DBTest.class.getName());
+	protected final Logger log = Logger.getLogger(RecordDao.class.getName());
 	/**
 	 * 查询所有记录
 	 * @return air（ArrayList）
@@ -269,6 +269,7 @@ public class RecordDao {
 	 * @version 2012/6/23
 	 */
 	public ArrayList seleteByNameTime( int itemId, String recordTime, boolean flag) {
+		log.debug("itemId:"+itemId+",recordTime:"+recordTime+",flag:"+flag);
 		DBConn db = new DBConn();
 		ArrayList air = new ArrayList();
 		Connection conn = db.getConn();
@@ -290,6 +291,7 @@ public class RecordDao {
     			}
     			 ResultSet rs = ps.executeQuery();
                 //int c = rs.getMetaData().getColumnCount();
+    			 int count = 0;
                 while(rs.next()){
                 	Admin admin = new Admin();
                 	admin.setRecordId(rs.getInt("id"));
@@ -302,8 +304,9 @@ public class RecordDao {
     				admin.setPlaSex(rs.getInt("sex"));
     				admin.setItemName(getItemName( rs.getInt("itemid")));
     				air.add(admin);
-                     
+    				count++;
                 }
+                log.debug("seleteByNameTime查询个数："+count);
                 rs.close();
                 ps.close();
             }
@@ -380,7 +383,7 @@ public class RecordDao {
 	 * @author 于德水
 	 * @version 1.00  2012/6/15  新建
 	 */
-	public boolean updateRecord(String plaName, int newIteId, String sportsName1,String newRecTime,String recLevel,int plaSex,String sor, String depName, int recordId)
+	public boolean updateRecord(String plaName, String sportsName1,String newRecTime,String recLevel,int plaSex,String sor, String depName, int recordId)
 	{
 		
 		boolean retuValue = false;
@@ -389,18 +392,18 @@ public class RecordDao {
 		try {
 			
 			Connection conn = db.getConn();
-			String sql = "update t_record  set itemid = ?, sex = ?, score = ?,"+
+			String sql = "update t_record  set sex = ?, score = ?,"+
 			" playername = ?, departname = ?, sportsname = ?, recordtime = ?, recordlevel = ? where id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			 ps.setInt(1,newIteId);
-			 ps.setInt(2,plaSex);
-			 ps.setString(3,sor);
-			 ps.setString(4,plaName);
-			 ps.setString(5,depName);
-			 ps.setString(6,sportsName1);
-			 ps.setString(7,newRecTime);
-			 ps.setString(8,recLevel);
-			 ps.setInt(9,recordId);
+			 
+			 ps.setInt(1,plaSex);
+			 ps.setString(2,sor);
+			 ps.setString(3,plaName);
+			 ps.setString(4,depName);
+			 ps.setString(5,sportsName1);
+			 ps.setString(6,newRecTime);
+			 ps.setString(7,recLevel);
+			 ps.setInt(8,recordId);
 
 			int s = ps.executeUpdate();
 			if(s==1)

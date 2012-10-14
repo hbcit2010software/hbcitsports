@@ -33,18 +33,19 @@
 			var sor=$('#sor').val();
 			var depName=$('#depName').val();
 			var itemName=$('#select').find('option:selected').val();
-			var sx=$('#sx').val();
+			 var sex=document.getElementsByName("SexRadioGroup");
 			var plaSex;
+			for(var i=0;i<sex.length;i++){
+	           if(sex[i].checked==true){
+			       if(sex[i].value=="1"){
+				      plaSex = 1;
+			       }else{
+				      plaSex = 0;
+			       }
+ 		       }
+  		    }
 			
-			if(sx=="男")
-			{
-				plaSex = 1;
-			}
 			
-			if(sx=="女")
-			{
-				plaSex = 0;
-			}
 			
 		if (plaName.length == 0) {
 		alert("姓名不能为空!");
@@ -127,9 +128,7 @@
           <c:forEach items="${iteRecord}" var="rs">
           <option value="${rs.iteId }">${rs.itemName}</option>
           </c:forEach>
-             
-          </select></label>
-		  			 </td>
+          </select></label>		  			 </td>
 		</tr>
 					<tr class="tableContent">
 						<td width="127"align="center" height="40">
@@ -144,9 +143,20 @@
 						<td width="127"align="center" height="40">
 							性别
 						:</td>
-						<td>
-							&nbsp;
-							<input type="text" value="" name="sx" id="sx" size="36" maxlength="10">						</td>
+						<td><form name="form1" method="post" action="">
+						  
+						    <label>
+						      <input name="SexRadioGroup" type="radio" id="sx" value="1" checked="checked">
+						      男						   
+						    
+						   
+						      <input name="SexRadioGroup" type="radio" id="sx" value="0">
+                               女						   
+						    
+					      
+						  </label>
+						</form>
+					 </td>
 					</tr>
 					<tr class="tableContent">
 						<td width="127"align="center" height="40">
@@ -190,18 +200,15 @@
 			<select name="recLevel" id="recLevel">
 			<option value="0">-院级-</option>
 			<option value="1">-省级-</option>
-             
-          </select></label>
-					</tr>
+          </select></label>					</tr>
                     <tr class="tableContent">
-						<td width="127"align="center" height="40"><label>
-						  <input type="button" name="button" id="button" onClick="addRecord()" value="保存">
-						</label></td>
-						<td>
+						
+						<td colspan="2">
 						&nbsp;
-						<label>
-						<input type="button" name="button2" id="button2" onClick="window.location.href='set_record.jsp'" value="返回">
-						</label></td>
+						
+                        <input type="button" name="button" id="button" onClick="addRecord()" value="保存">&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="set_record.jsp"><input type="button" name="button2" id="button2"  value="返回"></a>
+						</td>
 					</tr>
 				</table>
   </div>

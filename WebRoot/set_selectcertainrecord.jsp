@@ -118,7 +118,14 @@ function deleteRecordcertain(recordId) {
                   <td> ${re.depName}	</td>
                   <td> ${re.sportsName1}	</td>
                   <td> ${re.recTime}	</td>
-                  <td> ${re.recLevel}	</td>
+                  <td>
+                   <c:if test="${re.recLevel == 0}">
+                   院级
+                    </c:if>
+                    <c:if test="${re.recLevel == 1}">
+                   省级
+                    </c:if>
+                   </td>
 			  <td>
 
 						<a title="修改"
@@ -126,7 +133,7 @@ function deleteRecordcertain(recordId) {
 						<a title="删除" onClick="deleteRecordcertain('${re.recordId}')" href="#">删除</a>					</td>
 		</tr>
 			</c:forEach>
-			<tr><td colspan="10" align="center">
+			<tr  class="tableContent"><td colspan="10" align="center">
 			<input type="button" name="button3" id="button3"  onClick="window.location.href='set_record.jsp'" value="返回主菜单">
 			</td></tr>
     </table>

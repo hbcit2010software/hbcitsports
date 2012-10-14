@@ -228,200 +228,256 @@ font-size:16px;}
 		<li><strong><a href="#tabs-4">学生裁判员</a></strong></li>
 	</ul>
 <div id="tabs-1" >
-<div id="caipan1">
-    <span class="STYLE5">总裁判长：</span>
-    <input type="text" name="chiefjudge_1" id="chiefjudge_1"></div>
-<div id="caipan2"><span class="STYLE5">副总裁判长：</span>
-  <input type="text" name="chiefjudge_2" id="chiefjudge_2"></div>
-<p>&nbsp;</p>
-		<p align="left" class="STYLE4"><span class="STYLE7">径赛显示区</span>：</p>
-<table width="1024" border="0" >
-          <tr>
-            <td width="154"><span class="STYLE5">径赛裁判长:</span></td>
-<td width="854"><label>
-              <input type="text" name="trackjudge" id="trackjudge">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">检录裁判长：</span></td>
-<td><label>
-              <input type="text" name="trackjudge_rollcall_1" id="trackjudge_rollcall_1">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">检录裁判长助理：</span></td>
-<td><label>
-              <input type="text" name="trackjudge_rollcall_2" id="trackjudge_rollcall_2">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">检录员：</span></td>
-<td><label>
-              <textarea name="trackjudge_rollcall_3" id="trackjudge_rollcall_3" cols="45" rows="5"></textarea>
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">起点裁判长：</span></td>
-<td><label>
-              <input type="text" name="startingpoint_1" id="startingpoint_1">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">起点裁判长助理：</span></td>
-<td><label>
-              <input type="text" name="startingpoint_2" id="startingpoint_2">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">发令员：</span></td>
-<td><label>
-              <textarea name="startingpoint_3" id="startingpoint_3" cols="45" rows="5"></textarea>
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">记时长：</span></td>
-<td><label>
-              <input type="text" name="timejudge_1" id="timejudge_1">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">记时员：</span></td>
-<td><label>
-              <textarea name="timejudge_2" id="timejudge_2" cols="45" rows="5"></textarea>
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">司线员：</span></td>
-<td><label>
-              <input type="text" name="timejudge_3" id="timejudge_3">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">终点裁判长：</span></td>
-<td><label>
-              <input type="text" name="endpoint_1" id="endpoint_1">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">终点裁判长助理：</span></td>
-<td><label>
-              <input type="text" name="endpoint_2" id="endpoint_2">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">终点裁判员：</span></td>
-  <td>
- <label>
-              <textarea name="endpoint_3" id="endpoint_3" cols="45" rows="5"></textarea>
-            </label></td>
-          </tr>
-           <tr>
-            <td><span class="STYLE5">终点记录长：</span></td>
-<td><label>
-              <input type="text" name="endpoint_4" id="endpoint_4">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">终点记录员：</span></td>
-<td><label>
-              <input type="text" name="endpoint_5" id="endpoint_5">
-            </label></td>
-          </tr>
-        </table>
-        <p>&nbsp;</p>
-      <p>
-        <div align="center" > <input style="font-size:12px;" type="button"  id="button2" value="提 交" onClick="alterpws1()">
+<table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+					<tr class="tableTitle">
+                   <td  colspan="3" align="right" style="color:red;fontsize:12px;">
+                   人名之间请以英文逗号隔开
+                   </td>
+                   </tr>
+					<tr class="tableContent" >
+						<td width="347">
+							总裁判长：
+							</td>
+							<td>
+						 <input type="text" name="chiefjudge_1" id="chiefjudge_1" />
+					  </td>
+    </tr>
+					<tr class="tableContent" >
+						<td>
+							副总裁判长：
+							</td>
+							<td>
+							<input type="text" name="chiefjudge_2" id="chiefjudge_2" />
+						</td>
+					</tr>
+					<tr class="tableContent" >
+						<td>
+							径赛裁判长: 
+							</td>
+							<td>
+							<input type="text" name="trackjudge" id="trackjudge"  />
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							检录裁判长:
+							</td>
+							<td>
+							<input type="text" name="trackjudge_rollcall_1" id="trackjudge_rollcall_1" />
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							检录裁判长助理：
+							</td>
+							<td>
+							<input type="text" name="trackjudge_rollcall_2" id="trackjudge_rollcall_2" />
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							检录员:
+							</td>
+							<td>
+							<textarea name="trackjudge_rollcall_3" id="trackjudge_rollcall_3" cols="45" rows="5"></textarea>
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							起点裁判长：
+							</td>
+							<td>
+							<input type="text" name="startingpoint_1" id="startingpoint_1"/>
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							起点裁判长助理：
+							</td>
+							<td>
+							<input type="text" name="startingpoint_2" id="startingpoint_2"" />
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							发令员：
+							</td>
+							<td>
+							<textarea name="startingpoint_3" id="startingpoint_3" cols="45" rows="5"></textarea>
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							记时长：
+							</td>
+							<td>
+							<input type="text" name="timejudge_1" id="timejudge_1" />
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							记时员：
+							</td>
+							<td>
+							<textarea name="timejudge_2" id="timejudge_2" cols="45" rows="5"></textarea>
+						</td>
+					</tr>
+                    <tr class="tableContent" >
+						<td width="347">
+							司线员：
+							</td>
+							<td>
+						 <input type="text" name="timejudge_3" id="timejudge_3"/>
+					  </td>
+    </tr>
+					<tr class="tableContent" >
+						<td>
+							终点裁判长：
+							</td>
+							<td>
+							<input type="text" name="endpoint_1" id="endpoint_1" />
+						</td>
+					</tr>
+					<tr class="tableContent" >
+						<td>
+							终点裁判长助理： 
+							</td>
+							<td>
+							<input type="text" name="endpoint_2" id="endpoint_2"/>
+						</td>
+					</tr>
+                    	<tr class="tableContent" >
+						<td>
+							终点裁判员：
+							</td>
+							<td>
+							<textarea name="endpoint_3" id="endpoint_3" cols="45" rows="5"></textarea>
+						</td>
+					</tr>
+                    <tr class="tableContent" >
+						<td width="347">
+							终点记录长：
+							</td>
+							<td>
+						 <input type="text" name="endpoint_4" id="endpoint_4"/>
+					  </td>
+    </tr>
+					<tr class="tableContent" >
+						<td>
+							终点记录员：
+							</td>
+							<td>
+							<input type="text" name="endpoint_5" id="endpoint_5"/>
+						</td>
+					</tr>
+				<tr class="tableContent" >
+				<td colspan="3">
+		<input style="font-size:12px;" type="button"  id="button2" value="提 交" onClick="alterpws1()">
         <input style="font-size:12px;" type="button"  value="修 改" onClick="window.location.href='${pageContext.request.contextPath}/servlet/SelectAllTrackjudgeServlet?sportsid==sportsid}'">
-        </div>
-        
-        </p>
-     
+			  </tr>
+			</table>
 </div>
-	<div id="tabs-2" >
-    <p align="left" class="STYLE7">田赛显示区：</p>
-<table width="1024" border="0">
-          <tr>
-            <td width="154"><span class="STYLE5">田赛裁判长：</span></td>
-    <td width="854"><label>
-              <input type="text" name="fieldjudge" id="fieldjudge">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">总记录裁判长：</span></td>
-    <td><label>
-              <input type="text" name="fieldjudge_1" id="fieldjudge_1">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">记录员：</span></td>
-            <td><label>
-            <textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5"></textarea>
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">检查长：</span></td>
-            <td><label>
-            <input type="text" name="fieldjudge_3" id="fieldjudge_3">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">检查员：</span></td>
-            <td><label>
-            <textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5"></textarea>
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">场地器材组长：</span></td>
-    <td><label>
-              <input type="text" name="fieldjudge_5" id="fieldjudge_5">
-            </label></td>
-          </tr>
-          <tr>
-            <td><span class="STYLE5">器材员：</span></td>
-    <td><label>
-              <textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5"></textarea>
-            </label></td>
-          </tr>
-         </table>
-           <p>
-      <div align="center"> <input style="font-size:12px;" type="button"  id="button1" value="提 交" onClick="alterpws2()">
-       <input  style="font-size:12px;" type="button" value="修 改" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllFiledjudgeServlet?sportsid==sportsid}'">
-      </div>
-     
-        </p>
-        
 
-		
-         
+	<div id="tabs-2" >
+<table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+					<tr class="tableTitle">
+                   <td  colspan="3" align="right" style="color:red;fontsize:12px;">
+                   人名之间请以英文逗号隔开
+                   </td>
+                   </tr>
+					<tr  class="tableContent" >
+						<td width="347">
+							田赛裁判长：
+							</td>
+							<td>
+						 <input type="text" name="fieldjudge" id="fieldjudge"/>
+					    </td>
+                    </tr>
+					<tr  class="tableContent" >
+						<td>
+							总记录裁判长：
+							</td>
+							<td>
+							<input type="text" name="fieldjudge_1" id="fieldjudge_1"/>
+						</td>
+					</tr>
+					<tr  class="tableContent" >
+						<td>
+							记录员：
+							</td>
+							<td>
+							<textarea name="fieldjudge_2" id="fieldjudge_2" cols="45" rows="5" ></textarea>
+						</td>
+					</tr>
+                    <tr  class="tableContent" >
+						<td>
+							检查长：
+							</td>
+							<td>
+							<input type="text" name="fieldjudge_3" id="fieldjudge_3"/>
+						</td>
+					</tr>
+                  	<tr  class="tableContent" >
+						<td>
+							检查员：
+							</td>
+							<td>
+							<textarea name="fieldjudge_4" id="fieldjudge_4" cols="45" rows="5" ></textarea>
+						</td>
+					</tr>
+                    <tr  class="tableContent" >
+						<td>
+							场地器材组长：
+							</td>
+							<td>
+							<input type="text" name="fieldjudge_5" id="fieldjudge_5"/>
+						</td>
+					</tr>
+                    <tr  class="tableContent" >
+						<td>
+							器材员：
+							</td>
+							<td>
+							<textarea name="fieldjudge_6" id="fieldjudge_6" cols="45" rows="5" ></textarea>
+						</td>
+					</tr>
+					<tr  class="tableContent" >
+					<td colspan="3">
+				<input style="font-size:12px;" type="button"  id="button1" value="提 交" onClick="alterpws2()">
+       <input  style="font-size:12px;" type="button" value="修 改" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllFiledjudgeServlet?sportsid==sportsid}'">
+					</td>
+					</tr>
+				</table>      
 	</div>
 	<div id="tabs-3" style="height:100%;">
-	<p align="left" class="STYLE7">田赛项目裁判：</p>
-	<table class="stripe_tb" border="1" align="left" width="600">
+	<table class="stripe_tb" border="1" align="center" width="55%" >
+	<tr class="tableTitle">
+                   <td colspan="4" align="right" style="color:red;fontsize:12px;">
+                   人名之间请以英文逗号隔开
+                  </td>
+                   </tr>
 			<tr>
-				<td><div align="center" class="STYLE7">项目名称</div></td>
-<td>
-			  <div align="center" class="STYLE7">项目裁判长</div></td>
-<td>
-			  <div align="center" class="STYLE7">裁判长助理</div></td>
-<td>
-			  <div align="center" class="STYLE7">裁判员</div></td>
+			<td><div align="center" class="STYLE7">项目名称</div></td>
+            <td><div align="center" class="STYLE7">项目裁判长</div></td>
+            <td><div align="center" class="STYLE7">裁判长助理</div></td>
+            <td><div align="center" class="STYLE7">裁判员</div></td>
 		</tr>
 			<c:forEach items="${itemlist}" var="item">
 				<tr background="">
 					<td width="20%">
 					<input type="hidden" id="id<%=judNum %>"  value="${item[1]}" />
-					<input type="text" id="<%=judNum %>"  value="${item[0]}" /></td>
-					<td><input type="text"  id="judge_1<%=judNum %>" /></td>
-					<td><input type="text"  id="judge_2<%=judNum %>" /></td>
-					<td><input type="text"  id="judge_3<%=judNum %>" /></td>
+					<input style="font-size:12px;" type="text" id="<%=judNum %>"  value="${item[0]}" /></td>
+					<td><input style="font-size:12px;" type="text"  id="judge_1<%=judNum %>" /></td>
+					<td><input style="font-size:12px;" type="text"  id="judge_2<%=judNum %>" /></td>
+					<td><input style="font-size:12px;" type="text"  id="judge_3<%=judNum %>" /></td>
 				</tr> 
 				<% judNum++; %>
 			</c:forEach>
 			<tr>
 					<td colspan="4" align="center">
-						<a href="#" onClick="insertFileJudge()"><font style="font-size:12px;">提 交</font></a>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/servlet/SelectFieldItemJudgeServlet"><font style="font-size:12px;">查看并修改</font></a>
-					</td>
+					<input style="font-size:12px;" type="button"  id="button1" value="提 交" onClick="insertFileJudge()">
+					<input  style="font-size:12px;" type="button" value="修 改" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectFieldItemJudgeServlet'">
+				   </td>
 				</tr>
 		</table>  
 		<p>&nbsp;</p> 
@@ -515,11 +571,13 @@ font-size:16px;}
 	    </script>
 	</div>
 	<div id="tabs-4" style="height:100%;">
-    <div>
-		<p align="left" class="STYLE7">学生裁判：</p>
-
-		<table class="stripe_tb" border="1" align="left" width="600">
-			<tr>
+		<table class="stripe_tb" border="1" align="center" width="55%" >
+		<tr class="tableTitle">
+                   <td  colspan="4" align="right" style="color:red;fontsize:12px;"><font>
+                   人名之间请以英文逗号隔开</font>
+                   </td>
+                   </tr>
+			<tr >
 				<td><div align="center" class="STYLE7"> 系部名称</div></td>
                 <td><div align="center" class="STYLE7">系部联系人</div></td>
                 <td><div align="center" class="STYLE7">联系人电话</div></td>
@@ -529,11 +587,11 @@ font-size:16px;}
 					<tr background="">
 						<td width="20%">
 						<input type="hidden" id="depid<%=num %>" value="${dep[0]}" />
-						<input type="text"  id="depname<%=num %>" value="${dep[1]}" />	</td>
+						<input style="font-size:12px;" type="text"  id="depname<%=num %>" value="${dep[1]}" />	</td>
 						
-						<td><input type="text"  id="person<%=num %>" /></td>
-						<td><input type="text"  id="phone<%=num %>" /></td>
-						<td><input type="text"  id="judges<%=num %>" /></td>
+						<td><input style="font-size:12px;" type="text"  id="person<%=num %>" /></td>
+						<td><input style="font-size:12px;" type="text"  id="phone<%=num %>" /></td>
+						<td><input style="font-size:12px;" type="text"  id="judges<%=num %>" /></td>
 						
 					</tr>
 				<%
@@ -542,12 +600,11 @@ font-size:16px;}
 			</c:forEach>
 			<tr>
 					<td colspan="4" align="center">
-						<a href="#" onClick="insertStuJudge()"><font style="font-size:12px;">提 交</font></a>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/servlet/SelectStuentJudgeServlet"><font style="font-size:12px;">查看并修改</font></a>
+					<input style="font-size:12px;" type="button"  id="button1" value="提 交" onClick="insertStuJudge()">
+					<input  style="font-size:12px;" type="button" value="修 改" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectStuentJudgeServlet'">
 					</td>
 				</tr>
 		</table>
-		</div>
 </div>
 
 </div><!-- End demo -->

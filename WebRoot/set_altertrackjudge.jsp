@@ -151,7 +151,11 @@ body {
   <tr>
     <td>
  <table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
-
+<tr class="tableContent" >
+                   <td  colspan="3" align="right" style="color:red;">
+                   人名之间请以英文逗号隔开
+                   </td>
+                   </tr>
 <c:forEach items="${officialsetlist1}" var="officialsetlist1">
 					<tr class="tableContent" >
 						<td width="347">

@@ -37,7 +37,7 @@ function alterRecord() {
 	var depName = $("#depName").val();
  	var recordId = $("#recordId").val();
 	var itemName = $("#itemName").val();
-	var sx = $("#sx").val();
+	var sex=document.getElementsByName("SexRadioGroup");
  
 	if (itemName.length == 0) {
 		alert("项目名称不能为空!");
@@ -73,15 +73,15 @@ function alterRecord() {
 	}
 	var plaSex;
 			
-			if(sx=="男")
-			{
-				plaSex = 1;
-			}
-			
-			if(sx=="女")
-			{
-				plaSex = 0;
-			}
+			for(var i=0;i<sex.length;i++){
+	           if(sex[i].checked==true){
+			       if(sex[i].value=="1"){
+				      plaSex = 1;
+			       }else{
+				      plaSex = 0;
+			       }
+ 		       }
+  		    }
  
 	$.ajax( {
 		url : "${pageContext.request.contextPath }/servlet/AlterRecordServlet",
@@ -134,7 +134,7 @@ function alterRecord() {
 						:</td>
 						<td>
 							&nbsp;
-							<input type="text" value="${es.itemName}" name="itemName" id="itemName" size="36" maxlength="10">						</td>
+							<input type="text" value="${es.itemName}" name="itemName" id="itemName"  disabled="disabled" size="36" maxlength="10">						</td>
 					</tr>
 					<tr class="tableContent" height="40">
 						<td width="127"align="center">
@@ -144,24 +144,26 @@ function alterRecord() {
 							&nbsp;
 							<input type="text" value="${es.plaName}" name="plaName" id="plaName" size="36" maxlength="10">						</td>
 					</tr>
-					
+					<form name="form1" method="post" action="">
 					<tr class="tableContent" height="40">
 						<td width="127"align="center">
 							性别
 						:</td>
 						<c:if test="${es.plaSex == 1}"> 
 					<td>
-						<input type="text" value="男" name="sx" id="sx" size="36" maxlength="10">
+						 男<input name="SexRadioGroup" type="radio" id="sx" value="1" checked="checked">
+                         女<input name="SexRadioGroup" type="radio" id="sx" value="0">
 					</td>
 					</c:if>
 					<c:if test="${es.plaSex == 0}"> 
 					<td>
-						<input type="text" value="女" name="sx" id="sx" size="36" maxlength="10">
+                         男<input name="SexRadioGroup" type="radio" id="sx" value="1" >
+						 女<input name="SexRadioGroup" type="radio" id="sx" value="0" checked="checked">
 					</td>
 					</c:if>
 						 
 							  
-					</tr>
+					</tr></form>
 					<tr class="tableContent" height="40">
 						<td width="127"align="center">
 							成绩
@@ -198,20 +200,38 @@ function alterRecord() {
 						<td width="127"align="center">
 							记录级别
 						:</td>
-						<td>
+						
 							&nbsp;
-							<input type="text" value="${es.recLevel}" name="recLevel" id="recLevel" size="36" maxlength="10">						</td>
+                            <c:if test="${es.recLevel == 0}"> 
+                            <td>
+                            <label>
+			                  <select name="recLevel" id="recLevel">
+			                  <option value="0" selected>-院级-</option>
+			                  <option value="1">-省级-</option>
+                              </select></label>	
+                              </td>
+                             </c:if>
+                              <c:if test="${es.recLevel == 1}"> 
+                            <td>
+                            <label>
+			                  <select name="recLevel" id="recLevel">
+			                  <option value="0" >-院级-</option>
+			                  <option value="1" selected>-省级-</option>
+                              </select></label>	
+                              </td>
+                             </c:if>
+                             	
+											
 					</tr>
 					</c:forEach>
                     <tr class="tableContent" height="40">
-						<td width="127" align="center"><label>
-						  <input name="button" type="button" id="button" onClick="alterRecord()" value="保存">
-						</label></td>
-						<td>
+						
+						<td colspan="2">
 						&nbsp;
-						<label>
-						<input type="button" name="button2" id="button2" onClick="window.location.href='../set_record.jsp'" value="返回主菜单">
-						</label></td>
+						
+						 <input name="button" type="button" id="button" onClick="alterRecord()" value="保存">&nbsp;&nbsp;&nbsp;&nbsp;
+						 <a href="set_record.jsp"><input type="button" name="button2" id="button2" value="返回主菜单"></a>
+						</td>
 					</tr>
 				</table>
 		</div>
