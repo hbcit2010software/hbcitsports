@@ -8,7 +8,7 @@
    <link href="css/subcss.css" rel="stylesheet" type="text/css" />
      <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
      <script type="text/javascript" src="js/GameManageGetGroup.js"></script>
-     
+     <script type="text/javascript" src="js/GameManageGetItem.js"></script>
       <script type="text/javascript" src="js/GameManagePrintScan.js" CharSet="utf-8"></script>
      <script type="text/javascript" language="javascript"> 
 	$(function(){
@@ -19,7 +19,34 @@
 			
 		});
 		$("#printScan").attr("disabled",true);
-  function scan1(){
+ 
+		function checkDate(){
+			    var finalitemname = $("#item").find("option:selected").text();
+				var finalitemtype = $("#item").find("option:selected").val();
+				//alert(finalitemname);
+				if(finalitemtype==1 || finalitemtype==3){
+				
+				    scan1();
+				}
+				else{
+			      $.ajax({
+						url: "servlet/GameManageCheckTableGetItemServlet?action=checkDate",
+						type: "get",
+						data: {itemname:finalitemname,itemtype:finalitemtype},
+						success : function(flag) {
+						alert("aaaa");
+						alert(flag);
+							if( 0 == flag ){
+								//$("#scan2").attr("disabled",true);
+								alert("预赛还未完成!");return false;
+							}else{
+							    scan1();
+							}
+						}
+		});	
+			  }}
+			  
+		function scan1(){
             var groupvalue =$("#group").find("option:selected").val();
 			var groupname =$("#group").find("option:selected").text();
 			var finalitemname = $("#item").find("option:selected").text();
@@ -123,7 +150,7 @@
   <option value='0'> --请选择项目--</option>
   </select>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" value="预览 " id="scan2" onclick="scan1()" />
+    <input type="button" value="预览 " id="scan2" onclick="checkDate()" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="button" value="打印预览"  id="printScan" />
   </div>

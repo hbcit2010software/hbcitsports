@@ -145,13 +145,13 @@ public class GameManageDao {
             "JOIN  t_player ON t_player.id=t_match.playerid "+ 
             "JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid "+
             "JOIN t_department ON t_department.id=t_sports2department.departid "+
-            "WHERE t_match.finalitemid=? "+ 
+            "WHERE t_match.finalitemid=? AND ( t_match.foul=0 OR t_match.foul IS NULL) "+ 
             "ORDER BY t_match.score+0 DESC";
 			String sql2 = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match "+ 
             "JOIN  t_player ON t_player.id=t_match.playerid "+ 
             "JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid "+
             "JOIN t_department ON t_department.id=t_sports2department.departid "+
-            "WHERE t_match.finalitemid=? "+ 
+            "WHERE t_match.finalitemid=? AND ( t_match.foul=0 OR t_match.foul IS NULL)"+ 
             "ORDER BY t_match.score+0 ASC";
 			if(!conn.equals(" "))
 			{

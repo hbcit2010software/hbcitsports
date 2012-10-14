@@ -208,7 +208,7 @@ public class WordGameBeforInfoDao {
 				secretariatTable.addCell(secretariatCell);
 				String[] sec5 = (String[])gameInfoMap.get("secretariat5");
 				for(int i = 0; i < sec5.length; i++){
-					secretariatCell = new Cell(sec4[i]);
+					secretariatCell = new Cell(sec5[i]);
 					secretariatCell.setBorderWidth(0);
 					secretariatTable.addCell(secretariatCell);
 				}

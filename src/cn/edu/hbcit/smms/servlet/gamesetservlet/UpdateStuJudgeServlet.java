@@ -46,14 +46,21 @@ get.
 
 response)
 			throws ServletException, IOException {
-
+         
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-control", "no-cache");
+		response.setDateHeader("Expires", 0);
+		response.setContentType("text/html;utf-8");
+		response.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		OfficialSetService officialsetService=new OfficialSetService();
-		int id=Integer.parseInt(request.getParameter("id").trim());
+		int id=Integer.parseInt(request.getParameter("id"));
 		log.debug("id------------------"+id);
-        String contact=request.getParameter("contact").trim();
-        String tel=request.getParameter("tel").trim();
-        String member=request.getParameter("member").trim();
+        String contact=request.getParameter("contact");
+        log.debug("contant---------------------"+contact);
+        String tel=request.getParameter("tel");
+        String member=request.getParameter("member");
         boolean flag = false;
         log.debug("flag------------------"+flag);
         flag = officialsetService.updateStuJudge(id,contact, tel, member);

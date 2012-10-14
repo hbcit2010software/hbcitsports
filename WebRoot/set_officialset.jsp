@@ -114,7 +114,7 @@ body {
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->添加工作人员设置</span></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->工作人员设置</span></td>
               </tr>
             </table></td>
           </tr>

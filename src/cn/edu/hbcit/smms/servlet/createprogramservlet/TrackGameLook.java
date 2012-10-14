@@ -55,7 +55,7 @@ public class TrackGameLook extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		System.out.println(request.getParameter("id")+"ssssssssssssssssssss");
+		log.debug(request.getParameter("id")+"ssssssssssssssssssss");
 		int finalId = Integer.parseInt(request.getParameter("id"));
 		//System.out.println(finalId);
 		String itenName = "";

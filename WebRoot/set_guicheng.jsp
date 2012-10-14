@@ -3,10 +3,10 @@
 <html>
   <head>  
     <title>基本规程设置</title>
-    <link href="${pageContext.request.contextPath }/css/subcss.css"
-			type="text/css" rel="stylesheet" />
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
+    <link href="${pageContext.request.contextPath }/css/subcss.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
+		 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 </script>
 
  
@@ -33,19 +33,19 @@
     	var others = $("#others").val();
     	//var sportsname = $("select").find("option:selected").text();
 		if (action.length == 0) {
-		alert("内容不能为空!");
+		Dialog.alert("内容不能为空!");
 		return false;
 		}
 		if (conts.length == 0) {
-		alert("内容不能为空!");
+		Dialog.alert("内容不能为空!");
 		return false;
 		}
 		if (pionts.length == 0) {
-		alert("内容不能为空!");
+		Dialog.alert("内容不能为空!");
 		return false;
 		}
 		if (others.length == 0) {
-		alert("内容不能为空!");
+		Dialog.alert("内容不能为空!");
 		return false;
 		}
     	
@@ -58,11 +58,11 @@
 						var revalue = mm.replace(/\r\n/g, '');
 						 
 						if (revalue == "success") {
-							alert("提交成功!", function() {
+							Dialog.alert("提交成功!", function() {
 								window.location.href = window.location.href;
 							});
 						} else
-							alert("提交失败!", function() {
+							Dialog.alert("提交失败!", function() {
 								window.location.href = window.location.href;
 							});
 					}
@@ -90,7 +90,7 @@ body {
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->基本规程设置</span></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->赛事规程</span></td>
               </tr>
             </table></td>
           </tr>
@@ -141,6 +141,6 @@ body {
    </tr>
    </table>
 <br/>
-<div align="center"><span class="pageJump">当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>1</b>&nbsp;页&nbsp;&nbsp;</span></div>
+
 </body>
 </html>

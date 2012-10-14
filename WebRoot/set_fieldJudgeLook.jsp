@@ -1,13 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 	<head>
 <link href="css/subcss.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
-<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
-</script>
+<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
@@ -37,7 +35,6 @@ function uadateJudge(obj) {
 	diag.URL = "${pageContext.request.contextPath }/servlet/SelectFieldItemByItemnameServlet?gp2itid="+gp2itid;
 	diag.OKEvent = function() {
 		window.location.reload();
-
 	};
 
 	diag.ShowCloseButton = false;

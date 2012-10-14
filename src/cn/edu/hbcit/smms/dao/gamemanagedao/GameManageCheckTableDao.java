@@ -18,7 +18,9 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import net.sf.json.JSONArray;
 
@@ -172,39 +174,33 @@ public class GameManageCheckTableDao {
 					System.out.println("matchtype="+matchtype);
 					sql = "SELECT t_match.teamnum,t_player.playernum,t_player.playername,t_match.runway FROM " +
 					"t_match JOIN t_player ON t_player.id=t_match.playerid WHERE " +
-					"t_match.finalitemid =(   SELECT id FROM t_finalitem WHERE finalitemname= " +
-					"(SELECT finalitemname FROM t_finalitem WHERE finalitemtype = '"+finalitemtype+"'  AND  gp2itid = (" +
-							"SELECT gp2itid FROM t_finalitem WHERE finalitemname = '"+itemname+"'))) and teamnum = '"+teamnum+"' order by runway";
+					"t_match.finalitemid in (SELECT id FROM t_finalitem WHERE finalitemname in " +
+					"(SELECT finalitemname FROM t_finalitem WHERE finalitemtype = '"+finalitemtype+"'  AND  gp2itid in (" +
+							"SELECT gp2itid FROM t_finalitem WHERE finalitemname = '"+itemname+"')) AND sportsid = '"+loginDAO.selectCurrentSportsId()+"') and teamnum = '"+teamnum+"' order by runway";
 				}else{			//接力
 					sql = "SELECT playerid,playernum,playername,teamnum,runway from t_match " +
 							"join t_sports2department on t_sports2department.departid = t_match.playerid" +
 							"join t_player on t_player.sp2dpid = t_sports2department.id" +
 							"join t_finalitem on t_finalitem.id = t_match.finalitemid" +
-							"where finalitemid = (SELECT id from t_finalitem where " +
-							"finalitemname = '"+itemname+"') and finalitemtype = '"+finalitemtype+"' and teamnum = '"+teamnum+"' "  ;
+							"where finalitemid in (SELECT id from t_finalitem where " +
+							"finalitemname = '"+itemname+"' AND sportsid = '"+loginDAO.selectCurrentSportsId()+"') and finalitemtype = '"+finalitemtype+"' and teamnum = '"+teamnum+"' "  ;
 				} 
-			}else{
+			}else{//决赛
 				
 				System.out.println("finalitemtype="+finalitemtype);
-				if(finalitemtype.equals("2")){			//决
-					
-					//int num = updateFinalMatch(itemname ,promotionnum);	//设置决赛赛道
-					//System.out.println("决="+num);
 					if( matchtype.equals("1") || matchtype.equals("2") ){		//竞赛、田赛
 						sql = "SELECT t_match.teamnum,t_player.playernum,t_player.playername,t_match.runway FROM " +
-						"t_match JOIN t_player ON t_player.id=t_match.playerid WHERE " +
-						"t_match.finalitemid =(   SELECT id FROM t_finalitem WHERE finalitemname= " +
-						"(SELECT finalitemname FROM t_finalitem WHERE finalitemtype = '"+finalitemtype+"'  AND  gp2itid = (" +
-						"SELECT gp2itid FROM t_finalitem WHERE finalitemname = '"+itemname+"'))) and teamnum = "+teamnum+" order by runway limit 3";
+								"t_match JOIN t_player ON t_player.id=t_match.playerid WHERE " +
+								"t_match.finalitemid IN(   SELECT id  FROM t_finalitem WHERE finalitemtype = '"+finalitemtype+"'  AND  gp2itid IN ( " +
+								"SELECT gp2itid FROM t_finalitem WHERE finalitemname = '"+itemname+"' AND sportsid = '"+loginDAO.selectCurrentSportsId()+"' )) AND teamnum = '"+teamnum+"' ORDER BY runway  ";
 					}else{		//接力
 						sql = "SELECT playerid,playernum,playername,teamnum,runway from t_match " +
 						"join t_sports2department on t_sports2department.departid = t_match.playerid " +
 						"join t_player on t_player.sp2dpid = t_sports2department.id " +
 						"join t_finalitem on t_finalitem.id = t_match.finalitemid " +
-						"where finalitemid = (SELECT id from t_finalitem where " +
-						"finalitemname = '"+itemname+"') and finalitemtype = '"+finalitemtype+"' and  teamnum = "+teamnum+" ";
+						"where finalitemid in (SELECT id from t_finalitem where " +
+						"finalitemname = '"+itemname+"') and finalitemtype = '"+finalitemtype+"' and  teamnum = '"+teamnum+"' ";
 					}
-				}
 			}
 			
 	        try {
@@ -214,7 +210,8 @@ public class GameManageCheckTableDao {
 	                if(finalitemtype.equals("2")){
 	                if( matchtype.equals("1") || matchtype.equals("2") ){//竟赛和田赛
 	                	 ResultSet rs = statement.executeQuery(sql);	
-	                	 while( rs.next() ){  
+	                	 while( rs.next() ){
+	                		 System.out.println("qweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 	                		 JSONArray list = new JSONArray();
 	                		 //list.add(Integer.toString(rs.getInt(1)));
 	                		 list.add(rs.getString(2));
@@ -295,7 +292,14 @@ public class GameManageCheckTableDao {
 			int promotionnum = 0;
 			promotionnum = gmctd.getPromotionnum(finalitemname);//项目规定的晋级数
 			System.out.println("promotionnum="+promotionnum);
-			updateFinalMatch(finalitemname ,promotionnum);	//设置决赛赛道
+			System.out.println("isFinalScoreEmpty(finalitemname)="+isFinalScoreEmpty(finalitemname));
+			if( this.isFinalScoreEmpty(finalitemname)){
+				deleteFinalScore(finalitemname);
+				updateFinalMatch(finalitemname ,promotionnum);	//设置决赛赛道
+			}else{
+				updateFinalMatch(finalitemname ,promotionnum);	//设置决赛赛道
+			}
+			
 		}
 		flag = getItemTeamnumber(finalitemname);//获得项目的小组数
 		System.out.println("flag="+flag);
@@ -347,7 +351,7 @@ public class GameManageCheckTableDao {
 	* @exception 例外的类型 意义注释
 	 */
 	public String getMatchType( String finalitemname ){
-		String sql = "SELECT itemtype from t_item where id = (" +
+		String sql = "SELECT itemtype from t_item where id in (" +
 		"SELECT itemid from t_group2item where id in (" +
 		"SELECT gp2itid from t_finalitem where finalitemname = '"+finalitemname+"'))";
 		DBConn db = new DBConn();
@@ -379,11 +383,10 @@ public class GameManageCheckTableDao {
 	* @exception 例外的类型 意义注释
 	 */
 	public int updateFinalMatch( String finalitemname ,int promotionnum ){
-		DBConn db = new DBConn();
-		conn = db.getConn();
+		
 		PreparedStatement  pstmt = null;	ResultSet rs = null;
 		PreparedStatement pstmt1 = null;	ResultSet rs1 = null; 
-		String sql = "insert into t_match(teamnum,runway playerid,finalitemid) values (teamnum = 1,runway = ?, playerid = ?,finalitemid = ?) ";
+		String sql = "INSERT INTO t_match (teamnum,runway,playerid,finalitemid) VALUES (1,?,?,?)";
 		
 		GameManageCheckTableDao gmctd = new GameManageCheckTableDao();
 		String matchType = null;
@@ -392,51 +395,61 @@ public class GameManageCheckTableDao {
 		int finalitemid = getFinalitemid(finalitemname);	//finalitemid
 		int num = 0;
 		int[] runway = gmctd.getFinalRunWay(promotionnum);//赛道分配
-		if( matchType == "1" || matchType == "3" ){
-			String sql1 = "SELECT playerid FROM t_match WHERE finalitemid = (" +
-					"SELECT id FROM t_finalitem WHERE finalitemname = ? " +
-					")ORDER BY score+0 DESC LIMIT ? ";
+		System.out.println("runway="+runway.length);
+		DBConn db = new DBConn();
+		conn = db.getConn();
+		if( "1".equals(matchType) || "3".equals(matchType) ){
+			String sql1 = "SELECT playerid FROM t_match WHERE finalitemid IN ( SELECT id FROM t_finalitem WHERE gp2itid IN ( " +
+					"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ? AND sportsid = ? ) " +
+					"AND finalitemtype = '1' AND (t_match.foul=0 OR t_match.foul IS NULL)) ORDER BY score+0 DESC LIMIT ?";
 			try {
 				pstmt = conn.prepareStatement(sql1);
 				pstmt.setString(1, finalitemname);
-				pstmt.setInt(2, promotionnum);
+				pstmt.setInt(2, loginDAO.selectCurrentSportsId());
+				pstmt.setInt(3, promotionnum);
 				rs = pstmt.executeQuery();
-				rs.close();
-				pstmt.close();
 				pstmt1 = conn.prepareStatement(sql);
-				for( int i = 0 ; i < runway.length ; i++ ){
-					pstmt1.setInt(1, runway[i]);
-					pstmt1.setInt(2, rs.getInt(1));
-					pstmt1.setInt(3, finalitemid);
-					num += pstmt1.executeUpdate();
-					System.out.println("num="+num+",runway[i]="+runway[i]);
-				}
-				pstmt1.close();
+				System.out.println("qwerqweqweqweqweqweq");
+					for( int i = 0 ; i < runway.length ; i++ ){
+						System.out.println("runway="+runway[i]);
+						rs.next();
+						pstmt1.setInt(1, runway[i]);
+						pstmt1.setInt(2, rs.getInt(1));
+						pstmt1.setInt(3, finalitemid);
+						num += pstmt1.executeUpdate();
+						System.out.println("num="+num+",runway[i]="+runway[i]);
+					}
+					pstmt1.close();
+				
+				
 				db.freeConnection(conn);
 			} catch (Exception e) {
 				log.debug(e.getMessage());
 				e.printStackTrace();
 			}
 			
-		}if( matchType == "2"){
-			String sql1 = "SELECT teamnum,runway,playerid FROM t_match WHERE finalitemid = (" +
-			"SELECT id FROM t_finalitem WHERE finalitemname = ? " +
-			")ORDER BY score+0  LIMIT ? ";
+		}if("2".equals(matchType)){
+			String sql1 = "SELECT playerid FROM t_match WHERE finalitemid IN ( SELECT id FROM t_finalitem WHERE gp2itid IN ( " +
+					"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ? AND sportsid = ? ) " +
+					"AND finalitemtype = '1' AND (t_match.foul=0 OR t_match.foul IS NULL)) ORDER BY score+0 LIMIT ?";
 			
 			try {
 				pstmt = conn.prepareStatement(sql1);
 				pstmt.setString(1, finalitemname);
-				pstmt.setInt(2, promotionnum);
+				pstmt.setInt(2, loginDAO.selectCurrentSportsId());
+				pstmt.setInt(3, promotionnum);
 				rs = pstmt.executeQuery();
 				
 				pstmt1 = conn.prepareStatement(sql);
-				for( int i = 0 ; i < runway.length ; i++ ){
-					pstmt1.setInt(1, runway[i]);
-					pstmt1.setInt(2, rs.getInt(1));
-					pstmt1.setInt(3, finalitemid);
-					num += pstmt1.executeUpdate();
-					System.out.println("num="+num+",runway[i]="+runway[i]);
-				}
+				
+					for( int i = 0 ; i < runway.length ; i++ ){
+						rs.next();
+						pstmt1.setInt(1, runway[i]);
+						pstmt1.setInt(2, rs.getInt(1));
+						pstmt1.setInt(3, finalitemid);
+						num += pstmt1.executeUpdate();
+						System.out.println("num="+num+",runway[i]="+runway[i]);
+					}
 				
 				db.freeConnection(conn);
 			} catch (Exception e) {
@@ -445,7 +458,6 @@ public class GameManageCheckTableDao {
 			}
 			
 		}
-		
 		return num;
 	}
 	
@@ -534,7 +546,7 @@ public class GameManageCheckTableDao {
 	* @exception 例外的类型 意义注释
 	 */
 	public int getFinalitemid( String finalitemname){
-		String sql = "SELECT id FROM t_finalitem WHERE finalitemname = ?";
+		String sql = "SELECT id FROM t_finalitem WHERE finalitemname = ? AND sportsid = ?";
 		int finalitemid = 0;
 		DBConn db = new DBConn();
 		conn = db.getConn();
@@ -542,6 +554,7 @@ public class GameManageCheckTableDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
+			pstmt.setInt(2, loginDAO.selectCurrentSportsId());
 			rs = pstmt.executeQuery();
 			if( rs.next()){
 				finalitemid = rs.getInt(1);
@@ -553,6 +566,85 @@ public class GameManageCheckTableDao {
 		}
 		return finalitemid ;
 	}
+
+	//获取当前比赛时间
+	public int getdate( String finalitemname,String finalitemtype){
+		String sql = "SELECT DATE,TIME FROM t_finalitem " +
+				"WHERE finalitemname = ? AND finalitemtype = ? AND sportsid = ?	";
+		int flag = 1;//可以点
+		String gameTime = null;
+		DBConn db = new DBConn();
+		conn = db.getConn();
+		PreparedStatement  pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, finalitemname);
+			pstmt.setString(2, finalitemtype);
+			pstmt.setInt(3, loginDAO.selectCurrentSportsId());
+			rs = pstmt.executeQuery();
+			if( rs.next()){
+				gameTime = (rs.getString(1)+rs.getString(2)).replace("-", "").replace(":", "");
+				System.out.println("gameTime="+gameTime);
+			}
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
+			Date date = new Date();
+			System.out.println( " Double.parseDouble(dateFormat.format(date)) < Double.parseDouble(gameTime)="+(Double.parseDouble(dateFormat.format(date)) < Double.parseDouble(gameTime)));
+			if( Double.parseDouble(dateFormat.format(date)) < Double.parseDouble(gameTime)){
+				flag = 0;
+			}
+			db.freeConnection(conn);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag ;
+	}
+	/**
+	 * 决赛是否有数据
+	 * @param finalitemname
+	 * @return
+	 */
+	public boolean isFinalScoreEmpty( String finalitemname ){
+		String sql = "SELECT * FROM t_match WHERE finalitemid IN ( " +
+				"SELECT id FROM t_finalitem WHERE finalitemname = ? AND sportsid = ?) ";
+		DBConn db = new DBConn();
+		conn = db.getConn();
+		PreparedStatement  pstmt = null;
+		ResultSet rss;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, finalitemname);
+			pstmt.setInt(2, loginDAO.selectCurrentSportsId());
+			rss = pstmt.executeQuery();
+			if(rss.next()){
+				return true;//有数据
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;//无数据
+	}
+	/**
+	 * 删除t_match决赛数据
+	 * @param finalitemname
+	 */
+	public void deleteFinalScore( String finalitemname){
+		String sql = "DELETE	FROM t_match WHERE finalitemid IN ( " +
+				"SELECT id FROM t_finalitem WHERE finalitemname = ? AND sportsid = ?) ";
+		DBConn db = new DBConn();
+		conn = db.getConn();
+		PreparedStatement  pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, finalitemname);
+			pstmt.setInt(2, loginDAO.selectCurrentSportsId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
-	 
+
 

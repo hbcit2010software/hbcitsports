@@ -1,20 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="css/subcss.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-<script type="text/javascript">
-</script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script language="javascript">
 
 function alterUser(obj) {
 	var id=obj.id;
-	alert(id);
+	//alert(id);
 	var judge_1 = $("#judge_1").val();
 	var judge_2 = $("#judge_2").val();
 	var judge_3 = $('#judge_3').val();
@@ -33,7 +32,7 @@ function alterUser(obj) {
     //alert("judge_1");
 	$.ajax( {
 		url : "${pageContext.request.contextPath }/servlet/UpdateFieldItemJudgeServlet",
-		type : 'get',
+		type : 'post',
 		data : 'id=' + id +'&judge_1=' + judge_1 + '&judge_2=' + judge_2 + '&judge_3='+ judge_3,
 		success : function(mm) {
 			var revalue = mm.replace(/\r\n/g, '');
