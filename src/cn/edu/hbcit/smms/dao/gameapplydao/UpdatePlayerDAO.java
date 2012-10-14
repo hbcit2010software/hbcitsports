@@ -185,18 +185,36 @@ public class UpdatePlayerDAO {
 		StringBuffer addSql = new StringBuffer(); //添加sql语句
 		int addCount = 0;
 		for (int i = 0; i < pageString.length; i++){
+//			log.debug("pageString["+i+"]**********"+pageString[i]);
+//			
+//			log.debug("pageString[i].length()**********"+pageString[i].length());
+//			log.debug("****真真假假******"+(pageString.length < 4 || pageString[1] == null || pageString[1].trim().equals("") || pageString[3] == null 
+//					|| pageString[3].trim().equals("")));
 			String[] plarerInfo = pageString[i].trim().split(",");
+			if (plarerInfo.length < 4 || plarerInfo[1] == null || plarerInfo[1].trim().equals("") || plarerInfo[3] == null 
+					|| plarerInfo[3].trim().equals("")){
+				errorInfo.add("号码为"+ plarerInfo[0]+ "运动员报名信息不完整，报名不成功");
+				continue;
+			}
 			String playerNum = plarerInfo[0].trim();
 			String playerName = plarerInfo[1].trim();
-			String playerSex = plarerInfo[2].trim();
-			int newsex = Integer.parseInt(playerSex);
-			int group = Integer.parseInt(sex.get(playerSex).toString().trim());
+			String playerSex1 = plarerInfo[2].trim();
+			log.debug("运动员性别："+playerSex1);
+			//int newsex = Integer.parseInt(playerSex);
+			int playerSex = 0;
+			if (playerSex1.trim().equals("true")){
+				playerSex = 1;
+			}
+			log.debug("运动员性别："+playerSex);
+			int group = Integer.parseInt(sex.get((playerSex+"").trim()).toString().trim());
+			log.debug("运动员组别别id："+group);
 			String[] playerItem = plarerInfo[3].trim().split(";");
 			boolean flag = false;
 			String pitem = "";
+			log.debug("运动员所报项目个数："+playerItem.length);
 			for (int j = 0; j < playerItem.length; j++){
 				String[] item1 = playerItem[j].trim().split("#");
-				String key = playerSex + item1[0];
+				String key = (playerSex +""+ item1[0]).trim();
 				if (pageInfo.containsKey(key)){
 					int number = Integer.parseInt(pageInfo.get(key).toString());
 					int newNmuber = number + 1;
@@ -211,39 +229,40 @@ public class UpdatePlayerDAO {
 					int oldNumber = 0;
 					if (dataInfo.containsKey(key)){
 						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
-						if (oldNumber > perNum){
+						if (oldNumber >= perNum){
 							flag = true;
 						}
 					}	
 				}
 			}
-		 if (flag == false){
-			 for (int playerItemNum = 0; playerItemNum < playerItem.length; playerItemNum++){
-				 String key = playerSex + playerItem[playerItemNum];
-				 if (pageInfo.containsKey(key)){
-					 int newNum = Integer.parseInt(pageInfo.get(key).toString())+1;
-					 pageInfo.put(key, newNum+"");
-				 }else{
-					 pageInfo.put(key, "1");
+			if (flag == false){
+				 for (int playerItemNum = 0; playerItemNum < playerItem.length; playerItemNum++){
+					 String[] item1 = playerItem[playerItemNum].trim().split("#");
+					 String key = (playerSex +""+ item1[0]).trim();
+					 if (pageInfo.containsKey(key)){
+						 int newNum = Integer.parseInt(pageInfo.get(key).toString().trim())+1;
+						 pageInfo.put(key, newNum+"");
+					 }else{
+						 pageInfo.put(key, "1");
+					 }
+					 
 				 }
-				 
-			 }
-			 for (int j = 0; j < playerItem.length; j++){
-				    if (j > 0){
-				    	pitem += ";";
-				    }
-					String[] item1 = playerItem[j].trim().split("#");
-					pitem += item1[0];
-			 }
-			 String temp = "UPDATE t_player SET playername="+playerName+",playersex="
-			 +playerSex+",groupid="+group+",registitem="+pitem+" WHERE playernum="+playerNum+" AND sp2dpid="+sp2dpid;
-			 if (addCount > 0){
-				 addSql.append("#");
-			 }
-			 addSql.append(temp);
-			 addCount++;
-		 }else{
-			    errorInfo.add(playerName);
+				 for (int j = 0; j < playerItem.length; j++){
+					    if (j > 0){
+					    	pitem += ";";
+					    }
+						String[] item1 = playerItem[j].trim().split("#");
+						pitem += item1[0];
+				 }
+				 String temp = "UPDATE t_player SET playername='"+playerName+"',playersex="
+				 +playerSex+",groupid="+group+",playertype"+1+",registitem='"+pitem+"' WHERE playernum="+playerNum+" AND sp2dpid="+sp2dpid;
+				 if (addCount > 0){
+					 addSql.append("#");
+				 }
+				 addSql.append(temp);
+				 addCount++;
+			 }else{
+				    errorInfo.add("姓名为"+ playerName+ "运动员所报项目中有超出限制的项目，报名不成功");
 			}
 		}
 		
@@ -253,6 +272,103 @@ public class UpdatePlayerDAO {
 	}
 
 	/**
+	 * 限制六项
+	 * 把教工报名前台传过来的值整理后放进ArrayList中,第一个集合存放要更改数据库的信息，第二个集合存报名出错的运动员的名字
+	 * @param pageString 前台隐藏域里面的值
+	 * @param group groupid VS sex
+	 * @param dataInfo 已报项目的运动员的数量Map	
+	 * @param perNum 限报人数
+	 * @param sp2dpid 组别与运动会id
+	 * @return  ArrayList
+	 */
+	public ArrayList getTeaPageInfo(String[] pageString, HashMap group, HashMap dataInfo, int perNum,int sp2dpid){
+		ArrayList addInfo = new ArrayList(); //要返回的信息
+		ArrayList errorInfo = new ArrayList(); //报名超过限制的人的姓名
+		HashMap pageInfo = new HashMap(); //前台的信息，<组别+项目id，项目人数>
+		StringBuffer addSql = new StringBuffer(); //添加sql语句
+		int addCount = 0;
+		for (int i = 0; i < pageString.length; i++){
+//			log.debug("pageString["+i+"]**********"+pageString[i]);
+//			
+//			log.debug("pageString[i].length()**********"+pageString[i].length());
+//			log.debug("****真真假假******"+(pageString.length < 4 || pageString[1] == null || pageString[1].trim().equals("") || pageString[3] == null 
+//					|| pageString[3].trim().equals("")));
+			String[] plarerInfo = pageString[i].trim().split(",");
+			if (plarerInfo.length < 4 || plarerInfo[1] == null || plarerInfo[1].trim().equals("") || plarerInfo[3] == null 
+					|| plarerInfo[3].trim().equals("")){
+				errorInfo.add("号码为"+ plarerInfo[0]+ "运动员报名信息不完整，报名不成功");
+				continue;
+			}
+			String playerNum = plarerInfo[0].trim();
+			String playerName = plarerInfo[1].trim();
+			int groupid = Integer.parseInt(plarerInfo[2].trim());
+			//log.debug("运动员性别："+playerSex1);
+			//int newsex = Integer.parseInt(playerSex);
+			int playerSex = Integer.parseInt(group.get((groupid+"").trim()).toString().trim());
+			//log.debug("运动员组别别id："+group);
+			String[] playerItem = plarerInfo[3].trim().split(";");
+			boolean flag = false;
+			String pitem = "";
+			log.debug("运动员所报项目个数："+playerItem.length);
+			for (int j = 0; j < playerItem.length; j++){
+				String[] item1 = playerItem[j].trim().split("#");
+				String key = (groupid +""+ item1[0]).trim();
+				if (pageInfo.containsKey(key)){
+					int number = Integer.parseInt(pageInfo.get(key).toString());
+					int newNmuber = number + 1;
+					int oldNumber = 0;
+					if (dataInfo.containsKey(key)){
+						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
+					}
+					if (newNmuber + oldNumber > perNum){
+						flag = true;
+					}
+				}else{
+					int oldNumber = 0;
+					if (dataInfo.containsKey(key)){
+						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
+						if (oldNumber >= perNum){
+							flag = true;
+						}
+					}	
+				}
+			}
+			if (flag == false){
+				 for (int playerItemNum = 0; playerItemNum < playerItem.length; playerItemNum++){
+					 String[] item1 = playerItem[playerItemNum].trim().split("#");
+					 String key = (groupid +""+ item1[0]).trim();
+					 if (pageInfo.containsKey(key)){
+						 int newNum = Integer.parseInt(pageInfo.get(key).toString().trim())+1;
+						 pageInfo.put(key, newNum+"");
+					 }else{
+						 pageInfo.put(key, "1");
+					 }
+					 
+				 }
+				 for (int j = 0; j < playerItem.length; j++){
+					    if (j > 0){
+					    	pitem += ";";
+					    }
+						String[] item1 = playerItem[j].trim().split("#");
+						pitem += item1[0];
+				 }
+				 String temp = "UPDATE t_player SET playername='"+playerName+"',playersex="
+				 +playerSex+",playertype"+0+",groupid="+groupid+",registitem='"+pitem+"' WHERE playernum="+playerNum+" AND sp2dpid="+sp2dpid;
+				 if (addCount > 0){
+					 addSql.append("#");
+				 }
+				 addSql.append(temp);
+				 addCount++;
+			 }else{
+				    errorInfo.add("姓名为"+ playerName+ "运动员所报项目中有超出限制的项目，报名不成功");
+			}
+		}
+		
+		addInfo.add(addSql);
+		addInfo.add(errorInfo);
+		return addInfo;
+	}
+	/**
 	 * 根据sp2dpid查询已报运动员的信息
 	 * @param sp2dpid
 	 * @return
@@ -260,7 +376,8 @@ public class UpdatePlayerDAO {
 	public HashMap selectPlayerByspSdpid(int sp2dpid){
 		HashMap dataInfo = new HashMap();
 		conn = db.getConn();
-		String sql = "SELECT playersex,registitem FROM t_player WHERE sp2dpid=? AND registitem IS NOT null";
+		String sql = "SELECT t_player.playersex,t_player.registitem FROM t_player JOIN t_group ON t_player.groupid = t_group.id WHERE" +
+				" t_group.grouptype=1 AND t_player.sp2dpid=? AND registitem IS NOT null";
         try {
         	pStatement = conn.prepareStatement(sql);
         	pStatement.setInt(1, sp2dpid);
@@ -269,7 +386,7 @@ public class UpdatePlayerDAO {
         		String[] items = rs.getString(2).trim().split(";");
         		int sex = rs.getInt(1);
         		for (int i = 0; i < items.length; i++){
-        			String key = sex + items[i].trim();
+        			String key = (sex + items[i]).trim();
         			if (dataInfo.containsKey(key)){
         				String newNum = (Integer.parseInt(dataInfo.get(key).toString().trim())+1)+"";
         				log.debug("数据库中旧人数："+Integer.parseInt(dataInfo.get(key).toString().trim()));
@@ -283,12 +400,49 @@ public class UpdatePlayerDAO {
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
-            log.error("添加运动员失败！");
+            log.error("添加hashmap已报运动员失败！");
     		log.error(e.getMessage());   
         }
         return dataInfo;
 	}
 	
+	/**
+	 * 根据sp2dpid查询已报教工运动员的信息
+	 * @param sp2dpid
+	 * @return HashMap k:groupid v:num
+	 */
+	public HashMap selectTeaPlayerByspSdpid(int sp2dpid){
+		HashMap dataInfo = new HashMap();
+		conn = db.getConn();
+		String sql = "SELECT t_player.groupid,t_player.registitem FROM t_player JOIN t_group ON t_player.groupid = t_group.id WHERE" +
+				" t_group.grouptype=0 AND t_player.sp2dpid=? AND registitem IS NOT null";
+        try {
+        	pStatement = conn.prepareStatement(sql);
+        	pStatement.setInt(1, sp2dpid);
+        	rs = pStatement.executeQuery();
+        	while(rs.next()){
+        		String[] items = rs.getString(2).trim().split(";");
+        		int sex = rs.getInt(1);
+        		for (int i = 0; i < items.length; i++){
+        			String key = (sex + items[i]).trim();
+        			if (dataInfo.containsKey(key)){
+        				String newNum = (Integer.parseInt(dataInfo.get(key).toString().trim())+1)+"";
+        				log.debug("数据库中旧人数："+Integer.parseInt(dataInfo.get(key).toString().trim()));
+        				log.debug("数据库中新人数："+newNum);
+        				dataInfo.put(key, newNum);
+        			}else{
+        				dataInfo.put(key, "1");
+        			}
+        		}
+        	}
+        	pStatement.close();
+            db.freeConnection(conn);
+        }catch (SQLException e) {                 
+            log.error("添加hashmap已报运动员失败！");
+    		log.error(e.getMessage());   
+        }
+        return dataInfo;
+	}
 	/**
 	 * 根据sportsid查询学生组别信息
 	 * @param sportsid
@@ -297,7 +451,7 @@ public class UpdatePlayerDAO {
 	public HashMap selectStuGroupByspSdpid(int sportsid){
 		HashMap group = new HashMap();
 		conn = db.getConn();
-		String sql = "SELECT id,groupsex FROM t_group WHERE id IN(SELECT groupid FROM t_group2sports WHERE sportsid=?)";
+		String sql = "SELECT id,groupsex FROM t_group WHERE grouptype=1 AND id IN(SELECT groupid FROM t_group2sports WHERE sportsid=?)";
         try {
         	pStatement = conn.prepareStatement(sql);
         	pStatement.setInt(1, sportsid);
@@ -305,18 +459,45 @@ public class UpdatePlayerDAO {
         	while(rs.next()){
         		int id = rs.getInt(1);
         		int sex = rs.getInt(2);
-        		String key = sex + "";
+        		String key = (sex + "").trim();
         		group.put(key, id+"");
         	}
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
-            log.error("添加运动员失败！");
+            log.error("查询学生组别信息失败！");
     		log.error(e.getMessage());   
         }
         return group;
 	}
 	
+	/**
+	 * 根据sportsid查询学生组别信息
+	 * @param sportsid
+	 * @return
+	 */
+	public HashMap selectTeaGroupByspSdpid(int sportsid){
+		HashMap group = new HashMap();
+		conn = db.getConn();
+		String sql = "SELECT id,groupsex FROM t_group WHERE grouptype=0 AND id IN(SELECT groupid FROM t_group2sports WHERE sportsid=?)";
+        try {
+        	pStatement = conn.prepareStatement(sql);
+        	pStatement.setInt(1, sportsid);
+        	rs = pStatement.executeQuery();
+        	while(rs.next()){
+        		int id = rs.getInt(1);
+        		int sex = rs.getInt(2);
+        		String value = (sex + "").trim();
+        		group.put((id+"").trim(), value);
+        	}
+        	pStatement.close();
+            db.freeConnection(conn);
+        }catch (SQLException e) {                 
+            log.error("查询教工组别信息失败！");
+    		log.error(e.getMessage());   
+        }
+        return group;
+	}
 	/**
 	 * 根据sql语句修改运动员报名信息
 	 * @param sql
@@ -328,15 +509,18 @@ public class UpdatePlayerDAO {
 		String[] newSql = sql.split("#");
 		for(int i = 0; i < newSql.length; i++){
 			try {
-	        	pStatement = conn.prepareStatement(sql);
+	        	pStatement = conn.prepareStatement(newSql[i]);
 	        	flag = pStatement.executeUpdate(); 
+	        	log.debug("????????????????"+flag);
+	        	log.debug("????????????????sql:"+newSql[i]);
 	        	pStatement.close();
-	            db.freeConnection(conn);
+	        	log.error("添加运动员第"+(i+1)+"条运动员信息成功");
 	        }catch (SQLException e) {                 
 	            log.error("添加运动员失败！");
 	    		log.error(e.getMessage());   
 	        }
 		}
+		db.freeConnection(conn);
         return flag;
 	}
 	 /**

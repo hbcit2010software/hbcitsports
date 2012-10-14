@@ -83,8 +83,8 @@ public class GetPlayerServlet extends HttpServlet {
 		Date date = new Date();
 		
 		//String dateTime = format.format(date);
-		System.out.println("date============="+date+"registedTime========"+registedTime);
-		if(date.getDay()>registedTime.getDay()){
+		//System.out.println("date============="+date+"registedTime========"+registedTime);
+		if(date.getDate()>registedTime.getDate()){
 			session.setAttribute("msg","报名日期已过！！！");
 			response.sendRedirect("../apply_playershow.jsp");
 		}else{

@@ -92,7 +92,7 @@ function checkItem(obj){
 		}
 	}
 	if(count ><%=perMan%>){
-		Dialog.alert("除接力比赛外，每人限报2项！");
+		Dialog.alert("除接力比赛外，每人限报<%=perMan%>项！");
 		obj.checked = false;
 	}
 	//alert(count);
@@ -233,19 +233,19 @@ function submitCheck(){
 	for(var i = 0;i<itemCountOldWoman.length;i++){
 		//alert("第"+i+1+"项=itemCountMan[i]:"+itemCountMan[i]+"--itemCountWoman[i]:"+itemCountWoman[i]);
 		if(itemCountOldMan[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[0]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[0]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountOldWoman[i] > <%=perDepartment %>){
-			Dialog.alert(groupName[1]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[1]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountYoungMan[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[2]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[2]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 		if(itemCountYoungWoman[i] > <%=perDepartment%>){
-			Dialog.alert(groupName[3]+"中有一些项目报名人数超过6人，请检查！");
+			Dialog.alert(groupName[3]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
 			return false;
 		}
 	}
@@ -283,21 +283,21 @@ function selGroup(){
   
   <body>
  
-   <form  action="${pageContext.request.contextPath }/servlet/UpdatePlayerTeacherServlet" method="post" onsubmit="return submitCheck();">
+   <form  action="${pageContext.request.contextPath }/servlet/UpdatePlayerTeacherServlet" method="post" onSubmit="return submitCheck();">
   
     <table id="stuentApply" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
       <tr class="tableTitle">
         <td height="20" colspan="17" ><div align="center">
-          <h1>教工组报名页面  </h1>
+          <h1 style="margin-bottom:0px;">教工组报名页面  </h1>
         </div>
         <div align="right">
-        <a href="#" style="color:#ff0000" onclick="selGroup();">报名注意事项</a>
+        <a href="#" style="color:#ff0000" onClick="selGroup();">报名注意事项</a>
         </div>
         </td>
       </tr>
       
-      <tr><td valign="middle" height="20" colspan="17"><div align="center"><input type="button" name="button" id="button"  style="width:80px;height:30px;" value="添   加" onclick="addRow()"></div></td></tr>
-    <tr id="tabletitle">
+      <tr><td valign="middle" height="20" colspan="17"><div align="center"><input type="button" name="button" id="button"  style="width:80px;height:30px;" value="添   加" onClick="addRow()"></div></td></tr>
+    <tr id="tabletitle" style="font-size:12px; font-weight:bold;">
       <td width="4%"><p align="center">号码<br></p> </td>
       <td width="4%"><p align="center">姓名</p>      </td>
       <td width="5%"><p align="center">组别</p></td>
@@ -307,7 +307,7 @@ function selGroup(){
     </tr>
     </table>
     
-  <center><input type="submit" name="button" id="button"  style="width:80px;height:30px;" value="提   交" onclick="test()"></center>
+  <center><input type="submit" name="button" id="button"  style="width:80px;height:30px;" value="提   交" onClick="test()"></center>
 </form>
 </body>
 </html>

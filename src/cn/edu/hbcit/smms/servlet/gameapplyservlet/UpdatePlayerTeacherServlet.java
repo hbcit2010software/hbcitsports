@@ -14,6 +14,8 @@ package cn.edu.hbcit.smms.servlet.gameapplyservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
+import cn.edu.hbcit.smms.dao.gameapplydao.UpdatePlayerDAO;
 import cn.edu.hbcit.smms.services.gameapplyservices.PlayerService;
 
 /**
@@ -31,6 +36,7 @@ import cn.edu.hbcit.smms.services.gameapplyservices.PlayerService;
  */
 
 public class UpdatePlayerTeacherServlet extends HttpServlet {
+	protected final Logger log = Logger.getLogger(UpdatePlayerTeacherServlet.class.getName());
 
 	/**
 	 * Constructor of the object.
@@ -75,24 +81,57 @@ public class UpdatePlayerTeacherServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
+		
+		//号码，姓名，组别id，项目id#type；项目id#type
+//**************************韩鑫鹏代码***********************************
+		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		PlayerService playerService = new PlayerService();
-		int flag = 0;
-		String[] allstr = request.getParameterValues("hide");
-		int sp2dpid = Integer.parseInt(session.getAttribute("flag1").toString());//获取sp2dpid
-		flag = playerService.updatePlayer(allstr, sp2dpid);
+		int sp2dpid = Integer.parseInt(session.getAttribute("sp2dpid").toString());
+		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());//获取当前运动会id
+		int perNum = playerService.selectPerDep(sportsId);//各系各项限报人数
+		log.debug("各系各项限报人数" + perNum);
+		String[] allstr = request.getParameterValues("hide");//获取页面上所有隐藏文本框的字符串:号码，姓名，性别，id#type；id#type
+		HashMap group = new HashMap();//v：性别(男1,女2)   k：组别id
+	    group = playerService.selectTeaGroupByspSdpid(sportsId);
+	    log.debug("v：性别(男1,女2)   k：组别id**********"+group);
+	    HashMap dataInfo = playerService.selectTeaPlayerByspSdpid(sp2dpid);//k：groupid+项目id  v：人数string
+	    log.debug("k：groupid+项目id  v：人数string"+dataInfo.size() + "" + dataInfo );
+	    ArrayList addInfo = playerService.getTeaPageInfo(allstr, group, dataInfo, perNum, sp2dpid);
+	    String addSql = addInfo.get(0).toString();
+	    log.debug("添加运动员报名信息sal：" + addSql);
+	    if (!addSql.equals("") && addSql!=null){
+	    	playerService.updatePlayerBySql(addSql);
+	    }
+	    ArrayList error = (ArrayList)addInfo.get(1);
+	    log.debug("添加sql语句" + addSql);
+	    for(int i = 0; i < error.size();i++){
+	    	log.debug("报名出错人员名字：" + error.get(i).toString());
+	    }
+	    log.debug("添加sql语句" + addSql);
+	    request.setAttribute("error", error);
+	    request.getRequestDispatcher("/apply_show.jsp").forward(request, response);
+//**************************结束***********************************
 		
-		if(flag ==0){
-			session.setAttribute("msg","添加失败！");
-		}else{
-			session.setAttribute("msg","添加成功！请根据条件查询");
-		}
-		response.sendRedirect("../apply_show.jsp");
+//********************************************以下是陈系晶所写代码******************************************************
+//		response.setContentType("text/html");
+//		response.setCharacterEncoding("UTF-8");
+//		request.setCharacterEncoding("UTF-8");
+//		PrintWriter out = response.getWriter();
+//		HttpSession session = request.getSession();
+//		PlayerService playerService = new PlayerService();
+//		int flag = 0;
+//		String[] allstr = request.getParameterValues("hide");
+//		int sp2dpid = Integer.parseInt(session.getAttribute("flag1").toString());//获取sp2dpid
+//		flag = playerService.updatePlayer(allstr, sp2dpid);
+//		
+//		if(flag ==0){
+//			session.setAttribute("msg","添加失败！");
+//		}else{
+//			session.setAttribute("msg","添加成功！请根据条件查询");
+//		}
+//		response.sendRedirect("../apply_show.jsp");
+//*****************************************************************************************************
 	}
 
 	/**
