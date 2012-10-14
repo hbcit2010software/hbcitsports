@@ -1,18 +1,14 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
- 
-<html>
-  <head>
-    
-    <title>My JSP 'bumenshezhi.jsp' starting page</title>
-    
-	 <link href="${pageContext.request.contextPath }/css/subcss.css"
-			type="text/css" rel="stylesheet" />
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
-</script>
-<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath }/My97DatePicker/WdatePicker.js"></script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>赛前设置</title>
+<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){
@@ -24,58 +20,68 @@
 			
 		});
 </script>
- <script type="text/javascript">
- 
- </script>
-  </head>
-  
-  <body>
-  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#353c44">
-              <tr>
-                <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->学生记录基本操作</span></td>
-              </tr>
-  </table>
-  <%-- <div style="position:relative; margin:0 auto;">--%>
-  <form id="form1" name="form1" method="post" action="servlet/SelectCertainRecordServlet">
-    <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
-      <tr class="tableTitle">
-        <td height="45" colspan="2" align="center">学生记录基本操作</td>
-      </tr>
-      <tr class="tableContent">
-        <td width="81" height="40" colspan="2"><label>
-        <a title="添加新记录"
-							href="${pageContext.request.contextPath }/servlet/SeleteItemRecordSonServlet"><font>添加新记录</font></a>
-          
-           
-        </label></td>
+</head>
 
+<body>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="24" bgcolor="#353c44"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%" height="19" valign="bottom"><div align="center"><img src="${pageContext.request.contextPath }/images/tb.gif" width="14" height="14" /></div></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->组别设置</span></td>
+              </tr>
+            </table></td>
+            <td>
+            <div align="right"><span class="pageTitle">
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addGroup();">添加新分组</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+            </div>
+            </td>
+          </tr>
+        </table></td>
       </tr>
-       
+    </table></td>
+  </tr>
+  <tr>
+    <td>
+    <!--内嵌表格begin-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
+    <tr class="tableTitle">
+        <td height="20" colspan="8"><div align="center" style="color:#FF0000; font-weight:bold">请为 ${sessionScope.currSportsName } 选择参赛组别</div></td>
+        </tr>
+      <tr class="tableTitle">
+        <td ><div align="center">序号</div></td>
+        <td ><div align="center"><span>项目</span></div></td>
+        <td ><div align="center"><span>成绩</span></div></td>
+        <td ><div align="center"><span>运动员</span></div></td>
+        <td ><div align="center"><span>系别</span></div></td>
+        <td ><div align="center"><span>运动会</span></div></td>
+        <td ><div align="center"><span>级别</span></div></td>
+        <td ><div align="center"><span>时间</span></div></td>
+      </tr>
+      <c:forEach items="${requestScope.lastRecord_man}" var="temp" varStatus="countItem">
       <tr class="tableContent">
-        <td rowspan="2">条件查询：</td>
-        <td height="36">项目名称：
-          <label>
-          <select name="itemname" id="itemname">
-          <c:forEach items="${itemRecord}" var="re">
-          <option value="${re.iteId }">${re.itemName}</option>
-          </c:forEach>
-          </select>
-        </label></td>
+        <td>${countItem.count}</td>
+        <td>${temp.itemname}</td>
+        <td>${temp.score}</td>
+        <td>${temp.playername}</td>
+        <td>${temp.departname}</td>
+        <td>${temp.sportsname}</td>
+        <td>${temp.recordlevel}</td>
+        <td>${temp.recordtime}</td>
       </tr>
-      <tr class="tableContent">
-        <td height="40">创记录时间：
-          <label>
-          <input type="text" name="recTime" id="recTime" value="" onClick="WdatePicker()">
-        </label></td>
-      </tr>
-      <tr class="tableContent">
-      <td></td>
-       <td height="45"><input type="submit" name="button3" id="button3" value="查询">
-       </td>
-      </tr>
+     </c:forEach>
     </table>
-    </form>
-  <br>
-  </body>
+    <!--内嵌表格end-->
+    </td>
+  </tr>
+</table>
+<br />
+<!--
+<div align="center"><span class="pageJump">共有&nbsp;<b>243</b>&nbsp;条记录，当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>10</b>&nbsp;页&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</span></div>
+-->
+</body>
 </html>

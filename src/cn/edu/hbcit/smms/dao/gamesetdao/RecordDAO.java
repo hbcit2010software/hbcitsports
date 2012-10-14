@@ -12,9 +12,15 @@ import org.apache.log4j.Logger;
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.dao.databasedao.DBTest;
 import cn.edu.hbcit.smms.pojo.Admin;
+import cn.edu.hbcit.smms.pojo.Item;
+import cn.edu.hbcit.smms.pojo.Record;
 
-public class RecordDao {
-	protected final Logger log = Logger.getLogger(RecordDao.class.getName());
+public class RecordDAO {
+	protected final Logger log = Logger.getLogger(RecordDAO.class.getName());
+	private ResultSet rs = null;
+	private Connection conn = null;
+	private PreparedStatement pStatement = null;
+	DBConn db = new DBConn();
 	/**
 	 * 查询所有记录
 	 * @return air（ArrayList）
@@ -447,5 +453,71 @@ public class RecordDao {
         }   
 		return retuValue;
 	}
+	/*
+	 * 
+	 * 以下为重做的赛事记录
+	 * 2012-10-14 BY liwei
+	 * 
+	 * */
+	/**
+	 * 查询最新的运动会记录
+	 * 李玮 2012-10-15
+	 * @param itemIdList
+	 * @return ArrayList
+	 */
+	public ArrayList selectLastRecords(ArrayList itemIdList, int sex){
+		ArrayList list = new ArrayList();
+		conn = db.getConn();
+		String sql = "SELECT t_record.id,t_record.itemid,t_item.itemname,t_record.sex,t_record.score,t_record.departname,t_record.sportsname,t_record.playername,t_record.recordtime,t_record.recordlevel FROM t_record,t_item WHERE t_record.itemid=t_item.id AND t_record.itemid=? AND t_record.sex=?  ORDER BY t_record.recordtime DESC LIMIT 1";
+		try {
+			pStatement = conn.prepareStatement(sql);
+			for(int i=0; i<itemIdList.size(); i++){
+				pStatement.setInt(1, (Integer)itemIdList.get(i));
+				pStatement.setInt(2, sex);
+				rs = pStatement.executeQuery();
+				while (rs.next()) {
+					Record record = new Record();
+					record.setId(rs.getInt(1));
+					record.setItemid(rs.getInt(2));
+					record.setItemname(rs.getString(3));
+					record.setSex(rs.getInt(4));
+					record.setScore(rs.getString(5));
+					record.setDepartname(rs.getString(6));
+					record.setSportsname(rs.getString(7));
+					record.setPlayername(rs.getString(8));
+					record.setRecordtime(rs.getString(9));
+					record.setRecordlevel(rs.getString(10));
+					list.add(record);
+				}
+			}
+			
+			db.freeConnection(rs,pStatement,conn);
+		} catch (Exception e) {
+			log.error("获取最新运动会记录失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
 	
+	/**
+	 * 获取所有项目的ID
+	 * @return
+	 */
+	public ArrayList selectAllItemId(){
+		ArrayList list = new ArrayList();
+		conn = db.getConn();
+		String sql = "SELECT t_item.id FROM t_item";
+		try {
+			pStatement = conn.prepareStatement(sql);
+			rs = pStatement.executeQuery();
+			while (rs.next()) {
+				list.add(rs.getInt(1));
+			}
+			db.freeConnection(rs,pStatement,conn);
+		} catch (Exception e) {
+			log.error("获取所有项目ID失败！");
+			log.error(e.getMessage());
+		}
+		return list;
+	}
 }

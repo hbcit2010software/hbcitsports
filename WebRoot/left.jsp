@@ -173,7 +173,7 @@ body {
         <li><a href="set_officialset.jsp" target="rightFrame">工作人员设置</a></li>
         <li><a href="servlet/SelectAllItemServlet" target="rightFrame">裁判人员设置</a></li>
         <li><a href="set_dahuijilv.jsp" target="rightFrame">赛事纪律设置</a></li>
-        <li><a href="set_sturecord.jsp" target="rightFrame">赛会纪录</a></li>
+        <li><a href="servlet/ViewLastRecordServlet" target="rightFrame">赛会纪录</a></li>
       </ul>
     </li>
 	<!--赛前设置end-->
