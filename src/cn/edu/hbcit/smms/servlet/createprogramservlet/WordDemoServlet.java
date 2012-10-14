@@ -84,7 +84,7 @@ public class WordDemoServlet extends HttpServlet {
 		//response.setHeader("Cache-control", "no-cache");
 		//response.setDateHeader("Expires", 0);
 		request.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		int currSportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());   //运动会ID
 		//int currSportsId = 1;
@@ -113,7 +113,9 @@ public class WordDemoServlet extends HttpServlet {
 			WordGameBeforInfoDao wInfo = new WordGameBeforInfoDao();         //生成赛前的大会记录
 			wInfo.wordDocument(filePath, fileName1 ,gameInfoMap, fildJudgeMap, getGameDate, 
 					getItemByMale, getItemByFemale, studentList, teacherList, getGameDateInfo);
-			out.print("success");
+			session.setAttribute("fileName", fileName1);
+			response.sendRedirect("../download_word.jsp");
+			//out.print("success");
 			break;
 		case 2:
 			
@@ -132,13 +134,17 @@ public class WordDemoServlet extends HttpServlet {
 			String fileName2 = "createProgram.doc";
 			String fileName = filePath + fileName2;
 			swss.AddGroupInfo(fileName, allGirlPlayers, allBoyPlayers, players, department);
-			out.print("success");
+			session.setAttribute("fileName", fileName2);
+			response.sendRedirect("../download_word.jsp");
+			//out.print("success");
 			break;
 		case 3:
 			String fileName3 = "departmentNumber.doc";
 			WordSelectPlayer ws = new WordSelectPlayer( );    //生成各部门的运动员号码
 			ws.SelPlaWD( filePath, fileName3 );
-			out.print("success");
+			session.setAttribute("fileName", fileName3);
+			response.sendRedirect("../download_word.jsp");
+			//out.print("success");
 			break;
 		case 4:
 			String fileName4 = "record.doc";
@@ -146,16 +152,18 @@ public class WordDemoServlet extends HttpServlet {
 			Map studentJudge = wDemo.SlipStudentJudgeMember(currSportsId);
 			WordGameRecordDao wRecord = new WordGameRecordDao();         //破记录
 			wRecord.wordGameRecord(filePath, gameRecord, studentJudge, fileName4);
-			out.print("success");
+			session.setAttribute("fileName", fileName4);
+			response.sendRedirect("../download_word.jsp");
+			//out.print("success");
 			
 			break;
 			
 		}
 		}catch(Exception e){
-			out.print("error");
+			//out.print("error");
 		}
-		out.flush();
-		out.close();
+		//out.flush();
+		//out.close();
 	}
 
 	/**

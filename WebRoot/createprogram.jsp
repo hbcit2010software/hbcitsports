@@ -7,6 +7,17 @@
 		<title>赛事预览页面</title>
 		<link href="css/subcss.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+		<link type="text/css" href="css/themes/base/jquery.ui.all.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
+	<link type="text/css" href="css/demos.css" rel="stylesheet" />
+	<script type="text/javascript">
+	$(function() {
+		$("#tabs").tabs();
+	});
+	</script>
 		<script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){
@@ -18,6 +29,13 @@
 			
 		});
 </script>
+<style>
+
+#table
+{
+font-size:16px;}
+.STYLE5 {font-size: 12px}
+</style> 
 		<script>
 	function trackShow() {
 		document.getElementById("track").style.display = "";
@@ -57,68 +75,30 @@
 	</head>
 
 	<body>
-		<table width="100%" border="0" align="center" cellpadding="0"
-			cellspacing="0">
+		<table width="100%" height="31" bgcolor="#353c44" align="center" border="0" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td>
+         <table width="100%" height="19"  border="0" cellpadding="0" cellspacing="0" >
 			<tr>
-				<td height="30">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td height="24" bgcolor="#353c44">
-								<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									<tr>
-										<td>
-											<table width="100%" border="0" cellspacing="0"
-												cellpadding="0">
-												<tr>
-													<td width="6%" height="19" valign="bottom">
-														<div align="center">
-															<img src="images/tb.gif" width="14" height="14" />
-														</div>
-													</td>
-													<td width="94%" valign="bottom">
-														<span class="pageTitle">秩序册管理-->赛事预览</span>
-													</td>
-												</tr>
-											</table>
-										</td>
-										<td>
-											
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-				</td>
+				<td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->裁判人员设置</span></td>
 			</tr>
-			<tr>
-				<td>
-					<!--内嵌表格begin-->
-					<b>赛事预览(查看前请先进行赛事分组)<br/>
-						
+		</table> 
+		</td>
+	</tr>
+</table>           
+
+<div class="demo">
+
+<div id="tabs">
+	<ul class="STYLE5">
+		<li><strong><a href="#tabs-1">径赛</a></strong></li>
+		<li><strong><a href="#tabs-2">田赛</a></strong></li>
+		<li><strong><a href="#tabs-3">接力</a></strong></li>
+	</ul>
+  <div id="tabs-1" >
+<p class="STYLE5">赛事预览(查看前请先进行赛事分组)</p>
 <table width="100%" border="0" cellpadding="0" cellspacing="1"
-							bgcolor="#a8c7ce" class="stripe_tb">
-							<tr class="tableTitle">
-								<td align="center">
-									<a href="#" onclick="fieldShow2()";
->径赛</a>
-								</td>
-								<td align="center">
-									<a href="#" onclick="fieldShow3()";
->田赛</a>
-								</td>
-								<td align="center">
-									<a href="#" onclick="fieldShow4()";
->接力</a>
-								</td>
-							</tr>
-						</table>
-						 </b>
-					<!--内嵌表格end-->
-					<!--内嵌表格begin-->
-					<!--径赛Div begin-->
-					<div id="field1" style="";">
-						<table width="100%" border="0" cellpadding="0" cellspacing="1"
 							bgcolor="#a8c7ce" class="stripe_tb">
 							<tr class="tableTitle">
 								<td align="center">
@@ -141,11 +121,11 @@
 								</tr>
 							</c:forEach>
 						</table>
-					</div>
-					<!--径赛Div end-->
-					<!--田赛Div begin-->
-					<div id="track1" style="display: none";">
-						<table width="100%" border="0" cellpadding="0" cellspacing="1"
+  </div>
+  
+  <div id="tabs-2" >
+<p class="STYLE5">赛事预览(查看前请先进行赛事分组)</p>
+<table width="100%" border="0" cellpadding="0" cellspacing="1"
 							bgcolor="#a8c7ce" class="stripe_tb">
 							<tr class="tableTitle">
 								<td align="center">
@@ -168,11 +148,12 @@
 								</tr>
 							</c:forEach>
 						</table>
-					</div>
-					<!--田赛Div end-->
-					<!--接力Div begin-->
-					<div id="track2" style="display: none";">
-						<table width="100%" border="0" cellpadding="0" cellspacing="1"
+  </div>
+  
+  
+  <div id="tabs-3" >
+<p class="STYLE5">赛事预览(查看前请先进行赛事分组)</p>
+<table width="100%" border="0" cellpadding="0" cellspacing="1"
 							bgcolor="#a8c7ce" class="stripe_tb">
 							<tr class="tableTitle">
 								<td align="center">
@@ -195,14 +176,8 @@
 								</tr>
 							</c:forEach>
 						</table>
-					</div>
-					<!--接力Div end-->
-
-					<!--内嵌表格end-->
-				</td>
-			</tr>
-		</table>
-		<br />
-
+  </div>
+</div>
+</div>	
 	</body>
 </html>

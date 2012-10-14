@@ -8,10 +8,9 @@
     <title>修改大会基本规程</title>
     <link href="${pageContext.request.contextPath }/css/subcss.css"
 			type="text/css" rel="stylesheet" />
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
-</script>
-
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
  
 
 <script type="text/javascript">
@@ -36,19 +35,19 @@
     	var others = $("#others").val();
     	//var sportsname = $("select").find("option:selected").text();
 		if (action.length == 0) {
-		alert("内容不能为空!");
+		Dialog.alert("内容不能为空!");
 		return false;
 		}
 		if (conts.length == 0) {
-		alert("内容不能为空!");
+		Dialog.alert("内容不能为空!");
 		return false;
 		}
 		if (pionts.length == 0) {
-		alert("内容不能为空!");
+		Dialog.alert("内容不能为空!");
 		return false;
 		}
 		if (others.length == 0) {
-		alert("内容不能为空!");
+		Dialog.alert("内容不能为空!");
 		return false;
 		}
     	
@@ -61,11 +60,11 @@
 						var revalue = mm.replace(/\r\n/g, '');
 						 
 						if (revalue == "success") {
-							alert("提交 成功!", function() {
+							Dialog.alert("提交 成功!", function() {
 								window.location.href = window.location.href;
 							});
 						} else
-							alert("提交 失败!", function() {
+							Dialog.alert("提交 失败!", function() {
 								window.location.href = window.location.href;
 							});
 					}
@@ -130,11 +129,7 @@ body {
        
       <tr class="tableContent">
         
-        <td colspan="3"><label>
-        <div align="right">
-          <input type="button" name="button2" id="button2" onClick="window.location.href='set_guicheng.jsp'" value="返回">
-        </div>
-        </label></td>
+        
       </tr>
       <tr class="tableContent">
         <td width="132" align="center">参赛办法 ：</td>
@@ -157,7 +152,10 @@ body {
        <tr class="tableContent">
         
         <td  colspan="3" align="center">
-         <input type="button" name="button" id="button" onClick="altergc()" value="保存修改">
+         <input type="button" name="button" id="button" onClick="altergc()" value="保存修改">&nbsp;&nbsp;&nbsp;&nbsp;
+         
+          <input type="button" name="button2" id="button2" onClick="window.location.href='set_guicheng.jsp'" value="返回">
+       
          </td>
       </tr>
     </table>
@@ -167,6 +165,6 @@ body {
   </tr>
 </table>
 <br />
-<div align="center"><span class="pageJump">当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>1</b>&nbsp;页&nbsp;&nbsp;</span></div>
+
   </body>
 </html>

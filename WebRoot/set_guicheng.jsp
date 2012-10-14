@@ -4,10 +4,10 @@
   <head>  
     <title>基本规程设置</title>
     <link href="${pageContext.request.contextPath }/css/subcss.css" type="text/css" rel="stylesheet" />
-		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 		 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-</script>
+
 
  
 
@@ -105,11 +105,7 @@ body {
 	  	<tr class="tableTitle" height="30" >
 	  	  <td width="702" align="center" colspan="3">基本规程</td>
        </tr>
-      <tr class="tableContent">
-        
-        <td colspan="3" ><label></label>
-        <div align="right"><a href="${pageContext.request.contextPath }/servlet/SeleteGuiChengServlet"><font>查看并修改</font></a></div></td>
-      </tr>
+      
       <tr class="tableContent">
         <td>参赛办法 ：</td>
         <td colspan="2"><textarea name="action" id="action" cols="60" rows="15"></textarea></td>
@@ -132,9 +128,10 @@ body {
        <tr class="tableContent">
         <td  colspan="3" align="center">
         
-			<input type="button" name="button" id="button" onClick="addgc()" value="提交">
+			<input type="button" name="button" id="button" onClick="addgc()" value="提交">&nbsp;&nbsp;&nbsp;&nbsp;
 			
-        </td>
+       
+       <a href="${pageContext.request.contextPath }/servlet/SeleteGuiChengServlet"><input type="button" style="fontsize:12px;" value="修改"/></a></td>
         </tr>
    </table>
    </td>
