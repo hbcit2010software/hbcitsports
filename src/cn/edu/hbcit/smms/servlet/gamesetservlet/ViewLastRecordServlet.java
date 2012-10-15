@@ -1,4 +1,15 @@
-package cn.edu.hbcit.smms.servlet.gameapplyservlet;
+/**
+* Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
+*
+* 模块名称：     赛前设置
+* 子模块名称：   赛会纪录
+*
+* 备注：
+*
+* 修改历史：
+* 2012-10-15	0.1		李玮		新建
+*/
+package cn.edu.hbcit.smms.servlet.gamesetservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,16 +19,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.services.gameapplyservices.GetPlayerService;
+import cn.edu.hbcit.smms.services.gamesetservices.RecordServices;
 
-public class GetItemGroupServlet extends HttpServlet {
+/**
+ * 查看最近的运动会记录 类
+ * 简要说明:
+ * @author 李玮
+ * @version 1.00  2012-10-15上午12:40:13	新建
+ */
+
+public class ViewLastRecordServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public GetItemGroupServlet() {
+	public ViewLastRecordServlet() {
 		super();
 	}
 
@@ -59,23 +76,14 @@ public class GetItemGroupServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
-		GetPlayerService gps = new GetPlayerService();
-		ArrayList list_groupItem = new ArrayList();
-		ArrayList list_group = new ArrayList();
-		int sportsid = 0;
-		if(session.getAttribute("currSportsId") != null){
-			sportsid = ((Integer)session.getAttribute("currSportsId")).intValue();
-		}
-		//System.out.println("sportsid"+sportsid);
-		list_groupItem = gps.getGroupItem(sportsid);
-		list_group = gps.getGroup(sportsid);
-		request.setAttribute("itemGroup", list_groupItem);
-		request.setAttribute("group", list_group);
-		request.getRequestDispatcher("/apply_groupitem.jsp").forward(request, response);
-		//response.sendRedirect("../apply_groupitem.jsp");
+		RecordServices rs = new RecordServices();
+		ArrayList lastRecord_man = new ArrayList();
+		ArrayList lastRecord_woman = new ArrayList();
+		lastRecord_man = rs.selectLastRecords(rs.selectAllItemId(), 1);		//男子最新记录
+		lastRecord_woman = rs.selectLastRecords(rs.selectAllItemId(), 0);	//女子最新记录
+		request.setAttribute("lastRecord_man", lastRecord_man);
+		request.setAttribute("lastRecord_woman", lastRecord_woman);
+		request.getRequestDispatcher("/set_record.jsp").forward(request, response);
 	}
 
 	/**
