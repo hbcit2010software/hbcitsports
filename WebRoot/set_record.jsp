@@ -32,12 +32,14 @@
             <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="6%" height="19" valign="bottom"><div align="center"><img src="${pageContext.request.contextPath }/images/tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->组别设置</span></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->赛会纪录</span></td>
               </tr>
             </table></td>
             <td>
-            <div align="right"><span class="pageTitle">
-              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addGroup();">添加新分组</a> &nbsp;</span><span class="pageTitle"> &nbsp;</span>
+            <div align="right">
+             <span class="pageTitle"> <img src="${pageContext.request.contextPath }/images/edit.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addGroup();">查看历届记录</a> &nbsp;</span>
+            <span class="pageTitle">
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addGroup();">添加新记录</a> &nbsp;</span>
             </div>
             </td>
           </tr>
@@ -49,8 +51,9 @@
     <td>
     <!--内嵌表格begin-->
     <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
+    <!--男子组begin-->
     <tr class="tableTitle">
-        <td height="20" colspan="8"><div align="center" style="color:#FF0000; font-weight:bold">请为 ${sessionScope.currSportsName } 选择参赛组别</div></td>
+        <td height="20" colspan="8"><div align="center" style="color:#FF0000; font-weight:bold">田径运动会记录（男子组）</div></td>
         </tr>
       <tr class="tableTitle">
         <td ><div align="center">序号</div></td>
@@ -70,7 +73,47 @@
         <td>${temp.playername}</td>
         <td>${temp.departname}</td>
         <td>${temp.sportsname}</td>
-        <td>${temp.recordlevel}</td>
+        <td>
+        <c:if test="${temp.recordlevel eq 0}">
+        院级
+        </c:if>
+        <c:if test="${temp.recordlevel eq 1}">
+        省级
+        </c:if>
+        </td>
+        <td>${temp.recordtime}</td>
+      </tr>
+     </c:forEach>
+     <!--女子组begin-->
+     <tr class="tableTitle">
+        <td height="20" colspan="8"><div align="center" style="color:#FF0000; font-weight:bold">田径运动会记录（女子组）</div></td>
+        </tr>
+      <tr class="tableTitle">
+        <td ><div align="center">序号</div></td>
+        <td ><div align="center"><span>项目</span></div></td>
+        <td ><div align="center"><span>成绩</span></div></td>
+        <td ><div align="center"><span>运动员</span></div></td>
+        <td ><div align="center"><span>系别</span></div></td>
+        <td ><div align="center"><span>运动会</span></div></td>
+        <td ><div align="center"><span>级别</span></div></td>
+        <td ><div align="center"><span>时间</span></div></td>
+      </tr>
+      <c:forEach items="${requestScope.lastRecord_woman}" var="temp" varStatus="countItem">
+      <tr class="tableContent">
+        <td>${countItem.count}</td>
+        <td>${temp.itemname}</td>
+        <td>${temp.score}</td>
+        <td>${temp.playername}</td>
+        <td>${temp.departname}</td>
+        <td>${temp.sportsname}</td>
+        <td>
+        <c:if test="${temp.recordlevel eq 0}">
+        院级
+        </c:if>
+        <c:if test="${temp.recordlevel eq 1}">
+        省级
+        </c:if>
+        </td>
         <td>${temp.recordtime}</td>
       </tr>
      </c:forEach>
