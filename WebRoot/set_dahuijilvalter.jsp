@@ -114,7 +114,7 @@
     <td colspan="2" align="center"><span style="font-size:16px;">大会纪律具体内容：</span><br />
       <textarea name="rule" id="rule" cols="70" rows="25">${es.meetingJl}</textarea></td>
   </tr>
-  <tr class="tableContent">
+  <tr class="tableTitle">
     <td colspan="2" align="center"><div class="jilv"><span style="font-size:18px;">大会程序</span></div>
       </td>
   </tr>

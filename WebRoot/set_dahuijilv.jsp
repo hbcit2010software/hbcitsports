@@ -79,7 +79,7 @@
 
 <body>
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" align="center">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -115,7 +115,7 @@
     <td colspan="2" align="center"><span style="font-size:16px;">大会纪律具体内容：</span><br />
       <textarea name="rule" id="rule" cols="70" rows="25"></textarea></td>
   </tr>
-  <tr class="tableContent">
+  <tr class="tableTitle">
     <td colspan="2" align="center"><div class="jilv">
       <span style="font-size:18px;">大会程序</span>
     </div>
