@@ -1025,9 +1025,17 @@ public class WordGameBeforInfoDao {
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
-			        				Cell GroupNum = new Cell(dp.getGroupNum());
+			        				if(dp.getGroupNum() == null || dp.getGroupNum().equals("0")){
+			        					int groupNum = 1;
+			        					Cell GroupNum = new Cell(groupNum+"组");
+			        					GroupNum.setBorderWidth(0);
+				        				GameDateInfoTable.addCell(GroupNum);
+			        				}else{
+			        				Cell GroupNum = new Cell(dp.getGroupNum()+"组");
 			        				GroupNum.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(GroupNum);
+			        				}
+			        				
 			        				Cell Time  = new Cell(dp.getTime());
 			        				Time.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(Time);
@@ -1052,7 +1060,7 @@ public class WordGameBeforInfoDao {
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
-			        				Cell GroupNum = new Cell(dp.getGroupNum());
+			        				Cell GroupNum = new Cell();
 			        				GroupNum.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(GroupNum);
 			        				Cell Time  = new Cell(dp.getTime());
@@ -1085,9 +1093,19 @@ public class WordGameBeforInfoDao {
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
-			        				Cell GroupNum = new Cell(dp.getGroupNum());
+//			        				Cell GroupNum = new Cell(dp.getGroupNum()+"组");
+//			        				GroupNum.setBorderWidth(0);
+//			        				GameDateInfoTable.addCell(GroupNum);
+			        				if(dp.getGroupNum() == null || dp.getGroupNum().equals("0")){
+			        					int groupNum = 1;
+			        					Cell GroupNum = new Cell(groupNum+"组");
+			        					GroupNum.setBorderWidth(0);
+				        				GameDateInfoTable.addCell(GroupNum);
+			        				}else{
+			        				Cell GroupNum = new Cell(dp.getGroupNum()+"组");
 			        				GroupNum.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(GroupNum);
+			        				}
 			        				Cell Time  = new Cell(dp.getTime());
 			        				Time.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(Time);
@@ -1115,7 +1133,7 @@ public class WordGameBeforInfoDao {
 			        				Cell FinalItem = new Cell(dp.getFinalItem());
 			        				FinalItem.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(FinalItem);
-			        				Cell GroupNum = new Cell(dp.getGroupNum());
+			        				Cell GroupNum = new Cell();
 			        				GroupNum.setBorderWidth(0);
 			        				GameDateInfoTable.addCell(GroupNum);
 			        				Cell Time  = new Cell(dp.getTime());
