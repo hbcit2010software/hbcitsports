@@ -42,7 +42,7 @@ $(document).ready(function(){
 					diag.MessageTitle = "提示：";
 					diag.Message = "修改时请注意，同一组中不可以出现相同的两个跑道";
 					diag.show();
-					diag.okButton.value = "结果刷新";
+					//diag.okButton.value = "结果刷新";
 					diag.cancelButton.value = "关闭";
 				}
 	

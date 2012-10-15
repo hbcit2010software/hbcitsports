@@ -529,7 +529,7 @@ font-size:16px;}
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-							    var flag = window.confirm("田赛裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
+							    var flag = Dialog.confirm("田赛裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
 								if(flag == true){
 									$.ajax({
 											url :"${pageContext.request.contextPath }/servlet/AddStuJudgeServlet",
@@ -660,7 +660,7 @@ font-size:16px;}
 							var revalue=mm.replace(/\r\n/g,'');
 							if(revalue=="success")
 							{
-								var flag = window.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
+								var flag = Dialog.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
 								//var flag = Dialog.confirm("学生裁判已经添加过，继续添加原纪录将被覆盖，是否继续添加？");
 								if(flag == true){
 									$.ajax({
