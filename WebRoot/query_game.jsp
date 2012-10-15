@@ -7,6 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script type="text/javascript" src="text.js" charset="UTF-8"></script>
 <title>综合查询</title>
+<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <link href="css/subcss.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
@@ -24,7 +28,7 @@ function leader(){
 	var sportsid = $("#sportsname").find("option:selected").val();
 	var departname = $("#departname").find("option:selected").val();
 	if(sportsid==0){
-		alert("请选择届次");
+		Dialog.alert("请选择届次");
 		return false;
 	}
 	
@@ -38,12 +42,12 @@ function leader(){
 	     flag2 = patt.test(email);  
  　　　　　　if(flag||flag2)   
  　　　　　　{
- 		alert("success");   
+ 		Dialog.alert("success");   
  　　　　　　　return true;
  　　　　　　}
  　　　　　　else   
 　　　　　　　{   
-　　　　　　　　	alert("##:(分)##/####.(米)");  
+　　　　　　　　	Dialog.alert("##:(分)##/####.(米)");  
 		email = ""; 
 		return false;
 }   
@@ -55,7 +59,7 @@ function leader(){
 		dataType : 'json',
 		success : function(jsonarray) {
 			var inhtml = "";
-			alert("共查询出"+jsonarray.length+"条");
+			Dialog.alert("共查询出"+jsonarray.length+"条");
 	inhtml += "<tr class='tableTitle'>";
     inhtml += "<td width='10%' height='20'><div align='center'><span>届次</span></div></td>";
     inhtml += "<td width='10%' height='20'><div align='center'><span>系别</span></div></td>";
@@ -81,7 +85,7 @@ function leader(){
 			$('#infocontent').html(inhtml);
 		},
 		error : function(xhr, status, errorThrown) {
-			alert("errorThrown=" + errorThrown);
+			Dialog.alert("errorThrown=" + errorThrown);
 		}
 	});
 	}
