@@ -450,20 +450,20 @@ font-size:16px;}
 				</table>      
 	</div>
 	<div id="tabs-3" style="height:100%;">
-	<table class="stripe_tb" border="1" align="center" width="55%" >
+	<table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 	<tr class="tableTitle">
                    <td colspan="4" align="right" style="color:red;fontsize:12px;">
                    人名之间请以英文逗号隔开
                   </td>
                    </tr>
-			<tr>
+			  <tr  class="tableContent" >
 			<td><div align="center" class="STYLE7">项目名称</div></td>
             <td><div align="center" class="STYLE7">项目裁判长</div></td>
             <td><div align="center" class="STYLE7">裁判长助理</div></td>
             <td><div align="center" class="STYLE7">裁判员</div></td>
 		</tr>
 			<c:forEach items="${itemlist}" var="item">
-				<tr background="">
+				  <tr  class="tableContent" >
 					<td width="20%">
 					<input type="hidden" id="id<%=judNum %>"  value="${item[1]}" />
 					<input style="font-size:12px;" type="text" id="<%=judNum %>"  value="${item[0]}" /></td>
@@ -473,7 +473,7 @@ font-size:16px;}
 				</tr> 
 				<% judNum++; %>
 			</c:forEach>
-			<tr>
+			  <tr  class="tableContent" >
 					<td colspan="4" align="center">
 					<input style="font-size:12px;" type="button"  id="button1" value="提 交" onClick="insertFileJudge()">
 					<input  style="font-size:12px;" type="button" value="修 改" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectFieldItemJudgeServlet'">
@@ -571,20 +571,20 @@ font-size:16px;}
 	    </script>
 	</div>
 	<div id="tabs-4" style="height:100%;">
-		<table class="stripe_tb" border="1" align="center" width="55%" >
+		<table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 		<tr class="tableTitle">
                    <td  colspan="4" align="right" style="color:red;fontsize:12px;"><font>
                    人名之间请以英文逗号隔开</font>
                    </td>
                    </tr>
-			<tr >
+			  <tr  class="tableContent" >
 				<td><div align="center" class="STYLE7"> 系部名称</div></td>
                 <td><div align="center" class="STYLE7">系部联系人</div></td>
                 <td><div align="center" class="STYLE7">联系人电话</div></td>
                 <td><div align="center" class="STYLE7">裁判员</div></td>
 			</tr>
 				<c:forEach items="${sessionScope.departmentlist1}" var="dep">
-					<tr background="">
+					  <tr  class="tableContent" >
 						<td width="20%">
 						<input type="hidden" id="depid<%=num %>" value="${dep[0]}" />
 						<input style="font-size:12px;" type="text"  id="depname<%=num %>" value="${dep[1]}" />	</td>
@@ -598,7 +598,7 @@ font-size:16px;}
 					    num++;
 				%>
 			</c:forEach>
-			<tr>
+			  <tr  class="tableContent" >
 					<td colspan="4" align="center">
 					<input style="font-size:12px;" type="button"  id="button1" value="提 交" onClick="insertStuJudge()">
 					<input  style="font-size:12px;" type="button" value="修 改" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectStuentJudgeServlet'">
