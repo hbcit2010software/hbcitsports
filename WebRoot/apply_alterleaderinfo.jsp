@@ -60,19 +60,11 @@ function updateLeader(){
       <td>
      <table width="100%" border="0" cellspacing="0" cellpadding="0">
        <tr>
-          <td width="6%" height="19" valign="bottom"><div align="center">t<img src="images/tb.gif" width="14" height="14" /></div></td>
+          <td width="6%" height="19" valign="bottom"><div align="center">t<img src="${pageContext.request.contextPath }/images/tb.gif" width="14" height="14" /></div></td>
            <td width="94%" valign="bottom"><span class="pageTitle">赛事报名-->报名情况查询</span></td>
         </tr>
      </table>
      </td>
-       <td>
-      <div align="right"><span class="pageTitle">
-         <input type="checkbox" name="checkbox11" id="checkbox11" />全选      &nbsp;&nbsp;
-         <img src="images/add.gif" width="10" height="10" /> 添加   &nbsp; 
-         <img src="images/del.gif" width="10" height="10" /> 删除    &nbsp;&nbsp;
-         <img src="images/edit.gif" width="10" height="10" /> 编辑   &nbsp;</span><span class="pageTitle"> &nbsp;</span>
-      </div>
-      </td>
        </tr>
      </table>
      </td>
