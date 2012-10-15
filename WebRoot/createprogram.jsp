@@ -81,7 +81,7 @@ font-size:16px;}
          <table width="100%" height="19"  border="0" cellpadding="0" cellspacing="0" >
 			<tr>
 				<td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="pageTitle">赛前设置-->裁判人员设置</span></td>
+                <td width="94%" valign="bottom"><span class="pageTitle">秩序册管理-->赛事预览</span></td>
 			</tr>
 		</table> 
 		</td>
