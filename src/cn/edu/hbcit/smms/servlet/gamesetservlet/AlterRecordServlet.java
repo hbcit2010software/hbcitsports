@@ -49,7 +49,7 @@ public class AlterRecordServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 
 		request.setCharacterEncoding("utf-8");
-		
+		System.out.println("qqqqqqqqqqqq");
 		RecordServices re = new RecordServices();
 		 
 		PrintWriter out = response.getWriter();
@@ -64,14 +64,14 @@ public class AlterRecordServlet extends HttpServlet {
 		String sor = request.getParameter("sor").trim();
 		String depName = request.getParameter("depName").trim();
 		int recordId = Integer.parseInt(request.getParameter("recordId").trim());
-		String itemName = request.getParameter("itemName").trim();
+		//String itemName = request.getParameter("itemName").trim();
 		int plaSex = Integer.parseInt(request.getParameter("plaSex").trim());
 		 
  
-		int newItemId = re.getItemId(itemName);
+		//int newItemId = re.getItemId(itemName);
 
 
-		if (re.updateRecord(plaName, newItemId, sportsName1, recTime, recLevel, plaSex, sor, depName, recordId)
+		if (re.updateRecord(plaName,sportsName1, recTime, recLevel, plaSex, sor, depName, recordId)
 				){
 			out.println("success");
 			}

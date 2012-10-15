@@ -54,7 +54,7 @@ public class PlayerService {
 	 * 限制六项
 	 * 把学生报名前台传过来的值整理后放进ArrayList中,第一个集合存放要更改数据库的信息，第二个集合存报名出错的运动员的名字
 	 * @param pageString 前台隐藏域里面的值
-	 * @param sex 学生性别
+	 * @param sex 学生性别 vs 组别id
 	 * @param dataInfo 已报项目的运动员的数量Map	
 	 * @param perNum 限报人数
 	 * @param sp2dpid 组别与运动会id
@@ -62,6 +62,20 @@ public class PlayerService {
 	 */
 	public ArrayList getPageInfo(String[] pageString, HashMap sex, HashMap dataInfo, int perNum,int sp2dpid){
 		return updatePlayerDAO.getPageInfo(pageString, sex, dataInfo, perNum, sp2dpid);
+	}
+
+	/**
+	 * 限制六项
+	 * 把教工报名前台传过来的值整理后放进ArrayList中,第一个集合存放要更改数据库的信息，第二个集合存报名出错的运动员的名字
+	 * @param pageString 前台隐藏域里面的值
+	 * @param group 组别id VS 性别
+	 * @param dataInfo 已报项目的运动员的数量Map	
+	 * @param perNum 限报人数
+	 * @param sp2dpid 组别与运动会id
+	 * @return  ArrayList
+	 */
+	public ArrayList getTeaPageInfo(String[] pageString, HashMap group, HashMap dataInfo, int perNum,int sp2dpid){
+		return updatePlayerDAO.getTeaPageInfo(pageString, group, dataInfo, perNum, sp2dpid);
 	}
 
 	/**
@@ -74,6 +88,15 @@ public class PlayerService {
 	}
 	
 	/**
+	 * 根据sp2dpid查询已报教工运动员的信息
+	 * @param sp2dpid
+	 * @return
+	 */
+	public HashMap selectTeaPlayerByspSdpid(int sp2dpid){
+        return updatePlayerDAO.selectTeaPlayerByspSdpid(sp2dpid);
+	}
+	
+	/**
 	 * 根据sportsid查询学生组别信息
 	 * @param sportsid
 	 * @return
@@ -82,6 +105,14 @@ public class PlayerService {
         return updatePlayerDAO.selectStuGroupByspSdpid(sportsid);
 	}
 	
+	/**
+	 * 根据sportsid查询教工组别信息
+	 * @param sportsid
+	 * @return HashMap k:id v:sex
+	 */
+	public HashMap selectTeaGroupByspSdpid(int sportsid){
+        return updatePlayerDAO.selectTeaGroupByspSdpid(sportsid);
+	}
 	/**
 	 * 根据sql语句修改运动员报名信息
 	 * @param sql

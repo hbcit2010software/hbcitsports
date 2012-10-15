@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>赛事纪律设置</title>
          <link href="${pageContext.request.contextPath }/css/subcss.css" type="text/css" rel="stylesheet" />
-		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-</script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
+
 
 <script type="text/javascript">
 
@@ -79,7 +79,7 @@
 
 <body>
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" align="center">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -104,31 +104,35 @@
 
    <table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
   <tr class="tableTitle">
-    <td width="540" height="30" align="center"><div class="jilv"><span>大会纪律</span></div>
-    <hr class="hr1"/></td>
-    <td width="90" align="center"><a href="${pageContext.request.contextPath }/servlet/SelectDaHuiJiLvServlet"><font>查看并修改</font></a></td>
+    <td width="540" height="30" align="center"><div class="jilv">
+      <span style="font-size:18px;">大会纪律</span>
+    </div>
+    </td>
+   
   </tr>
   
   <tr class="tableContent">
-    <td colspan="2" align="center"><span>大会纪律具体内容：</span><br />
+    <td colspan="2" align="center"><span style="font-size:16px;">大会纪律具体内容：</span><br />
       <textarea name="rule" id="rule" cols="70" rows="25"></textarea></td>
   </tr>
-  <tr class="tableContent">
-    <td colspan="2" align="center"><div class="jilv"><span>大会程序</span></div>
-      <hr class="hr1"/></td>
+  <tr class="tableTitle">
+    <td colspan="2" align="center"><div class="jilv">
+      <span style="font-size:18px;">大会程序</span>
+    </div>
+      </td>
   </tr>
   <tr class="tableContent">
-    <td colspan="2" align="center"><span>开幕式内容:</span><br />
+    <td colspan="2" align="center"><span style="font-size:16px;">开幕式内容:</span><br />
       <textarea name="open" id="open" cols="70" rows="25"></textarea></td>
   </tr>
   <tr class="tableContent">
-    <td colspan="2" align="center"><span>闭幕式内容：</span><br />
+    <td colspan="2" align="center"><span style="font-size:16px;">闭幕式内容：</span><br />
       <textarea name="close" id="close" cols="70" rows="25"></textarea></td>
   </tr>
  
   <tr class="tableContent">
     <td colspan="2" align="center"><input type="button" id="button" value="提交" onClick="addjl()" >
-    &nbsp;&nbsp;&nbsp;&nbsp;</td>
+    &nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/servlet/SelectDaHuiJiLvServlet"><input style="font-size:12px" type="button" value="修改" /></a></td></td>
   </tr>
 </table>
 

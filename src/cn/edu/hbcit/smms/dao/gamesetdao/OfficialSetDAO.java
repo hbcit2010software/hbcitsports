@@ -412,8 +412,8 @@ public ArrayList selectAllStuJudge(int sportsid) {
 	            	 official.setOrg_committee_1(rs.getString("org_committee_1"));
 	            	 official.setOrg_committee_2(rs.getString("org_committee_2"));
 	            	 official.setOrg_committee_3(rs.getString("org_committee_3"));
-	            	 official.setSecretariat_1(rs.getString("secretariat_2"));
-	            	 official.setSecretariat_2(rs.getString("secretariat_1"));
+	            	 official.setSecretariat_1(rs.getString("secretariat_1"));
+	            	 official.setSecretariat_2(rs.getString("secretariat_2"));
 	            	 official.setSecretariat_3(rs.getString("secretariat_3"));
 	            	 official.setSecretariat_4(rs.getString("secretariat_4"));
 	            	 official.setSecretariat_5(rs.getString("secretariat_5"));

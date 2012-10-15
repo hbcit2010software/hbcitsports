@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
  
 import cn.edu.hbcit.smms.services.gamesetservices.RecordServices;
@@ -49,7 +50,7 @@ public class RecordSelectByNameTimeServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		 
 		 request.setCharacterEncoding("utf-8");
-		 
+		 HttpSession session = request.getSession();
  
 		int recordId =  Integer.parseInt(request.getParameter("recordId"));
 		   
@@ -62,9 +63,11 @@ public class RecordSelectByNameTimeServlet extends HttpServlet {
 		 
 		adminList = bs.seleteByRecordId(recordId);
 			//HttpSession session=request.getSession();
-		request.setAttribute("adminList", adminList);
+		//request.setAttribute("adminList", adminList);
 			//out.println(adminList);
-		request.getRequestDispatcher("../set_recordalter.jsp").forward(request, response);
+		//request.getRequestDispatcher("../set_recordalter.jsp").forward(request, response);
+		session.setAttribute("adminList", adminList);
+		response.sendRedirect("../set_recordalter.jsp");
 	}
 
 	/**

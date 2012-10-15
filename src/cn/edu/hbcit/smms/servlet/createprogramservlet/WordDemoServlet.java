@@ -13,6 +13,7 @@ package cn.edu.hbcit.smms.servlet.createprogramservlet;
  */
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import cn.edu.hbcit.smms.dao.createprogramdao.WordSelectPlayer;
 import cn.edu.hbcit.smms.services.createprogramservices.DataManagerServices;
 import cn.edu.hbcit.smms.services.createprogramservices.SetWordServices;
 import cn.edu.hbcit.smms.services.createprogramservices.WordDemoService;
+import cn.edu.hbcit.smms.services.gamesetservices.RecordServices;
 /**
  * 
  * @author 田小英
@@ -84,7 +86,7 @@ public class WordDemoServlet extends HttpServlet {
 		//response.setHeader("Cache-control", "no-cache");
 		//response.setDateHeader("Expires", 0);
 		request.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		int currSportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());   //运动会ID
 		//int currSportsId = 1;
@@ -113,7 +115,9 @@ public class WordDemoServlet extends HttpServlet {
 			WordGameBeforInfoDao wInfo = new WordGameBeforInfoDao();         //生成赛前的大会记录
 			wInfo.wordDocument(filePath, fileName1 ,gameInfoMap, fildJudgeMap, getGameDate, 
 					getItemByMale, getItemByFemale, studentList, teacherList, getGameDateInfo);
-			out.print("success");
+			session.setAttribute("fileName", fileName1);
+			response.sendRedirect("../download_word.jsp");
+			//out.print("success");
 			break;
 		case 2:
 			
@@ -132,30 +136,43 @@ public class WordDemoServlet extends HttpServlet {
 			String fileName2 = "createProgram.doc";
 			String fileName = filePath + fileName2;
 			swss.AddGroupInfo(fileName, allGirlPlayers, allBoyPlayers, players, department);
-			out.print("success");
+			session.setAttribute("fileName", fileName2);
+			response.sendRedirect("../download_word.jsp");
+			//out.print("success");
 			break;
 		case 3:
 			String fileName3 = "departmentNumber.doc";
 			WordSelectPlayer ws = new WordSelectPlayer( );    //生成各部门的运动员号码
 			ws.SelPlaWD( filePath, fileName3 );
-			out.print("success");
+			session.setAttribute("fileName", fileName3);
+			response.sendRedirect("../download_word.jsp");
+			//out.print("success");
 			break;
 		case 4:
 			String fileName4 = "record.doc";
-			List gameRecord = wDemo.getGameRecord();
+//			List gameRecord = wDemo.getGameRecord();
 			Map studentJudge = wDemo.SlipStudentJudgeMember(currSportsId);
 			WordGameRecordDao wRecord = new WordGameRecordDao();         //破记录
-			wRecord.wordGameRecord(filePath, gameRecord, studentJudge, fileName4);
-			out.print("success");
+//			wRecord.wordGameRecord(filePath, gameRecord, studentJudge, fileName4);
+			RecordServices rs = new RecordServices();
+			ArrayList lastRecord_man = new ArrayList();
+			ArrayList lastRecord_woman = new ArrayList();
+			
+			lastRecord_man = rs.selectLastRecords(rs.selectAllItemId(), 1);		//男子最新记录
+			lastRecord_woman = rs.selectLastRecords(rs.selectAllItemId(), 0);	//女子最新记录
+			wRecord.wordGameRecord(filePath, lastRecord_man, lastRecord_woman, fileName4, studentJudge);
+			session.setAttribute("fileName", fileName4);
+			response.sendRedirect("../download_word.jsp");
+			//out.print("success");
 			
 			break;
 			
 		}
 		}catch(Exception e){
-			out.print("error");
+			//out.print("error");
 		}
-		out.flush();
-		out.close();
+		//out.flush();
+		//out.close();
 	}
 
 	/**

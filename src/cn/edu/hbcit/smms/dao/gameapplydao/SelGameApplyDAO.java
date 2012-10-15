@@ -275,5 +275,24 @@ public class SelGameApplyDAO {
 		}
 		return nums;
 	}
+	public int infoDelete(int sp2dpid,String playernum){
+		int flag = 0;
+		String sql = "";
+		sql = "UPDATE t_player" +
+			" SET playername=NULL,playersex=NULL,groupid=NULL,registitem=NULL,numid=NULL" +
+			" WHERE sp2dpid=? AND playernum=?";
+		conn = db.getConn();
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sp2dpid);
+			pStatement.setString(2, playernum);
+			flag = pStatement.executeUpdate();
+			pStatement.close();
+			conn.close();
+		}catch( Exception e){
+			e.getStackTrace();
+		}
+		return flag;
+	}
 	
 }

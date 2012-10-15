@@ -70,5 +70,7 @@ public class SelGameApplyService {
 	public boolean updateLeaderByUserName(String username,String teamleader,String coach,String doctor){
 		return sgas.updateLeaderByUserName(username, teamleader, coach, doctor);
 	}
-	
+	public int infoDelete(int sp2dpid,String playernum){
+		return sgas.infoDelete(sp2dpid, playernum);
+	}
 }

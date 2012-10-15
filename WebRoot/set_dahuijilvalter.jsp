@@ -8,9 +8,10 @@
     <title>修改大会纪律</title>
     <link href="${pageContext.request.contextPath }/css/subcss.css"
 			type="text/css" rel="stylesheet" />
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath }/js/jquery-1.6.min.js">
-</script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
+
 
 <script type="text/javascript">
 
@@ -33,17 +34,17 @@
     	var close = $("#close").val();
  		
  		if (rule.length == 0) {
-		alert("大会纪律内容不能为空!");
+		Dialog.alert("大会纪律内容不能为空!");
 		return false;
 		}
 	
 		if (open.length == 0) {
-		alert("开幕式内容不能为空!");
+		Dialog.alert("开幕式内容不能为空!");
 		return false;
 		}
 	
 		if (close.length == 0) {
-		alert("闭幕式内容不能为空!");
+		Dialog.alert("闭幕式内容不能为空!");
 		return false;
 		}
 		
@@ -61,11 +62,11 @@
 						var revalue = mm.replace(/\r\n/g, '');
 						 
 						if (revalue == "success") {
-							alert("提交 成功!", function() {
+							Dialog.alert("提交 成功!", function() {
 								window.location.href = window.location.href;
 							});
 						} else
-							alert("提交 失败!", function() {
+							Dialog.alert("提交 失败!", function() {
 								window.location.href = window.location.href;
 							});
 					}
@@ -104,33 +105,31 @@
 <c:forEach items="${rule}" var="es">
    <table width="55%"  border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
   <tr class="tableTitle">
-    <td width="598" align="center"><div class="jilv"><span>大会纪律</span></div>
-      <hr class="hr1"/></td>
-    <td width="58" align="center"><div align="right"><span class="jilv">
-      <input type="button" name="button2" id="button2" onClick="window.location.href='set_dahuijilv.jsp'" value="返回">
-    </span></div></td>
+    <td width="598" align="center"><div class="jilv"><span style="font-size:18px;">大会纪律</span></div>
+      </td>
+    
   </tr>
   
   <tr class="tableContent">
-    <td colspan="2" align="center"><span>大会纪律具体内容：</span><br />
+    <td colspan="2" align="center"><span style="font-size:16px;">大会纪律具体内容：</span><br />
       <textarea name="rule" id="rule" cols="70" rows="25">${es.meetingJl}</textarea></td>
   </tr>
-  <tr class="tableContent">
-    <td colspan="2" align="center"><div class="jilv"><span>大会程序</span></div>
-      <hr class="hr1"/></td>
+  <tr class="tableTitle">
+    <td colspan="2" align="center"><div class="jilv"><span style="font-size:18px;">大会程序</span></div>
+      </td>
   </tr>
   <tr class="tableContent">
-    <td colspan="2" align="center"><span>开幕式内容:</span><br />
+    <td colspan="2" align="center"><span style="font-size:16px;">开幕式内容:</span><br />
       <textarea name="open" id="open" cols="70" rows="25">${es.openDh}</textarea></td>
   </tr>
   <tr class="tableContent">
-    <td colspan="2" align="center"><span>闭幕式内容：</span><br />
+    <td colspan="2" align="center"><span style="font-size:16px;">闭幕式内容：</span><br />
       <textarea name="close" id="close" cols="70" rows="25">${es.closeDh}</textarea></td>
   </tr>
  
   <tr class="tableContent">
     <td colspan="2" align="center"><input name="button" type="button" id="button" onClick="alterjl();"  value="保存"/>
-    &nbsp;&nbsp;&nbsp;&nbsp;</td>
+    &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" name="button2" id="button2" onClick="window.location.href='set_dahuijilv.jsp'" value="返回"></td>
   </tr>
 </table>
 </c:forEach>
@@ -140,6 +139,6 @@
 </table>
 </form>
 <br />
-<div align="center"><span class="pageJump">当前第&nbsp;<b>1</b>&nbsp;页，共&nbsp;<b>1</b>&nbsp;页&nbsp;&nbsp;</span></div>
+
   </body>
 </html>

@@ -5,9 +5,9 @@
   <head>
     <title>报名情况查询</title>
    	<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
 //隔行变色
 $(document).ready(function(){
@@ -56,11 +56,11 @@ if(request.getAttribute("itemList")!=null&&request.getAttribute("groupList")!=nu
 function showSelectValue(){ 
 
  var matchgroup = document.getElementById("matchgroup").value;
-	if(matchgroup==0||matchgroup==1){
+	if(matchgroup=="0"||matchgroup=="1"){
 		document.forms[0].submit();
 		
 	}else{
-		alert("请选择参赛组别"+matchgroup);
+		Dialog.alert("请选择参赛组别"+matchgroup);
 		return false;
 			}
 }
@@ -77,20 +77,21 @@ function checkItem(obj){
 		}
 	}
 	if(count > <%=perMan%>){
-		alert("除接力比赛外，每人限报<%=perMan%>项！");
+		Dialog.alert("除接力比赛外，每人限报2项！");
 		obj.checked = false;
 	}
 }
 
 
 function submitCheck(){
+	document.getElementById("hidselectGroup").value = document.getElementById("matchgroup").value
 	var countOldMan = 0;
 	var countOldWoman = 0;
 	var countYoungMan = 0;
 	var countYoungWoman = 0;
 	var myobj=document.getElementsByName("hide");
 	if(myobj.length==0){
-	 alert("请选择参赛组别！");
+	 Dialog.alert("请选择参赛组别！");
 		return false;
 	}
 	var itemNoPlus = new Array();
@@ -98,6 +99,50 @@ function submitCheck(){
 	var itemCountOldWoman = new Array();
 	var itemCountYoungMan = new Array();
 	var itemCountYoungWoman = new Array();
+	
+	if(myobj.length==0){
+	 Dialog.alert("请选择参赛组别！");
+		return false;
+	}else{
+	for(var i = 1;i <= myobj.length+1; i++){
+		var num = document.getElementById("num_"+i).value;
+		var name = document.getElementById("name_"+i).value;
+		if(name == ""){
+			Dialog.alert("姓名不能为空！");
+			return false;
+		}
+		var group=document.getElementById("select_"+i).value;
+		var itemid = document.getElementsByName("checkbox_"+i);
+		
+		var allitem = "";
+		var checkednum = 0;
+		for(var j=0;j < itemid.length; j++){
+			if(itemid[j].checked){
+				checkednum++;
+			}
+		}
+		for(var j = 0,jj=0;j < itemid.length; j++){
+			if(itemid[j].checked){
+				allitem += itemid[j].value;
+				if(jj != checkednum - 1){
+					allitem += ";";
+				}
+				jj++;
+			}
+		}
+		var allitems = allitem.split(";");
+		if(allitems==""){
+			Dialog.alert("项目不能为空！");
+			return false;
+		}
+		
+		var str = num+","+name+","+group+","+allitem;
+		//alert(str);
+		document.getElementById(i+"_cover").value=str;
+		str = "";
+		}
+		}
+	
 	for(var i=0;i<itemSix.length;i++){
 		itemCountOldMan[i]=0;
 		itemCountOldWoman[i]=0;
@@ -124,68 +169,28 @@ function submitCheck(){
 	
 	for(var i = 0;i<itemCountOldWoman.length;i++){
 		if(itemCountOldMan[i] > <%=perDepartment%>){
-			alert(groupName[0]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
+			Dialog.alert(groupName[0]+"中有一些项目报名人数超过6人，请检查！");
 			//Dialog.alert(groupName[0]+"中有一些项目报名人数超过6人，请检查！");
 			return false;
 		}
 		if(itemCountOldWoman[i] > <%=perDepartment%>){
-		alert(groupName[1]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
+		Dialog.alert(groupName[1]+"中有一些项目报名人数超过6人，请检查！");
 			//Dialog.alert(groupName[1]+"中有一些项目报名人数超过6人，请检查！");
 			return false;
 		}
 		if(itemCountYoungMan[i] > <%=perDepartment%>){
 			//Dialog.alert(groupName[2]+"中有一些项目报名人数超过6人，请检查！");
-			alert(groupName[2]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
+			Dialog.alert(groupName[2]+"中有一些项目报名人数超过6人，请检查！");
 			return false;
 		}
 		if(itemCountYoungWoman[i] > <%=perDepartment%>){
 			//Dialog.alert(groupName[3]+"中有一些项目报名人数超过6人，请检查！");
-			alert(groupName[3]+"中有一些项目报名人数超过<%=perDepartment%>人，请检查！");
+			Dialog.alert(groupName[3]+"中有一些项目报名人数超过6人，请检查！");
 			return false;
 		}
 	}
+	
 }
-//隐藏域
-function upDate(){
-	document.getElementById("hidselectGroup").value = document.getElementById("matchgroup").value
-	var myobj=document.getElementsByName("hide");
-	if(myobj.length==0){
-	 alert("请选择参赛组别！");
-		return false;
-	}else{
-	for(var i = 1;i <= myobj.length+1; i++){
-		var num = document.getElementById("num_"+i).value;
-		var name = document.getElementById("name_"+i).value;
-		//if(name == ""){
-		//	alert("姓名不能为空");
-		//	return false;
-		//}
-		var group=document.getElementById("select_"+i).value;
-		var itemid = document.getElementsByName("checkbox_"+i);
-		var allitem = "";
-		var checkednum = 0;
-		for(var j=0;j < itemid.length; j++){
-			if(itemid[j].checked){
-				checkednum++;
-			}
-		}
-		for(var j = 0,jj=0;j < itemid.length; j++){
-			if(itemid[j].checked){
-				allitem += itemid[j].value;
-				if(jj != checkednum - 1){
-					allitem += ";";
-				}
-				jj++;
-			}
-		}
-		var str = num+","+name+","+group+","+allitem;
-		//alert(str);
-		document.getElementById(i+"_cover").value=str;
-		str = "";
-		}
-		}
-}
-
 </script>
   </head>
   <body>
@@ -199,19 +204,11 @@ function upDate(){
       <td>
      <table width="100%" border="0" cellspacing="0" cellpadding="0">
        <tr>
-          <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
-           <td width="94%" valign="bottom"><span class="pageTitle">赛事报名--><font color="blue">${requestScope.departName }</font>报名情况查询</span></td>
+          <td width="6%" height="19" valign="bottom"><div align="center"><img src="${pageContext.request.contextPath }/images/tb.gif" width="14" height="14" /></div></td>
+           <td width="94%" valign="bottom"><span class="pageTitle">赛事报名--><font color="yellow">${requestScope.departName }</font>报名情况查询</span></td>
         </tr>
      </table>
      </td>
-       <td>
-      <div align="right"><span class="pageTitle">
-         <input type="checkbox" name="checkbox11" id="checkbox11" />全选      &nbsp;&nbsp;
-         <img src="images/add.gif" width="10" height="10" /> 添加   &nbsp; 
-         <img src="images/del.gif" width="10" height="10" /> 删除    &nbsp;&nbsp;
-         <img src="images/edit.gif" width="10" height="10" /> 编辑   &nbsp;</span><span class="pageTitle"> &nbsp;</span>
-      </div>
-      </td>
        </tr>
      </table>
      </td>
@@ -222,7 +219,7 @@ function upDate(){
   <tr>
     <td>
 <!--内嵌表格 组别分类 begin-->
-<form action="${pageContext.request.contextPath }/servlet/ApplyInfomationServlet?action=pageinf" method="post" name="form1">
+<form action="${pageContext.request.contextPath }/servlet/ApplyInfomationServlet?action=pageinf" method="post" name="form1" />
     <table width="100%" border="0">
     <tr>
     <td width="10%" scope="col" align="center">参赛组别            
@@ -273,7 +270,7 @@ function upDate(){
    </td>
    <td width="5%"><input type="button" name="query" id="query" value="查询" onclick="showSelectValue()"/></td>
    <td align="center">
-   <span><a href="${pageContext.request.contextPath }/servlet/ApplyInfomationServlet?action=leader">查看修改<font color="blue">${requestScope.departName }</font>教练信息</a></span>
+   <span class="pageTitle"><a href="${pageContext.request.contextPath }/servlet/ApplyInfomationServlet?action=leader">查看修改<font color="blue">${requestScope.departName }</font>教练信息</a></span>
    </td>
    </tr>
   </table>
@@ -289,6 +286,7 @@ function upDate(){
        <c:forEach items="${requestScope.itemList}" var="item">
 	   	<td width="6%"  height="20"><div align="center"><span>${item.itemname }</span></div></td>
       </c:forEach>
+       <td width="2%" height="20"><div align="center"><span>操作</span></div></td>
     </tr>
     <c:forEach items="${requestScope.groupPlayer}" var="player" begin="">
   	<tr class="tableContent">
@@ -332,12 +330,13 @@ function upDate(){
          <%ii += 1; %>
          </span></div></td>
          </c:forEach>
+         <td><a href="${pageContext.request.contextPath }/servlet/ApplyInfomationServlet?action=delete&playernum=${player.playernum}">删除</a></td>
    	</tr>
    	</c:forEach>
   </table>
   <div align="center">
   <input type="hidden" name="matchgroup" id="hidselectGroup" value="" />
-  <span><input type="submit" name="button" id="button"  style="width:80px;height:30px;" value="修改" onclick="upDate()" /> </span>
+  <span><input type="submit" name="button" id="button"  style="width:80px;height:30px;" value="修改" /> </span>
   </div>
  </form>
 </td>

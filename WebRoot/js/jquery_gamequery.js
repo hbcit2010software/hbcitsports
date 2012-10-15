@@ -15,7 +15,7 @@
 					$('#departname').html(inhtml);
 				},
 				error : function(xhr, status, errorThrown) {
-					alert("errorThrown=" + errorThrown);
+					Dialog.alert("errorThrown=" + errorThrown);
 				}
 			});
 	$.ajax( {
@@ -33,7 +33,7 @@
 					$('#province').html(inhtml);
 				},
 				error : function(xhr, status, errorThrown) {
-					alert("errorThrown=" + errorThrown);
+					Dialog.alert("errorThrown=" + errorThrown);
 				}
 			});
 			}
@@ -44,7 +44,7 @@ function itemtype(){
 	var params="sportsid="+sportsid+"&itemtype="+itemtype;
 	
 	if(sportsid==0){
-		alert("请选择届次");
+		Dialog.alert("请选择届次");
 		return false;
 	}else{
 		$.ajax( {
@@ -62,7 +62,7 @@ function itemtype(){
 				$('#item').html(inhtml);
 			},
 			error : function(xhr, status, errorThrown) {
-				alert("errorThrown=" + errorThrown);
+				Dialog.alert("errorThrown=" + errorThrown);
 			}
 		});
 	}
@@ -86,11 +86,11 @@ function selectdata()
 		breakrecord="1";
 	}
 	if(score1.length==0&&score2.length!=0){
-		alert("参赛成绩两者都写，或者两者都不写");
+		Dialog.alert("参赛成绩两者都写，或者两者都不写");
 		return false;
 		}
 	if(score1.length!=0&&score2.length==0){
-		alert("参赛成绩两者都写，或者两者都不写");
+		Dialog.alert("参赛成绩两者都写，或者两者都不写");
 		return false;
 		}
 	//if(score1.length!=0&&score2.length!=0){
@@ -103,7 +103,7 @@ function selectdata()
 	//}
 	if(sportsid == 0)
 	{
-		alert("请选择届次");
+		Dialog.alert("请选择届次");
 		return false;
 	}else{
 		$.ajax( {
@@ -113,7 +113,7 @@ function selectdata()
 			dataType : 'json',
 			success : function(jsonarray) {
 				var inhtml = "";
-				alert("共查询出"+jsonarray.length+"条");
+				Dialog.alert("共查询出"+jsonarray.length+"条");
 		inhtml += "<tr class='tableTitle'>";
         inhtml += "<td width='10%' height='20'><div align='center'><span>姓名</span></div></td>";
         inhtml += "<td width='10%' height='20'><div align='center'><span>号码</span></div></td>";
@@ -145,7 +145,7 @@ function selectdata()
 				$('#infocontent').html(inhtml);
 			},
 			error : function(xhr, status, errorThrown) {
-				alert("errorThrown=" + errorThrown);
+				Dialog.alert("errorThrown=" + errorThrown);
 			}
 		});
 	}

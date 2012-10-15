@@ -20,7 +20,7 @@
 			
 		});
 </script>
-		<script type="text/javascript">
+	<!-- 	<script type="text/javascript">
 
 		function checkword(obj)
 		{
@@ -72,7 +72,8 @@
 		}
 		
 		</script>
-	</head>
+		 -->
+</head>
 
 	<body>
 		<table width="100%" border="0" align="center" cellpadding="0"
@@ -112,64 +113,43 @@
 			<tr>
 				<td>
 					<!--内嵌表格begin-->
-					<table>
-						<tr>
-							<td colspan="3">
-								<b>秩序册</b>
-							</td>
-						</tr>
+					<table width="55%" border="0" cellpadding="0" cellspacing="0" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+						<tr >
+							<td colspan="3" align="center" style="fontsize:20px;">
+							  <strong>秩序册						    </strong></td>
+					  </tr>
 
-						<tr>
+						<tr class="tableContent" >
 							<td>
 								大会安排
 							</td>
 
 							<td>
-								<input type="button" id="1" onclick="checkword(this)"
-									value="生成word文档" />
-							</td>
-							<td>
-								<input type="button" value="下载" id="gameBeforeInfo.doc"
-									onclick="checkfile(this)" />
+								<a href="servlet/WordDemoServlet?id=1"><input type="button" id="1" value="生成word文档" /></a>
 							</td>
 						</tr>
-						<tr>
+						<tr class="tableContent" >
 							<td>
 								竞赛分组
 							</td>
 							<td>
-								<input type="button" id="2" onclick="checkword(this)"
-									value="生成word文档" />
-							</td>
-							<td>
-								<input type="button" value="下载" id="createprogram.doc"
-									onclick="checkfile(this)" />
+								<a href="servlet/WordDemoServlet?id=2"><input type="button" id="2" value="生成word文档" /></a>
 							</td>
 						</tr>
-						<tr>
+						<tr class="tableContent" >
 							<td>
 								运动员信息
 							</td>
 							<td>
-								<input type="button" id="3" onclick="checkword(this)"
-									value="生成word文档" />
-							</td>
-							<td>
-								<input type="button" value="下载" id="departmentNumber.doc"
-									onclick="checkfile(this)" />
+								<a href="servlet/WordDemoServlet?id=3"><input type="button" id="3" value="生成word文档" /></a>
 							</td>
 						</tr>
-						<tr>
+						<tr class="tableContent" >
 							<td>
-								运动会记录
+								运动会记录及学生裁判名单
 							</td>
 							<td>
-								<input type="button" id="4" onclick="checkword(this)"
-									value="生成word文档" />
-							</td>
-							<td>
-								<input type="button" value="下载" id="record.doc"
-									onclick="checkfile(this)" />
+								<a href="servlet/WordDemoServlet?id=4"><input type="button" id="4" value="生成word文档" /></a>
 							</td>
 						</tr>
 					</table>

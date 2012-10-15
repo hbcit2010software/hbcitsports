@@ -10,7 +10,8 @@
 		  response.setContentType("application/x-download");    
 		  //String file = (String)request.getParameter("file");
 		  String file = filePath;
-		  String fileName = URLDecoder.decode((String)request.getParameter("fileName"),"UTF-8");
+		  //String fileName = URLDecoder.decode((String)request.getParameter("fileName"),"UTF-8");
+		  String fileName = session.getAttribute("fileName").toString();
 		  System.out.println("111....."+file);
           System.out.println("222....."+fileName);
           if(file !=null && fileName !=null){

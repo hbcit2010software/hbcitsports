@@ -95,6 +95,7 @@ public class ApplyInfomationServlet extends HttpServlet {
 		if(action.equals("leader"))applyLeader(request,response);//教练信息
 		if(action.equals("pageinf"))applyItems(request,response);//按条件查询出的信息
 		if(action.equals("updateinf"))upDateInfo(request,response);//修改
+		if(action.equals("delete"))infoDelete(request,response);
 	}
 	}
 	
@@ -179,8 +180,6 @@ public class ApplyInfomationServlet extends HttpServlet {
 		String username = (String)session.getAttribute("username");//获取用户名
 		flag1 = player.getDepartid(username);//根据用户名获取部门id
 		int sp2dpid = player.getSp2dpid(flag1);//获取当前部门id及运动会的id
-		System.out.println("sp2dpid"+sp2dpid);
-		//int sp2dpid = Integer.parseInt(session.getAttribute("flag1").toString());//获取sp2dpid
 		flag = playerService.updatePlayer(allstr, sp2dpid);
 		if(flag ==0){
 			session.setAttribute("msg","修改失败！");
@@ -208,6 +207,34 @@ public class ApplyInfomationServlet extends HttpServlet {
 		leaderList = gas.selectAllLeaderByUserName(username);
 		request.setAttribute("leader", leaderList);
 		request.getRequestDispatcher("/apply_alterleaderinfo.jsp").forward(request, response);
+}
+	public void infoDelete(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-control", "no-cache");
+		response.setDateHeader("Expires", 0);
+		response.setContentType("text/html;utf-8");
+		response.setCharacterEncoding("utf-8");//转换字符编码集		
+		HttpSession session = request.getSession();	
+		SelGameApplyService gas = new SelGameApplyService();
+		GetPlayerService player = new GetPlayerService(); 
+		int flag1 = 0;
+		String username = (String)session.getAttribute("username");//获取用户名
+		flag1 = player.getDepartid(username);//根据用户名获取部门id
+		int sp2dpid = player.getSp2dpid(flag1);//获取当前部门id及运动会的id
+		String playernum = request.getParameter("playernum");//获取号码簿
+		int flag = 0;
+		System.out.println("sp2dpid:"+sp2dpid+"playernum:"+playernum);
+		flag = gas.infoDelete(sp2dpid, playernum);
+		if(flag!=0){
+			session.setAttribute("msg","删除成功！");
+		}else{
+			session.setAttribute("msg","删除失败！");
+		}
+		String matchgroup = (String)session.getAttribute("grouptypes1");
+		request.setAttribute("match", matchgroup);
+		session.removeAttribute("grouptypes1");
+		request.getRequestDispatcher("/apply_queryshow.jsp").forward(request, response);
 }
 	/**
 	 * Initialization of the servlet. <br>

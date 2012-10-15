@@ -58,7 +58,7 @@ public class ReailyLook extends HttpServlet {
 		DataManagerServices cpgg = new DataManagerServices(); //数据库操作类对象cpgg
 		ArrayList nextFlag = new ArrayList();
 		nextFlag = cpgg.slectFidRGnum(finalId);
-		ArrayList group = cpgg.selectTrackGroup(finalId);
+		ArrayList group = cpgg.selectRelGroup(finalId);
 		ArrayList players = cpgg.slectRelayInfo(finalId);
 		System.out.println(players.size());
 		ArrayList allPlayers = new ArrayList();
@@ -72,7 +72,10 @@ public class ReailyLook extends HttpServlet {
     			int num = Integer.parseInt(group.get(i).toString());
     			String temp = "";
     			for (int j = 0; j < num; j++){
-    				temp += "   "+players.get(count).toString();
+    				if(j>0){
+    					temp += " &nbsp;&nbsp;&nbsp;&nbsp;  ";
+    				}
+    				temp += players.get(count).toString();
     				count++;
     			}
     			String nfg = nextFlag.get(i).toString();

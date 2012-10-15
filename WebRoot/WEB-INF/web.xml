@@ -833,6 +833,13 @@
     <servlet-name>SelectTeamleaderServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamequeryservlet.SelectTeamleaderServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>liwei</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ViewLastRecordServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.ViewLastRecordServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -1418,6 +1425,10 @@
   <servlet-mapping>
     <servlet-name>SelectTeamleaderServlet</servlet-name>
     <url-pattern>/servlet/SelectTeamleaderServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewLastRecordServlet</servlet-name>
+    <url-pattern>/servlet/ViewLastRecordServlet</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

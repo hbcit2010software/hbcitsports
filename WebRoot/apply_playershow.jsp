@@ -9,7 +9,7 @@
     
    function show() {
      alert( "<%=msg%>"); 
-     location.replace("query_game.jsp");
+     location.replace("servlet/PageDataServlet");
      }
      </script>
   </head>

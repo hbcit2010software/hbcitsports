@@ -378,7 +378,37 @@ public class DataManagerDAO {
      */
     public ArrayList selectTrackGroup(int finalitemid){
     	ArrayList groupnum = new ArrayList();
-	    String sql = "SELECT COUNT(teamnum) FROM t_match WHERE finalitemid = ?  GROUP BY teamnum ORDER BY teamnum";
+	    String sql = "SELECT COUNT(t_match.teamnum) FROM t_match JOIN t_player ON t_match.playerid=t_player.id WHERE" +
+	    		" t_match.finalitemid = ?  GROUP BY t_match.teamnum ORDER BY t_match.teamnum";
+	    try {
+            Connection conn = db.getConn();
+            if(conn != null){
+            	ResultSet rs = null;
+                PreparedStatement statement = conn.prepareStatement(sql);
+                statement.setInt(1, finalitemid);
+                rs = statement.executeQuery(); 
+                while(rs.next()){
+             	   Integer group = new Integer(rs.getInt(1));
+             	   groupnum.add(group);
+                   }
+                rs.close();
+            }
+        
+            db.freeConnection(conn);  
+            }catch (SQLException e) {                 
+            e.printStackTrace(); } 
+            return groupnum;
+    }
+    
+    /**look
+     * 根据finalitemid查询接力每个项目的每组的人数
+     * @param finalitemid
+     * @return ArrayList
+     */
+    public ArrayList selectRelGroup(int finalitemid){
+    	ArrayList groupnum = new ArrayList();
+	    String sql = "SELECT COUNT(t_match.teamnum) FROM t_match JOIN t_department ON t_match.playerid=t_department.id WHERE" +
+	    		" t_match.finalitemid = ?  GROUP BY t_match.teamnum ORDER BY t_match.teamnum";
 	    try {
             Connection conn = db.getConn();
             if(conn != null){

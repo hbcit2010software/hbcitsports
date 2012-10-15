@@ -40,10 +40,15 @@ public class WordSelectPlayer {
 	public void SelPlaWD(String filePath, String fileName ) {
 		
 		SelectPlayerDAO sd=new SelectPlayerDAO();
-		ArrayList departList = new ArrayList();
+		//ArrayList departList = new ArrayList();
+		ArrayList stuDepartList = new ArrayList();
+		ArrayList teaDepartList = new ArrayList();
 		//ArrayList selectSportsid=new ArrayList();
-		departList=sd.selectDepartment(sportId);
+		//departList=sd.selectDepartment(sportId);
 		//selectSportsid=sd.selectSportsid();
+		
+		stuDepartList = sd.slectStuDepidBySid(sportId);
+		teaDepartList = sd.selectDepartment(sportId);
 		Document document = new Document(PageSize.A4);
 		try {
 			RtfWriter2.getInstance(document,
@@ -52,16 +57,16 @@ public class WordSelectPlayer {
 			document.open();
 		
 		
-		for(int i = 0;i < departList.size();i++)
+		for(int i = 0;i < stuDepartList.size();i++)
 		{
 			
-			int id=Integer.parseInt(departList.get(i).toString());
+			int id=Integer.parseInt(stuDepartList.get(i).toString());
 			//int sid = Integer.parseInt(selectSportsid.get(i).toString());
 			ArrayList playBoy = new ArrayList();
 			ArrayList playGirl = new ArrayList();
-			ArrayList playTeacher = new ArrayList();
-			int type=sd.selectDepartmentType(id);
-			if(type==1){
+			//ArrayList playTeacher = new ArrayList();
+			//int type=sd.selectDepartmentType(id);
+			//if(type==1){
 			//查询学生男子组的姓名和号码
 			playBoy=sd.selectPlayersByDept(1, id, sportId);
 		    String groupname="男子组";
@@ -128,46 +133,52 @@ public class WordSelectPlayer {
 		  document.add(table1);
 		   document.add(new Paragraph());
 		   document.add(new Paragraph());
-		} else{
-			//查询教工组的姓名和号码
-			playTeacher=sd.selectPlayersByDept1(id, sportId);
+		//} else{
+		}
+		for(int i = 0;i < teaDepartList.size();i++){
+			   int id=Integer.parseInt(teaDepartList.get(i).toString());
+			   ArrayList playTeacher=sd.selectPlayersByDept1(id, sportId);
 
-			 String groupname="教工组";
-			    String departname=sd.selectDepartmentName(id) ;
-			    Paragraph p = new Paragraph(departname, new Font(Font.BOLD, 18,
-						Font.BOLD, new Color(0, 0, 0)));
-				p.setAlignment(1);
-				document.add(p);
-			  // document.add(new Paragraph(groupname));
-				 Table table2 = new Table(8); 
-					Cell cc6=new Cell(groupname);
-					cc6.setColspan(8);
-					cc6.setBorderWidth(0);
-					table2.addCell(cc6);
+				 String groupname="教工组";
+				    String departname=sd.selectDepartmentName(id) ;
+				    Paragraph p = new Paragraph(departname, new Font(Font.BOLD, 18,
+							Font.BOLD, new Color(0, 0, 0)));
+					p.setAlignment(1);
+					document.add(p);
+				  // document.add(new Paragraph(groupname));
+					 Table table2 = new Table(8); 
+						Cell cc6=new Cell(groupname);
+						cc6.setColspan(8);
+						cc6.setBorderWidth(0);
+						table2.addCell(cc6);
+						
+				    
+					//指定表格为八列
 					
-			    
-				//指定表格为八列
+					table2.setBorder(0);
+					table2.setBorderWidth(0);
+					table2.setBorderColor(Color.WHITE);
+					table2.setPadding(0);
+					table2.setSpacing(0);
+				   for (int a = 0; a < playTeacher.size(); a++){
+					   PlayerPojo pojp = (PlayerPojo)playTeacher.get(a);
 				
-				table2.setBorder(0);
-				table2.setBorderWidth(0);
-				table2.setBorderColor(Color.WHITE);
-				table2.setPadding(0);
-				table2.setSpacing(0);
-			   for (int a = 0; a < playTeacher.size(); a++){
-				   PlayerPojo pojp = (PlayerPojo)playTeacher.get(a);
+						Cell cc=new Cell(pojp.getPlayernum());
+						cc.setBorderWidth(0);
+						table2.addCell(cc);
+						Cell ce=new Cell(pojp.getPlayername());
+						ce.setBorderWidth(0);
+						table2.addCell(ce);
+					}
+				   document.add(table2);
+			}
+		  
+			//查询教工组的姓名和号码
 			
-					Cell cc=new Cell(pojp.getPlayernum());
-					cc.setBorderWidth(0);
-					table2.addCell(cc);
-					Cell ce=new Cell(pojp.getPlayername());
-					ce.setBorderWidth(0);
-					table2.addCell(ce);
-				}
 			  
 			  // document.add(p1);
-			   document.add(table2);
-		}
-		}
+			  
+		
 			
 		document.close();
 		} catch (FileNotFoundException e) {

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import hirondelle.date4j.DateTime;
 
+import cn.edu.hbcit.smms.dao.createprogramdao.GameGroupingUtil;
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.FinalItem;
 import cn.edu.hbcit.smms.pojo.Group;
@@ -151,7 +152,7 @@ public class ItemDAO {
 	public ArrayList selectFinalItem(int sportsId) {
 		ArrayList list = new ArrayList();
 		// 查询项目名称、比赛阶段、项目类型、运动员类型等信息
-		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype,t_finalitem.date,t_finalitem.time,t_finalitem.promotionnum FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=? ORDER BY t_finalitem.finalitemtype,t_item.itemtype,t_finalitem.finalitemname";
+		String sql = "SELECT DISTINCT t_finalitem.id,t_finalitem.finalitemname,t_finalitem.finalitemtype,t_item.itemtype,t_group.grouptype,t_finalitem.date,t_finalitem.time,t_finalitem.promotionnum,t_finalitem.gp2itid FROM t_finalitem,t_item,t_group,t_group2item,t_group2sports,t_sports WHERE t_finalitem.gp2itid=t_group2item.id AND t_group2item.itemid=t_item.id AND t_group2item.gp2spid=t_group2sports.id AND t_group2sports.groupid=t_group.id AND t_finalitem.sportsid=? ORDER BY t_finalitem.finalitemtype,t_item.itemtype,t_finalitem.finalitemname";
 		conn = db.getConn();
 		try {
 			pStatement = conn.prepareStatement(sql);
@@ -167,6 +168,7 @@ public class ItemDAO {
 				fi.setDate(rs.getString(6));
 				fi.setTime(rs.getString(7));
 				fi.setPromotionnum(rs.getInt(8));
+				fi.setGp2itid(rs.getInt(9));
 				list.add(fi);
 			}
 			db.freeConnection(rs, pStatement, conn);
@@ -562,16 +564,35 @@ public class ItemDAO {
 	}
 
 	/**
+	 * 根据决赛的gp2itid，找到对应预赛的promotionnum
+	 * @param gp2itid
+	 * @param finalitemtype
+	 * @param finalItem
+	 * @return int
+	 */
+	public int getPromotionnum(String gp2itid, String[] finalItem){
+		int rst = 0;
+		for(int i=0; i<finalItem.length; i++){
+			String[] tempArray = finalItem[i].split(",");
+			//{id,date,time,promotionnum,finalitemtype,gp2itid}
+			if(tempArray[4].equals("1") && gp2itid.equals(tempArray[5])){
+				rst = Integer.parseInt(tempArray[3]);
+			}
+		}
+		return rst;
+	}
+	/**
 	 * 更新t_finalitem时间、日期、晋级数量
 	 * 
 	 * @param finalItem
-	 *            格式：id,date,time,promotionnum
+	 *            格式：id,date,time,promotionnum,finalitemtype,gp2itid
 	 * @return
 	 */
 	public boolean updateFinalItem(String[] finalItem) {
 		boolean flag = false;
 		int count[];
-		String sql = "UPDATE t_finalitem SET date=?,time=?,promotionnum=? WHERE id=?";
+		String sql = "UPDATE t_finalitem SET date=?,time=?,promotionnum=?,groupnum=? WHERE id=?";
+		GameGroupingUtil ggu = new GameGroupingUtil();
 		try {
 			conn = db.getConn();
 			conn.setAutoCommit(false);
@@ -580,10 +601,19 @@ public class ItemDAO {
 			for (int i = 0; i < finalItem.length; i++) {
 				// finalItem[i]格式：id,date,time,promotionnum
 				String[] tempArray = finalItem[i].split(",");
-				pStatement.setString(1, tempArray[1]);
+				pStatement.setString(1, tempArray[1]); 
 				pStatement.setString(2, tempArray[2]);
 				pStatement.setInt(3, Integer.parseInt(tempArray[3]));
-				pStatement.setInt(4, Integer.parseInt(tempArray[0]));
+				//(ggu.trackGrouping(Integer.parseInt(tempArray[3]))).length;
+				if(tempArray[4].equals("2")){
+					//如果是决赛
+					//this.getPromotionnum(tempArray[5], finalItem)
+					pStatement.setInt(4, (ggu.trackGrouping(this.getPromotionnum(tempArray[5], finalItem))).length);
+					log.debug("决赛项目id："+tempArray[0]+"；对应预赛项目晋级数量："+this.getPromotionnum(tempArray[5], finalItem));
+				}else{
+					pStatement.setInt(4, 1);
+				}
+				pStatement.setInt(5, Integer.parseInt(tempArray[0]));
 				pStatement.addBatch();
 			}
 			count = pStatement.executeBatch();
@@ -900,5 +930,7 @@ public class ItemDAO {
 		log.debug("批量拆分的Finalitem共有：" + rst);
 		return rst;
 	}
+	
+	
 
 }

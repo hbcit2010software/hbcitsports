@@ -79,86 +79,102 @@ public class UpdatePlayerServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//PrintWriter out = response.getWriter();
+//**************************韩鑫鹏代码***********************************
+		HttpSession session = request.getSession();
+		request.setCharacterEncoding("utf-8");
+		
+		PlayerService playerService = new PlayerService();
+		int sp2dpid = Integer.parseInt(session.getAttribute("sp2dpid").toString());
+		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());//获取当前运动会id
+		int perNum = playerService.selectPerDep(sportsId);//各系各项限报人数
+		log.debug("各系各项限报人数" + perNum);
+		String[] allstr = request.getParameterValues("hide");//获取页面上所有隐藏文本框的字符串:号码，姓名，性别，id#type；id#type
+		HashMap group = new HashMap();//k：性别(男1,女2)   v：组别id
+	    group = playerService.selectStuGroupByspSdpid(sportsId);
+	    log.debug("k：性别(男1,女2)   v：组别id**********"+group);
+	    HashMap dataInfo = playerService.selectPlayerByspSdpid(sp2dpid);//k：性别+项目id  v：人数string
+	    log.debug("k：性别+项目id  v：人数string"+dataInfo.size() + "" + dataInfo );
+	    ArrayList addInfo = playerService.getPageInfo(allstr, group, dataInfo, perNum, sp2dpid);
+	    String addSql = addInfo.get(0).toString();
+	    log.debug("添加运动员报名信息sal：" + addSql);
+	    if (!addSql.equals("") && addSql!=null){
+	    	playerService.updatePlayerBySql(addSql);
+	    }
+	    ArrayList error = (ArrayList)addInfo.get(1);
+	    log.debug("添加sql语句" + addSql);
+	    for(int i = 0; i < error.size();i++){
+	    	log.debug("报名出错人员名字：" + error.get(i).toString());
+	    }
+	    log.debug("添加sql语句" + addSql);
+	    request.setAttribute("error", error);
+		//response.sendRedirect("../apply_show.jsp");
+	    request.getRequestDispatcher("/apply_show.jsp").forward(request, response);
+//**************************结束***********************************
+		
+		
+//***************************************************以下是陈系晶所写代码*************************************************************************		
+//		response.setContentType("text/html");
+//		response.setCharacterEncoding("UTF-8");
+//		request.setCharacterEncoding("UTF-8");
 //		PrintWriter out = response.getWriter();
 //		HttpSession session = request.getSession();
 //		PlayerService playerService = new PlayerService();
-//		int sp2dpid = Integer.parseInt(session.getAttribute("sp2dpid").toString());
-//		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString());//获取当前运动会id
-//		int perNum = playerService.selectPerDep(sportsId);
+//		int flag = 0;
 //		String[] allstr = request.getParameterValues("hide");//获取页面上所有隐藏文本框的字符串
-//		HashMap group = new HashMap();
-//	    group = playerService.selectStuGroupByspSdpid(sportsId);
-//	    HashMap dataInfo = playerService.selectPlayerByspSdpid(sp2dpid);
-//	    ArrayList addInfo = playerService.getPageInfo(allstr, group, dataInfo, perNum, sp2dpid);
-//	    String addSql = addInfo.get(0).toString();
-//	    playerService.updatePlayerBySql(addSql);
-//	    ArrayList error = (ArrayList)addInfo.get(1);
-//	    log.debug("添加sql语句" + addSql);
-//	    for(int i = 0; i < error.size();i++){
-//	    	log.debug("添加sql语句" + error.get(i).toString());
-//	    }
-//	    log.debug("添加sql语句" + addSql);
+//		
+//			for(int i = 0; i < allstr.length; i++ ){
+//				int count = 0;
+//				String mystr = allstr[i];//取出每一个隐藏文本框的字符串
+//				String[] myPlayer = mystr.split(",");//把一个字符串中的值，去","取出来放在一个数组里
+//				for(int k=0; k<myPlayer.length; k++){
+//					log.debug("K:"+k +" myPlayer[k]:"+myPlayer[k]);
+//					if(myPlayer[k].equals("")){
+//						count++;
+//					}
+//				}
+//				if(count > 0){
+//					log.debug("第"+i +"次:"+ count);
+//					continue;
+//				}
+//				String playerNum = myPlayer[0];//运动员号码
+//				//System.out.println(playerNum);
+//				String playerName = myPlayer[1].trim();//运动员姓名
+//				//System.out.println(playerName);
+//				boolean playerSex = true;
+//				String sex = myPlayer[2];
+//				if(sex.equals("false")){
+//					playerSex = false;
+//				}else {
+//					playerSex = true;
+//				}
+//				int groupId = playerService.getGroupIdBySex(playerSex);
+//				//String registItem = myPlayer[3];//运动员所报项目的id
+//				//
+//				String registItem = "";//myPlayer[3]:运动员所报项目的id "2+3;4+5"
+//				String[] itemIdArr =  myPlayer[3].split(";");  //{"2+3","4+5"}
+//				for(int j=0; j<itemIdArr.length; j++){
+//					String[] tempStr = itemIdArr[j].split("#");  //{"2","3"}
+//					registItem = registItem + tempStr[0];
+//					if(j != itemIdArr.length-1){
+//						registItem += ";";
+//					}
+//				}
+//				//
+//				int sp2dpid = Integer.parseInt(session.getAttribute("sp2dpid").toString());
+//				flag = playerService.updatePlayerByNum(playerName, playerSex, registItem, groupId, sp2dpid, playerNum);
+//				if( flag == 0 ){
+//					break;
+//				}
+//			}
+//		
+//		if(flag == 0){
+//			session.setAttribute("msg","添加失败！");
+//		}else{
+//			session.setAttribute("msg","添加成功！请根据条件查询");
+//		}
 //		response.sendRedirect("../apply_show.jsp");
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		HttpSession session = request.getSession();
-		PlayerService playerService = new PlayerService();
-		int flag = 0;
-		String[] allstr = request.getParameterValues("hide");//获取页面上所有隐藏文本框的字符串
-		
-			for(int i = 0; i < allstr.length; i++ ){
-				int count = 0;
-				String mystr = allstr[i];//取出每一个隐藏文本框的字符串
-				String[] myPlayer = mystr.split(",");//把一个字符串中的值，去","取出来放在一个数组里
-				for(int k=0; k<myPlayer.length; k++){
-					log.debug("K:"+k +" myPlayer[k]:"+myPlayer[k]);
-					if(myPlayer[k].equals("")){
-						count++;
-					}
-				}
-				if(count > 0){
-					log.debug("第"+i +"次:"+ count);
-					continue;
-				}
-				String playerNum = myPlayer[0];//运动员号码
-				//System.out.println(playerNum);
-				String playerName = myPlayer[1].trim();//运动员姓名
-				//System.out.println(playerName);
-				boolean playerSex = true;
-				String sex = myPlayer[2];
-				if(sex.equals("false")){
-					playerSex = false;
-				}else {
-					playerSex = true;
-				}
-				int groupId = playerService.getGroupIdBySex(playerSex);
-				//String registItem = myPlayer[3];//运动员所报项目的id
-				//
-				String registItem = "";//myPlayer[3]:运动员所报项目的id "2+3;4+5"
-				String[] itemIdArr =  myPlayer[3].split(";");  //{"2+3","4+5"}
-				for(int j=0; j<itemIdArr.length; j++){
-					String[] tempStr = itemIdArr[j].split("#");  //{"2","3"}
-					registItem = registItem + tempStr[0];
-					if(j != itemIdArr.length-1){
-						registItem += ";";
-					}
-				}
-				//
-				int sp2dpid = Integer.parseInt(session.getAttribute("sp2dpid").toString());
-				flag = playerService.updatePlayerByNum(playerName, playerSex, registItem, groupId, sp2dpid, playerNum);
-				if( flag == 0 ){
-					break;
-				}
-			}
-		
-		if(flag == 0){
-			session.setAttribute("msg","添加失败！");
-		}else{
-			session.setAttribute("msg","添加成功！请根据条件查询");
-		}
-		response.sendRedirect("../apply_show.jsp");
+//*****************************************************************************************************************************
 	}
 
 	/**
