@@ -37,7 +37,9 @@ function checkSubmit(){
 		var days = document.getElementById("day"+strFi[i]).value;
 		var times = document.getElementById("example"+strFi[i]).value;
 		var nums = document.getElementById("num"+strFi[i]).value;
-		document.getElementById("hidden"+strFi[i]).value = strFi[i] + "," + days + "," + times + "," + nums;
+		var finalitemtype = document.getElementById("finalitemtype"+strFi[i]).value;  //2012-10-15添加 by liwei
+		var gp2itid = document.getElementById("gp2itid"+strFi[i]).value;  //2012-10-15添加 by liwei
+		document.getElementById("hidden"+strFi[i]).value = strFi[i] + "," + days + "," + times + "," + nums + "," +finalitemtype+ "," +gp2itid;
 		//alert(document.getElementById("hidden"+strFi[i]).value);
 	}
 	document.forms[0].submit();
@@ -106,6 +108,8 @@ if(request.getAttribute("msg") != null){
         	<c:if test="${finalItem.finalitemtype eq 3 }">
         		<div>预决赛</div>
         	</c:if>
+        	<input name="finalitemtype" type="hidden" id="finalitemtype${finalItem.id}" value="${finalItem.finalitemtype}" />
+        	<input name="gp2itid" type="hidden" id="gp2itid${finalItem.id}" value="${finalItem.gp2itid}" />
         </td>
         <td>
         	<c:if test="${finalItem.itemtype eq 1 }">

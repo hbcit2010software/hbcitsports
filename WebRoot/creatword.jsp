@@ -113,7 +113,7 @@
 			<tr>
 				<td>
 					<!--内嵌表格begin-->
-					<table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
+					<table width="55%" border="0" cellpadding="0" cellspacing="0" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 						<tr >
 							<td colspan="3" align="center" style="fontsize:20px;">
 							  <strong>秩序册						    </strong></td>
