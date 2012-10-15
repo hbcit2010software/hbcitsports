@@ -136,6 +136,15 @@ public class DataManagerServices {
     }
     
     /**look
+     * 根据finalitemid查询接力每个项目的每组的人数
+     * @param finalitemid
+     * @return ArrayList
+     */
+    public ArrayList selectRelGroup(int finalitemid){
+    	return dmd.selectRelGroup(finalitemid);
+    }
+    
+    /**look
      * 根据finalitemid查询每个径赛项目的各组运动员  编号（ArrayList）     跑道号（ArrayList）
      * @param finalitemid
      * @return ArrayList       <String>  编号+跑道号

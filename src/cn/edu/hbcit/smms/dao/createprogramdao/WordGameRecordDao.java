@@ -15,10 +15,10 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
-import cn.edu.hbcit.smms.pojo.SportRecordPojo;
+import cn.edu.hbcit.smms.pojo.Record;
 
 import com.lowagie.text.Cell;
 import com.lowagie.text.Document;
@@ -31,7 +31,7 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.rtf.RtfWriter2;
 
 public class WordGameRecordDao {
-	public void wordGameRecord(String filePath, List gameRecord, Map studentJudge, String fileName){
+	public void wordGameRecord(String filePath, ArrayList lastRecord_man, ArrayList lastRecord_woman, String fileName, Map studentJudge){
 		Document document = new Document(PageSize.A4);
 		try {
 			RtfWriter2.getInstance(document,
@@ -43,57 +43,57 @@ public class WordGameRecordDao {
 				"UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
 		
 		Table tRecord = new Table(7);
-		for( int i = 0; i < gameRecord.size(); i++){
-			SportRecordPojo sr =(SportRecordPojo) gameRecord.get(i);
-			String sex = null;
-			if( i == 0){
-			    sex = "女子";
-				Cell feMale = new  Cell(new Paragraph("河北工院田径运动会记录("+sex+")组",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				feMale.setBorderWidth(0);
-				feMale.setColspan(7);
+		 String sex = null;
+		 sex = "女子";
+		 Cell feMale = new  Cell(new Paragraph("河北工院田径运动会记录("+sex+")组",new Font(Font.NORMAL, 18,
+					Font.BOLD, new Color(0, 0, 0))));
+			feMale.setBorderWidth(0);
+			feMale.setColspan(7);
+			tRecord.addCell(feMale);
+			
+			feMale = new  Cell(new Paragraph("项目",new Font(Font.NORMAL, 18,
+					Font.BOLD, new Color(0, 0, 0))));
+			tRecord.addCell(feMale);
+			
+			feMale = new  Cell(new Paragraph("成绩",new Font(Font.NORMAL, 18,
+					Font.BOLD, new Color(0, 0, 0))));
+			tRecord.addCell(feMale);
+			
+			feMale = new  Cell(new Paragraph("运动员",new Font(Font.NORMAL, 18,
+					Font.BOLD, new Color(0, 0, 0))));
+			tRecord.addCell(feMale);
+			feMale = new  Cell(new Paragraph("系别",new Font(Font.NORMAL, 18,
+					Font.BOLD, new Color(0, 0, 0))));
+			tRecord.addCell(feMale);
+			feMale = new  Cell(new Paragraph("运动会",new Font(Font.NORMAL, 18,
+					Font.BOLD, new Color(0, 0, 0))));
+			tRecord.addCell(feMale);
+			feMale = new  Cell(new Paragraph("时间",new Font(Font.NORMAL, 18,
+					Font.BOLD, new Color(0, 0, 0))));
+			tRecord.addCell(feMale);
+			feMale = new  Cell(new Paragraph("备注",new Font(Font.NORMAL, 18,
+					Font.BOLD, new Color(0, 0, 0))));
+			tRecord.addCell(feMale);
+		for( int i = 0; i < lastRecord_woman.size(); i++){
+			Record record =(Record) lastRecord_woman.get(i);
+				
+				
+				feMale = new Cell(record.getItemname());
 				tRecord.addCell(feMale);
 				
-				feMale = new  Cell(new Paragraph("项目",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
+				feMale = new Cell(record.getScore());
 				tRecord.addCell(feMale);
 				
-				feMale = new  Cell(new Paragraph("成绩",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
+				feMale = new Cell(record.getPlayername());
 				tRecord.addCell(feMale);
 				
-				feMale = new  Cell(new Paragraph("运动员",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				tRecord.addCell(feMale);
-				feMale = new  Cell(new Paragraph("系别",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				tRecord.addCell(feMale);
-				feMale = new  Cell(new Paragraph("运动会",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				tRecord.addCell(feMale);
-				feMale = new  Cell(new Paragraph("时间",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				tRecord.addCell(feMale);
-				feMale = new  Cell(new Paragraph("备注",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
+				feMale = new Cell(record.getDepartname());
 				tRecord.addCell(feMale);
 				
-				feMale = new Cell(sr.getItemName());
+				feMale = new Cell(record.getSportsname());
 				tRecord.addCell(feMale);
 				
-				feMale = new Cell(sr.getScore());
-				tRecord.addCell(feMale);
-				
-				feMale = new Cell(sr.getSporter());
-				tRecord.addCell(feMale);
-				
-				feMale = new Cell(sr.getDepartName());
-				tRecord.addCell(feMale);
-				
-				feMale = new Cell(sr.getSportName());
-				tRecord.addCell(feMale);
-				
-				feMale = new Cell(sr.getRecordTime());
+				feMale = new Cell(record.getRecordtime());
 				tRecord.addCell(feMale);
 				
 				feMale = new Cell(new Paragraph());
@@ -101,54 +101,58 @@ public class WordGameRecordDao {
 				
 				
 			}
-			if( i == 1){
-				sex = "男子";
-				Cell male = new  Cell(new Paragraph("河北工院田径运动会记录("+sex+")组",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				male.setBorderWidth(0);
-				male.setColspan(7);
+		
+		
+		sex = "男子";
+		Cell male = new  Cell(new Paragraph("河北工院田径运动会记录("+sex+")组",new Font(Font.NORMAL, 18,
+				Font.BOLD, new Color(0, 0, 0))));
+		male.setBorderWidth(0);
+		male.setColspan(7);
+		tRecord.addCell(male);
+		
+		male = new  Cell(new Paragraph("项目",new Font(Font.NORMAL, 18,
+				Font.BOLD, new Color(0, 0, 0))));
+		tRecord.addCell(male);
+		
+		male = new  Cell(new Paragraph("成绩",new Font(Font.NORMAL, 18,
+				Font.BOLD, new Color(0, 0, 0))));
+		tRecord.addCell(male);
+		
+		male = new  Cell(new Paragraph("运动员",new Font(Font.NORMAL, 18,
+				Font.BOLD, new Color(0, 0, 0))));
+		tRecord.addCell(male);
+		male = new  Cell(new Paragraph("系别",new Font(Font.NORMAL, 18,
+				Font.BOLD, new Color(0, 0, 0))));
+		tRecord.addCell(male);
+		male = new  Cell(new Paragraph("运动会",new Font(Font.NORMAL, 18,
+				Font.BOLD, new Color(0, 0, 0))));
+		tRecord.addCell(male);
+		male = new  Cell(new Paragraph("时间",new Font(Font.NORMAL, 18,
+				Font.BOLD, new Color(0, 0, 0))));
+		tRecord.addCell(male);
+		male = new  Cell(new Paragraph("备注",new Font(Font.NORMAL, 18,
+				Font.BOLD, new Color(0, 0, 0))));
+		tRecord.addCell(male);
+		for( int i = 0; i < lastRecord_man.size(); i++){
+			Record record =(Record) lastRecord_man.get(i);
+				
+				
+				male = new Cell(record.getItemname());
 				tRecord.addCell(male);
 				
-				male = new  Cell(new Paragraph("项目",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
+				male = new Cell(record.getScore());
 				tRecord.addCell(male);
 				
-				male = new  Cell(new Paragraph("成绩",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
+				male = new Cell(record.getPlayername());
 				tRecord.addCell(male);
 				
-				male = new  Cell(new Paragraph("运动员",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				tRecord.addCell(male);
-				male = new  Cell(new Paragraph("系别",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				tRecord.addCell(male);
-				male = new  Cell(new Paragraph("运动会",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				tRecord.addCell(male);
-				male = new  Cell(new Paragraph("时间",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
-				tRecord.addCell(male);
-				male = new  Cell(new Paragraph("备注",new Font(Font.NORMAL, 18,
-						Font.BOLD, new Color(0, 0, 0))));
+				male = new Cell(record.getDepartname());
 				tRecord.addCell(male);
 				
-				male = new Cell(sr.getItemName());
+				male = new Cell(record.getSportsname());
 				tRecord.addCell(male);
 				
-				male = new Cell(sr.getScore());
-				tRecord.addCell(male);
-				
-				male = new Cell(sr.getSporter());
-				tRecord.addCell(male);
-				
-				male = new Cell(sr.getDepartName());
-				tRecord.addCell(male);
-				
-				male = new Cell(sr.getSportName());
-				tRecord.addCell(male);
-				
-				male = new Cell(sr.getRecordTime());
+				male = new Cell(record.getRecordtime());
 				tRecord.addCell(male);
 				
 				male = new Cell(new Paragraph());
@@ -156,7 +160,7 @@ public class WordGameRecordDao {
 			}
 			
 			
-		}
+		
 		
 		/**
 		 * 各系的学生裁判员

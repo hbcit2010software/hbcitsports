@@ -60,7 +60,7 @@ public class FileLook extends HttpServlet {
 		ArrayList players = new ArrayList();
 		
 		players = cpgg.slectFilePs(finalId);
-		System.out.println("田赛运动员" + players );
+		//System.out.println("田赛运动员" + players );
 		ArrayList allPlayers = new ArrayList();
 		int flag = players.size()/8+1;
 		if ( players != null){
@@ -86,11 +86,11 @@ public class FileLook extends HttpServlet {
 			}
 		}
 		String[] qq = new String[flag];
-		System.out.println("田赛的行数" + qq.length );
+		//System.out.println("田赛的行数" + qq.length );
 		for (int i = 0; i < allPlayers.size(); i++){
 			System.out.println("第"+ i +"行运动员" + allPlayers.get(i) );
 		}
-		System.out.println("田赛的行数" + qq.length );
+		//System.out.println("田赛的行数" + qq.length );
 		session.setAttribute("filelook", allPlayers);
 		response.sendRedirect("../fildlook.jsp");
 	}

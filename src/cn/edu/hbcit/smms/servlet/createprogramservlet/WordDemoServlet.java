@@ -13,6 +13,7 @@ package cn.edu.hbcit.smms.servlet.createprogramservlet;
  */
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import cn.edu.hbcit.smms.dao.createprogramdao.WordSelectPlayer;
 import cn.edu.hbcit.smms.services.createprogramservices.DataManagerServices;
 import cn.edu.hbcit.smms.services.createprogramservices.SetWordServices;
 import cn.edu.hbcit.smms.services.createprogramservices.WordDemoService;
+import cn.edu.hbcit.smms.services.gamesetservices.RecordServices;
 /**
  * 
  * @author 田小英
@@ -148,10 +150,17 @@ public class WordDemoServlet extends HttpServlet {
 			break;
 		case 4:
 			String fileName4 = "record.doc";
-			List gameRecord = wDemo.getGameRecord();
+//			List gameRecord = wDemo.getGameRecord();
 			Map studentJudge = wDemo.SlipStudentJudgeMember(currSportsId);
 			WordGameRecordDao wRecord = new WordGameRecordDao();         //破记录
-			wRecord.wordGameRecord(filePath, gameRecord, studentJudge, fileName4);
+//			wRecord.wordGameRecord(filePath, gameRecord, studentJudge, fileName4);
+			RecordServices rs = new RecordServices();
+			ArrayList lastRecord_man = new ArrayList();
+			ArrayList lastRecord_woman = new ArrayList();
+			
+			lastRecord_man = rs.selectLastRecords(rs.selectAllItemId(), 1);		//男子最新记录
+			lastRecord_woman = rs.selectLastRecords(rs.selectAllItemId(), 0);	//女子最新记录
+			wRecord.wordGameRecord(filePath, lastRecord_man, lastRecord_woman, fileName4, studentJudge);
 			session.setAttribute("fileName", fileName4);
 			response.sendRedirect("../download_word.jsp");
 			//out.print("success");

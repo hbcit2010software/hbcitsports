@@ -93,7 +93,10 @@ public class TrackGameLook extends HttpServlet {
         			int num = Integer.parseInt(group.get(i).toString());
         			String temp = "";
         			for (int j = 0; j < num; j++){
-        				temp += "   "+players.get(count).toString();
+        				if(j>0){
+        					temp += " &nbsp;&nbsp;&nbsp;&nbsp;  ";
+        				}
+        				temp += players.get(count).toString();
         				count++;
         			}
         			String nfg = nextFlag.get(i).toString();
