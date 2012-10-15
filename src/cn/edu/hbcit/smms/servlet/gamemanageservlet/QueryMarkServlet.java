@@ -72,6 +72,7 @@ public class QueryMarkServlet extends HttpServlet {
 		List<QueryMarkPoJo> teacherMarkList = qms.getTeacherMark(depNameList);
 		List<QueryMarkPoJo> studentsFinalMarkList = qms.getStudentsFinalMark(depNameList);
 		List<QueryMarkPoJo> teacherFinalMarkList = qms.getTeacherFinalMark(depNameList);
+		System.out.println("QueryMarkServlet:depNameList--studentsMarkList--teacherMarkList--teacherFinalMarkList"+depNameList.size()+teacherMarkList.size()+studentsFinalMarkList.size()+teacherFinalMarkList.size());
 		list1.add(depNameList);
 		list2.add(studentsMarkList);
 		list3.add(teacherMarkList);

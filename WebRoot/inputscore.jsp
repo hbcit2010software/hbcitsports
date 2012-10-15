@@ -6,6 +6,8 @@
     <title>成绩录入</title>
     <link href="css/subcss.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
 var reg ;
 //隔行变色
@@ -47,7 +49,7 @@ var reg ;
 		var group = $("#group").find("option:selected").text();		//被选取的组别
 		var item = $("#item").find("option:selected").text();		//被选取的项目
 		if( group == "--请选择--" || item == "--请选择--"){
-			alert("项目或组别为选择，请检查！ ");
+			Dialog.alert("项目或组别为选择，请检查！ ");
 			return false;
 		}
 		$.ajax({
@@ -98,10 +100,10 @@ var reg ;
 										inhtml += "<tr class='tableContent'>";
 										for( q = 0; q < json2.length; q++ ){
 											if( q == 0 ){
-												inhtml += "<td width='20%'>"+json2[0]+"</td>";	//部门 
+												inhtml += "<td width='20%'><input name='playernum' value='"+json2[0]+"' style=' border-style:none' readonly='readonly'/></td>";	//部门 
 											}
 											if( q == 1 ){
-												inhtml += "<td width='20%'><input name='playernum' value='"+json2[1]+"' style=' border-style:none' readonly='readonly'/></td>";	//道次
+												inhtml += "<td width='20%'>"+json2[1]+"</td>";	//道次
 											}
 											if( q == 2 ){
 												id++;
@@ -125,10 +127,10 @@ var reg ;
 										inhtml += "<tr class='tableContent'>";
 										for( q = 0; q < json2.length; q++ ){
 											if( q == 0 ){
-												inhtml += "<td width='20%'>"+json2[0]+"</td>";	//运动员号码 
+												inhtml += "<td width='20%'><input name='playernum' value='"+json2[0]+"' style=' border-style:none' readonly='readonly'/></td>";	//运动员号码 
 											}
 											if( q == 1 ){
-												inhtml += "<td width='20%'><input name='playernum' value='"+json2[1]+"' style=' border-style:none' readonly='readonly'/></td>";	//运动员名字
+												inhtml += "<td width='20%'>"+json2[1]+"</td>";	//运动员名字
 											}
 											if( q == 2 ){
 												inhtml += "<td width='20%'>"+json2[2]+"</td>";	//道次或出场顺序 
@@ -163,22 +165,24 @@ var reg ;
 		
 		var playernumobj = document.getElementsByName("playernum");
 		var scoreobj = document.getElementsByName("score");
+		
 		for(var i = 0; i < playernumobj.length; i++ ){
 				playernum += playernumobj[i].value;
 				score += scoreobj[i].value;
 				if(scoreobj[i].value.length== 0){
-					alert("提示：有成绩未录入！  ");
-					break;
+					Dialog.alert("提示：有成绩未录入！未完成提交！  ");
+					return false;
 				}
 				playernum += ",";
 				score += ",";	
 		}
+		
 		$.ajax({
 			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=addscore",
 				type : 'get',
-				data : {playername:playernum,score:score,item:item,group:group},
+				data : {playernum:playernum,score:score,item:item,group:group},
 				success : function(mm) {
-					alert(mm);
+					Dialog.alert(mm);
 				},
 				error : function(xhr, status, errorThrown) {
 					alert("errorThrown=" + errorThrown);
@@ -194,7 +198,6 @@ var reg ;
 			type : 'get',
 			data : {finalitemname:item},
 			success : function(mm) {
-			alert("成绩格式为 ：" + mm );
 				$("input[name=format]").val(mm+"");
 			},
 			error : function(xhr, status, errorThrown) {
@@ -225,7 +228,7 @@ var reg ;
 			var score = curInput.value;
 			if( score != ''){
 				if( !reg.test(score) ){
-					alert("格式不正确！");
+					Dialog.alert("格式不正确！");
 					//curInput.focus();
 					return false;			
 							}			
@@ -263,9 +266,7 @@ var reg ;
                      </table>
                  </td>
             </tr>
-            <tr>
-            	<td colspan="7" align="center"><b>成绩录入</b></td>
-            </tr>
+            
             <tr class="tableTitle">
             	<td height="20" colspan="7">请选择条件</td>
             </tr>

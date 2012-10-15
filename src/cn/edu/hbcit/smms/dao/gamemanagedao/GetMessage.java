@@ -30,7 +30,7 @@ public class GetMessage {
 				"t_match t_match ON t_match.playerid = t_player.id " +
 				"WHERE finalitemid IN (SELECT id FROM t_finalitem WHERE finalitemname = ?  AND sportsid = ?) " +
 				"AND teamnum = ? ORDER BY runway ";
-		String sqlrelay = "SELECT departname,runway,score FROM t_match JOIN t_department ON t_department.id = t_match.playerid WHERE" +
+		String sqlrelay = "SELECT departname,runway,score FROM t_match JOIN t_department ON t_department.id = t_match.playerid WHERE " +
 				"finalitemid IN ( SELECT id FROM t_finalitem WHERE finalitemname = ?  AND sportsid = ?)";
 
 		
@@ -39,9 +39,9 @@ public class GetMessage {
 		
 		DBConn dbc = new DBConn();
 		conn = dbc.getConn();
-		
+		System.out.println("ddddddddddddddddddddddddddddddddddddddddddddditemType="+itemtype);
 		if( itemtype.equals("3") ){
-			
+			System.out.println("itemType="+itemtype);
 			try {
 				pstmt = conn.prepareStatement(sqlrelay);
 				pstmt.setString(1, finalitemname);
@@ -51,7 +51,7 @@ public class GetMessage {
 					JSONArray pm = new JSONArray();
 					pm.add(rs.getString(1));	//部门
 					pm.add(Integer.toString(rs.getInt(2)));    //道次 	
-					pm.add(rs.getInt(3));		//成绩
+					pm.add(rs.getString(3));		//成绩
 					
 					list.add(pm);
 				}

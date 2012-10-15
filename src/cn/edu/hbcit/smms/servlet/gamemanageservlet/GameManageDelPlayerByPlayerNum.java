@@ -72,7 +72,7 @@ public class GameManageDelPlayerByPlayerNum extends HttpServlet {
         String playerNum = request.getParameter("playerNum");       
         GameManageServices gm = new GameManageServices();
         boolean flag = false;
-        flag = gm.deletePlayer(Integer.parseInt(playerNum));
+        //flag = gm.deletePlayer(Integer.parseInt(playerNum));
         if(flag)
         {
         	out.println("success");

@@ -52,22 +52,6 @@ public class GetCondition {
 	* @return 	int
 	 */
 	public int getSportID(){
-		/*
-		int flag = 0;
-		String sql = "SELECT id FROM t_sports ORDER BY id DESC LIMIT 1";  //查询最新的运动会id
-		conn = dbc.getConn();	//获得连接
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while( rs.next() ){
-				flag = rs.getInt(1);
-			}
-			dbc.freeConnection(conn);	//释放连接
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.debug("getSportID"+e.getMessage());
-		}*/
 		return new LoginDAO().selectCurrentSportsId() ;
 	}
 	
@@ -93,6 +77,8 @@ public class GetCondition {
 				list.add(mgpj);
 				log.debug("getAllGroup"+rs.getString(1));
 			}
+			rs.close();
+			pstmt.close();
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

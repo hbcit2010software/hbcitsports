@@ -79,18 +79,16 @@ public class AddScoreServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		
-		String playername = ctc.toUTF8( request.getParameter("playername") );
+		String playernum = ctc.toUTF8( request.getParameter("playernum") );
 		String score = request.getParameter("score");
 		String group = ctc.toUTF8( request.getParameter("group") );
 		String item = ctc.toUTF8(request.getParameter("item"));;
-		
-		log.debug(playername+","+score+","+item);
+		log.debug(playernum+","+score+","+item);
 		AddScoreServices ass = new AddScoreServices();
 		
 		boolean flag = false;
 		String str = "提交失败！";
-		flag = ass.isAddScore(playername, score, item , group);			//成绩添加是否成功
+		flag = ass.isAddScore(playernum, score, item , group);			//成绩添加是否成功
 		
 		String finalitemType = ass.getFinalitemType(item);
 		int num = 0 ;

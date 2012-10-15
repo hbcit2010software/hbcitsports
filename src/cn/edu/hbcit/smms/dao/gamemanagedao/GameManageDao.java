@@ -26,7 +26,8 @@ public class GameManageDao {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	protected final Logger log = Logger.getLogger(GameManageDao.class.getName());
-	
+	LoginDAO ld = new LoginDAO();
+	int sportsid = ld.selectCurrentSportsId();
 	/**
      * 获取本届运动会组别
      * @return groupList
@@ -35,8 +36,7 @@ public class GameManageDao {
 	public ArrayList<GameManagePoJo> getGroup()
 	{
 		DBConn db = new DBConn();
-		LoginDAO ld = new LoginDAO();
-		int sportsid = ld.selectCurrentSportsId();
+		
 		ArrayList<GameManagePoJo> groupList = new ArrayList<GameManagePoJo>();
 		try{
 			conn = db.getConn();
@@ -74,7 +74,7 @@ public class GameManageDao {
 		try
 		{
 			conn = db.getConn();
-			pstmt = conn.prepareStatement("SELECT itemtype FROM t_item WHERE id=(SELECT itemid FROM t_group2item WHERE id=(SELECT gp2itid FROM t_finalitem WHERE id=?))");
+			pstmt = conn.prepareStatement("SELECT itemtype FROM t_item WHERE id IN (SELECT itemid FROM t_group2item WHERE id IN (SELECT gp2itid FROM t_finalitem WHERE id=?))");
 			pstmt.setInt(1, finalItemId);
 			rs = pstmt.executeQuery();
 			if(rs.next())
@@ -132,7 +132,7 @@ public class GameManageDao {
 	}
 	
 	/**
-     * 获取运动员信息名单
+     * 根据项目ID和项目类型获取运动员信息名单
      * @return athleteList
      */
 	public ArrayList<GameManagePoJo> getAthleteList(int finalItemId,String itemType)
@@ -145,26 +145,36 @@ public class GameManageDao {
             "JOIN  t_player ON t_player.id=t_match.playerid "+ 
             "JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid "+
             "JOIN t_department ON t_department.id=t_sports2department.departid "+
-            "WHERE t_match.finalitemid=? AND ( t_match.foul=0 OR t_match.foul IS NULL) "+ 
-            "ORDER BY t_match.score+0 DESC";
+            "WHERE t_match.finalitemid=? AND t_sports2department.sportsid=? "+ 
+            "ORDER BY t_match.score+0 DESC ";
 			String sql2 = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match "+ 
             "JOIN  t_player ON t_player.id=t_match.playerid "+ 
             "JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid "+
             "JOIN t_department ON t_department.id=t_sports2department.departid "+
-            "WHERE t_match.finalitemid=? AND ( t_match.foul=0 OR t_match.foul IS NULL)"+ 
-            "ORDER BY t_match.score+0 ASC";
+            "WHERE t_match.finalitemid=? AND t_sports2department.sportsid=? "+ 
+            "ORDER BY t_match.score+0 ASC ";
+			String sql3 = "SELECT t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match  " +
+					"JOIN t_department ON t_department.id=t_match.playerid " +
+					"JOIN t_finalitem ON t_finalitem.id=t_match.finalitemid " +
+					"WHERE t_match.finalitemid=? AND t_finalitem.sportsid=? " +
+					" ORDER BY t_match.score+0 ASC ";
 			if(!conn.equals(" "))
 			{
+				System.out.println("getAthleteList:"+itemType+"=============");
 				if(itemType.equals("2"))
 				{
 					pstmt = conn.prepareStatement(sql1);					
 				}
-				else
+				else if(itemType.equals("1"))
 				{
 					pstmt = conn.prepareStatement(sql2);
-				}	
+				}
+				else{
+					pstmt = conn.prepareStatement(sql3);
+				}
 				
 				pstmt.setInt(1, finalItemId);
+				pstmt.setInt(2, sportsid);
 				rs = pstmt.executeQuery();
 				int c = rs.getMetaData().getColumnCount();
 				System.out.println("rs.getRow()=============="+rs.getRow());
@@ -172,9 +182,9 @@ public class GameManageDao {
 				while(rs.next())
 				   {					
 					GameManagePoJo gm = new GameManagePoJo();
+					if(!itemType.equals("3")){
 					gm.setPlayernum(rs.getString("playernum"));
 					gm.setPlayername(rs.getString("playername"));
-					gm.setMatchid(rs.getInt("id"));					
 					if(rs.getInt("playersex") == 0)
 					{
 						gm.setPlayersex("女");
@@ -183,6 +193,9 @@ public class GameManageDao {
 					{ 
 						gm.setPlayersex("男");
 					}
+					}
+					gm.setMatchid(rs.getInt("id"));					
+					
 					gm.setDepartname(rs.getString("departname"));
 					if(rs.getInt("foul") == 0)
 					{
@@ -194,17 +207,18 @@ public class GameManageDao {
 					gm.setScore(rs.getString("score"));
 					if(rs.getInt("recordlevel") == 0)
 					{
-						gm.setRecordlevel("未破纪录");
+						gm.setRecordlevel("破院记录");
 					}
 					else if(rs.getInt("recordlevel") == 1)
 					{
-						gm.setRecordlevel("破院记录");
+						gm.setRecordlevel("破省记录");
 					}
 					else
 					{
 						
-							gm.setRecordlevel("破省记录");
+							gm.setRecordlevel("未破纪录");
 					}
+					gm.setMatchid(rs.getInt("id"));
 					athleteList.add(gm);					
 					for(int i=1;i<=c;i++){
                     	log.debug(rs.getObject(i));
@@ -217,10 +231,74 @@ public class GameManageDao {
 		 return athleteList;
 	}
 	
+	
 	/**
+     * 根据赛事ID获取运动员信息名单
+     * @return athleteList
+     */
+	public ArrayList<GameManagePoJo> getAth(int matchid,int finalItemId)
+	{
+		System.out.println("matchid==="+matchid);
+		DBConn db = new DBConn();
+		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
+		try{
+			conn = db.getConn();
+			String sql = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match  " +
+					"JOIN  t_player ON t_player.id=t_match.playerid  " +
+					"JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid  " +
+					"JOIN t_department ON t_department.id=t_sports2department.departid  " +
+					"WHERE t_match.id=? AND t_sports2department.sportsid=? ";
+			String sql1 = "SELECT  t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match " +
+					" JOIN t_department ON t_department.id=t_match.playerid  " +
+					"JOIN t_sports2department ON  t_sports2department.departid=t_department.id " +
+					" WHERE t_match.id=? AND t_sports2department.sportsid=?  ORDER BY t_match.score+0 ASC ";
+				String itemtype = this.getItemType(finalItemId);
+				if(itemtype.equals("3")){
+					pstmt = conn.prepareStatement(sql1);	
+				}else{
+					pstmt = conn.prepareStatement(sql);	
+				}
+				pstmt.setInt(1, matchid);
+				pstmt.setInt(2, sportsid );
+				rs = pstmt.executeQuery();
+				int c = rs.getMetaData().getColumnCount();
+				/*System.out.println("rs.getRow()=============="+rs.getRow());*/
+				
+				while(rs.next())
+				   {					
+					GameManagePoJo gm = new GameManagePoJo();
+					if(!itemtype.equals("3")){
+					gm.setPlayernum(rs.getString("playernum"));
+					gm.setPlayername(rs.getString("playername"));
+									
+					if(rs.getInt("playersex") == 0)
+					{
+						gm.setPlayersex("女");
+					}
+					else
+					{ 
+						gm.setPlayersex("男");
+					}}
+					gm.setMatchid(rs.getInt("id"));	
+					gm.setDepartname(rs.getString("departname"));
+					gm.setFoul(rs.getInt("foul")+"");
+					gm.setScore(rs.getString("score"));
+					gm.setRecordlevel(rs.getInt("recordlevel")+"");
+					gm.setMatchid(rs.getInt("id"));
+					athleteList.add(gm);					
+					for(int i=1;i<=c;i++){
+                    	log.debug(rs.getObject(i));
+				     }						   
+			}	db.freeConnection(conn);
+		}catch(Exception e){
+			e.printStackTrace();
+		}		
+		 return athleteList;
+	}
+    /**
      * 删除运动员根据运动员编号
      * @return flag
-     */
+     *//*
 	public boolean deletePlayer(int playerNum)
 	{
 		boolean flag = false;
@@ -241,7 +319,7 @@ public class GameManageDao {
 			e.printStackTrace();
 		}
 		return flag;
-	}	
+	}	*/
 	
 	/**
      * 获取运动员基本信息
@@ -307,9 +385,11 @@ public class GameManageDao {
 		DBConn db = new DBConn();
 		try{
 			conn = db.getConn();
-			String sql = "SELECT t_finalitem.finalitemname FROM t_finalitem WHERE id=(SELECT t_match.finalitemid FROM t_match WHERE id=?)";
+			String sql = "SELECT t_finalitem.finalitemname FROM t_finalitem WHERE id IN (SELECT t_match.finalitemid FROM t_match WHERE id=?)" +
+					" AND t_finalitem.sportsid=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, matchid);
+			pstmt.setInt(2, sportsid);
 			rs = pstmt.executeQuery();
 			if(rs.next()){
 				finalItemName = rs.getString(1);
@@ -355,8 +435,8 @@ public class GameManageDao {
 		DBConn db = new DBConn();
 		try{
 			conn = db.getConn();
-			String sql = "DELETE t_position WHERE t_position.finalitemid=(SELECT id FROM t_finalitem WHERE t_finalitem.finalitemname='学生女子组100米预赛' AND t_finalitem.sportsid='2') AND " +
-					"t_position.playerid=(SELECT t_player.id FROM t_player WHERE t_player.groupid=(SELECT t_group.id FROM t_group WHERE groupname='学生男子组'))";
+			String sql = "DELETE FROM t_position WHERE (t_position.finalitemid = (SELECT id FROM t_finalitem WHERE t_finalitem.finalitemname=? AND t_finalitem.sportsid=?)) AND  " +
+					"(t_position.playerid IN (SELECT t_player.id FROM t_player WHERE t_player.groupid=(SELECT t_group.id FROM t_group WHERE groupname=?)))";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
 			pstmt.setInt(2, sportsid);
@@ -400,7 +480,7 @@ public class GameManageDao {
 		DBConn db = new DBConn();
 		try{
 			conn = db.getConn();
-			String sql = "DELETE t_record WHERE t_record.itemid=(SELECT t_group2item.itemid FROM t_group2item WHERE id=(SELECT gp2itid FROM t_finalitem WHERE t_finalitem.finalitemname=?)) AND " +
+			String sql = "DELETE FROM t_record WHERE t_record.itemid=(SELECT t_group2item.itemid FROM t_group2item WHERE id=(SELECT gp2itid FROM t_finalitem WHERE t_finalitem.finalitemname=?)) AND " +
 					"t_record.playername=(SELECT playername FROM t_player WHERE id=(SELECT t_match.playerid FROM t_match WHERE id=?))";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
@@ -426,41 +506,54 @@ public class GameManageDao {
 	            "JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid "+
 	            "JOIN t_department ON t_department.id=t_sports2department.departid "+
 	            "JOIN t_finalitem ON t_finalitem.id=t_match.finalitemid "+
-	            "WHERE t_match.finalitemid=? "+ 
+	            "WHERE t_match.finalitemid=? AND t_sports2department.sportsid=? "+ 
 	            "ORDER BY t_match.score+0 DESC";
 				String sql2 = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match "+ 
 	            "JOIN  t_player ON t_player.id=t_match.playerid "+ 
 	            "JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid "+
 	            "JOIN t_department ON t_department.id=t_sports2department.departid "+
-	            "WHERE t_match.finalitemid=? "+ 
+	            "WHERE t_match.finalitemid=? AND t_sports2department.sportsid=? "+ 
 	            "ORDER BY t_match.score+0 ASC";
+				String sql3 = "SELECT  t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match  " +
+				" JOIN t_department ON t_department.id= t_match.playerid " +
+				" JOIN t_finalitem ON t_finalitem.id=t_match.finalitemid " +
+				" WHERE t_match.finalitemid=? AND t_finalitem.sportsid=? "+ 
+                "ORDER BY t_match.score+0 ASC ";
 				if(!conn.equals(" "))
 				{
+					System.out.println(itemType+"=============");
 					if(itemType.equals("2"))
 					{
-						pstmt = conn.prepareStatement(sql1);
+						pstmt = conn.prepareStatement(sql1);					
 					}
-					else 
+					else if(itemType.equals("1"))
 					{
 						pstmt = conn.prepareStatement(sql2);
-					}		
+					}
+					else{
+						pstmt = conn.prepareStatement(sql3);
+					}
+					
 					
 					pstmt.setInt(1, finalItemId);
+					pstmt.setInt(2, sportsid);
 					rs = pstmt.executeQuery();
 					int c = rs.getMetaData().getColumnCount();				
 				while(rs.next())
 				   {					
 					GameManagePoJo gm = new GameManagePoJo();
-					gm.setPlayernum(rs.getString("playernum"));
-					gm.setPlayername(rs.getString("playername"));					
-					if(rs.getInt("playersex") == 0)
-					{
-						gm.setPlayersex("女");
-					}
-					else
-					{ 
-						gm.setPlayersex("男");
-					}
+					if(!itemType.equals("3")){
+						gm.setPlayernum(rs.getString("playernum"));
+						gm.setPlayername(rs.getString("playername"));
+						if(rs.getInt("playersex") == 0)
+						{
+							gm.setPlayersex("女");
+						}
+						else
+						{ 
+							gm.setPlayersex("男");
+						}
+						}
 					
 					gm.setScore(rs.getString("score"));
 					if(rs.getInt("recordlevel") == 0)
@@ -476,6 +569,7 @@ public class GameManageDao {
 						
 							gm.setRecordlevel("破省记录");
 					}
+					gm.setFoul(rs.getInt("foul")+"");
 					gm.setDepartname(rs.getString("departname"));
 					athleteList.add(gm);					
 					for(int i=1;i<=c;i++){

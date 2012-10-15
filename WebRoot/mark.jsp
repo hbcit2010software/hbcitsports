@@ -132,7 +132,7 @@ function updates(depName){
     <td><table  width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#a8c7ce" class="stripe_tb" ><c:forEach items="${ li3 }" var="l3"><tr class="tableContent"><td>${ l3.teacherMarks }</td></tr></c:forEach></table></td>
     <td><table  width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#a8c7ce" class="stripe_tb" ><c:forEach items="${ li4 }" var="l4"><tr class="tableContent"><td>${ l4.finalStudentsSum }</td></tr></c:forEach></table></td>
     <td><table  width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#a8c7ce" class="stripe_tb" ><c:forEach items="${ li5 }" var="l5"><tr class="tableContent"><td>${ l5.finalTeacherSum }</td></tr></c:forEach></table></td>
-    <td><table  width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#a8c7ce" class="stripe_tb" ><c:forEach items="${ li1 }" var="l1"><tr class="tableContent"><td><a href="#" onclick="updates('${ l1.depName }');">更改</a></td></tr></c:forEach></table></td>
+    <td><table  width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#a8c7ce" class="stripe_tb" ><c:forEach items="${ li1 }" var="l1"><tr class="tableContent"><td><a href="javascript:void(0);" onclick="updates('${ l1.depName }');">更改</a></td></tr></c:forEach></table></td>
  </tr>
  </c:forEach></c:forEach></c:forEach></c:forEach></c:forEach>
  </table>

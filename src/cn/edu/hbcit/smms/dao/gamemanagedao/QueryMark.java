@@ -36,6 +36,8 @@ public class QueryMark {
 	  protected final Logger log = Logger.getLogger(QueryMark.class.getName());
 		
 	  DBConn dbc = new DBConn();
+	  LoginDAO ld = new LoginDAO();
+	  int sportsid = ld.selectCurrentSportsId();
 	  PreparedStatement pstmt = null;
 	  ResultSet rs = null;
 	  Connection conn = null;
@@ -46,8 +48,7 @@ public class QueryMark {
 	   */
 	  
 	  public List<QueryMarkPoJo> getDepName(){
-		  LoginDAO ld = new LoginDAO();
-		  int sportsid = ld.selectCurrentSportsId();
+		  
 		  List<QueryMarkPoJo> depNameList = new ArrayList<QueryMarkPoJo>();
 		  try{
 			  conn = dbc.getConn();
@@ -87,6 +88,7 @@ public class QueryMark {
 			  
 	      for(QueryMarkPoJo queryMarkPoJo:depNameList){
 			  pstmt.setString(1, queryMarkPoJo.getDepName());
+			  
 			  rs = pstmt.executeQuery();
 			  while(rs.next()){
 				  QueryMarkPoJo qm = new QueryMarkPoJo();
@@ -99,6 +101,7 @@ public class QueryMark {
 		  }catch (Exception e) {
 			e.printStackTrace();
 		}
+		  dbc.freeConnection(conn);
 		  return studentsMarkList;
 	  }
 	  

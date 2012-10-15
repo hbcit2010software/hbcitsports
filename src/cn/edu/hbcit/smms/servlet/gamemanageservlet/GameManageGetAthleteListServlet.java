@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -61,6 +62,12 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		PrintWriter out = response.getWriter();
+		String action = request.getParameter("action");
+		if(action.equals("upds")){
+			
+			this.updScore(request, response);
+		}
+		else if(action.equals("get")){
 		StringBuffer buffer = new StringBuffer();
 		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		String finalItemId = request.getParameter("finalItemId");
@@ -91,7 +98,8 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 				buffer.append("\"score\":\"" + pj.getScore() + "\",");
 				buffer.append("\"foul\":\"" + pj.getFoul() + "\",");
 				buffer.append("\"recordlevel\":\"" + pj.getRecordlevel() + "\",");
-				buffer.append("\"departname\":\"" + pj.getDepartname() + "\"");
+				buffer.append("\"departname\":\"" + pj.getDepartname() + "\",");
+				buffer.append("\"matchid\":\"" + pj.getMatchid() + "\"");
 				System.out.println("Departname==============================="+pj.getDepartname());
 				buffer.append("}");
 		    	
@@ -102,7 +110,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 			out.flush();
 			out.close();
 				   
-		    }
+		    }}
 	}
 
 	/**
@@ -130,4 +138,47 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 		// Put your code here
 	}
 
+	public void updScore(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
+
+		StringBuffer buffer = new StringBuffer();
+		PrintWriter out = response.getWriter();
+		String matchid = request.getParameter("matchid");
+		String finalItemId = request.getParameter("finalItemId");
+		System.out.println("(servlet)finalItemId<<<<<<<<<<<"+finalItemId);
+		GameManageDao gm = new GameManageDao();
+		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
+		athleteList = gm.getAth(Integer.parseInt(matchid),Integer.parseInt(finalItemId));
+		 buffer.append("{");
+			buffer.append("\"contents\":[");
+		    System.out.println("(servlet)athleteList<<<<<<<<<<<"+athleteList.size());
+		    
+		    for(int i = 0;i<athleteList.size();i++)
+		    {
+		    	GameManagePoJo pj = (GameManagePoJo)athleteList.get(i);
+		    	if(i>0)
+		    	{
+		    		buffer.append(",");
+		    	}
+		    	
+		    	buffer.append("{");
+				buffer.append("\"playernum\":\"" + pj.getPlayernum() + "\",");
+				buffer.append("\"playername\":\"" + pj.getPlayername() + "\",");
+				buffer.append("\"playersex\":\"" + pj.getPlayersex() + "\",");
+				buffer.append("\"score\":\"" + pj.getScore() + "\",");
+				buffer.append("\"foul\":\"" + pj.getFoul() + "\",");
+				buffer.append("\"recordlevel\":\"" + pj.getRecordlevel() + "\",");
+				buffer.append("\"departname\":\"" + pj.getDepartname() + "\",");
+				buffer.append("\"matchid\":\"" + pj.getMatchid() + "\"");
+				System.out.println("Departname==============================="+pj.getDepartname());
+				buffer.append("}");
+		    	
+		    }
+		    buffer.append("]");
+			buffer.append("}");
+			out.println(buffer);
+			out.flush();
+			out.close();
+				   
+		    }
 }

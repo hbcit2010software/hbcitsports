@@ -122,26 +122,15 @@ public class GameManageCheckTableGetItemServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out
-				.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-		out.println("<HTML>");
-		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-		out.println("  <BODY>");
-		out.print("    This is ");
-		out.print(this.getClass());
-		out.println(", using the POST method");
-		out.println("  </BODY>");
-		out.println("</HTML>");
-		out.flush();
-		out.close();
+		
 	}
 	public void checkData(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
 		
-		int flag = 1;
+		boolean flag = false;
+		int a = 0;
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		System.out.println("---------------------------+finalitemname+finalitemtype");
@@ -150,8 +139,16 @@ public class GameManageCheckTableGetItemServlet extends HttpServlet {
 		String finalitemtype = new String(request.getParameter("itemtype").getBytes("ISO-8859-1"),"utf-8");
 		System.out.println("---------------------------"+finalitemname+finalitemtype);
 		GameManageCheckTableServices gm = new GameManageCheckTableServices();
-		flag = gm.getdate(finalitemname, finalitemtype);
-		out.println(flag);
+		if(gm.getdate(finalitemname, finalitemtype)){
+			
+			a = 1;
+		}else{
+			
+			a = 0;
+		}
+		
+		
+		out.println(a);
 		out.flush();
 		out.close();
 		

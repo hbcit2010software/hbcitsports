@@ -44,6 +44,7 @@ import com.lowagie.text.rtf.RtfWriter2;
 public class GameManageCheckTablePrintScanDao {
 	 public boolean createDocContext(String file,String finalitemname,String itemtype,String groupname)throws DocumentException, IOException{ 
 		 GameManageCheckTableDao gmctd = new GameManageCheckTableDao();
+		 String itemtype1 = gmctd.getMatchType(finalitemname) ;
 		 boolean flag = false;
 		 UtilTools ul = new UtilTools();
 	       try{
@@ -87,7 +88,7 @@ public class GameManageCheckTablePrintScanDao {
 	        	flag = false;
 	        }else{
 	        	System.out.println(array.size()+"=====");
-	         if(itemtype.equals("1")||itemtype.equals("3")){
+	         if(itemtype1.equals("2")){
 	        	 
 	        	 for(int i = 0; i < array.size() ;i++ ){
 	        		array1 = array.getJSONArray(i);
@@ -97,8 +98,8 @@ public class GameManageCheckTablePrintScanDao {
 	     	        context1.setSpacingBefore(2);     
 	     	        context1.setFirstLineIndent(20);   
 	     	        document.add(context1);    
-	        	    Table table = new Table(5);   
-	 	            int width[] = {10,20,20,20,30};  
+	        	    Table table = new Table(7);   
+	 	            int width[] = {15,15,15,15,15,15,10};  
 	 	            table.setWidths(width);   
 	 	            table.setWidth(90);
 	 	            table.setAlignment(Element.ALIGN_CENTER); 
@@ -108,7 +109,9 @@ public class GameManageCheckTablePrintScanDao {
 	        	    table.addCell(new Cell("号码"));   
 	 	            table.addCell(new Cell("姓名"));   
 	 	            table.addCell(new Cell("道次"));
-	 	            table.addCell(new Cell("成绩"));
+	 	            table.addCell(new Cell("成绩1"));
+	 	            table.addCell(new Cell("成绩2"));
+	 	            table.addCell(new Cell("成绩3"));
 	 	            table.addCell(new Cell("备注"));
 	 	         for(int j = 0;j < array1.size();j++ ){
 	 	        	JSONArray array2 = new JSONArray();
@@ -118,6 +121,8 @@ public class GameManageCheckTablePrintScanDao {
 		    	    table.addCell(new Cell(Integer.toString(array2.getInt(2))));
 		    	    table.addCell(new Cell());
 		    	    table.addCell(new Cell()); 
+		    	    table.addCell(new Cell());
+		    	    table.addCell(new Cell());
 		    	   
 	 	         }
 	 	       
@@ -139,8 +144,8 @@ public class GameManageCheckTablePrintScanDao {
 	     	        context1.setSpacingBefore(2);     
 	     	        context1.setFirstLineIndent(20);   
 	     	        document.add(context1);    
-	        	    Table table = new Table(8);   
-	 	            int width[] = {10,10,10,10,10,15,15,20};  
+	        	    Table table = new Table(5);   
+	 	            int width[] = {10,20,20,20,30};  
 	 	            table.setWidths(width);   
 	 	            table.setWidth(90);
 	 	            table.setAlignment(Element.ALIGN_CENTER); 
@@ -150,10 +155,7 @@ public class GameManageCheckTablePrintScanDao {
 	        	    table.addCell(new Cell("号码"));   
 	 	            table.addCell(new Cell("姓名"));   
 	 	            table.addCell(new Cell("出场顺序"));
-	 	           table.addCell(new Cell("成绩一"));
-	 	          table.addCell(new Cell("成绩二"));
-	 	         table.addCell(new Cell("成绩三"));
-	 	            table.addCell(new Cell("最好成绩"));
+	 	            table.addCell(new Cell("成绩"));
 	 	            table.addCell(new Cell("备注"));
 	 	         for(int j = 0;j < array1.size();j++ ){
 	 	        	JSONArray array2 = new JSONArray();
@@ -163,8 +165,7 @@ public class GameManageCheckTablePrintScanDao {
 		    	       table.addCell(new Cell(Integer.toString(array2.getInt(2))));
 		    	       table.addCell(new Cell());
 		    	       table.addCell(new Cell()); 
-		    	       table.addCell(new Cell());
-		    	       table.addCell(new Cell()); 
+		    	       
 	 	         }
 	 	         
 	 	         document.add(table);

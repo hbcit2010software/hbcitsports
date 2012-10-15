@@ -51,10 +51,6 @@ public class GameManageServices {
 		return gm.getAthleteList(finalItemId,itemType);
 	}
 	
-	public boolean deletePlayer(int playerNum)
-	{
-		return gm.deletePlayer(playerNum);
-	}
 	
 	public ArrayList<GameManagePoJo> getPlayerList(int playerNum,int finalItemId)
 	{
@@ -62,7 +58,7 @@ public class GameManageServices {
 	}
 	
 	public String finalItemName(int matchid){
-		return new GameManageDao().getItemType(matchid);
+		return new GameManageDao().finalItemName(matchid);
 	}
 	
 	public String groupName(int matchid){

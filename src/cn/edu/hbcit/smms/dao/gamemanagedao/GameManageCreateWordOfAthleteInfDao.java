@@ -74,7 +74,9 @@ public class GameManageCreateWordOfAthleteInfDao {
         table.addCell(new Cell("部门名称"));
         for (int i = 0; i< athleteList.size(); i++){        	
         	GameManagePoJo gm = (GameManagePoJo)athleteList.get(i);
-        	
+        	if(gm.getFoul().equals("1")){
+        		continue;
+        	}else{
         	table.addCell(new Cell("第"+(i+1)+"名"));        	
         	table.addCell(new Cell(gm.getPlayernum()));
         	table.addCell(new Cell(gm.getPlayername()));
@@ -82,7 +84,7 @@ public class GameManageCreateWordOfAthleteInfDao {
         	table.addCell(new Cell(gm.getScore()));
         	table.addCell(new Cell(gm.getRecordlevel()));
         	table.addCell(new Cell(gm.getDepartname())); 	
-	       }
+	       }}
         document.add(table);
         document.close(); 
         }

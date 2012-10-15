@@ -13,7 +13,7 @@ $(function(){
 		dataType:"json",
 		success : function(json) {
 			
-			 var inhtml = "<option value=0>--请选择--</option>";
+			 var inhtml = "<option value=0>--请选择项目--</option>";
 			for (i = 0; i < json.contents.length; i++) {
 
 				inhtml += "<option value='"+json.contents[i].itemtype+"'>" + json.contents[i].itemname + "</option>";
