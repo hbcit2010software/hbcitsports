@@ -41,7 +41,7 @@ function uadateJudge(obj) {
 	diag.MessageTitle = "提示：";
 	diag.Message = "修改田赛裁判";
 	diag.show();
-	diag.okButton.value = "结果刷新";
+	//diag.okButton.value = "结果刷新";
 	diag.cancelButton.value = "关闭";
 }
 </script>
