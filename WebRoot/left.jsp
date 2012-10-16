@@ -208,9 +208,7 @@ body {
         <li><a href="checktable.jsp" target="rightFrame">生成检录表</a></li>
         <li><a href="servlet/GetConditonServlet?action=allcond" target="rightFrame">成绩录入</a></li>
         <li><a href="servlet/GameManageGetGroupServlet" target="rightFrame">违纪管理</a></li>
-        <li><a href="#" target="rightFrame">生成决赛名单</a></li>
         <li><a href="${ pageContext.request.contextPath }/servlet/QueryMarkServlet" target="rightFrame">积分管理</a></li>
-        <li><a href="#" target="rightFrame">成绩单管理</a></li>
       </ul>
     </li>
     <!--赛中管理end-->

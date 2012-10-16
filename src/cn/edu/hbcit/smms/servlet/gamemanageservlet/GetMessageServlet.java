@@ -22,6 +22,7 @@ public class GetMessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected final Logger log = Logger.getLogger(GetMessageServlet.class.getName());
 	UtilTools ctc = new UtilTools();
+	GetMessageservices gms = new GetMessageservices();
 	/**
 	 * Constructor of the object.
 	 */
@@ -75,6 +76,11 @@ public class GetMessageServlet extends HttpServlet {
 		if( action .equals("itemtype")){
 			this.getItemType(request, response);
 		}
+		
+		if( action.equals("checkFormat")){
+			log.debug("checkFormat="+action);
+			this.getFormatReg(request, response);
+		}
 	}
 	/**
 	 * 获得某个项目的所有小组运动员的信息
@@ -88,10 +94,8 @@ public class GetMessageServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		JSONArray list = new JSONArray();
-		GetMessageservices gms = new GetMessageservices();
 		String finalitemname = ctc.toUTF8(request.getParameter("item"));
-		list = gms.getPlayerMessage(finalitemname);
+		JSONArray list = gms.getPlayerMessage(finalitemname);
 		log.debug("getPlayerMessage="+list);
 		out.println(list);
 		out.flush();
@@ -109,7 +113,7 @@ public class GetMessageServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		GetMessageservices gms = new GetMessageservices();
+		//GetMessageservices gms = new GetMessageservices();
 		String finalitemname = ctc.toUTF8(request.getParameter("item"));
 		String list = gms.getItemType(finalitemname);
 		log.debug("getItemType="+list);
@@ -118,8 +122,28 @@ public class GetMessageServlet extends HttpServlet {
 		out.close();
 	}
 	
-	
-	
+	/**
+	 * 获取成绩格式的正则表达式
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void getFormatReg(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		
+		String finalitemname = ctc.toUTF8(request.getParameter("item"));
+		log.debug("getFormat：finalitemname="+finalitemname);
+		String reg = gms.getFormatReg(finalitemname);
+		//reg =  reg.substring(1, reg.length());
+		log.debug("getFormat="+reg);
+		out.println(reg);
+		out.flush();
+		out.close();
+	}
 	/**
 	 * Initialization of the servlet. <br>
 	 *

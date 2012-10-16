@@ -4,9 +4,9 @@
 <html>
   <head>
   	<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
     <title>My JSP 'apply_alterleaderinfo.jsp' starting page</title>
 <script type="text/javascript">
 //隔行变色
@@ -22,15 +22,15 @@ function updateLeader(){
 	var coach = $("#Coach").val();
 	var doctor =$("#Doctor").val();
 	if (teamleader.length == 0) {
-		alert("请填写领队姓名!");
+		Dialog.alert("请填写领队姓名!");
 		return false;
 	}
 		if (coach.length == 0) {
-		alert("请填写教练姓名!");
+		Dialog.alert("请填写教练姓名!");
 		return false;
 	}
 		if (doctor.length == 0) {
-		alert("请填写队医姓名!");
+		Dialog.alert("请填写队医姓名!");
 		return false;
 	}
 	$.ajax( {
@@ -40,9 +40,9 @@ function updateLeader(){
 		success : function(mm) {
 			var revalue = mm.replace(/\r\n/g, '');
 			if (revalue == "success"){
-				alert("修改成功!",function(){window.location.reload();});
+				Dialog.alert("修改成功!",function(){window.location.reload();});
 			} else
-				alert("修改失败!");
+				Dialog.alert("修改失败!");
 		}
 	});
 }

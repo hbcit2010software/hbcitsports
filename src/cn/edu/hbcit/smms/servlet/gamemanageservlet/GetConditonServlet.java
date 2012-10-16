@@ -45,6 +45,9 @@ import cn.edu.hbcit.smms.util.UtilTools;
 public class GetConditonServlet extends HttpServlet {
 	protected final Logger log = Logger.getLogger(GetConditonServlet.class.getName());
 	UtilTools tools = new UtilTools();
+	GetConditonServices gcs = new GetConditonServices();
+	//获取运动会的id
+	int sportsid = gcs.getSportID();
 	/**
 	 * Constructor of the object.
 	 */
@@ -109,8 +112,6 @@ public class GetConditonServlet extends HttpServlet {
 		response.setContentType("text/html");
 		HttpSession sn = request.getSession();		//获得session对象
 		ArrayList list = new ArrayList();
-		GetConditonServices gcs = new GetConditonServices();
-		int sportsid = gcs.getSportID();		//获取运动会的id
 		System.out.println("sportsid="+sportsid);
 		list = gcs.getAllGP(sportsid);
 		log.debug(list);
@@ -133,12 +134,9 @@ public class GetConditonServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		JSONArray list = new JSONArray();
-		GetConditonServices gcs = new GetConditonServices();
-		int sportsid = gcs.getSportID();
 		String groupname = tools.toUTF8( request.getParameter("option") );
 		System.out.println("sportsid="+sportsid+",groupname="+groupname);
-		list = gcs.selectItemsByGroup(groupname, sportsid);
+		JSONArray list = gcs.selectItemsByGroup(groupname, sportsid);
 		log.debug(list);
 		out.println(list);
 	}

@@ -11,7 +11,7 @@ import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import net.sf.json.JSONArray;
 
 public class GetMessage {
-	
+	DBConn dbc = new DBConn();
 	protected final Logger log = Logger.getLogger(GetMessage.class.getName());
 	Connection conn = null;
 	PreparedStatement pstmt = null;
@@ -24,7 +24,7 @@ public class GetMessage {
 	 * @param teamnum
 	 * @return	JSONArray
 	 */
-	public JSONArray getPlayerMessageOnlyTeam( String finalitemname , String teamnum ){
+	public JSONArray getPlayerMessageOnlyTeam( String finalitemname , String teamnum ,String itemtype ,Connection conn , String scoreFormat){
 		System.out.println("finalitemname="+finalitemname);
 		String sql = "SELECT playernum,playername,score,runway FROM t_player JOIN " +
 				"t_match t_match ON t_match.playerid = t_player.id " +
@@ -35,11 +35,6 @@ public class GetMessage {
 
 		
 		JSONArray list = new JSONArray();
-		String itemtype = getItemType(finalitemname);		//项目的类型
-		
-		DBConn dbc = new DBConn();
-		conn = dbc.getConn();
-		System.out.println("ddddddddddddddddddddddddddddddddddddddddddddditemType="+itemtype);
 		if( itemtype.equals("3") ){
 			System.out.println("itemType="+itemtype);
 			try {
@@ -52,10 +47,11 @@ public class GetMessage {
 					pm.add(rs.getString(1));	//部门
 					pm.add(Integer.toString(rs.getInt(2)));    //道次 	
 					pm.add(rs.getString(3));		//成绩
-					
+					pm.add(scoreFormat);
 					list.add(pm);
 				}
-				dbc.freeConnection(conn);	//释放连接
+				rs.close();
+				pstmt.close();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -77,8 +73,11 @@ public class GetMessage {
 					pm.add(rs.getString(2));	//运动员姓名
 					pm.add(Integer.toString(rs.getInt(4)));	//运动员所在跑道号
 					pm.add(rs.getString(3));		//成绩
+					pm.add(scoreFormat);
 					list.add(pm);
 				}
+				rs.close();
+				pstmt.close();
 				dbc.freeConnection(conn);	//释放连接
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -102,11 +101,11 @@ public class GetMessage {
 				"IN ( SELECT id FROM t_finalitem WHERE finalitemname = ? )";  //计算总共有几个小组的sql语句
 		
 		try {
-			String itemtype = getItemType(finalitemname);		//项目的类型
+			String itemtype = getItemType(finalitemname);		//项目的类型田赛     竞赛    接力
 			list.add(itemtype);		//添加项目类型
 			System.out.println("itemtype="+itemtype);
 			
-			DBConn dbc = new DBConn();
+			String scoreFormt = getFormat(finalitemname);
 			conn = dbc.getConn();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
@@ -114,12 +113,13 @@ public class GetMessage {
 			int flag = 0;
 			if( rs.next() ){
 				flag = rs.getInt(1);	//项目的小组数
-				System.out.println("flag = rs.getInt(1)="+flag);
 			}
 			for( int i = 1 ;i < flag + 1 ;i++ ){
-				list.add( getPlayerMessageOnlyTeam( finalitemname, Integer.toString(i) ) );
+				list.add( getPlayerMessageOnlyTeam( finalitemname, Integer.toString(i), itemtype , conn , scoreFormt) );
 			}
 			log.debug("getPlayerMessage1"+list);
+			rs.close();
+			pstmt.close();
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -129,39 +129,7 @@ public class GetMessage {
 		return list;
 	}
 	
-	/**
-	 * 获取某个项目参加的总人数
-	 * @param finalitemname
-	 * @return	int
-	 */
-	public int getPlayerNumber( String finalitemname ){
-		System.out.println("getPlayerNumber="+finalitemname);
-		DBConn dbc = new DBConn();
-		conn = dbc.getConn();
-		String sql = "SELECT COUNT(DISTINCT(teamnum)) FROM t_match WHERE finalitemid " +
-				"IN ( SELECT id FROM t_finalitem WHERE finalitemname = ? )";
-		int num = 0;
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, finalitemname);
-			rs = pstmt.executeQuery();
-			int flag = 0;
-			while( rs.next() ){
-				flag = rs.getInt(1);
-			}
-			for( int i = 1 ;i < flag + 1 ;i++ ){
-				JSONArray listOnly = new JSONArray();
-				listOnly = this.getPlayerMessageOnlyTeam(finalitemname, Integer.toString(i));
-				num += listOnly.size();
-			}
-			dbc.freeConnection(conn);	//释放连接
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.debug("getPlayerNumber"+e.getMessage());
-		}
-		return num;
-	}
+	
 	/**
 	 * 获得某个项目的类型
 	 * @param finalitemname
@@ -171,7 +139,7 @@ public class GetMessage {
 		String sql = "SELECT itemtype FROM t_item WHERE id IN " +
 				"(SELECT itemid FROM t_group2item WHERE id IN " +
 				"(SELECT gp2itid FROM t_finalitem WHERE finalitemname = ?))";
-		DBConn dbc = new DBConn();
+		//DBConn dbc = new DBConn();
 		conn = dbc.getConn();
 		String itemtype = null;
 		try {
@@ -182,6 +150,8 @@ public class GetMessage {
 				itemtype = rs.getString(1);
 				log.debug(rs.getString(1));
 			}
+			rs.close();
+			pstmt.close();
 			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -191,28 +161,68 @@ public class GetMessage {
 		return itemtype;
 	}
 	
-	public JSONArray getItemNameByTY( String itemtype ){
-		String sql = "SELECT finalitemname FROM t_finalitem WHERE gp2itid IN " +
-				"( SELECT id FROM t_group2item WHERE itemid IN ( SELECT id FROM t_item WHERE itemtype = ?))";
-		DBConn dbc = new DBConn();
+	
+	/**
+	 * 获取成绩的格式
+	 * @param finalitemname
+	 * @return	String
+	 */
+	public String getFormat( String finalitemname ){
+		
+		String sql = "SELECT FORMAT FROM t_scoreformat WHERE id in (" +
+				"	SELECT scoreformatid FROM t_item WHERE id in (" +
+				"SELECT itemid FROM t_group2item WHERE id in (" +
+				"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ?)))";
+		String str = null;
+		//DBConn dbc = new DBConn();
 		conn = dbc.getConn();
-		JSONArray list = new JSONArray();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, itemtype);
+			pstmt.setString(1, finalitemname);
 			rs = pstmt.executeQuery();
 			while( rs.next() ){
-				list.add(rs.getString(1));
-				System.out.println(rs.getString(1));
+				str = rs.getString(1);
 			}
-				dbc.freeConnection(conn);	//释放连接
+			rs.close();
+			pstmt.close();
+			dbc.freeConnection(conn);	//释放连接
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			log.debug("getItemNameByTY="+e.getMessage());
+			log.debug("getFormat"+e.getMessage());
 		}
-		return list;
+		return str;
 		
+	}
+	/**
+	 * 获取成绩的格式的正则表达式
+	 * @param finalitemname
+	 * @return	String
+	 */
+	public String getFormatReg( String finalitemname ){
+		String sql = "SELECT reg FROM t_scoreformat WHERE id IN (" +
+				"SELECT scoreformatid FROM t_item WHERE id IN (" +
+				"SELECT itemid FROM t_group2item WHERE id IN (" +
+				"SELECT gp2itid FROM t_finalitem WHERE finalitemname =?)))";
+		String str = null;
+		conn = dbc.getConn();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, finalitemname);
+			rs = pstmt.executeQuery();
+			while( rs.next() ){
+				str = rs.getString(1);
+			}
+			log.debug("str="+str);
+			rs.close();
+			pstmt.close();
+			dbc.freeConnection(conn);	//释放连接
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.debug("getFormatReg"+e.getMessage());
+		}
+		return str;
 	}
 
 }

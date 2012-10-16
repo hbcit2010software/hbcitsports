@@ -11,4 +11,8 @@ public class GetMessageservices {
 	public String getItemType( String finalitemname ){
 		return new GetMessage().getItemType(finalitemname);
 	}
+	public String getFormatReg( String finalitemname ){
+		return new GetMessage().getFormatReg(finalitemname);
+		
+	}
 }

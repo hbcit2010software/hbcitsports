@@ -160,11 +160,11 @@ public class QueryRegistitemToItems {
 				while(rs.next()){
 					String rel = "";
 					if(rs.getString(1).equals("0")){
-						 rel = "无";
-					}else if(rs.getString(1).equals("1")){
 						 rel = "院";
-					}else if(rs.getString(1).equals("2")){
+					}else if(rs.getString(1).equals("1")){
 						 rel = "省";
+					}else if(rs.getString(1).equals("2")){
+						 rel = "无";
 					}
 					jsonarray.add(rel);
 				}
@@ -282,11 +282,11 @@ public class QueryRegistitemToItems {
 				while(rs.next()){
 					String rel = "";
 					if(rs.getString(1).equals("0")){
-						 rel = "无";
-					}else if(rs.getString(1).equals("1")){
 						 rel = "院";
-					}else if(rs.getString(1).equals("2")){
+					}else if(rs.getString(1).equals("1")){
 						 rel = "省";
+					}else if(rs.getString(1).equals("2")){
+						 rel = "无";
 					}
 					jsonarray.add(rel);
 				}

@@ -98,23 +98,18 @@ var reg ;
 								for( j = 0 ; j < json1.length; j++ ){
 										var json2 = json1[j];
 										inhtml += "<tr class='tableContent'>";
-										for( q = 0; q < json2.length; q++ ){
-											if( q == 0 ){
 												inhtml += "<td width='20%'><input name='playernum' value='"+json2[0]+"' style=' border-style:none' readonly='readonly'/></td>";	//部门 
-											}
-											if( q == 1 ){
+											
 												inhtml += "<td width='20%'>"+json2[1]+"</td>";	//道次
-											}
-											if( q == 2 ){
 												id++;
 												if( json2[2] == null){
-													inhtml += "<td width='20%' align='left'><input id='"+id+"' name='score' value='' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩 
+													inhtml += "<td width='20%' align='left'><input name='score' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩 
 												}else{
-													inhtml += "<td width='20%' align='left'><input id='"+id+"' name='score' value='"+json2[2]+"' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩
+													inhtml += "<td width='20%' align='left'><input name='score' value='"+json2[2]+"' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩
 												} 
-											}
-										}
-										inhtml += "<td width='20%'><input type='text' name='format' style=' text-align:center; border-style:none' readonly='readonly' value=''/></td></tr>";						
+											
+										
+										inhtml += "<td width='20%'><input type='text' name='format' style=' text-align:center; border-style:none' readonly='readonly' value='"+json2[3]+"'/></td></tr>";						
 								}
 							}
 						}else{
@@ -125,30 +120,22 @@ var reg ;
 								for( j = 0 ; j < json1.length; j++ ){
 										var json2 = json1[j];
 										inhtml += "<tr class='tableContent'>";
-										for( q = 0; q < json2.length; q++ ){
-											if( q == 0 ){
 												inhtml += "<td width='20%'><input name='playernum' value='"+json2[0]+"' style=' border-style:none' readonly='readonly'/></td>";	//运动员号码 
-											}
-											if( q == 1 ){
+											
 												inhtml += "<td width='20%'>"+json2[1]+"</td>";	//运动员名字
-											}
-											if( q == 2 ){
 												inhtml += "<td width='20%'>"+json2[2]+"</td>";	//道次或出场顺序 
-											}
-											if( q == 3){
-												id++;
 												if( json2[3] == null){
-													inhtml += "<td width='20%' align='left'><input id='"+id+"' name='score' value='' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩 
+													inhtml += "<td width='20%' align='left'><input name='score' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩 
 												}else{
-													inhtml += "<td width='20%' align='left'><input id='"+id+"' name='score' value='"+json2[3]+"' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩
+													inhtml += "<td width='20%' align='left'><input name='score' value='"+json2[3]+"' onblur='javascript:curInput=this;checkFormat();'/></td>";	//成绩
 												}
-											}
-										}
-										inhtml += "<td width='20%'><input type='text' name='format' style=' text-align:center; border-style:none' readonly='readonly' value=''/></td></tr>";						
-								}
+											
+										
+										inhtml += "<td width='20%'><input type='text' name='format' style=' text-align:center; border-style:none' readonly='readonly' value='"+json2[4]+"'/></td></tr>";						
+								
 							}
 						}
-					//}
+					}
 					$('#content1').html(inhtml);
 				},
 				error : function(xhr, status, errorThrown) {
@@ -189,31 +176,13 @@ var reg ;
 				}
 		});
 	}
-	
-	//获取成绩格式 
-	function getFormat(){
-	var item = $("#item").find("option:selected").text();
-	$.ajax({
-			url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=getFormat",
-			type : 'get',
-			data : {finalitemname:item},
-			success : function(mm) {
-				$("input[name=format]").val(mm+"");
-			},
-			error : function(xhr, status, errorThrown) {
-					alert("errorThrown=" + errorThrown);
-				}
-		
-		});
-	
-	}
 	//获取成绩的正则表达式 
 	function getCheckFormat(){
 		var item = $("#item").find("option:selected").text();
 			$.ajax({
-				url : "${pageContext.request.contextPath}/servlet/AddScoreServlet?action=checkFormat",
+				url : "${pageContext.request.contextPath}/servlet/GetMessageServlet?action=checkFormat",
 				type : 'get',
-				data : {finalitemname:item},
+				data : {item:item},
 				success : function(mm) {
 					reg = new RegExp(eval(mm));
 				},
@@ -286,7 +255,7 @@ var reg ;
                     	<option>--请选择--</option> 
                     </select>
                 </td>
-                <td width='20%' height="20"><input type="button" value="录入成绩"  onclick="getItemType(),getPlayerMessage(),getFormat(),getCheckFormat(),getCheckFormat(),getGpIt();"/></td>
+                <td width='20%' height="20"><input type="button" value="录入成绩"  onclick="getItemType(),getPlayerMessage(),getCheckFormat(),getGpIt();"/></td>
             </tr>
        		<tr id="title" class='tableTitle'></tr>
         </table>

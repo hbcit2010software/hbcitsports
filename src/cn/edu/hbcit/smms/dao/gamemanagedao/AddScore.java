@@ -609,68 +609,7 @@ public class AddScore {
 		
 	}
 	
-	/**
-	 * 获取成绩的格式
-	 * @param finalitemname
-	 * @return	String
-	 */
-	public String getFormat( String finalitemname ){
-		String sql = "SELECT FORMAT FROM t_scoreformat WHERE id in (" +
-				"	SELECT scoreformatid FROM t_item WHERE id in (" +
-				"SELECT itemid FROM t_group2item WHERE id in (" +
-				"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ?)))";
-		String str = null;
-		//DBConn dbc = new DBConn();
-		conn = dbc.getConn();
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, finalitemname);
-			rs = pstmt.executeQuery();
-			while( rs.next() ){
-				str = rs.getString(1);
-			}
-			rs.close();
-			pstmt.close();
-			dbc.freeConnection(conn);	//释放连接
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.debug("getFormat"+e.getMessage());
-		}
-		return str;
-		
-	}
-	/**
-	 * 获取成绩的格式的正则表达式
-	 * @param finalitemname
-	 * @return	String
-	 */
-	public String getFormatReg( String finalitemname ){
-		String sql = "SELECT reg FROM t_scoreformat WHERE id IN (" +
-				"SELECT scoreformatid FROM t_item WHERE id IN (" +
-				"SELECT itemid FROM t_group2item WHERE id IN (" +
-				"SELECT gp2itid FROM t_finalitem WHERE finalitemname =?)))";
-		String str = null;
-		//DBConn dbc = new DBConn();
-		conn = dbc.getConn();
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, finalitemname);
-			rs = pstmt.executeQuery();
-			while( rs.next() ){
-				str = rs.getString(1);
-			}
-			log.debug("str="+str);
-			rs.close();
-			pstmt.close();
-			dbc.freeConnection(conn);	//释放连接
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.debug("getFormatReg"+e.getMessage());
-		}
-		return str;
-	}
+
 	
 	
 	/**

@@ -20,6 +20,7 @@ public class AddScoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected final Logger log = Logger.getLogger(AddScoreServlet.class.getName());
 	UtilTools ctc = new UtilTools();
+	AddScoreServices ass = new AddScoreServices();
 	/**
 	 * Constructor of the object.
 	 */
@@ -52,15 +53,6 @@ public class AddScoreServlet extends HttpServlet {
 			log.debug("addscore="+action);
 			this.doPost(request, response);
 		}
-		if( action.equals("checkFormat")){
-			log.debug("checkFormat="+action);
-			this.getFormatReg(request, response);
-		}
-		
-		if( action.equals("getFormat")){
-			log.debug("getFormat="+action);
-			this.getFormat(request, response);
-		}
 	}
 
 	/**
@@ -79,12 +71,14 @@ public class AddScoreServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		
 		String playernum = ctc.toUTF8( request.getParameter("playernum") );
 		String score = request.getParameter("score");
 		String group = ctc.toUTF8( request.getParameter("group") );
 		String item = ctc.toUTF8(request.getParameter("item"));;
+		
 		log.debug(playernum+","+score+","+item);
-		AddScoreServices ass = new AddScoreServices();
+		
 		
 		boolean flag = false;
 		String str = "提交失败！";
@@ -108,54 +102,6 @@ public class AddScoreServlet extends HttpServlet {
 		out.close();
 	}
 
-	/**
-	 * 获取成绩格式的正则表达式
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	public void getFormatReg(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		
-		String finalitemname = ctc.toUTF8(request.getParameter("finalitemname"));
-		log.debug("getFormat：finalitemname="+finalitemname);
-		AddScoreServices ass = new AddScoreServices();
-		String reg = ass.getFormatReg(finalitemname);
-		//reg =  reg.substring(1, reg.length());
-		log.debug("getFormat="+reg);
-		out.println(reg);
-		out.flush();
-		out.close();
-	}
-	
-	/**
-	 * 获取成绩格式
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	public void getFormat(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
-	log.debug("getFormat=");
-	response.setCharacterEncoding("utf-8");
-	response.setContentType("text/html");
-	PrintWriter out = response.getWriter();
-	String finalitemname = null;
-	finalitemname = ctc.toUTF8(request.getParameter("finalitemname"));
-	log.debug("getFormat：finalitemname="+finalitemname);
-	AddScoreServices ass = new AddScoreServices();
-	String str = null;
-	str = ass.getFormat(finalitemname);
-	log.debug("getFormat="+str);
-	out.println(str);
-	out.flush();
-	out.close();
-}
 	
 	/**
 	 * Initialization of the servlet. <br>
