@@ -35,32 +35,68 @@
 			
 		</style>
         <script language="JavaScript">
-        function addGroup()
+        function addSports()
 		{
 			var reg=/["']/;
-			if($('#gpname').val() == "")
+			if($('#spname').val() == "")
 			{
-				Dialog.alert("请填写组别名称!");
+				Dialog.alert("请填写运动会名称!");
 				return false;
 			}
 			//
-			if(reg.test($('#gpname').val()))
+			if(reg.test($('#spname').val()))
 			{
-				Dialog.alert("组别名称中请不要包含半角单引号或双引号!");
+				Dialog.alert("运动会名称中请不要包含半角单引号或双引号!");
+				return false;
+			}
+			//
+			if($('#begin').val() == "")
+			{
+				Dialog.alert("请填写运动会起始时间!");
+				return false;
+			}
+			//
+			if($('#end').val() == "")
+			{
+				Dialog.alert("请填写运动会结束时间!");
+				return false;
+			}
+			//
+			if($('#end').val() < $('#begin').val())
+			{
+				Dialog.alert("运动会结束时间不能早于起始时间!");
+				return false;
+			}
+			//
+			if($('#registend').val() == "")
+			{
+				Dialog.alert("请填写运动会报名截止时间!");
+				return false;
+			}
+			//
+			if($('#begin').val() < $('#registend').val())
+			{
+				Dialog.alert("运动会报名截止时间不能晚于运动会起始时间!");
+				return false;
+			}
+			//
+			if($('#address').val() == "")
+			{
+				Dialog.alert("请填写运动会举办地点!");
 				return false;
 			}
 			//ajax提交
 			$.ajax({
-			url :"${pageContext.request.contextPath }/servlet/AddGroupServlet",
+			url :"${pageContext.request.contextPath }/servlet/AddSportsServlet",
 			type : 'post',
-			data : 'gn='+$('#gpname').val()+'&gt='+$('#gptype').val()+'&gs='+$('#sextype').val(),
+			data : 'spname='+$('#spname').val()+'&begin='+$('#begin').val()+'&end='+$('#end').val()+'&registend='+$('#registend').val()+'&address='+$('#address').val(),
 			success :function(mm){
 					var revalue=mm.replace(/\r\n/g,'');
 					if(revalue=="error"){
-						Dialog.alert("添加新分组失败!",function(){window.location.reload();});
+						Dialog.alert("添加新运动会失败!",function(){window.location.reload();});
 					}
 					if(revalue=="success"){
-						Dialog.alert("添加新分组成功!",function(){window.location.reload();});
+						Dialog.alert("添加新运动会成功!",function(){window.location.reload();});
 					}
 				}
 			});
@@ -72,30 +108,43 @@
 
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="2" style="border-collapse: collapse" bordercolor="#C0C0C0">
   <tr>
-    <td align="right" width="150">组别名称：</td>
-    <td><label><input name="gpname" type="text" id="gpname" size="30" />
-    </label></td>
-  </tr>
-  <tr>
-    <td align="right">组别类型：</td>
+    <td align="right" width="150">比赛项目：</td>
     <td>
-    <select name="gptype" id="gptype">
-      <option value="1">学生类</option>
-      <option value="0">教工类</option>
+    <select name="">
+      <option value="1">啊啊啊</option>
     </select>
     </td>
   </tr>
-    <tr>
-    <td align="right" width="150">性别类型：</td>
-    <td><label>
-    <select name="sextype" id="sextype">
-      <option value="1">男子</option>
-      <option value="0">女子</option>
-    </select>
-    </label></td>
+  <tr>
+    <td align="right">比赛成绩：</td>
+    <td><input name="begin" type="text" id="begin"></td>
   </tr>
   <tr>
-    <td colspan="2" align="center"><input name="" type="button" value="确认添加" onclick="addGroup();"/></td>
+    <td align="right">选手姓名：</td>
+    <td><input name="end" type="text" id="end" ></td>
+  </tr>
+  <tr>
+    <td align="right">系别：</td>
+    <td><input name="registend" type="text" id="registend" ></td>
+  </tr>
+  <tr>
+    <td align="right">运动会名称：</td>
+    <td><input name="registend" type="text" id="registend"></td>
+  </tr>
+  <tr>
+    <td align="right">破记录时间：</td>
+    <td><input name="registend" class="Wdate" type="text" id="registend" onClick="WdatePicker({dateFmt:'yyyy-MM'})"></td>
+  </tr>
+    <tr>
+    <td align="right" width="150">记录级别：</td>
+    <td>
+    <select name="">
+      <option value="1">啊啊啊</option>
+    </select>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><input name="" type="button" value="确认添加" onclick="addSports();"/></td>
   </tr>
 </table>
 </body>
