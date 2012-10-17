@@ -71,8 +71,18 @@
 				});	
 		}
 		
-		</script>
+		
 		 -->
+		 <script type="text/javascript">
+		 function createWord(obj){
+		    
+		   // alert(obj.id);
+		    window.location.href="${pageContext.request.contextPath }/servlet/WordDemoServlet?id="+obj.id;
+		   
+		 
+		 }
+		 </script>
+		 
 </head>
 
 	<body>
@@ -125,7 +135,7 @@
 							</td>
 
 							<td>
-								<a href="servlet/WordDemoServlet?id=1"><input type="button" id="1" value="生成word文档" /></a>
+								<input type="button" id="1" value="生成word文档" onclick="createWord(this)"/>
 							</td>
 						</tr>
 						<tr class="tableContent" >
@@ -133,7 +143,7 @@
 								竞赛分组
 							</td>
 							<td>
-								<a href="servlet/WordDemoServlet?id=2"><input type="button" id="2" value="生成word文档" /></a>
+								<input type="button" id="2" value="生成word文档" onclick="createWord(this)"/>
 							</td>
 						</tr>
 						<tr class="tableContent" >
@@ -141,7 +151,7 @@
 								运动员信息
 							</td>
 							<td>
-								<a href="servlet/WordDemoServlet?id=3"><input type="button" id="3" value="生成word文档" /></a>
+								<input type="button" id="3" value="生成word文档" onclick="createWord(this)"/>
 							</td>
 						</tr>
 						<tr class="tableContent" >
@@ -149,7 +159,7 @@
 								运动会记录及学生裁判名单
 							</td>
 							<td>
-								<a href="servlet/WordDemoServlet?id=4"><input type="button" id="4" value="生成word文档" /></a>
+								<input type="button" id="4" value="生成word文档" onclick="createWord(this)"/>
 							</td>
 						</tr>
 					</table>
