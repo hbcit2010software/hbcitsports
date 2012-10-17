@@ -19,6 +19,25 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
+	function addRecord(){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 400;
+			diag.Height = 280;
+			diag.Title = "添加新记录";
+			diag.URL = "${pageContext.request.contextPath }/set_sportscreate.jsp";
+			diag.OKEvent = function(){
+				window.location.reload();
+				//diag.close();
+			};
+			diag.ShowCloseButton=false;
+			diag.MessageTitle = "添加新记录提示：";
+			diag.Message = "填完各项内容后不要忘记先\"确认添加\"，然后才可关闭窗口";
+			diag.show();
+			diag.okButton.value="结果刷新";
+			diag.cancelButton.value="关闭";
+	}
+		
 </script>
 </head>
 
@@ -39,7 +58,7 @@
             <div align="right">
              <span class="pageTitle"> <img src="${pageContext.request.contextPath }/images/edit.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addGroup();">查看历届记录</a> &nbsp;</span>
             <span class="pageTitle">
-              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addGroup();">添加新记录</a> &nbsp;</span>
+              <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="javascript:void(0);" style="color:#FFF" onclick="addRecord();">添加新记录</a> &nbsp;</span>
             </div>
             </td>
           </tr>
@@ -56,7 +75,7 @@
         <td height="20" colspan="8"><div align="center" style="color:#FF0000; font-weight:bold">田径运动会记录（男子组）</div></td>
         </tr>
       <tr class="tableTitle">
-        <td ><div align="center">序号</div></td>
+        <td width="5%"><div align="center">序号</div></td>
         <td ><div align="center"><span>项目</span></div></td>
         <td ><div align="center"><span>成绩</span></div></td>
         <td ><div align="center"><span>运动员</span></div></td>
