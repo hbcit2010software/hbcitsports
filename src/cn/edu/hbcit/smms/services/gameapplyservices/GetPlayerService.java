@@ -74,4 +74,38 @@ public class GetPlayerService {
 	public ArrayList getGroup(int sportsid){
 		return getPlayerDao.getGroup(sportsid);
 	}
+	/**
+	 * 根据运动会id获取学生组所能报名的项目
+	 * @param sportsid
+	 * @return
+	 */
+	public ArrayList getGroupItemStu(int sportsid){
+		return getPlayerDao.getGroupItemStu(sportsid);
+	}
+	/**
+	 * 查询当届运动会的学生参赛组别
+	 * @param sportsid
+	 * @return
+	 */
+	public ArrayList getGroupStu(int sportsid){
+		return getPlayerDao.getGroupStu(sportsid);
+	}
+	/**
+	 * 根据运动会id获取教工组所能报名的项目
+	 * @param sportsid
+	 * @return
+	 */
+		
+	public ArrayList getGroupItemTea(int sportsid){
+		return getPlayerDao.getGroupItemTea(sportsid);
+	}
+	/**
+	 * 查询当届运动会的教工参赛组别
+	 * @param sportsid
+	 * @return
+	 */
+	public ArrayList getGroupTea(int sportsid){
+		return getPlayerDao.getGroupTea(sportsid);
+	}
+	
 }
