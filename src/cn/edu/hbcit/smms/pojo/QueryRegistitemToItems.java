@@ -160,9 +160,9 @@ public class QueryRegistitemToItems {
 				while(rs.next()){
 					String rel = "";
 					if(rs.getString(1).equals("0")){
-						 rel = "院";
+						 rel = "<font color='red'>院</font>";
 					}else if(rs.getString(1).equals("1")){
-						 rel = "省";
+						 rel = "<font color='bule'>省</font>";
 					}else if(rs.getString(1).equals("2")){
 						 rel = "无";
 					}
@@ -282,9 +282,9 @@ public class QueryRegistitemToItems {
 				while(rs.next()){
 					String rel = "";
 					if(rs.getString(1).equals("0")){
-						 rel = "院";
+						 rel = "<font color='red'>院</font>";
 					}else if(rs.getString(1).equals("1")){
-						 rel = "省";
+						 rel = "<font color='blue'>院</font>";
 					}else if(rs.getString(1).equals("2")){
 						 rel = "无";
 					}

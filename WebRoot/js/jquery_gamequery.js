@@ -114,32 +114,58 @@ function selectdata()
 			success : function(jsonarray) {
 				var inhtml = "";
 				Dialog.alert("共查询出"+jsonarray.length+"条");
-		inhtml += "<tr class='tableTitle'>";
-        inhtml += "<td width='10%' height='20'><div align='center'><span>姓名</span></div></td>";
-        inhtml += "<td width='10%' height='20'><div align='center'><span>号码</span></div></td>";
-        inhtml += "<td width='15%' height='20' ><div align='center'><span>组别</span></div></td>";
-        inhtml += "<td width='14%' height='20' ><div align='center'><span>系别 </span></div></td>";
-        inhtml += "<td width='16%' height='20' ><div align='center'><span>比赛项目</span></div></td>";
-        inhtml += "<td width='16%' height='20' ><div align='center'><span>成绩</span></div></td>";
-        inhtml += "<td width='14%' height='20'><div align='center'><span>名次</span></div></td>";
-        inhtml += "<td width='14%' height='20'><div align='center'><span>破纪录</span></div></td>";
-        inhtml +="</tr>";
-        if(jsonarray.length == 0){
-        	inhtml += "<tr class='tableContent'>";
-	        inhtml += "<td width='10%' height='20' colspan='8'><div align='center'><span><h1>没有查到数据请重新查找</h1></span></div></td>";
+			inhtml += "<tr class='tableTitle'>";
+		if(jsonarray.length == 0){
+			inhtml += "<td width='10%' height='20' colspan='8'><div align='center'><span><h1>没有查到数据请重新查找</h1></span></div></td>";
+		    inhtml +="</tr>";
+	        }else{
+		if(jsonarray[0].size == 5){
+	        inhtml += "<td width='14%' height='20' ><div align='center'><span>系别 </span></div></td>";
+	        inhtml += "<td width='16%' height='20' ><div align='center'><span>比赛项目</span></div></td>";
+	        inhtml += "<td width='16%' height='20' ><div align='center'><span>成绩</span></div></td>";
+	        inhtml += "<td width='14%' height='20'><div align='center'><span>名次</span></div></td>";
+	        inhtml += "<td width='14%' height='20'><div align='center'><span>破纪录</span></div></td>";
 	        inhtml +="</tr>";
-        }else{
+		}else{
+	        inhtml += "<td width='10%' height='20'><div align='center'><span>姓名</span></div></td>";
+	        inhtml += "<td width='10%' height='20'><div align='center'><span>号码</span></div></td>";
+	        inhtml += "<td width='15%' height='20' ><div align='center'><span>组别</span></div></td>";
+	        inhtml += "<td width='14%' height='20' ><div align='center'><span>系别 </span></div></td>";
+	        inhtml += "<td width='16%' height='20' ><div align='center'><span>比赛项目</span></div></td>";
+	        inhtml += "<td width='16%' height='20' ><div align='center'><span>成绩</span></div></td>";
+	        inhtml += "<td width='14%' height='20'><div align='center'><span>名次</span></div></td>";
+	        inhtml += "<td width='14%' height='20'><div align='center'><span>破纪录</span></div></td>";
+	        inhtml +="</tr>";
+		}
 				for (i = 0; i < jsonarray.length; i++) {
 					inhtml += "<tr class='tableContent'>";
-			        inhtml += "<td width='10%' height='20'><div align='center'><span>"+jsonarray[i].playername+"</span></div></td>";
-			        inhtml += "<td width='10%' height='20'><div align='center'><span>"+jsonarray[i].playernum+"</span></div></td>";
-			        inhtml += "<td width='15%' height='20' ><div align='center'><span>"+jsonarray[i].groupname+"</span></div></td>";
-			        inhtml += "<td width='14%' height='20' ><div align='center'><span>"+jsonarray[i].departshortname+"</span></div></td>";
-		        	inhtml += "<td width='16%' height='20' ><div align='center'><span>"+jsonarray[i].itemname+"</span></div></td>";    
-			        inhtml += "<td width='16%' height='20' ><div align='center'><span>"+jsonarray[i].score+"</span></div></td>";
-			        inhtml += "<td width='14%' height='20'><div align='center'><span>"+jsonarray[i].position+"</span></div></td>";
-			        inhtml += "<td width='14%' height='20'><div align='center'><span>"+jsonarray[i].recordlevel+"</span></div></td>";
+					if(jsonarray[0].size == 5){
+						inhtml += "<td width='10%' height='20'><div align='center'><span>"+jsonarray[i].departshortname+"</span></div></td>";
+				        inhtml += "<td width='10%' height='20'><div align='center'><span>"+jsonarray[i].finalitemname+"</span></div></td>";
+				        inhtml += "<td width='15%' height='20' ><div align='center'><span>"+jsonarray[i].score+"</span></div></td>";
+				        inhtml += "<td width='14%' height='20' ><div align='center'><span>"+jsonarray[i].position+"</span></div></td>";
+				        inhtml += "<td width='14%' height='20'><div align='center'><span>"+jsonarray[i].recordlevel+"</span></div></td>";
+					}else{
+						inhtml += "<td width='10%' height='20'><div align='center'><span>"+jsonarray[i].playername+"</span></div></td>";
+				        inhtml += "<td width='10%' height='20'><div align='center'><span>"+jsonarray[i].playernum+"</span></div></td>";
+				        inhtml += "<td width='15%' height='20' ><div align='center'><span>"+jsonarray[i].groupname+"</span></div></td>";
+				        inhtml += "<td width='14%' height='20' ><div align='center'><span>"+jsonarray[i].departshortname+"</span></div></td>";
+				        var reg = /[,]/;
+			        	var str = jsonarray[i].itemname+"";
+			        	var str1= str.replace(reg,"<br>");
+				        inhtml += "<td width='16%' height='20' ><div align='center'><span>"+str1+"</span></div></td>";
+			        	var score = jsonarray[i].score+"";
+			        	var score2 = score.replace(reg,"<br>");
+				        inhtml += "<td width='16%' height='20' ><div align='center'><span>"+score2+"</span></div></td>";
+				        var position = jsonarray[i].position+"";
+				        var position2 = position.replace(reg,"<br>");
+				        inhtml += "<td width='14%' height='20'><div align='center'><span>"+position2+"</span></div></td>";
+				        var recordlevel = jsonarray[i].recordlevel+"";
+				        var recordlevel2 = recordlevel.replace(reg,"<br>");
+				        inhtml += "<td width='14%' height='20'><div align='center'><span>"+recordlevel2+"</span></div></td>";
+					}
 			        inhtml +="</tr>";
+					
 				}
         }
 				$('#infocontent').html(inhtml);

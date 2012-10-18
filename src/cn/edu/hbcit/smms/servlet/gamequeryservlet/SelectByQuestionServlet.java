@@ -95,7 +95,6 @@ public class SelectByQuestionServlet extends HttpServlet {
 		//获取选的的查询条件
 		int sportsid = Integer.parseInt(request.getParameter("sportsid"));//获取运动会id
 		String playername = new String( request.getParameter("playername").trim().getBytes("ISO-8859-1"),"utf-8");//获取运动员姓名
-		log.debug("zzzzzzzzzzzzzzzzzzzzzzzzzzzz"+playername);
 		int departname = Integer.parseInt(request.getParameter("departname"));//获取部门名称
 		int province = Integer.parseInt(request.getParameter("province"));//获取组别名称
 		String itemtype = request.getParameter("itemtype");//获取项目类型
