@@ -69,10 +69,8 @@ public class GetListServlet extends HttpServlet {
 		if(session.getAttribute("currSportsId") != null){
 			sportsid = ((Integer)session.getAttribute("currSportsId")).intValue();
 		}
-		//System.out.println("sportsid"+sportsid);
-		list_groupItem = gps.getGroupItem(sportsid);
-		list_group = gps.getGroup(sportsid);
-		//System.out.println("bbbbb"+list.size());
+		list_groupItem = gps.getGroupItemStu(sportsid);
+		list_group = gps.getGroupStu(sportsid);
 		request.setAttribute("itemGroup", list_groupItem);
 		request.setAttribute("group", list_group);
 		request.getRequestDispatcher("/apply_listinfo.jsp").forward(request, response);

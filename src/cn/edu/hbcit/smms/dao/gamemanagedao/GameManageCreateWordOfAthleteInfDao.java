@@ -48,7 +48,7 @@ public class GameManageCreateWordOfAthleteInfDao {
         Font titleFont = new Font(bfChinese,16,Font.BOLD);   
         //正文字体风格   
         Font contextFont = new Font(bfChinese,10,Font.NORMAL);   
-        System.out.println("WORD====="+fileName);
+        //System.out.println("WORD====="+fileName);
         Paragraph title = new Paragraph(fileName+"成绩单");   
         //设置标题格式对齐方式   
         title.setAlignment(Element.ALIGN_CENTER);   
@@ -100,16 +100,4 @@ public class GameManageCreateWordOfAthleteInfDao {
 	}}
 		
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 

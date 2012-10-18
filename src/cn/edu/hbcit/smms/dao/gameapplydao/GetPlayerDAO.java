@@ -498,7 +498,7 @@ public class GetPlayerDAO {
 					"JOIN t_group2sports ON t_group2sports.groupid = t_group.id " +
 					"JOIN t_group2item ON t_group2item.gp2spid = t_group2sports.id " +
 					"JOIN t_item ON t_item.id = t_group2item.itemid " +
-					"WHERE t_group2sports.sportsid = ? AND t_group2item.matchtype <> 0";
+					"WHERE t_group2sports.sportsid = ? AND t_group2item.matchtype <> 0 ";//AND grouptype=1";
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
@@ -529,7 +529,7 @@ public class GetPlayerDAO {
 		 */
 		public ArrayList getGroup(int sportsid){
 			ArrayList list = new ArrayList();
-			String sql = "SELECT t_group.groupname FROM t_group2sports,t_group WHERE t_group2sports.sportsid=? AND t_group2sports.groupid=t_group.id";
+			String sql = "SELECT t_group.groupname FROM t_group2sports,t_group WHERE t_group2sports.sportsid=? AND t_group2sports.groupid=t_group.id ";//AND grouptype=1";
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
@@ -537,20 +537,136 @@ public class GetPlayerDAO {
 				rs = pstmt.executeQuery();
 				while( rs.next() ){
 					Group2item itemnames = new Group2item();
-					//itemnames.setItemname(rs.getString(1));
 					itemnames.setGroupname(rs.getString(1));
 					log.debug("查询结果："+itemnames.getGroupname());
 					list.add(itemnames);
 					
 				}
-				//System.out.println("aaaa"+list.size());
-				
 			}catch( Exception e){
 				e.getStackTrace();
-				//System.out.println(e.getMessage());
 			}
 			db.freeConnection(conn);
 			return list;
 		}
+		/**
+		 * 根据运动会id获取学生组所能报名的项目
+		 * 2012-10-17新建
+		 * * @author 陈系晶
+		 * @param sportsid
+		 * @return
+		 */
+			
+		public ArrayList getGroupItemStu(int sportsid){
+			ArrayList list = new ArrayList();
+			String sql = "SELECT t_item.itemname,t_group.groupname FROM t_group " +
+						"JOIN t_group2sports ON t_group2sports.groupid = t_group.id " +
+						"JOIN t_group2item ON t_group2item.gp2spid = t_group2sports.id " +
+						"JOIN t_item ON t_item.id = t_group2item.itemid " +
+						"WHERE t_group2sports.sportsid = ? AND t_group2item.matchtype <> 0 AND grouptype=1";
+			try{
+				conn = db.getConn();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, sportsid);
+				rs = pstmt.executeQuery();
+				while( rs.next() ){
+				Group2item itemnames = new Group2item();
+				itemnames.setItemname(rs.getString(1));
+				itemnames.setGroupname(rs.getString(2));
+				list.add(itemnames);
+				}
+			}catch( Exception e){
+				e.getStackTrace();
+				System.out.println(e.getMessage());
+			}
+			db.freeConnection(conn);
+			return list;
+		}
+			
+			/**
+			 * 查询当届运动会的学生参赛组别
+			 * * @author 陈系晶
+			 * @param sportsid
+			 * @return
+			 */
+			public ArrayList getGroupStu(int sportsid){
+				ArrayList list = new ArrayList();
+				String sql = "SELECT t_group.groupname FROM t_group2sports,t_group WHERE t_group2sports.sportsid=? AND t_group2sports.groupid=t_group.id AND grouptype=1";
+				try{
+					conn = db.getConn();
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, sportsid);
+					rs = pstmt.executeQuery();
+					while( rs.next() ){
+						Group2item itemnames = new Group2item();
+						itemnames.setGroupname(rs.getString(1));
+						log.debug("查询结果："+itemnames.getGroupname());
+						list.add(itemnames);
+						
+					}
+				}catch( Exception e){
+					e.getStackTrace();
+				}
+				db.freeConnection(conn);
+				return list;
+			}
+			/**
+			 * 根据运动会id获取教工组所能报名的项目
+			 * * @author 陈系晶
+			 * @param sportsid
+			 * @return
+			 */
+				
+			public ArrayList getGroupItemTea(int sportsid){
+				ArrayList list = new ArrayList();
+				String sql = "SELECT t_item.itemname,t_group.groupname FROM t_group " +
+							"JOIN t_group2sports ON t_group2sports.groupid = t_group.id " +
+							"JOIN t_group2item ON t_group2item.gp2spid = t_group2sports.id " +
+							"JOIN t_item ON t_item.id = t_group2item.itemid " +
+							"WHERE t_group2sports.sportsid = ? AND t_group2item.matchtype <> 0 AND grouptype=0";
+				try{
+					conn = db.getConn();
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, sportsid);
+					rs = pstmt.executeQuery();
+					while( rs.next() ){
+					Group2item itemnames = new Group2item();
+					itemnames.setItemname(rs.getString(1));
+					itemnames.setGroupname(rs.getString(2));
+					list.add(itemnames);
+					}
+				}catch( Exception e){
+					e.getStackTrace();
+					System.out.println(e.getMessage());
+				}
+				db.freeConnection(conn);
+				return list;
+			}
+				
+				/**
+				 * 查询当届运动会的教工参赛组别
+				 *  @author 陈系晶
+				 * @param sportsid
+				 * @return
+				 */
+				public ArrayList getGroupTea(int sportsid){
+					ArrayList list = new ArrayList();
+					String sql = "SELECT t_group.groupname FROM t_group2sports,t_group WHERE t_group2sports.sportsid=? AND t_group2sports.groupid=t_group.id AND grouptype=0";
+					try{
+						conn = db.getConn();
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setInt(1, sportsid);
+						rs = pstmt.executeQuery();
+						while( rs.next() ){
+							Group2item itemnames = new Group2item();
+							itemnames.setGroupname(rs.getString(1));
+							log.debug("查询结果："+itemnames.getGroupname());
+							list.add(itemnames);
+						}
+					}catch( Exception e){
+						e.getStackTrace();
+					}
+					db.freeConnection(conn);
+					return list;
+				}
 }
 

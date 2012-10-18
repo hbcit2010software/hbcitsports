@@ -258,7 +258,7 @@ function selGroup(){
 			diag.Width = 600;
 			diag.Height = 400;
 			diag.Title = "报名注意事项";
-			diag.URL = "${pageContext.request.contextPath }/servlet/GetListServlet";
+			diag.URL = "${pageContext.request.contextPath }/servlet/GetListTeacherServlet";
 			//diag.OKEvent = function(){
 			//	window.location.reload();
 				//diag.close();
