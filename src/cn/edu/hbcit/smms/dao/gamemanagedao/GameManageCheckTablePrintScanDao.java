@@ -98,32 +98,35 @@ public class GameManageCheckTablePrintScanDao {
 	     	        context1.setSpacingBefore(2);     
 	     	        context1.setFirstLineIndent(20);   
 	     	        document.add(context1);    
-	        	    Table table = new Table(7);   
-	 	            int width[] = {15,15,15,15,15,15,10};  
+	        	    Table table = new Table(8);   
+	 	            int width[] = {10,10,15,15,15,15,10,10};  
 	 	            table.setWidths(width);   
 	 	            table.setWidth(90);
 	 	            table.setAlignment(Element.ALIGN_CENTER); 
 	 	            table.setAlignment(Element.ALIGN_MIDDLE); 
 	 	            table.setAutoFillEmptyCells(true);
 	 	            table.setBorderWidth(1);
-	        	    table.addCell(new Cell("号码"));   
-	 	            table.addCell(new Cell("姓名"));   
+	 	           
 	 	            table.addCell(new Cell("道次"));
+	        	    table.addCell(new Cell("号码"));   
+	 	            table.addCell(new Cell("姓名"));
 	 	            table.addCell(new Cell("成绩1"));
 	 	            table.addCell(new Cell("成绩2"));
 	 	            table.addCell(new Cell("成绩3"));
+	 	            table.addCell(new Cell("名次"));
 	 	            table.addCell(new Cell("备注"));
 	 	         for(int j = 0;j < array1.size();j++ ){
 	 	        	JSONArray array2 = new JSONArray();
 	 	        	array2 = array1.getJSONArray(j);
-	 	        	table.addCell(new Cell(array2.getString(0)));   
-		    	    table.addCell(new Cell(array2.getString(1)));   
+	 	           
 		    	    table.addCell(new Cell(Integer.toString(array2.getInt(2))));
+	 	        	table.addCell(new Cell(array2.getString(0)));   
+		    	    table.addCell(new Cell(array2.getString(1)));
 		    	    table.addCell(new Cell());
 		    	    table.addCell(new Cell()); 
 		    	    table.addCell(new Cell());
 		    	    table.addCell(new Cell());
-		    	   
+		    	    table.addCell(new Cell());
 	 	         }
 	 	       
 	 	         document.add(table);
@@ -138,35 +141,41 @@ public class GameManageCheckTablePrintScanDao {
 	         }else{
 	        	 for(int i = 0; i < array.size() ;i++ ){
 	        		 array1 = array.getJSONArray(i);
-	        		Paragraph context1 = new Paragraph("第"+i+1+"组");   
+	        		Paragraph context1 = new Paragraph("第"+(i+1)+"组");   
 	     	        context1.setAlignment(Element.ALIGN_LEFT);   
 	     	        context1.setFont(contextFont);   
 	     	        context1.setSpacingBefore(2);     
 	     	        context1.setFirstLineIndent(20);   
 	     	        document.add(context1);    
-	        	    Table table = new Table(5);   
-	 	            int width[] = {10,20,20,20,30};  
+	        	    Table table = new Table(6);   
+	 	            int width[] = {10,15,20,15,10,30};  
 	 	            table.setWidths(width);   
 	 	            table.setWidth(90);
 	 	            table.setAlignment(Element.ALIGN_CENTER); 
 	 	            table.setAlignment(Element.ALIGN_MIDDLE); 
 	 	            table.setAutoFillEmptyCells(true);
 	 	            table.setBorderWidth(1);
-	        	    table.addCell(new Cell("号码"));   
-	 	            table.addCell(new Cell("姓名"));   
-	 	            table.addCell(new Cell("出场顺序"));
+	 	           
+	 	            table.addCell(new Cell("道次"));
+	        	    table.addCell(new Cell("号码"));
+	        	    if( "1".equals(itemtype1)){
+	        	    	table.addCell(new Cell("姓名"));
+	        	    }else{
+	        	    	table.addCell(new Cell("部门"));
+	        	    }
 	 	            table.addCell(new Cell("成绩"));
+	 	            table.addCell(new Cell("名次"));
 	 	            table.addCell(new Cell("备注"));
 	 	         for(int j = 0;j < array1.size();j++ ){
-	 	        	JSONArray array2 = new JSONArray();
-	 	        	array2 = array1.getJSONArray(j);
-	 	        	 table.addCell(new Cell(array2.getString(0)));   
+	 	        	JSONArray array2 = array1.getJSONArray(j);
+	 	        	   table.addCell(new Cell(Integer.toString(array2.getInt(3))));
+	 	        	   table.addCell(new Cell(array2.getString(0)));   
 		    	       table.addCell(new Cell(array2.getString(1)));   
-		    	       table.addCell(new Cell(Integer.toString(array2.getInt(2))));
+		    	       table.addCell(new Cell());
 		    	       table.addCell(new Cell());
 		    	       table.addCell(new Cell()); 
 		    	       
-	 	         }
+	 	         } 
 	 	         
 	 	         document.add(table);
 	 	         Paragraph context2 = new Paragraph("裁判长：____________________");   

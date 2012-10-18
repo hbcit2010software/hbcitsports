@@ -65,8 +65,8 @@ public class GameManageServices {
 		return new GameManageDao().groupName(matchid);
 	}
 	
-	public void deletePositionPlayer(String finalitemname,int sportsid,String groupname){
-		 new GameManageDao().deletePositionPlayer(finalitemname, sportsid, groupname);
+	public void deletePositionPlayer(String finalitemname,int sportsid,int matchid){
+		 new GameManageDao().deletePositionPlayer(finalitemname, sportsid, matchid);
 	}
 	
 	public boolean updateMatch(int playerNum,String score,int foul,int recordlevel)
@@ -74,8 +74,8 @@ public class GameManageServices {
 		return gm.updateMatch(playerNum, score, foul, recordlevel);
 	}
 	
-	public void deleteRecordPlayer(String finalitemname,int matchid){
-		new GameManageDao().deleteRecordPlayer(finalitemname, matchid);
+	public void deleteRecordPlayer(int playerid,int matchid){
+		new GameManageDao().deleteRecordPlayer( playerid,matchid);
 	}
 	
 	public ArrayList<GameManagePoJo> createWordOfAthleteInf(int finalItemId,String itemType)

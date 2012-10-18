@@ -90,7 +90,7 @@ function checkSelected()
 		                inhtml += "<td height='20' style='color:#ff0000; font:bold'><div>"+ json.contents[i].foul +"</div></td>";
 		                inhtml += "<td height='20' style='color:#ff0000; font:bold'><div>"+ json.contents[i].recordlevel +"</div></td>";
 		                inhtml += "<td height='20'><div>"+ json.contents[i].departname +"</div></td>";
-                        inhtml += "<td height='20'><div><a href='javascript:void(0);' onclick='updScore("+json.contents[i].matchid+")'>修改信息</a>&nbsp;&nbsp;</div></td></tr>";
+                        inhtml += "<td height='20'><div><a href='javascript:void(0);' onclick='updScore("+json.contents[i].matchid+")' style='font-size:15px'>修改</a>&nbsp;&nbsp;</div></td></tr>";
 					} 
                                  
                }
@@ -113,12 +113,13 @@ function checkSelected()
                success : function(json) {
              // alert(json.contents.length);
                   for (i = 0; i < json.contents.length; i++) {
+                  //alert(json.contents[i].playerid);
                      var diag = new Dialog();
 						diag.Top =20;
 						diag.Width = 400;
 						diag.Height = 200;
 						diag.Title = "修改部门积分";
-						diag.URL = "${ pageContext.request.contextPath }/updScore.jsp?playernum="+json.contents[i].playernum+"&playername="+json.contents[i].playername+"&playersex="+ json.contents[i].playersex+"&score="+json.contents[i].score+"&foul="+json.contents[i].foul+"&recordlevel="+json.contents[i].recordlevel+"&departname="+json.contents[i].departname+"&matchid="+json.contents[i].matchid;
+						diag.URL = "${ pageContext.request.contextPath }/updScore.jsp?playernum="+json.contents[i].playernum+"&playername="+json.contents[i].playername+"&playersex="+ json.contents[i].playersex+"&score="+json.contents[i].score+"&foul="+json.contents[i].foul+"&recordlevel="+json.contents[i].recordlevel+"&departname="+json.contents[i].departname+"&matchid="+json.contents[i].matchid+"&playerid="+json.contents[i].playerid;
 						diag.OKEvent = function(){
 							window.location.reload();
 							//diag.close();

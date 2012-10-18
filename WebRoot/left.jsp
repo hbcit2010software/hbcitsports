@@ -32,7 +32,7 @@
 <script type="text/javascript">
 
 		function checkgroup(){
-		alert('检查是否执行过赛事分组');
+		//alert('检查是否执行过赛事分组');
 		$.ajax({
 					url :"${pageContext.request.contextPath }/servlet/CheckGroupServlet",
 					type : 'get',
@@ -64,7 +64,7 @@
 									alert('分组取消');
 								}
 							}else{
-								alert("按回车键  或者点击确定开始分组！");
+								//alert("按回车键  或者点击确定开始分组！");
 								$.ajax({
 									url :"${pageContext.request.contextPath }/servlet/GameGroupingServlet",
 									type : 'get',
@@ -207,7 +207,7 @@ body {
       <ul>
         <li><a href="checktable.jsp" target="rightFrame">生成检录表</a></li>
         <li><a href="servlet/GetConditonServlet?action=allcond" target="rightFrame">成绩录入</a></li>
-        <li><a href="servlet/GameManageGetGroupServlet" target="rightFrame">违纪管理</a></li>
+        <li><a href="servlet/GameManageGetGroupServlet" target="rightFrame">成绩管理</a></li>
         <li><a href="${ pageContext.request.contextPath }/servlet/QueryMarkServlet" target="rightFrame">积分管理</a></li>
       </ul>
     </li>

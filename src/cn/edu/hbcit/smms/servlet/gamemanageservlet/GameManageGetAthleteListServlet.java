@@ -99,6 +99,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 				buffer.append("\"foul\":\"" + pj.getFoul() + "\",");
 				buffer.append("\"recordlevel\":\"" + pj.getRecordlevel() + "\",");
 				buffer.append("\"departname\":\"" + pj.getDepartname() + "\",");
+				
 				buffer.append("\"matchid\":\"" + pj.getMatchid() + "\"");
 				System.out.println("Departname==============================="+pj.getDepartname());
 				buffer.append("}");
@@ -169,6 +170,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 				buffer.append("\"foul\":\"" + pj.getFoul() + "\",");
 				buffer.append("\"recordlevel\":\"" + pj.getRecordlevel() + "\",");
 				buffer.append("\"departname\":\"" + pj.getDepartname() + "\",");
+				buffer.append("\"playerid\":\"" + pj.getPlayerid() + "\",");
 				buffer.append("\"matchid\":\"" + pj.getMatchid() + "\"");
 				System.out.println("Departname==============================="+pj.getDepartname());
 				buffer.append("}");

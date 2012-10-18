@@ -29,6 +29,13 @@ public class GameManagePoJo {
 	private String groupname;     //组别名称
 	private int gp2spid;          //届次与组别对应关系id
 	
+	private int playerid;         //运动员id
+	public int getPlayerid() {
+		return playerid;
+	}
+	public void setPlayerid(int playerid) {
+		this.playerid = playerid;
+	}
 	private String playernum;     //运动员编号
 	private String playername;    //运动员姓名
 	private String playersex;     //运动员性别

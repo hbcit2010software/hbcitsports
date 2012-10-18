@@ -15,7 +15,7 @@
    {
     $("#score").val("");
    }
-	  function updateMatch(playernum,matchid)
+	  function updateMatch(playernum,matchid,playerid)
 	  {
 	     if (confirm('警告：是否确定更新编号为'+playernum+'的运动员'))
 	     {          
@@ -34,7 +34,7 @@
 	              $.ajax({ 
 	               url : "${ pageContext.request.contextPath }/servlet/GameManageUpdateMatchByPlayerNum",
 	               type : 'get',
-	               data : 'playerNum='+ playernum +'&score='+ score +'&foul='+ foul +'&recordlevel='+ recordlevel +'&matchid='+ matchid,
+	               data : 'playerNum='+ playernum +'&score='+ score +'&foul='+ foul +'&recordlevel='+ recordlevel +'&matchid='+ matchid +'&playerid='+playerid,
 	               
 	               success : function(mm) {
 	               var revalue = mm.replace(/\r\n/g, '');
@@ -66,6 +66,7 @@
        String recordlevel = "";
        String departname = "";
        String matchid = "";
+       String playerid = "";
        playernum = new String(request.getParameter("playernum").getBytes("ISO-8859-1"),"UTF-8");
        playername = new String(request.getParameter("playername").getBytes("ISO-8859-1"),"UTF-8");
        playersex = new String(request.getParameter("playersex").getBytes("ISO-8859-1"),"UTF-8");
@@ -74,6 +75,7 @@
        recordlevel = new String(request.getParameter("recordlevel").getBytes("ISO-8859-1"),"UTF-8");
        departname = new String(request.getParameter("departname").getBytes("ISO-8859-1"),"UTF-8");
        matchid = new String(request.getParameter("matchid").getBytes("ISO-8859-1"),"UTF-8");
+       playerid= new String(request.getParameter("playerid").getBytes("ISO-8859-1"),"UTF-8");
        //System.out.println(playernum+playername+playersex+score+foul+recordlevel+departname);
        System.out.println(recordlevel);
       %>
@@ -92,7 +94,7 @@
        <option value="<%=recordlevel %>"><% if(recordlevel.equals("0")){ %><%="破院级记录" %></option><option value="1"><%="破省级记录"%></option><option value="2"><%="未破记录" %></option><% }else if(recordlevel.equals("1")){ %><%="破省级记录"%></option><option value="0"><%="破院级记录"%></option><option value="2"><%="未破记录" %></option><% }else{ %><%="未破记录" %></option><option value="0"><%="破院级记录"%></option><option value="1"><%="破省记录" %></option><% } %>
        </select></td></tr>
        <tr><td><label>所属部门</label></td><td><input type='text' id='departname' style='background-color:#CCCCCC' value="<%=departname %>"></input></td></tr>
-       <tr><td cellspan="2"><input type='button' value='更改记录' onclick='updateMatch("<%=playernum %>","<%=matchid%>")'/><input type='reset' value='重置文本' onclick='resetText()'></td></tr>
+       <tr><td cellspan="2"><input type='button' value='更改记录' onclick='updateMatch("<%=playernum %>","<%=matchid%>","<%=playerid%>")'/><input type='reset' value='重置文本' onclick='resetText()'></td></tr>
        </table>
   </body>
 </html>
