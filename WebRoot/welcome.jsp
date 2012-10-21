@@ -64,9 +64,11 @@ function changeSports()
     </table></td>
   </tr>
   <tr>
-    <td>
+    <td width="640" height="400" style="background-image:url(${pageContext.request.contextPath }/pic/welcome.jpg); background-repeat:no-repeat; background-position:center;">
     <!--内嵌表格begin-->
+    <!--
     <div align="center"><img src="${pageContext.request.contextPath }/pic/welcome.jpg" width="640" height="400" /></div>
+    -->
     <!--内嵌表格end-->
     </td>
   </tr>
