@@ -171,22 +171,18 @@ function submitCheck(){
 	var countYoungMan = 0;
 	var countYoungWoman = 0;
 	var myobj=document.getElementsByName("hide");
-	if(myobj.length==0){
-	 Dialog.alert("请选择参赛组别！");
-		return false;
-	}
 	var itemNoPlus = new Array();
 	var itemCountOldMan = new Array();
 	var itemCountOldWoman = new Array();
 	var itemCountYoungMan = new Array();
 	var itemCountYoungWoman = new Array();
-	
 	if(myobj.length==0){
 	 Dialog.alert("请选择参赛组别！");
 		return false;
 	}else{
 	for(var i = 1;i <= myobj.length+1; i++){
 		var num = document.getElementById("num_"+i).value;
+		
 		var name = document.getElementById("name_"+i).value;
 		if(name == ""){
 			Dialog.alert("姓名不能为空！");
@@ -222,7 +218,7 @@ function submitCheck(){
 		document.getElementById(i+"_cover").value=str;
 		str = "";
 		}
-		}
+		
 	
 	for(var i=0;i<itemSix.length;i++){
 		itemCountOldMan[i]=0;
@@ -270,7 +266,7 @@ function submitCheck(){
 			return false;
 		}
 	}
-	
+	}
 }
 </script>
   </head>

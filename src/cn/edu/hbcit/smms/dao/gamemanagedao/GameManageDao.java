@@ -199,24 +199,24 @@ public class GameManageDao {
 					gm.setDepartname(rs.getString("departname"));
 					if(rs.getInt("foul") == 0)
 					{
-						gm.setFoul("没有违纪");
+						gm.setFoul("——");
 					}
 					else{
-						gm.setFoul("已经违纪");
+						gm.setFoul("违纪");
 					}
 					gm.setScore(rs.getString("score"));
 					if(rs.getInt("recordlevel") == 0)
 					{
-						gm.setRecordlevel("破院记录");
+						gm.setRecordlevel("院");
 					}
 					else if(rs.getInt("recordlevel") == 1)
 					{
-						gm.setRecordlevel("破省记录");
+						gm.setRecordlevel("省");
 					}
 					else
 					{
 						
-							gm.setRecordlevel("未破纪录");
+							gm.setRecordlevel("——");
 					}
 					gm.setMatchid(rs.getInt("id"));
 					athleteList.add(gm);					
@@ -243,12 +243,12 @@ public class GameManageDao {
 		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		try{
 			conn = db.getConn();
-			String sql = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match  " +
+			String sql = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.id,t_match.score,t_match.foul,t_match.playerid,t_match.recordlevel,t_department.departname  FROM t_match  " +
 					"JOIN  t_player ON t_player.id=t_match.playerid  " +
 					"JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid  " +
 					"JOIN t_department ON t_department.id=t_sports2department.departid  " +
 					"WHERE t_match.id=? AND t_sports2department.sportsid=? ";
-			String sql1 = "SELECT  t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match " +
+			String sql1 = "SELECT  t_match.score,t_match.foul,t_match.playerid,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match " +
 					" JOIN t_department ON t_department.id=t_match.playerid  " +
 					"JOIN t_sports2department ON  t_sports2department.departid=t_department.id " +
 					" WHERE t_match.id=? AND t_sports2department.sportsid=?  ORDER BY t_match.score+0 ASC ";
@@ -262,10 +262,11 @@ public class GameManageDao {
 				pstmt.setInt(2, sportsid );
 				rs = pstmt.executeQuery();
 				int c = rs.getMetaData().getColumnCount();
-				/*System.out.println("rs.getRow()=============="+rs.getRow());*/
+				//System.out.println("rs.getRow()=============="+rs.getRow());*/
 				
 				while(rs.next())
-				   {					
+				   {	
+					System.out.println("playerid=============="+rs.getInt("playerid"));
 					GameManagePoJo gm = new GameManagePoJo();
 					if(!itemtype.equals("3")){
 					gm.setPlayernum(rs.getString("playernum"));
@@ -280,11 +281,12 @@ public class GameManageDao {
 						gm.setPlayersex("男");
 					}}
 					gm.setMatchid(rs.getInt("id"));	
+					gm.setPlayerid(rs.getInt("playerid"));
 					gm.setDepartname(rs.getString("departname"));
 					gm.setFoul(rs.getInt("foul")+"");
 					gm.setScore(rs.getString("score"));
 					gm.setRecordlevel(rs.getInt("recordlevel")+"");
-					gm.setMatchid(rs.getInt("id"));
+					//gm.setMatchid(rs.getInt("playerid"));
 					athleteList.add(gm);					
 					for(int i=1;i<=c;i++){
                     	log.debug(rs.getObject(i));
@@ -431,16 +433,16 @@ public class GameManageDao {
 	 * @param sportsid
 	 * @param groupname
 	 */
-	public void deletePositionPlayer(String finalitemname,int sportsid,String groupname){
+	public void deletePositionPlayer(String finalitemname,int sportsid,int matchid){
 		DBConn db = new DBConn();
 		try{
 			conn = db.getConn();
-			String sql = "DELETE FROM t_position WHERE (t_position.finalitemid = (SELECT id FROM t_finalitem WHERE t_finalitem.finalitemname=? AND t_finalitem.sportsid=?)) AND  " +
-					"(t_position.playerid IN (SELECT t_player.id FROM t_player WHERE t_player.groupid=(SELECT t_group.id FROM t_group WHERE groupname=?)))";
+			String sql = "DELETE FROM t_position WHERE (t_position.finalitemid = (SELECT id FROM t_finalitem WHERE t_finalitem.finalitemname=? AND t_finalitem.sportsid=?)) " +
+					"AND (t_position.playerid = (SELECT playerid FROM t_match WHERE id=?))";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
 			pstmt.setInt(2, sportsid);
-			pstmt.setString(3, groupname);
+			pstmt.setInt(3, matchid);
 			pstmt.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -476,15 +478,18 @@ public class GameManageDao {
 		return flag;
 	}	
 	
-	public void deleteRecordPlayer(String finalitemname,int matchid){
+	public void deleteRecordPlayer(int playerid,int matchid){
 		DBConn db = new DBConn();
+		System.out.println("GameManageDao:playerid=============="+matchid);
 		try{
 			conn = db.getConn();
-			String sql = "DELETE FROM t_record WHERE t_record.itemid=(SELECT t_group2item.itemid FROM t_group2item WHERE id=(SELECT gp2itid FROM t_finalitem WHERE t_finalitem.finalitemname=?)) AND " +
-					"t_record.playername=(SELECT playername FROM t_player WHERE id=(SELECT t_match.playerid FROM t_match WHERE id=?))";
+			String sql = "DELETE FROM t_record WHERE playerid=? AND itemid=(SELECT itemid FROM t_group2item WHERE t_group2item.id= " +
+					     "(SELECT gp2itid FROM t_finalitem WHERE id=(SELECT finalitemid " +
+					     "FROM t_match WHERE id=?)))";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, finalitemname);
+			pstmt.setInt(1, playerid);
 			pstmt.setInt(2, matchid);
+			
 			pstmt.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -556,18 +561,18 @@ public class GameManageDao {
 						}
 					
 					gm.setScore(rs.getString("score"));
-					if(rs.getInt("recordlevel") == 0)
+					if(rs.getInt("recordlevel") == 2)
 					{
-						gm.setRecordlevel("未破纪录");
+						gm.setRecordlevel("——");
 					}
-					else if(rs.getInt("recordlevel") == 1)
+					else if(rs.getInt("recordlevel") == 0)
 					{
-						gm.setRecordlevel("破院记录");
+						gm.setRecordlevel("院");
 					}
 					else
 					{
 						
-							gm.setRecordlevel("破省记录");
+							gm.setRecordlevel("省");
 					}
 					gm.setFoul(rs.getInt("foul")+"");
 					gm.setDepartname(rs.getString("departname"));
@@ -608,7 +613,7 @@ public class GameManageDao {
 					rs = pstmt.executeQuery();
 					if(rs.next())
 					{					
-					    fileName = rs.getString("sportsname") + "-" + rs.getString("groupname") + "-" + rs.getString("finalitemname");
+					    fileName = rs.getString("sportsname") + "-" + rs.getString("finalitemname") + "-";
 					}
 		         }
 				}catch(Exception e){

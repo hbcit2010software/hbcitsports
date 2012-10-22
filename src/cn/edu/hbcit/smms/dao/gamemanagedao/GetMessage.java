@@ -78,7 +78,7 @@ public class GetMessage {
 				}
 				rs.close();
 				pstmt.close();
-				dbc.freeConnection(conn);	//释放连接
+				//dbc.freeConnection(conn);	//释放连接
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

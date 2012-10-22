@@ -48,7 +48,8 @@ public class GameManageCreateWordOfAthleteInfDao {
         Font titleFont = new Font(bfChinese,16,Font.BOLD);   
         //正文字体风格   
         Font contextFont = new Font(bfChinese,10,Font.NORMAL);   
-        Paragraph title = new Paragraph(fileName);   
+        //System.out.println("WORD====="+fileName);
+        Paragraph title = new Paragraph(fileName+"成绩单");   
         //设置标题格式对齐方式   
         title.setAlignment(Element.ALIGN_CENTER);   
         title.setFont(titleFont);   
@@ -86,6 +87,12 @@ public class GameManageCreateWordOfAthleteInfDao {
         	table.addCell(new Cell(gm.getDepartname())); 	
 	       }}
         document.add(table);
+        Paragraph bottomName1 = new Paragraph("总记录长签字：_________________");   
+        bottomName1.setAlignment(Element.ALIGN_LEFT);   
+        document.add(bottomName1);
+        Paragraph bottomName2 = new Paragraph("总裁判长签字：_________________");   
+        bottomName1.setAlignment(Element.ALIGN_LEFT);     
+        document.add(bottomName2);
         document.close(); 
         }
 	catch(Exception e){
@@ -93,16 +100,4 @@ public class GameManageCreateWordOfAthleteInfDao {
 	}}
 		
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 

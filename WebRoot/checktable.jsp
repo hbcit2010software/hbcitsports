@@ -74,7 +74,7 @@
 				  
 					$("#gpit").text(groupname+"-->"+finalitemname);
 					var inhtml = "";
-					if(finalitemtype == '2'||finalitemtype == '1'){
+					//if(finalitemtype == '2'||finalitemtype == '1'){}
 					for(i = 0; i < json.length; i++){
 					
 							var json1 = json[i];
@@ -84,7 +84,8 @@
 								inhtml += "<tr class='tableTitle'><td  width='10%' height='20' align='center'>"+json1[j][0]+"</td><td  width='15%' height='20' align='center'>"+json1[j][1]+"</td><td  width='14%' height='20' align='center'>"+json1[j][2]+"</td><td  width='16%' height='20' align='center'></td><td  width='27%' height='20' align='center'></td></tr>";
 							}
 					}
-					}else{
+					/*
+					else{
 					for(i = 0; i < json.length; i++){
 					
 							var json1 = json[i];
@@ -93,7 +94,7 @@
 								inhtml += "<tr class='tableTitle'><td  width='10%' height='20' align='center'>"+json1[j][0]+"</td><td  width='15%' height='20' align='center'>"+json1[j][1]+"</td><td  width='14%' height='20' align='center'>"+json1[j][2]+"</td><td  width='16%' height='20' align='center'></td><td  width='27%' height='20' align='center'></td></tr>";
 							}
 					}
-					}
+					}*/
 					$('#content').html(inhtml);					
 				},
 				error : function(xhr, status, errorThrown) {

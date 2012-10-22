@@ -128,7 +128,7 @@
          <td><div align="left" style="margin-left:5px;"><input name="recordmark_low" type="text" id="recordmark_low" value="${r.recordmark_low}"  style="text-align:center"/></div></td>
        </tr>
        <tr class="tableContent">
-         <td><div align="right" style="margin-right:10px;">破省级 记录的加分</div></td>
+         <td><div align="right" style="margin-right:10px;">破省级记录的加分</div></td>
          <td><div align="left" style="margin-left:5px;"><input name="recordmark_high" type="text" id="recordmark_high" value="${r.recordmark_high}"  style="text-align:center"/></div></td>
        </tr>
        </c:forEach>

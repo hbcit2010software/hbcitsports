@@ -484,10 +484,16 @@ public class QueryMark {
 		        table.addCell(new Cell("积分"));
 		        table.addCell(new Cell("名次"));
 		        table.addCell(new Cell("破纪录"));
+		        System.out.println("QueryMarks:depNameList==========="+depNameList.size());
 		        for(int i = 0;i<depNameList.size();i++)
 		        {
-		        	 List<QueryAllMarksPlayerMsg> studentsMarksList = (List<QueryAllMarksPlayerMsg>)getStudentsMarks(depNameList.get(i)+"");
-		        	 List<QueryAllMarksPlayerMsg> teacherMarksList = (List<QueryAllMarksPlayerMsg>)getTeacherMarks(depNameList.get(i)+"");
+		        	
+		        	System.out.println("QueryMarks:depNameList.get(i)==========="+depNameList.get(i));
+		        	QueryMarkPoJo qm = (QueryMarkPoJo)depNameList.get(i);
+		        	 List<QueryAllMarksPlayerMsg> studentsMarksList = (List<QueryAllMarksPlayerMsg>)getStudentsMarks(qm.getDepName());
+		        	 System.out.println("QueryMarks:studentsMarksList==========="+studentsMarksList.size());
+		        	 List<QueryAllMarksPlayerMsg> teacherMarksList = (List<QueryAllMarksPlayerMsg>)getTeacherMarks(qm.getDepName());
+		        	 System.out.println("QueryMarks:teacherMarksList==========="+studentsMarksList.size());
 		        	 for(int j = 0;j<studentsMarksList.size();j++){
 		        		 QueryAllMarksPlayerMsg allMarksPlayerMsg = studentsMarksList.get(j);
 		        		 Cell cell1 = new Cell("学生");
@@ -526,25 +532,3 @@ public class QueryMark {
 			}
 }
 	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -184,9 +184,9 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 			if(rs.getString(8).equals("")){
 				rec = "无";
 			}else if(rs.getString(8).equals("0")){
-				rec = "院";
+				rec = "<font color='red'>院</font>";
 			}else if(rs.getString(8).equals("1")){
-				rec = "省";
+				rec = "<font color='blue'>省</font>";
 			}
 			jsonobj.put("recordlevel",rec);
 			jsonarray.add(jsonobj);
@@ -198,6 +198,21 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 		e.getStackTrace();
 	}
 	}else if(breakrecord.equals("0")&&0 != item ||breakrecord.equals("0")&&!itemtype.equals("0")){//如果未选中破纪录选择了项目名称
+		if(itemtype.equals("3")){
+			//项目类型为接力的成绩
+			selectInf.append("SELECT DISTINCT t_department.departshortname,t_finalitem.finalitemname,t_position.score,t_position.position,t_match.recordlevel" +
+					" FROM t_position" +
+					" JOIN t_player ON t_position.playerid = t_player.id" +
+					" JOIN t_group ON t_group.id = t_player.groupid" +
+					" JOIN t_sports2department ON t_player.sp2dpid = t_sports2department.id" +
+					" JOIN t_sports ON t_sports2department.sportsid = t_sports.id" +
+					" JOIN t_department ON t_sports2department.departid = t_department.id" +
+					" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id" +
+					" JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id" +
+					" JOIN t_match ON t_finalitem.id = t_match.finalitemid"+
+					" JOIN t_item ON t_group2item.itemid = t_item.id"+
+					" WHERE");
+		}else{
 		selectInf.append("SELECT DISTINCT t_player.playername,t_player.playernum,groupname,t_department.departshortname,t_finalitem.finalitemname"+
 				 " FROM t_position"+
 				 " JOIN t_player ON t_position.playerid = t_player.id"+
@@ -209,6 +224,7 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 				 " JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id"+
 				 " JOIN t_item ON t_group2item.itemid = t_item.id"+
 				" WHERE");
+		}
 		if(0 != sportsid){
 			selectInf.append(" t_sports.id = "+ sportsid +" ");
 		}
@@ -232,14 +248,36 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 		}
 		selectInf.append(";");
 	String sql = selectInf.toString();
+		conn = db.getConn();
 	QueryRegistitemToItems qrti = new QueryRegistitemToItems();
 	log.debug(sql);
-	conn = db.getConn();
 	try{
 		stmt = conn.createStatement();
 		rs = stmt.executeQuery(sql);
+		if(itemtype.equals("3")){
+			while(rs.next()){
+				JSONObject jsonobj = new JSONObject();
+				jsonobj.put("size", 5);
+				jsonobj.put("departshortname", rs.getString(1));
+				jsonobj.put("finalitemname", rs.getString(2));
+				jsonobj.put("score", rs.getString(3));
+				jsonobj.put("position", rs.getString(4));
+				String rec = "";
+				if(rs.getString(5).equals("2")){
+					rec = "无";
+				}else if(rs.getString(5).equals("0")){
+					rec = "<font color='red'>院</font>";
+				}else if(rs.getString(5).equals("1")){
+					rec = "<font color='blue'>省</font>";
+				}
+				jsonobj.put("recordlevel",rec);//有无破纪录t_match表中的t_sport.id查询出recordlevel。
+				log.debug(jsonobj.size());
+				jsonarray.add(jsonobj);
+			}
+		}else{
 		while( rs.next()){
 			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("size", 7);
 			jsonobj.put("playername", rs.getString(1));
 			jsonobj.put("playernum", rs.getString(2));
 			jsonobj.put("groupname", rs.getString(3));
@@ -249,6 +287,7 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 			jsonobj.put("position", qrti.getPosition1(rs.getString(2),rs.getString(5)));
 			jsonobj.put("recordlevel",qrti.getRecordlevel2(rs.getString(2), rs.getString(5)));
 			jsonarray.add(jsonobj);
+		}
 		}
 		rs.close();
 		stmt.close();

@@ -60,6 +60,7 @@ public class AddScore {
 				if( !(list.size() == 0) ){
 					String recorescore = list.get(0).toString();	//最好成绩
 					String recorelevel = list.get(1).toString();	//所破记录
+					System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq  recorescore="+recorescore+",recorelevel="+recorelevel+",score="+score);
 					if( "2".equals(itemType)){
 						if( !("0.00".equals(score) || "0.00.00".equals(score) || "00.00.00".equals(score))){
 							if( this.isScoreMax(score, recorescore)){
@@ -233,24 +234,24 @@ public class AddScore {
 	public JSONArray getAddIntegralMessage( String finalitemname){
 		String sql = "SELECT promotionnum FROM t_finalitem " +
 				"WHERE gp2itid IN ( SELECT gp2itid FROM t_finalitem WHERE finalitemname = ?) AND " +
-				"(finalitemtype = '1' OR finalitemtype = '3') AND sportsid = ?";
-		
+				"finalitemtype = ? AND sportsid = ?";
 		String sqltp = "SELECT finalitemtype FROM t_finalitem WHERE finalitemname = ? ";
 		AddScore as = new AddScore();
 		String matchtype = as.getItemType(finalitemname);	//1：径赛，2：田赛，3：接力;
+		String finalItemType = getFinalitemType(finalitemname);
 		System.out.println("matchtype="+matchtype);
 		String sql2 = null;
 		if( "1".equals(matchtype) || "3".equals(matchtype)){
 			sql2 = "SELECT playerid,score,finalitemid FROM t_match WHERE finalitemid IN (" +
 					"SELECT id FROM t_finalitem WHERE gp2itid = (" +
-					"SELECT gp2itid FROM t_finalitem WHERE finalitemname= ? AND sportsid = ? ) AND finalitemtype = '2' " +
+					"SELECT gp2itid FROM t_finalitem WHERE finalitemname= ? AND sportsid = ? ) AND finalitemtype = ? " +
 					") ORDER BY score+0 LIMIT ?";
 			
 		}
 		if( "2".equals(matchtype) ){
 			sql2 = "SELECT playerid,score,finalitemid FROM t_match WHERE finalitemid IN (" +
 			"SELECT id FROM t_finalitem WHERE gp2itid in (" +
-			"SELECT gp2itid FROM t_finalitem WHERE finalitemname= ? AND sportsid = ?) AND finalitemtype = '3' " +
+			"SELECT gp2itid FROM t_finalitem WHERE finalitemname= ? AND sportsid = ?) AND finalitemtype = ? " +
 			") ORDER BY score+0 desc LIMIT ?";
 		}
 		
@@ -263,7 +264,8 @@ public class AddScore {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, finalitemname);
-			pstmt.setInt(2, sportsid);
+			pstmt.setString(2, finalItemType);
+			pstmt.setInt(3, sportsid);
 			rs = pstmt.executeQuery();	
 			
 			int promotionnum = 0;
@@ -274,7 +276,8 @@ public class AddScore {
 					pstmt2 = conn.prepareStatement(sql2);
 					pstmt2.setString(1, finalitemname);
 					pstmt2.setInt(2, sportsId);
-					pstmt2.setInt(3, promotionnum);
+					pstmt2.setString(3, finalItemType);
+					pstmt2.setInt(4, promotionnum);
 					rs2 = pstmt2.executeQuery();
 					while( rs2.next() ){
 						JSONArray list = new JSONArray();		//晋级运动员的信息
@@ -304,6 +307,7 @@ public class AddScore {
 	 * @return int
 	 */
 	public int getIntegral( String finalitemname ,String group){
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>finalitemname="+finalitemname+",group="+group);
 		int sportsid =sportsId;		//当前运动会的id
 		String sql = "SELECT position,mark,recordmark_low,recordmark_high FROM t_rule WHERE sportsid = ?";
 		
@@ -336,6 +340,7 @@ public class AddScore {
 			
 			
 			JSONArray alllist = getAddIntegralMessage(finalitemname);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>alllist="+alllist.size());
 			//组合积分字符串
 			for( int a = markArray.length - 1 ; a < alllist.size(); a++ ){
 				mark += ",0";
@@ -344,17 +349,13 @@ public class AddScore {
 			
 			for( int i = 0 ; i < alllist.size(); i++ ){
 				JSONArray list = alllist.getJSONArray(i);
-				System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii="+i);
 				if( markArray.length > i){
 					sum = Integer.parseInt(markArray[i]);	//名次积分
 					if( list.size() != 0 ){
 							int playerid =	Integer.parseInt(list.get(0).toString());
 							String score =	list.get(1).toString();
 							int finalitemid = Integer.parseInt(list.get(2).toString());
-							System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiplayerid="+playerid+",score="+score+",finalitemid="+finalitemid);
-							System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirecordScore.size()="+recordScore.size());
 							if( recordScore.size() == 0 ){//record无当前项目的最优记录
-								System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirecordScore.size()="+recordScore.size());
 								if( i == 0 ){
 									sum += recordmark_low;
 									insertRecord(finalitemid, playerid, "0", score);
@@ -362,7 +363,6 @@ public class AddScore {
 								}else{
 									addIntegral(finalitemid, playerid, sum);
 								}
-								System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhplayerid="+playerid+",score="+score+",finalitemid="+finalitemid+",sum="+sum);
 							}else{//record有当前项目的最优记录
 								if( markArray.length > i){}
 									if( "2".equals(itemType) ){//2,田赛
@@ -382,11 +382,7 @@ public class AddScore {
 											flag = addIntegral(finalitemid, playerid, sum);
 										}
 									}else{
-										System.out.println("------------------------------接力this.isScoreMin(score, recordScore.getString(0))"+this.isScoreMin(score, recordScore.getString(0)));
-										System.out.println("------------------------------接力this.isScoreMin(score, recordScore.getString(0))"+recordScore.getString(0)+",score="+score);
-										
 										if( this.isScoreMin(score, recordScore.getString(0))){	//破纪录积分
-											System.out.println("------------------------------接力this.isScoreMin(score, recordScore.getString(0))"+this.isScoreMin(score, recordScore.getString(0)));
 											if( recordScore.getString(1).equals("0")){//院记录
 												sum += recordmark_low;
 												flag += insertRecord(finalitemid, playerid, "0", score);
@@ -403,8 +399,7 @@ public class AddScore {
 									}
 								
 							}
-							System.out.println("55555555555555555555555555555555555555555555sum="+sum);
-							addIntegralToMark(playerid, sum ,group,itemType);//添加积分到t_position表中
+							//addIntegralToMark(playerid, sum ,group,itemType);//添加积分到t_position表中
 					}
 				}
 			}
@@ -486,13 +481,11 @@ public class AddScore {
 	public int insertRecord( int finalitemid , int playerid , String recordlevel , String score){
 		
 		ArrayList itemMes = getItemMessage(finalitemid);//itemid,DATE
-		String sql = "INSERT INTO t_record(itemid,sex,score,playername,departname,sportsname,recordtime,recordlevel) VALUES (?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO t_record(itemid,sex,score,playerid,playername,departname,sportsname,recordtime,recordlevel) VALUES (?,?,?,?,?,?,?,?,?)";
 		String sqll = "SELECT finalitemname FROM t_finalitem WHERE id = ?";
-		//String sqlll = "SELECT playersex FROM t_player WHERE id = ?";
 		String finalitemnam = null;
 		int sex = 0;
 		int flag = 0;
-			//DBConn dbc = new DBConn();
 			
 			try {
 				conn = dbc.getConn();
@@ -512,23 +505,14 @@ public class AddScore {
 				conn = dbc.getConn();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, (Integer)itemMes.get(0));
-				/*if( "3".equals(itemType)){
-					pstmt.setInt(2, sex);
-				}else{}*/
-					pstmt.setInt(2, (Integer)playerMes.get(1));
-				
-				
+				pstmt.setInt(2, (Integer)playerMes.get(1));
 				pstmt.setString(3, score);
-				/*if( "3".equals(itemType)){
-					pstmt.setString(4, "");
-				}else{}*/
-					pstmt.setString(4, playerMes.get(0).toString());
-				
-				
-				pstmt.setString(5, playerMes.get(2).toString());
-				pstmt.setString(6, dao.selectCurrentSportsName());
-				pstmt.setString(7, itemMes.get(1).toString().substring(0, 7));
-				pstmt.setString(8, recordlevel);
+				pstmt.setInt(4, playerid);
+				pstmt.setString(5, playerMes.get(0).toString());
+				pstmt.setString(6, playerMes.get(2).toString());
+				pstmt.setString(7, dao.selectCurrentSportsName());
+				pstmt.setString(8, itemMes.get(1).toString().substring(0, 7));
+				pstmt.setString(9, recordlevel);
 				flag = pstmt.executeUpdate();
 
 				pstmt.close();
@@ -922,7 +906,7 @@ public class AddScore {
 		for( int i = 0 ; i < scorea.length ; i++ ){
 			System.out.println( Integer.parseInt( scorea[i]) +"==="+ Integer.parseInt( recordScorea[i]));
 			if( Integer.parseInt( scorea[i]) < Integer.parseInt( recordScorea[i])){
-				flag = true;
+				flag = true;break;
 			}else if( Integer.parseInt( scorea[i]) > Integer.parseInt( recordScorea[i])){
 				flag =  false;
 			}

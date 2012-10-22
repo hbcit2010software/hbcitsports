@@ -47,18 +47,18 @@ function updates(depName){
 			   dataType : 'json',
                success : function(json) {
                
-				 alert("成功生成此文档，请点击连接下载word附件");
+				 Dialog.alert("成功生成此文档，请点击连接下载word附件");
 				 var inhtml = "";
 				   
 				 for(i=0;i<json.contents.length;i++)	
 				 {		
-				   alert(json.contents[i].fileName1);
+				   Dialog.alert(json.contents[i].fileName1);
 				   inhtml = "<a href='download.jsp?file="+json.contents[i].file+"&fileName="+ encodeURIComponent(encodeURIComponent(json.contents[i].fileName1)) +"'>"+ json.contents[i].fileName1 +"</a>";
                    $("#aOfUpload").html(inhtml);
                  }  
                }, 
                error : function(xhr, status, errorThrown) {
-					alert("服务器连接出错了");
+					Dialog.alert("服务器连接出错了");
 				}			
                });
   }
@@ -72,18 +72,18 @@ function updates(depName){
 			   dataType : 'json',
                success : function(json) {
                
-				 alert("成功生成此文档，请点击连接下载word附件");
+				 Dialog.alert("成功生成此文档，请点击连接下载word附件");
 				 var inhtml = "";
 				   
 				 for(i=0;i<json.contents.length;i++)	
 				 {		
-				   alert(json.contents[i].fileName1);
+				   Dialog.alert(json.contents[i].fileName1);
 				   inhtml = "<a href='download.jsp?file="+json.contents[i].file+"&fileName="+ encodeURIComponent(encodeURIComponent(json.contents[i].fileName1)) +"'>"+ json.contents[i].fileName1 +"</a>";
                    $("#aOfUpload").html(inhtml);
                  }  
                }, 
                error : function(xhr, status, errorThrown) {
-					alert("服务器连接出错了");
+					Dialog.alert("服务器连接出错了");
 				}			
                });
   }

@@ -224,7 +224,6 @@ public class GameManageCheckTableDao {
 	                		 //list.add(Integer.toString(rs.getInt(1)));
 	                		 list.add(rs.getString(1));
 	                		 list.add(rs.getString(2));
-	                		 list.add(rs.getString(3));
 	                		 list.add(rs.getString(4));
 	                		 alllist.add(list); 
 	                	 }
@@ -253,7 +252,6 @@ public class GameManageCheckTableDao {
 		                		 //list.add(Integer.toString(rs.getInt(1)));
 		                		 list.add(rs.getString(1));
 		                		 list.add(rs.getString(2));
-		                		 list.add(rs.getString(3));
 		                		 list.add(rs.getString(4));
 		                		 alllist.add(list); 
 		                	 }
