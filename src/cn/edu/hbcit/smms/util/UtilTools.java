@@ -81,6 +81,55 @@ public class UtilTools {
 		
 		return rst;
 	}
+	/**
+	 * 转换成绩字符串
+	 * 将2.10.29.41转化成2,10'29"41
+	 * 将10.29.42转化成10'29"42
+	 * 将10.89转化成10"89
+	 * @param score
+	 * @return
+	 */
+	public String coverToTrackScore(String score){
+
+		if(score != null){
+			StringBuffer result = new StringBuffer();
+			String[] tempArray = score.split("\\.");
+			log.debug(score+"分割的数组长度:"+tempArray.length);
+			//统计串中.的个数
+			int sumDot = 0;
+			for(int i = 0; i<score.length(); i++){
+				if(score.charAt(i) == '.'){
+					sumDot++;
+				}
+			}
+			
+			if(sumDot == 1){
+				result.append(tempArray[0]);
+				result.append("\"");
+				result.append(tempArray[1]);
+			}else if(sumDot == 2){
+				result.append(tempArray[0]);
+				result.append("'");
+				result.append(tempArray[1]);
+				result.append("\"");
+				result.append(tempArray[2]);
+			}else if(sumDot == 3){
+				result.append(tempArray[0]);
+				result.append(",");
+				result.append(tempArray[1]);
+				result.append("'");
+				result.append(tempArray[2]);
+				result.append("\"");
+				result.append(tempArray[3]);
+			}
+			log.debug(score+"成绩格式转换后为："+result.toString());
+			return result.toString();
+		}else{
+			return null;
+		}
+				
+		//return result;
+	}
 	
 
 }
