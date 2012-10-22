@@ -1,5 +1,7 @@
 package cn.edu.hbcit.smms.services.gameapplyservices;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import cn.edu.hbcit.smms.dao.gameapplydao.GetPlayerDAO;
@@ -107,5 +109,59 @@ public class GetPlayerService {
 	public ArrayList getGroupTea(int sportsid){
 		return getPlayerDao.getGroupTea(sportsid);
 	}
+	/**
+	 * 根据sp2dpid查询学生已报运动员信息
+	 * @param sp2dpid
+	 * @param group2item
+	 * @return
+	 */
+	public int[][] selectPlayerByspSdpid(int sp2dpid, int[][] group2item){
+        return getPlayerDao.selectPlayerByspSdpid(sp2dpid, group2item);
+	}
 	
+	/**
+	 * 根据sportsid查询学生组性别+项目id
+	 * @param sportsid
+	 * @return
+	 */
+	public int[][] selectItemByspSdpid(int sportsid){
+        return getPlayerDao.selectItemByspSdpid(sportsid);
+	}
+	/**
+	 * 根据sp2dpid查询教工已报运动员信息
+	 * @param sp2dpid
+	 * @param group2item
+	 * @return
+	 */
+	public int[][] selectTPlayerByspSdpid(int sp2dpid, int[][] group2item){
+        return getPlayerDao.selectTPlayerByspSdpid(sp2dpid, group2item);
+	}
+	
+	/**
+	 * 根据sportsid查询教工组别+项目id
+	 * @param sportsid
+	 * @return
+	 */
+	public int[][] selectTItemByspSdpid(int sportsid){
+        return getPlayerDao.selectTItemByspSdpid(sportsid);
+	}
+	
+	/**
+	 * 根据sp2dpid查询学生已报运动员信息
+	 * @param sp2dpid
+	 * @param group2item
+	 * @return
+	 */
+	public int[][] selectSPlayerByspSdpid(int sp2dpid, int[][] group2item){
+        return getPlayerDao.selectSPlayerByspSdpid(sp2dpid, group2item);
+	}
+	
+	/**
+	 * 根据sportsid查询学生组别+项目id
+	 * @param sportsid
+	 * @return
+	 */
+	public int[][] selectSItemByspSdpid(int sportsid){
+        return getPlayerDao.selectSItemByspSdpid(sportsid);
+	}
 }

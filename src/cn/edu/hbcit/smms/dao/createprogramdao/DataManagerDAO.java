@@ -777,7 +777,7 @@ public class DataManagerDAO {
     	 		"JOIN t_group2sports ON t_group.id = t_group2sports.groupid " +
     	 		"JOIN t_group2item ON t_group2sports.id = t_group2item.gp2spid " +
     	 		"JOIN t_item ON t_group2item.itemid = t_item.id " +
-    	 		"WHERE t_group2sports.sportsid = ? AND t_item.itemtype = ?";
+    	 		"WHERE t_group2sports.sportsid = ? AND t_item.itemtype = ? AND t_group2item.matchtype <> 0";
  		 try {
              Connection conn = db.getConn();
              if(conn != null){

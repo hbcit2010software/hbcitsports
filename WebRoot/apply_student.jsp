@@ -58,6 +58,20 @@ $(document).ready(function(){
 	}
 	//System.out.println(itemlist);
 %> 
+//********************************韩鑫鹏
+<%
+	int[][] itemInfo =(int[][])request.getAttribute("itemInfo");
+	out.print("var gr2items = new Array();");
+	
+	for(int iNum = 0;iNum<itemInfo.length;iNum++ ){
+		out.print("gr2items["+iNum+"] = new Array(3);");
+		out.print("gr2items["+iNum+"][0] = "+itemInfo[iNum][0]+";");
+		out.print("gr2items["+iNum+"][1] = "+itemInfo[iNum][1]+";");
+		out.print("gr2items["+iNum+"][2] = "+itemInfo[iNum][2]+";");
+	}
+	
+%> 
+//********************************韩鑫鹏
 
 var sample = "sample";
 var sum = 0;
@@ -67,6 +81,35 @@ var number = 0;
 //number = <%=begin%>;
 var itemids = new Array(<%for(int i=0;i < itemid.length;i++){out.print(itemid[i]);if(i!=itemid.length-1)out.print(","); }   %>);
 var itemtypes = new Array(<%for(int i=0;i<itemtype.length;i++){out.print(itemtype[i]);if(i!=itemtype.length-1)out.print(","); }   %>);
+
+function checkSex(obj){
+	//alert('qqqqqqqqqqqqqq');
+	var thisname = obj.name;
+	var val = obj.value;
+	//alert(val);
+	var sex = 1;
+	if(val=='true'){
+	   sex = 0;
+	}
+	var boxName = thisname.replace('sex_',"");
+	//alert(boxName);
+	var arr = document.getElementsByName(boxName);
+	for(var i=0; i<arr.length; i++){
+		if( arr[i].checked == true){
+			var temp;
+			temp = arr[i].value.split("#");
+			var myid = parseInt(temp[0]);
+			for (var itNum = 0; itNum < <%=itemInfo.length%>;itNum++){
+				//alert('leijiazhiqian'+gr2items[itNum][2]);
+				if(gr2items[itNum][0]==sex && gr2items[itNum][1]==myid){
+					gr2items[itNum][2]--;
+					arr[i].checked = false;
+					break;
+				}
+			}
+		}
+	}
+}
 function checkItem(obj){
 	var thisname = obj.name;
 	//alert(thisname);
@@ -83,6 +126,49 @@ function checkItem(obj){
 		Dialog.alert("除接力比赛外，每人限报<%=perMan%>项！");
 		obj.checked = false;
 	}
+	
+//********************************韩鑫鹏
+	var falgqq = 0;
+	var eItem = obj.value;
+	//alert(eItem);
+	var tempId = eItem.split("#");
+	var myid = parseInt(tempId[0]);
+	//alert(myid);
+	var sexNmae = "sex_"+thisname;
+	var sex1 = document.getElementsByName(sexNmae);
+	var sex=0;//性别男1 女2
+	if(sex1[0].checked==true){
+		sex=1;
+	}
+	//alert(sex);
+	
+	for (var itNum = 0; itNum < <%=itemInfo.length%>;itNum++){
+	//alert('leijiazhiqian'+gr2items[itNum][2]);
+		if(gr2items[itNum][0]==sex && gr2items[itNum][1]==myid){
+		falgqq = 1;
+			if(obj.checked){
+			
+				gr2items[itNum][2]++;
+				//alert(gr2items[itNum][2]);
+				if(gr2items[itNum][2] > <%=perDepartment%>){
+					Dialog.alert("该项目超过<%=perDepartment%>人");
+					obj.checked = false;
+					gr2items[itNum][2]--;
+				}
+				break;
+			}else{
+				//alert(gr2items[itNum][2]);
+				gr2items[itNum][2]--;
+				//alert(gr2items[itNum][2]);
+				break;
+			}
+		}
+	}
+	if(falgqq == 0){
+		Dialog.alert("该组别没有该项目");
+		obj.checked = false;
+	}
+//********************************韩鑫鹏
 }
 function addRow(obj)
         {
@@ -106,11 +192,11 @@ function addRow(obj)
         newTd0.innerHTML = '<td><div align="center"><lable><input type="hidden" name="hide" id="'+cover+'"><input type=text size="4" readonly="true" id="num_'+sample+'" name="num_'+sample+'"  value='+playerNum[number]+'></lable></div></td>'; 
 		newTd1.innerHTML = '<td><div align="center"><input type="text" size="6" name="name_'+sample+'" id="name_'+sample+'"></div></td>'; 
 		newTd2.innerHTML = '<td align="center" valign="middle"><div align="center" style="font-size:12px;">'+
-		'<input type="radio" name="sex_'+sample+'" value="true" checked="checked">男&nbsp;'+
-		'<input type="radio" name="sex_'+sample+'" value="false">女</div></td>';
+		'<input type="radio" name="sex_'+sample+'" value="true" checked="checked" onchange="checkSex(this);">男&nbsp;'+
+		'<input type="radio" name="sex_'+sample+'" value="false"onchange="checkSex(this);">女</div></td>';
          var i = 3;
          for(i = 3;i <= <%=num+2%>; i++){
-        	newTr.insertCell(i).innerHTML= '<td><div align="center"><input onchange="checkItem(this);" type="checkbox" name="'+sample+'" value="'+itemids[i-3]+'#'+itemtypes[i-3]+'"></div></td>';
+        	newTr.insertCell(i).innerHTML= '<td><div align="center"><input id="box'+i+'#'+sample+'" onchange="checkItem(this);" type="checkbox" name="'+sample+'" value="'+itemids[i-3]+'#'+itemtypes[i-3]+'"></div></td>';
          }
          sum=sum + 1;
          add=add+1;
@@ -250,7 +336,7 @@ function selGroup(){
   <form action="${pageContext.request.contextPath }/servlet/UpdatePlayerServlet" method="post" onSubmit="return submitCheck();">
     <table id="stuentApply" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
       <tr class="tableTitle">
-        <td height="20" colspan="17" ><div align="center">
+        <td height="20" colspan="50" ><div align="center">
           <h1 style="margin-bottom:0px;">学生组报名页面  </h1>
         </div>
         <div align="right">
@@ -258,7 +344,7 @@ function selGroup(){
         </div>
         </td>
       </tr>  
-      <tr><td valign="middle" height="20" colspan="17"><div align="center"><input type="button" name="button" id="button"  style="width:80px;height:30px;" value="添   加" onClick="addRow();"></div></td></tr>
+      <tr><td valign="middle" height="20" colspan="50"><div align="center"><input type="button" name="button" id="button"  style="width:80px;height:30px;" value="添   加" onClick="addRow();"></div></td></tr>
     <tr id="tabletitle" style=" font-size:12px; font-weight:bold;">
       <td width="4%"><p align="center">号码<br></p> </td>
       <td width="4%"><p align="center">姓名</p>      </td>

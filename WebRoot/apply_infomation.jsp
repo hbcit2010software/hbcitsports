@@ -9,18 +9,39 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 <script type="text/javascript">
-//隔行变色
 $(document).ready(function(){
 			 $(".stripe_tb tr").mouseover(function(){ //如果鼠标移到class为stripe_tb的表格的tr上时，执行函数
 			 $(this).addClass("over");}).mouseout(function(){ //给这行添加class值为over，并且当鼠标一出该行时执行函数
 			 $(this).removeClass("over");}) //移除该行的class
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt		
 		});
+</script>
+
+<script type="text/javascript">
+//隔行变色
+
 <%
 	int perMan = Integer.parseInt(session.getAttribute("perMan").toString());
 	int perDepartment = Integer.parseInt(session.getAttribute("perDepartment").toString());
 %>
-		
+
+//********************************韩鑫鹏
+<%
+int[][] itemInfo = null;
+if(request.getAttribute("itemInfo")!=null){
+	itemInfo =(int[][])request.getAttribute("itemInfo");
+	out.print("var gr2items = new Array();");
+	
+	for(int iNum = 0;iNum<itemInfo.length;iNum++ ){
+		out.print("gr2items["+iNum+"] = new Array(3);");
+		out.print("gr2items["+iNum+"][0] = "+itemInfo[iNum][0]+";");
+		out.print("gr2items["+iNum+"][1] = "+itemInfo[iNum][1]+";");
+		out.print("gr2items["+iNum+"][2] = "+itemInfo[iNum][2]+";");
+	}
+	
+}
+%> 
+//********************************韩鑫鹏	
 //判断每项限报6人
 <%
 if(request.getAttribute("itemList")!=null&&request.getAttribute("groupList")!=null){
@@ -67,22 +88,82 @@ function showSelectValue(){
 
 //限制每人项目个数
 function checkItem(obj){
+	var falgqq = 0;
 	var thisname = obj.name;
-	var temp = obj.id;
+	//alert(thisname);
 	var arr = document.getElementsByName(thisname);
 	var count = 0;
 	for(var i=0; i<arr.length; i++){
-		if( arr[i].checked == true && temp != "3"){
+		var temp;
+		temp = arr[i].id.split("#");
+		if( arr[i].checked == true && temp[1] != "3"){
 			count++;
 		}
 	}
-	if(count > <%=perMan%>){
-		Dialog.alert("除接力比赛外，每人限报2项！");
+	if(count ><%=perMan%>){
+		Dialog.alert("除接力比赛外，每人限报<%=perMan%>项！");
+		obj.checked = false;
+	}
+	//********************************韩鑫鹏
+	
+	var eItem = obj.value;
+	var myid = parseInt(eItem);
+	//alert("myid"+myid);
+	var groupid = thisname.replace('checkbox_',"");
+	groupid = "select_"+groupid;
+	//alert("groupid"+groupid);
+	var sex=parseInt(document.getElementById(groupid).value);
+	//alert(sex);
+	for (var itNum = 0; itNum < gr2items.length;itNum++){
+	//alert('leijiazhiqian'+gr2items[itNum][2]);
+		if(gr2items[itNum][0]==sex && gr2items[itNum][1]==myid){
+		falgqq = 1;
+			if(obj.checked){
+				gr2items[itNum][2]++;
+				//alert(gr2items[itNum][2]);
+				if(gr2items[itNum][2] > <%=perDepartment%>){
+					
+					Dialog.alert("该项目超过<%=perDepartment%>人");
+					obj.checked = false;
+					gr2items[itNum][2]--;
+				}
+				break;
+			}else{
+				//alert(gr2items[itNum][2]);
+				gr2items[itNum][2]--;
+				//alert(gr2items[itNum][2]);
+				break;
+			}
+		}
+	}
+	if(falgqq == 0){
+		Dialog.alert("该组别没有该项目");
 		obj.checked = false;
 	}
 }
-
-
+function checkSex(old,obj){
+	var thisname = obj.id;
+	var val = obj.value;
+	var boxName = thisname.replace('select_',"");
+	boxName = "checkbox_" + boxName;
+	//alert(boxName);
+	var arr = document.getElementsByName(boxName);
+	for(var i=0; i<arr.length; i++){
+		if( arr[i].checked == true){
+			var temp;
+			temp = arr[i].value;
+			var myid = parseInt(temp);
+			for (var itNum = 0; itNum < gr2items.length;itNum++){
+				if(gr2items[itNum][0]==old && gr2items[itNum][1]==myid){
+					gr2items[itNum][2]--;
+					arr[i].checked = false;
+					break;
+				}
+			}
+		}
+	}
+}
+//********************************韩鑫鹏
 function submitCheck(){
 	document.getElementById("hidselectGroup").value = document.getElementById("matchgroup").value
 	var countOldMan = 0;
@@ -304,7 +385,7 @@ function submitCheck(){
          <td width="2%" height="20">
          <div align="center">
          <span>
-         <select id="select_${player.playernumID}" name="select_${player.playernumID}" >
+         <select id="select_${player.playernumID}" name="select_${player.playernumID}" onclick="old=this.value" onchange="checkSex(old,this);">
            <c:forEach items="${requestScope.groupList}" var="grouplist">
            <option value="${grouplist.id}" <c:if test="${player.groupid eq grouplist.id}">selected="selected"</c:if>>${ grouplist.groupname }</option>             
            </c:forEach>             
@@ -326,7 +407,7 @@ function submitCheck(){
         <c:forEach items="${player.items}" var="checked">
          <td width="6%" height="20"><div align="center">
          <span>
-         <input onchange="checkItem(this)" type="checkbox" id="<%=itemtype[ii]%>"  name="checkbox_${player.playernumID}" value="<%=itemids[ii]%>" ${checked}/>
+         <input onchange="checkItem(this)" type="checkbox" id="<%=itemids[ii]%>#<%=itemtype[ii]%>"  name="checkbox_${player.playernumID}" value="<%=itemids[ii]%>" ${checked}/>
          <%ii += 1; %>
          </span></div></td>
          </c:forEach>

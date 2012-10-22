@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
@@ -551,7 +552,6 @@ public class GetPlayerDAO {
 		/**
 		 * 根据运动会id获取学生组所能报名的项目
 		 * 2012-10-17新建
-		 * * @author 陈系晶
 		 * @param sportsid
 		 * @return
 		 */
@@ -584,7 +584,6 @@ public class GetPlayerDAO {
 			
 			/**
 			 * 查询当届运动会的学生参赛组别
-			 * * @author 陈系晶
 			 * @param sportsid
 			 * @return
 			 */
@@ -611,7 +610,6 @@ public class GetPlayerDAO {
 			}
 			/**
 			 * 根据运动会id获取教工组所能报名的项目
-			 * * @author 陈系晶
 			 * @param sportsid
 			 * @return
 			 */
@@ -644,7 +642,6 @@ public class GetPlayerDAO {
 				
 				/**
 				 * 查询当届运动会的教工参赛组别
-				 *  @author 陈系晶
 				 * @param sportsid
 				 * @return
 				 */
@@ -668,5 +665,236 @@ public class GetPlayerDAO {
 					db.freeConnection(conn);
 					return list;
 				}
+				
+				/**
+				 * 根据sp2dpid查询学生已报运动员信息
+				 * @param sp2dpid
+				 * @param group2item
+				 * @return
+				 */
+				public int[][] selectPlayerByspSdpid(int sp2dpid, int[][] group2item){
+					conn = db.getConn();
+					String sql = "SELECT t_player.playersex,t_player.registitem FROM t_player JOIN t_group ON t_player.groupid = t_group.id WHERE" +
+							" t_group.grouptype=1 AND t_player.sp2dpid=? AND registitem IS NOT null";
+			        try {
+			        	PreparedStatement pStatement = conn.prepareStatement(sql);
+			        	pStatement.setInt(1, sp2dpid);
+			        	rs = pStatement.executeQuery();
+			        	while(rs.next()){
+			        		String[] items = rs.getString(2).trim().split(";");
+			        		int sex = rs.getInt(1);
+			        		for (int i = 0; i < items.length; i++){
+			        			int itemId = Integer.parseInt(items[i].trim());
+			        			for (int itemNum = 0 ; itemNum < group2item.length; itemNum++){
+			        				if (sex == group2item[itemNum][0] && itemId == group2item[itemNum][1]){
+			        					group2item[itemNum][2]++;
+			        					break;
+			        				}
+			        			}
+			        				
+			        		}
+			        	}
+			        	pStatement.close();
+			            db.freeConnection(conn);
+			        }catch (SQLException e) {                 
+			            log.error("添加hashmap已报运动员失败！");
+			    		log.error(e.getMessage());   
+			        }
+			        return group2item;
+				}
+				
+				/**
+				 * 根据sportsid查询学生组性别+项目id
+				 * @param sportsid
+				 * @return
+				 */
+				public int[][] selectItemByspSdpid(int sportsid){
+					int count = 0;
+					int count2 = 0;
+					int[][] group2item = null;
+					conn = db.getConn();
+					String sql = "SELECT t_group.groupsex,t_group2item.itemid FROM t_group2sports JOIN t_group ON " +
+							"t_group2sports.groupid = t_group.id  JOIN t_group2item ON " +
+							"t_group2item.gp2spid = t_group2sports.id WHERE t_group2sports.sportsid = ? AND t_group.grouptype=1 AND t_group2item.matchtype <> 0";
+			        try {
+			        	PreparedStatement pStatement = conn.prepareStatement(sql);
+			        	pStatement.setInt(1, sportsid);
+			        	rs = pStatement.executeQuery();
+			        	
+			        	rs.last();
+			        	count = rs.getRow();
+			        	//log.debug("???????????????????????"+count);
+			        	group2item = new int[count][3];
+			        	rs.beforeFirst();
+			        	//log.debug("%%%%%%%%%%%%%%%%%%%%%%%%"+rs.getRow());
+			        	while(rs.next()){
+			        		group2item[count2][0] = rs.getInt(1);
+			        		group2item[count2][1] = rs.getInt(2);
+			        		group2item[count2][2] = 0;
+			        		count2++;
+			        	}
+			        	//log.debug("???????????????????????"+count);
+			        	pStatement.close();
+			            db.freeConnection(conn);
+			        }catch (SQLException e) {                 
+			            log.error("添加hashmap已报运动员失败！");
+			    		log.error(e.getMessage());   
+			        }
+			        return group2item;
+				}
+	
+				/**
+				 * 根据sportsid查询学生教工组组别+项目id
+				 * @param sportsid
+				 * @return
+				 */
+				public int[][] selectTItemByspSdpid(int sportsid){
+					int count = 0;
+					int count2 = 0;
+					int[][] group2item = null;
+					conn = db.getConn();
+					String sql = "SELECT t_group.id,t_group2item.itemid FROM t_group2sports JOIN t_group ON t_group2sports.groupid = t_group.id  JOIN " +
+							"t_group2item ON t_group2item.gp2spid = t_group2sports.id WHERE t_group2sports.sportsid = ? AND t_group.grouptype=0 AND t_group2item.matchtype <> 0";
+			        try {
+			        	PreparedStatement pStatement = conn.prepareStatement(sql);
+			        	pStatement.setInt(1, sportsid);
+			        	rs = pStatement.executeQuery();
+			        	
+			        	rs.last();
+			        	count = rs.getRow();
+			        	//log.debug("???????????????????????"+count);
+			        	group2item = new int[count][3];
+			        	rs.beforeFirst();
+			        	//log.debug("%%%%%%%%%%%%%%%%%%%%%%%%"+rs.getRow());
+			        	while(rs.next()){
+			        		group2item[count2][0] = rs.getInt(1);
+			        		group2item[count2][1] = rs.getInt(2);
+			        		group2item[count2][2] = 0;
+			        		count2++;
+			        	}
+			        	//log.debug("???????????????????????"+count);
+			        	pStatement.close();
+			            db.freeConnection(conn);
+			        }catch (SQLException e) {                 
+			            log.error("添加hashmap已报运动员失败！");
+			    		log.error(e.getMessage());   
+			        }
+			        return group2item;
+				}
+	
+				/**
+				 * 根据sp2dpid查询教工已报运动员信息
+				 * @param sp2dpid
+				 * @param group2item
+				 * @return
+				 */
+				public int[][] selectTPlayerByspSdpid(int sp2dpid, int[][] group2item){
+					conn = db.getConn();
+					String sql = "SELECT t_player.groupid,t_player.registitem FROM t_player JOIN t_group ON t_player.groupid = t_group.id WHERE" +
+							" t_group.grouptype=0 AND t_player.sp2dpid=? AND registitem IS NOT null";
+			        try {
+			        	PreparedStatement pStatement = conn.prepareStatement(sql);
+			        	pStatement.setInt(1, sp2dpid);
+			        	rs = pStatement.executeQuery();
+			        	while(rs.next()){
+			        		String[] items = rs.getString(2).trim().split(";");
+			        		int sex = rs.getInt(1);
+			        		for (int i = 0; i < items.length; i++){
+			        			int itemId = Integer.parseInt(items[i].trim());
+			        			for (int itemNum = 0 ; itemNum < group2item.length; itemNum++){
+			        				if (sex == group2item[itemNum][0] && itemId == group2item[itemNum][1]){
+			        					group2item[itemNum][2]++;
+			        					break;
+			        				}
+			        			}
+			        				
+			        		}
+			        	}
+			        	pStatement.close();
+			            db.freeConnection(conn);
+			        }catch (SQLException e) {                 
+			            log.error("添加hashmap已报运动员失败！");
+			    		log.error(e.getMessage());   
+			        }
+			        return group2item;
+				}
+				
+				
+				/**
+				 * 根据sportsid查询学生学生组组别+项目id
+				 * @param sportsid
+				 * @return
+				 */
+				public int[][] selectSItemByspSdpid(int sportsid){
+					int count = 0;
+					int count2 = 0;
+					int[][] group2item = null;
+					conn = db.getConn();
+					String sql = "SELECT t_group.id,t_group2item.itemid FROM t_group2sports JOIN t_group ON t_group2sports.groupid = t_group.id  JOIN " +
+							"t_group2item ON t_group2item.gp2spid = t_group2sports.id WHERE t_group2sports.sportsid = ? AND t_group.grouptype=1 AND t_group2item.matchtype <> 0";
+			        try {
+			        	PreparedStatement pStatement = conn.prepareStatement(sql);
+			        	pStatement.setInt(1, sportsid);
+			        	rs = pStatement.executeQuery();
+			        	
+			        	rs.last();
+			        	count = rs.getRow();
+			        	//log.debug("???????????????????????"+count);
+			        	group2item = new int[count][3];
+			        	rs.beforeFirst();
+			        	//log.debug("%%%%%%%%%%%%%%%%%%%%%%%%"+rs.getRow());
+			        	while(rs.next()){
+			        		group2item[count2][0] = rs.getInt(1);
+			        		group2item[count2][1] = rs.getInt(2);
+			        		group2item[count2][2] = 0;
+			        		count2++;
+			        	}
+			        	//log.debug("???????????????????????"+count);
+			        	pStatement.close();
+			            db.freeConnection(conn);
+			        }catch (SQLException e) {                 
+			            log.error("添加hashmap已报运动员失败！");
+			    		log.error(e.getMessage());   
+			        }
+			        return group2item;
+				}
+	
+				/**
+				 * 根据sp2dpid查询学生已报运动员信息(修改页面)
+				 * @param sp2dpid
+				 * @param group2item
+				 * @return
+				 */
+				public int[][] selectSPlayerByspSdpid(int sp2dpid, int[][] group2item){
+					conn = db.getConn();
+					String sql = "SELECT t_player.groupid,t_player.registitem FROM t_player JOIN t_group ON t_player.groupid = t_group.id WHERE" +
+							" t_group.grouptype=1 AND t_player.sp2dpid=? AND registitem IS NOT null ";
+			        try {
+			        	PreparedStatement pStatement = conn.prepareStatement(sql);
+			        	pStatement.setInt(1, sp2dpid);
+			        	rs = pStatement.executeQuery();
+			        	while(rs.next()){
+			        		String[] items = rs.getString(2).trim().split(";");
+			        		int sex = rs.getInt(1);
+			        		for (int i = 0; i < items.length; i++){
+			        			int itemId = Integer.parseInt(items[i].trim());
+			        			for (int itemNum = 0 ; itemNum < group2item.length; itemNum++){
+			        				if (sex == group2item[itemNum][0] && itemId == group2item[itemNum][1]){
+			        					group2item[itemNum][2]++;
+			        					break;
+			        				}
+			        			}
+			        				
+			        		}
+			        	}
+			        	pStatement.close();
+			            db.freeConnection(conn);
+			        }catch (SQLException e) {                 
+			            log.error("添加hashmap已报运动员失败！");
+			    		log.error(e.getMessage());   
+			        }
+			        return group2item;
+				}
+				
 }
 

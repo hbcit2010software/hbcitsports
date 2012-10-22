@@ -69,7 +69,20 @@ $(document).ready(function(){
 	}
 	
 %>
-
+//********************************韩鑫鹏
+<%
+	int[][] itemInfo =(int[][])request.getAttribute("itemInfo");
+	out.print("var gr2items = new Array();");
+	
+	for(int iNum = 0;iNum<itemInfo.length;iNum++ ){
+		out.print("gr2items["+iNum+"] = new Array(3);");
+		out.print("gr2items["+iNum+"][0] = "+itemInfo[iNum][0]+";");
+		out.print("gr2items["+iNum+"][1] = "+itemInfo[iNum][1]+";");
+		out.print("gr2items["+iNum+"][2] = "+itemInfo[iNum][2]+";");
+	}
+	
+%> 
+//********************************韩鑫鹏
 
 var sample = "sample";
 var sum = 0;
@@ -79,6 +92,12 @@ var number = 0;
 //number = <%=begin%>;
 var itemids = new Array(<%for(int i=0;i<itemid.length;i++){System.out.println(itemid[i]); out.print(itemid[i]);if(i!=itemid.length-1)out.print(","); }   %>);
 var itemtypes = new Array(<%for(int i=0;i<itemtype.length;i++){out.print(itemtype[i]);if(i!=itemtype.length-1)out.print(","); }   %>);
+
+//**************8
+function checkA(obj){
+	alert('超链接'+obj.id);
+}
+//***************
 function checkItem(obj){
 	var thisname = obj.name;
 	//alert(thisname);
@@ -95,10 +114,76 @@ function checkItem(obj){
 		Dialog.alert("除接力比赛外，每人限报<%=perMan%>项！");
 		obj.checked = false;
 	}
+	//********************************韩鑫鹏
+	var falgqq = 0;
+	var eItem = obj.value;
+	//alert(eItem);
+	var tempId = eItem.split("#");
+	var myid = parseInt(tempId[0]);
+	//alert(myid);
+	var groupid = "select_"+thisname;
+	
+	var sex=parseInt(document.getElementById(groupid).value);
+	//alert(sex);
+	for (var itNum = 0; itNum < <%=itemInfo.length%>;itNum++){
+	//alert('leijiazhiqian'+gr2items[itNum][2]);
+		if(gr2items[itNum][0]==sex && gr2items[itNum][1]==myid){
+			falgqq = 1;
+			if(obj.checked){
+			
+				gr2items[itNum][2]++;
+				//alert(gr2items[itNum][2]);
+				if(gr2items[itNum][2] > <%=perDepartment%>){
+					Dialog.alert("该项目超过<%=perDepartment%>人");
+					obj.checked = false;
+					gr2items[itNum][2]--;
+				}
+				break;
+			}else{
+				//alert(gr2items[itNum][2]);
+				gr2items[itNum][2]--;
+				//alert(gr2items[itNum][2]);
+				break;
+			}
+		}
+	}
+	if(falgqq == 0){
+		Dialog.alert("该组别没有该项目");
+		obj.checked = false;
+	}
+//********************************韩鑫鹏
 	//alert(count);
 }
 //
-
+function checkSex(old,obj){
+	//alert(old);
+	//alert(obj.value);
+	//alert('qqqqqqqqqqqqqq');
+	var thisname = obj.id;
+	var val = obj.value;
+	//alert(val);
+	//var sex = parseInt(val);
+	var boxName = thisname.replace('select_',"");
+	//alert(boxName);
+	var arr = document.getElementsByName(boxName);
+	for(var i=0; i<arr.length; i++){
+		if( arr[i].checked == true){
+			var temp;
+			temp = arr[i].value.split("#");
+			var myid = parseInt(temp[0]);
+			for (var itNum = 0; itNum < <%=itemInfo.length%>;itNum++){
+				//alert('leijiazhiqian'+gr2items[itNum][2]);
+				if(gr2items[itNum][0]==old && gr2items[itNum][1]==myid){
+					//alert('qian'+gr2items[itNum][2]);
+					gr2items[itNum][2]--;
+					//alert('hou'+gr2items[itNum][2]);
+					arr[i].checked = false;
+					break;
+				}
+			}
+		}
+	}
+}
 //
 function addRow(obj)
         {
@@ -119,7 +204,7 @@ function addRow(obj)
         //设置列内容和属性
         newTd0.innerHTML = '<td><lable><div align="center"><input type="hidden" name="hide" id="'+cover+'"><input type=text size="4" readonly="true" id="num_'+sample+'" name="num_'+sample+'" value='+playerNum[number]+'></div></lable></td>'; 
 		newTd1.innerHTML = '<td><div align="center"><input type=text size="6" id="name_'+sample+'" name="name_'+sample+'"></div></td>'; 
-        newTd2.innerHTML = '<td align="center" valign="middle"><div align="center"><label><select name="select_'+sample+'" id="select_'+sample+'">'+
+        newTd2.innerHTML = '<td align="center" valign="middle"><div align="center"><label><select onclick="old=this.value" name="select_'+sample+'" id="select_'+sample+'" onchange="checkSex(old,this);">'+
         //'<option>——请选择——</option>'+
         <c:forEach items="${sessionScope.grouplist}" var="groupname">
         '<option value="'+${groupname.id }+'">'+'${ groupname.groupname }'+'</option>'+
@@ -287,7 +372,7 @@ function selGroup(){
   
     <table id="stuentApply" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
       <tr class="tableTitle">
-        <td height="20" colspan="17" ><div align="center">
+        <td height="20" colspan="50" ><div align="center">
           <h1 style="margin-bottom:0px;">教工组报名页面  </h1>
         </div>
         <div align="right">
@@ -296,7 +381,7 @@ function selGroup(){
         </td>
       </tr>
       
-      <tr><td valign="middle" height="20" colspan="17"><div align="center"><input type="button" name="button" id="button"  style="width:80px;height:30px;" value="添   加" onClick="addRow()"></div></td></tr>
+      <tr><td valign="middle" height="20" colspan="50"><div align="center"><input type="button" name="button" id="button"  style="width:80px;height:30px;" value="添   加" onClick="addRow()"></div></td></tr>
     <tr id="tabletitle" style="font-size:12px; font-weight:bold;">
       <td width="4%"><p align="center">号码<br></p> </td>
       <td width="4%"><p align="center">姓名</p>      </td>

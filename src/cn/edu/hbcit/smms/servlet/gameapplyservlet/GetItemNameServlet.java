@@ -155,6 +155,16 @@ public class GetItemNameServlet extends HttpServlet {
 		session.setAttribute("perMan", Integer.valueOf(perMan));
 		session.setAttribute("perDepartment", Integer.valueOf(perDepartment));
 		request.setAttribute("playerNumList", playerNumList);
+		
+//*******************************韩鑫鹏******************************
+		
+		int[][] itemInfo = null;
+		itemInfo = spn.selectItemByspSdpid(sportsId);
+		itemInfo = spn.selectPlayerByspSdpid(sp2dpid2, itemInfo);
+		request.setAttribute("itemInfo", itemInfo);
+		
+//*******************************韩鑫鹏******************************
+		
 		request.getRequestDispatcher("/apply_student.jsp").forward(request, response);
 		//response.sendRedirect("../apply_student.jsp");
 	}

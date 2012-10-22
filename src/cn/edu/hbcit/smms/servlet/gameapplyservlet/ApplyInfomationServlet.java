@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.services.gameapplyservices.GetPlayerService;
 import cn.edu.hbcit.smms.services.gameapplyservices.PlayerService;
 import cn.edu.hbcit.smms.services.gameapplyservices.SelGameApplyService;
@@ -31,6 +32,7 @@ import cn.edu.hbcit.smms.services.gameapplyservices.SelGameApplyService;
  */
 public class ApplyInfomationServlet extends HttpServlet {
 
+	protected final Logger log = Logger.getLogger(ApplyInfomationServlet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
@@ -84,7 +86,7 @@ public class ApplyInfomationServlet extends HttpServlet {
 		Date date = new Date();
 		
 		//String dateTime = format.format(date);
-		System.out.println("date============="+date+"registedTime========"+registedTime);
+		//System.out.println("date============="+date+"registedTime========"+registedTime);
 		if(date.getDate()>registedTime.getDate()){
 			session.setAttribute("msg","报名日期已过！！！");
 			response.sendRedirect("../apply_playershow.jsp");
@@ -143,6 +145,7 @@ public class ApplyInfomationServlet extends HttpServlet {
 		response.setContentType("text/html;utf-8");
 		response.setCharacterEncoding("utf-8");//转换字符编码集
 		HttpSession session = request.getSession();
+		GetPlayerService spn = new GetPlayerService();
 		//查询每一组别类型的所有运动员信息
 		SelGameApplyService sgas = new SelGameApplyService();
         String group = request.getParameter("matchgroup");//获取项目类型id
@@ -163,7 +166,32 @@ public class ApplyInfomationServlet extends HttpServlet {
 		request.setAttribute("groupPlayer",playerinf);//运动员信息
 		request.setAttribute("groupList", groupNameList);//组别信息
 		request.setAttribute("itemList", itemList);//项目名称信息
+		//*******************************韩鑫鹏******************************
+		GetPlayerService player = new GetPlayerService(); 
+		int flag1 = 0;
+		flag1 = player.getDepartid(username);//根据用户名获取部门id
+		int sp2dpid = player.getSp2dpid(flag1);//获取当前部门id及运动会的id
+		//int sp2dpid2 = Integer.parseInt(session.getAttribute("flag1").toString());//得到sp2dpid
+		log.debug("grouptype############"+grouptype);
+		log.debug("sp2dpid############"+sp2dpid);
+		if(grouptype==1){
+			log.debug("学生");
+			int[][] itemInfo = null;
+			itemInfo = spn.selectSItemByspSdpid(sportsId);
+			itemInfo = spn.selectSPlayerByspSdpid(sp2dpid, itemInfo);
+			request.setAttribute("itemInfo", itemInfo);
+		}else{
+			log.debug("教工");
+			int[][] itemInfo = null;
+			itemInfo = spn.selectTItemByspSdpid(sportsId);
+			itemInfo = spn.selectTPlayerByspSdpid(sp2dpid, itemInfo);
+			request.setAttribute("itemInfo", itemInfo);
+		}
+		
+		
+//*******************************韩鑫鹏******************************
 		this.applyPageAgin(request, response);
+
 		//request.getRequestDispatcher("../apply_infomation.jsp").forward(request, response);
 }
 	public void upDateInfo(HttpServletRequest request, HttpServletResponse response)
