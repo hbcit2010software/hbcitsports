@@ -514,4 +514,12 @@ public class SportsService {
 		}
 		
 	}
+	/**
+	 * 是否已经开始报名
+	 * @param sportsId
+	 * @return
+	 */
+	public boolean isAlreadyRegist(int sportsId){
+		return sp.isAlreadyRegist(sportsId);
+	}
 }

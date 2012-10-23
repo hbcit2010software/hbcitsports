@@ -1,13 +1,13 @@
 /**
 * Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
 *
-* 模块名称：     赛前设置
-* 子模块名称：   规则设置
+* 模块名称：     
+* 子模块名称：   
 *
 * 备注：
 *
 * 修改历史：
-* 2012-9-23	0.1		李玮		新建
+* 2012-10-23	0.1		李玮		新建
 */
 package cn.edu.hbcit.smms.servlet.gamesetservlet;
 
@@ -19,16 +19,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import cn.edu.hbcit.smms.services.gamesetservices.SportsService;
+import cn.edu.hbcit.smms.services.gamesetservices.RecordServices;
 
-public class GetRuleServlet extends HttpServlet {
+/**
+ * 显示所有历届记录类
+ * 简要说明:
+ * @author 李玮
+ * @version 1.00  2012-10-23下午11:37:33	新建
+ */
+
+public class ViewAllRecordServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public GetRuleServlet() {
+	public ViewAllRecordServlet() {
 		super();
 	}
 
@@ -56,50 +62,28 @@ public class GetRuleServlet extends HttpServlet {
 		this.doPost(request, response);
 	}
 
-	/*
-触发器1：
-
-DELIMITER $$
-
-CREATE
-    TRIGGER `AddT_rule` AFTER INSERT ON `t_sports` 
-    FOR EACH ROW BEGIN
-    INSERT INTO t_rule (sportsid,POSITION,mark,recordmark_low,recordmark_high,perman,perdepartment) VALUES (new.id,8,'9,7,6,5,4,3,2,1',9,18,2,6);
-    END$$
-
-DELIMITER ;
-
-触发器2：
-DELIMITER $$
-
-CREATE
-
-    TRIGGER `smms`.`DelT_rule` AFTER DELETE
-    ON `smms`.`t_sports`
-    FOR EACH ROW BEGIN
-    DELETE FROM t_rule WHERE sportsid=old.id;
-    END$$
-
-DELIMITER ;
-
+	/**
+	 * The doPost method of the servlet. <br>
+	 *
+	 * This method is called when a form has its tag value method equals to post.
+	 * 
+	 * @param request the request send by the client to the server
+	 * @param response the response send by the server to the client
+	 * @throws ServletException if an error occurred
+	 * @throws IOException if an error occurred
 	 */
-	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
-		SportsService ss = new SportsService();
-		ArrayList rule = new ArrayList();
-		HttpSession session = request.getSession();
-		int sportsId = 0;
-		if(session.getAttribute("currSportsId") != null){
-			sportsId = ((Integer)session.getAttribute("currSportsId")).intValue();
-		}
-		
-		rule = ss.selectRule(sportsId);
-		request.setAttribute("rule", rule);
-		request.setAttribute("isAlreadyRegist", ss.isAlreadyRegist(sportsId));//是否已经有单位报名
-		request.getRequestDispatcher("/set_rule.jsp").forward(request, response);
+		RecordServices record = new RecordServices();
+		ArrayList list_man = new ArrayList();
+		ArrayList list_woman = new ArrayList();
+		list_man = record.selectAllRecords(1);  //1：男
+		list_woman = record.selectAllRecords(0);  //2：女
+		request.setAttribute("man", list_man);
+		request.setAttribute("woman", list_woman);
+		request.getRequestDispatcher("/set_recordall.jsp").forward(request, response);
 	}
 
 	/**

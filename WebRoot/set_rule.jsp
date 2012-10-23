@@ -116,12 +116,25 @@
        </tr>
        <tr class="tableContent">
          <td><div align="right" style="margin-right:10px;">每单位每个运动员限报数量</div></td>
-         <td><div align="left" style="margin-left:5px;"><input name="perman" type="text" id="perman" value="${r.perman}"  style="text-align:center"/>
-           (接力除外)</div></td>
+         <td><div align="left" style="margin-left:5px;">
+         <c:if test="${not isAlreadyRegist}">
+         <input name="perman" type="text" id="perman" value="${r.perman}"  style="text-align:center"/>(接力除外)
+         </c:if>
+         <c:if test="${isAlreadyRegist}">
+         <input name="perman" type="text" id="perman" value="${r.perman}"  style="text-align:center" disabled="disabled"/><span style="color:#F00; margin-left:5px;">本届运动会已经有人报名，因此本选项已禁用</span>
+         </c:if>
+           </div></td>
        </tr>
        <tr class="tableContent">
          <td><div align="right" style="margin-right:10px;">每个项目每个单位限报数量</div></td>
-         <td><div align="left" style="margin-left:5px;"><input name="perdepartment" type="text" id="perdepartment" value="${r.perdepartment}"  style="text-align:center"/></div></td>
+         <td><div align="left" style="margin-left:5px;">
+         <c:if test="${not isAlreadyRegist}">
+         <input name="perdepartment" type="text" id="perdepartment" value="${r.perdepartment}"  style="text-align:center"/>
+         </c:if>
+         <c:if test="${isAlreadyRegist}">
+         <input name="perdepartment" type="text" id="perdepartment" value="${r.perdepartment}"  style="text-align:center" disabled="disabled"/><span style="color:#F00; margin-left:5px;">本届运动会已经有人报名，因此本选项已禁用</span>
+         </c:if>
+         </div></td>
        </tr>
        <tr class="tableContent">
          <td><div align="right" style="margin-right:10px;">破院级记录的加分</div></td>

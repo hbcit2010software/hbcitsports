@@ -771,6 +771,7 @@ public class SportsDAO {
 	}
 	/**
 	 * 是否存在当届运动会规则
+	 * 本方法未使用
 	 * @param sportsId
 	 * @return
 	 */
@@ -782,7 +783,7 @@ public class SportsDAO {
 		try{
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setInt(1, sportsId);
-			rst = pStatement.executeUpdate();
+			rst = pStatement.executeUpdate();//请勿使用本方法
 			//
 			if( rst>0 ){
 				flag = true;
@@ -794,4 +795,33 @@ public class SportsDAO {
 		}
 		return flag;
 	}
+	/**
+	 * 是否已经开始报名
+	 * @param sportsId
+	 * @return
+	 */
+	public boolean isAlreadyRegist(int sportsId){
+		boolean flag = false;
+		int rst = 0;
+		conn = db.getConn();
+		String sql = "SELECT COUNT(*) FROM t_player WHERE t_player.sp2dpid IN (SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.sportsid=?)"; 
+		try{
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, sportsId);
+			rs = pStatement.executeQuery();
+			while(rs.next()){
+				rst = rs.getInt(1);
+			}
+			//
+			if( rst>0 ){
+				flag = true;
+			}
+			db.freeConnection(rs, pStatement, conn);
+		}catch(Exception e){
+			log.error("获取是否已经有单位开始报名失败！");
+			log.error(e.getMessage());
+		}
+		return flag;
+	}
+	
 }

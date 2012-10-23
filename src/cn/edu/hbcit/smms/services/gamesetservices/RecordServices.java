@@ -188,4 +188,13 @@ public class RecordServices {
 	public ArrayList selectAllItemId(){
 		return re.selectAllItemId();
 	}
+	/**
+	 * 查询历届的运动会记录（按性别区分）
+	 * 李玮 2012-10-23
+	 * @param sex
+	 * @return ArrayList
+	 */
+	public ArrayList selectAllRecords(int sex){
+		return re.selectAllRecords(sex);
+	}
 }

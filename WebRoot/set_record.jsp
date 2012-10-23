@@ -56,7 +56,7 @@
             </table></td>
             <td>
             <div align="right">
-             <span class="pageTitle"> <img src="${pageContext.request.contextPath }/images/edit.gif" width="10" height="10" /> <a href="#" style="color:#FFF" onclick="addGroup();">查看历届记录</a> &nbsp;</span>
+             <span class="pageTitle"> <img src="${pageContext.request.contextPath }/images/edit.gif" width="10" height="10" /> <a href="${pageContext.request.contextPath }/servlet/ViewAllRecordServlet" style="color:#FFF">查看历届记录</a> &nbsp;</span>
             <span class="pageTitle">
               <img src="${pageContext.request.contextPath }/images/add.gif" width="10" height="10" /> <a href="javascript:void(0);" style="color:#FFF" onclick="addRecord();">添加新记录</a> &nbsp;</span>
             </div>
