@@ -49,6 +49,8 @@ public class AddTeamleaderDAO {
 	         pStatement.setInt(4, sportsId);
 	         pStatement.setInt(5, departId);
 	         flag = pStatement.executeUpdate();
+	         pStatement.close();
+	         conn.close();
 		 }catch (SQLException e) { 
 			 log.debug("添加失败！");
 	    	 log.debug(e.getMessage());

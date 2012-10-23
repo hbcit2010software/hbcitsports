@@ -57,7 +57,7 @@ public class GameManageDao {
                     	log.debug(rs.getObject(i));
 				}}				
 			}			   
-				db.freeConnection(conn);
+				db.freeConnection(rs,pstmt,conn);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -82,6 +82,7 @@ public class GameManageDao {
 			{
 					itemType = rs.getString(1);
 			}
+			db.freeConnection(rs,pstmt,conn);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -125,7 +126,7 @@ public class GameManageDao {
                     	log.debug(rs.getObject(i));
 				}}				
 			}			   
-				db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
@@ -140,6 +141,7 @@ public class GameManageDao {
 	{
 		DBConn db = new DBConn();
 		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
+		UtilTools ut = new UtilTools();
 		try{
 			conn = db.getConn();
 			String sql1 = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match "+ 
@@ -205,6 +207,7 @@ public class GameManageDao {
 					else{
 						gm.setFoul("违纪");
 					}
+					//gm.setScore(ut.coverToTrackScore(rs.getString("score"), itemType));
 					gm.setScore(rs.getString("score"));
 					if(rs.getInt("recordlevel") == 0)
 					{
@@ -225,7 +228,8 @@ public class GameManageDao {
                     	log.debug(rs.getObject(i));
 				     }
 			       }								   
-			}	db.freeConnection(conn);
+			}	
+			db.freeConnection(rs,pstmt,conn);
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
@@ -292,7 +296,8 @@ public class GameManageDao {
 					for(int i=1;i<=c;i++){
                     	log.debug(rs.getObject(i));
 				     }						   
-			}	db.freeConnection(conn);
+			}	
+			db.freeConnection(rs,pstmt,conn);
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
@@ -371,7 +376,8 @@ public class GameManageDao {
                     	log.debug(rs.getObject(i));
 				     }
 			       }								   
-			}	db.freeConnection(conn);
+			}	
+			db.freeConnection(rs,pstmt,conn);
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
@@ -398,6 +404,7 @@ public class GameManageDao {
 				finalItemName = rs.getString(1);
 				//System.out.println("finalItemName========="+finalItemName);
 			}
+			db.freeConnection(rs,pstmt,conn);
 		}catch (Exception e) {
 			log.debug(e);
 		}
@@ -422,6 +429,7 @@ public class GameManageDao {
 				groupName = rs.getString(1);
 				//System.out.println("groupName========="+groupName);
 			}
+			db.freeConnection(rs,pstmt,conn);
 		}catch (Exception e) {
 			log.debug(e);
 		}
@@ -445,6 +453,7 @@ public class GameManageDao {
 			pstmt.setInt(2, sportsid);
 			pstmt.setInt(3, matchid);
 			pstmt.executeUpdate();
+			db.freeConnection(pstmt,conn);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -473,7 +482,9 @@ public class GameManageDao {
 			{
 				flag = true;
 			}
-			}}catch(Exception e){
+			}
+			db.freeConnection(pstmt,conn);
+			}catch(Exception e){
 			e.printStackTrace();
 		}
 		return flag;
@@ -492,6 +503,7 @@ public class GameManageDao {
 			pstmt.setInt(2, matchid);
 			
 			pstmt.executeUpdate();
+			db.freeConnection(pstmt,conn);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -583,7 +595,7 @@ public class GameManageDao {
                     	log.debug(rs.getObject(i));
 				     }
 			       }								   
-				db.freeConnection(conn);
+					db.freeConnection(rs,pstmt,conn);
 		}}catch(Exception e){
 			e.printStackTrace();
 		}		
@@ -618,6 +630,7 @@ public class GameManageDao {
 					    fileName = rs.getString("sportsname") + "-" + rs.getString("finalitemname") + "-";
 					}
 		         }
+				db.freeConnection(rs,pstmt,conn);
 				}catch(Exception e){
 			e.printStackTrace();
 		}	

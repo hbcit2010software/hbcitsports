@@ -47,7 +47,7 @@ public class UpdatePlayerDAO {
 	        	while(rs.next()){
 					flag = rs.getInt(1);
 	        	}
-	        	db.freeConnection(conn);
+	        	db.freeConnection(rs,pStatement,conn);
 	     }catch(SQLException e){
 	    	 e.printStackTrace();
 	     }
@@ -158,7 +158,7 @@ public class UpdatePlayerDAO {
 					}
 				pStatement.close();
 			}
-			conn.close();
+			//conn.close();
 			db.freeConnection(conn);
         }catch (SQLException e) {                 
             log.error("添加运动员失败！");
@@ -403,6 +403,7 @@ public class UpdatePlayerDAO {
         			}
         		}
         	}
+        	rs.close();
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
@@ -441,6 +442,7 @@ public class UpdatePlayerDAO {
         			}
         		}
         	}
+        	rs.close();
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
@@ -468,6 +470,7 @@ public class UpdatePlayerDAO {
         		String key = (sex + "").trim();
         		group.put(key, id+"");
         	}
+        	rs.close();
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
@@ -496,6 +499,7 @@ public class UpdatePlayerDAO {
         		String value = (sex + "").trim();
         		group.put((id+"").trim(), value);
         	}
+        	rs.close();
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
@@ -520,13 +524,14 @@ public class UpdatePlayerDAO {
 	        	log.debug("????????????????"+flag);
 	        	log.debug("????????????????sql:"+newSql[i]);
 	        	pStatement.close();
+	        	db.freeConnection(conn);
 	        	log.error("添加运动员第"+(i+1)+"条运动员信息成功");
 	        }catch (SQLException e) {                 
 	            log.error("添加运动员失败！");
 	    		log.error(e.getMessage());   
 	        }
 		}
-		db.freeConnection(conn);
+		
         return flag;
 	}
 	 /**

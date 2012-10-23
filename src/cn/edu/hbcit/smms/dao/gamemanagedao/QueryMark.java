@@ -63,7 +63,10 @@ public class QueryMark {
 				  qm.setDepName(rs.getString(1));
 				  depNameList.add(qm);
 				 // System.out.println("dep========="+depNameList.size());
-			  }			  
+			  }
+			  	rs.close();
+	        	pstmt.close();
+	        	conn.close();
 		  }catch (Exception e) {
 			log.debug(e);
 		}
@@ -98,10 +101,11 @@ public class QueryMark {
 				       studentsMarkList.add(qm);
 				//  System.out.println("getStudetsMarks========"+qm.getStudetsMarks());
 			  }}
+	      		dbc.freeConnection(rs,pstmt,conn);
 		  }catch (Exception e) {
 			e.printStackTrace();
 		}
-		  dbc.freeConnection(conn);
+		  
 		  return studentsMarkList;
 	  }
 	  
@@ -132,6 +136,7 @@ public class QueryMark {
 				       teacherMarkList.add(qm);
 				//  System.out.println("markList========"+qm.getStudetsMarks());
 			  }}
+	      dbc.freeConnection(rs,pstmt,conn);
 		  }catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -163,6 +168,7 @@ public class QueryMark {
 				  studentsMarkFinalList.add(qm);
 				//  System.out.println("markFinalList========="+qm.getFinalStudentsSum());
 			  }}
+			dbc.freeConnection(rs,pstmt,conn);
 		  }catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -195,6 +201,7 @@ public class QueryMark {
 				       teacherMarkFinalList.add(qm);
 				//  System.out.println("markFinalList========="+qm.getTeacherMarks());
 			  }}
+			dbc.freeConnection(rs,pstmt,conn);
 		  }catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -226,6 +233,7 @@ public class QueryMark {
 				  flag = true;
 				  
 			  }
+			  dbc.freeConnection(rs,pstmt,conn);
 		  }catch (Exception e) {
 			log.debug(e);
 		}
@@ -363,7 +371,7 @@ public class QueryMark {
 				 studentsMarksList.add(qamp);
 				 // System.out.println("dep========="+studentsMarksList.size());
 			  }		
-			  conn.close();
+			  dbc.freeConnection(rs,pstmt,conn);
 		  }catch (Exception e) {
 			log.debug(e);
 		}
@@ -415,7 +423,7 @@ public class QueryMark {
 				 teacherMarksList.add(qamp);
 				//  System.out.println("dep========="+teacherMarksList.size());
 			  }	
-			  conn.close();
+			  dbc.freeConnection(rs,pstmt,conn);
 		  }catch (Exception e) {
 			log.debug(e);
 		}
@@ -525,8 +533,9 @@ public class QueryMark {
 		        
 		        document.add(table);
 		        document.close();
-		        
-        }catch (Exception e) {
+		        dbc.freeConnection(rs,pstmt,conn);
+        }
+        catch (Exception e) {
 			log.debug(e);
 		}
 			}

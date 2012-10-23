@@ -92,6 +92,7 @@ public class CreateProgramGameGrouping {
                 	}
                 }
                 rs.close();
+                statement.close();
             }  
             db.freeConnection(conn);  
         }catch (SQLException e) {                 
@@ -120,6 +121,7 @@ public class CreateProgramGameGrouping {
                     }
                 //db.closeRsAll(rs,conn);
                 rs.close();
+                statement.close();
                 }  
             
             db.freeConnection(conn);  
@@ -141,6 +143,7 @@ public class CreateProgramGameGrouping {
             if(conn != null){
                 PreparedStatement statement = conn.prepareStatement(sql);
                 result = statement.executeUpdate(); 
+                statement.close();
             }
             db.freeConnection(conn);  
             }catch (SQLException e) {                 
@@ -175,6 +178,7 @@ public class CreateProgramGameGrouping {
                 	group2itemArrayList.add(g2i);
                     }
                 rs.close();
+                statement.close();
                }  
             //conn.close();
             
@@ -206,6 +210,7 @@ public class CreateProgramGameGrouping {
                 	g2sHashMap.put(groupid, id);
                     }
                 rs.close();
+                statement.close();
                }  
             //conn.close();
             
@@ -248,6 +253,7 @@ public HashMap selectPlarerIdAndG2IId(int sportId, HashMap g2sHashMap){
             	
              }
             rs.close();
+            statement.close();
            }  
         //conn.close();
         
@@ -278,6 +284,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	player2d2sIDHashMap.put(playerid, sp2dpid);
                 }
             rs.close();
+            statement.close();
            }  
         //conn.close();
         
@@ -309,6 +316,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	    g2itidVSd2s2gID.put(gp2itid, id);
                     }
                 rs.close();
+                statement.close();
                }
         
             db.freeConnection(conn);  
@@ -340,6 +348,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	    g2itidVSd2s2gID.put(temp, id);
                     }
                 rs.close();
+                statement.close();
                }
         
             db.freeConnection(conn);  
@@ -369,6 +378,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	    t_item.put(id, temp);
                     }
                 rs.close();
+                statement.close();
                }
         
             db.freeConnection(conn);  
@@ -410,6 +420,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 	flaGirl.put(flaid, finalg);
                     }
                 rs.close();
+                statement.close();
                }
         
             db.freeConnection(conn);  
@@ -450,6 +461,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 	flaBoy.put(flaid, finalg);
                     }
                 rs.close();
+                statement.close();
                }
         
             db.freeConnection(conn);  
@@ -478,6 +490,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 	itemType = rs.getString(1);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -507,6 +520,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   pnums.add(players.get(playid));
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -536,6 +550,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   players.put(playerId, playerNum);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -565,6 +580,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   gname = rs.getString("groupname");
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -594,6 +610,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   pnums.add(players.get(pid));
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -623,6 +640,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   pnums.add(players.get(playid));
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -652,6 +670,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   department.put(depId, shortName);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -683,6 +702,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   groupinfo.add(tgp);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -713,6 +733,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   groupinfo.put(id, grouptype);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -742,6 +763,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   groupinfo.put(id, grouptype);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -773,6 +795,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   p2d.put(pid, did);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -806,6 +829,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
             	   p2d.put(g_iid, fid);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -855,6 +879,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
              	   groupnum.add(group);
                    }
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -892,6 +917,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 //trackInfo.add(pn);
                 //trackInfo.add(rw);
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -929,6 +955,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                // trackInfo.add(pn);
                // trackInfo.add(rw);
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -959,6 +986,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 }
                 
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -988,6 +1016,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 }
                 
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -1048,7 +1077,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 	log.debug(rs.getObject(i));
                 }
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,ps,conn);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -1089,7 +1118,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 }
 				list.add(trackp);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,ps,conn);
 			}
 
 		} catch (Exception ex) {
@@ -1134,6 +1163,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                 }
                 
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -1167,6 +1197,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
                  }
                  
                  rs.close();
+                 statement.close();
              }
          
              db.freeConnection(conn);  

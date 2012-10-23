@@ -437,7 +437,7 @@ public class AddScore {
 			while( rs.next() ){
 				str = rs.getString(1);
 			}
-			dbc.freeConnection(conn);	//释放连接
+			dbc.freeConnection(rs,pstmt,conn);	//释放连接
 		} catch (Exception e) {
 			log.debug("getItemType:"+e.getMessage());
 			e.printStackTrace();

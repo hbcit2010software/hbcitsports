@@ -45,7 +45,8 @@ public class MarkManagerBean {
 	                    list.add(pj);	                  
 	                }	                
 	               
-	        	           
+	        	rs.close();
+	        	statement.close();
 	            db.freeConnection(conn);
 	        } catch (SQLException e) {
 	        	
@@ -76,7 +77,9 @@ public class MarkManagerBean {
 	                    list.add(pj);	                  
 	                }	                
 	                
-	            }	           
+	            }
+	            rs.close();
+	        	statement.close();
 	            db.freeConnection(conn);
 	        } catch (SQLException e) {                 
 	            e.printStackTrace();       
@@ -109,6 +112,7 @@ public class MarkManagerBean {
 	                    list.add(pj);	                  
 	                }	                
 	                rs.close();
+		        	statement.close();
 	            }	           
 	            db.freeConnection(conn);
 	        } catch (SQLException e) {                 
@@ -140,6 +144,7 @@ public class MarkManagerBean {
 	                    list.add(pj);
 	                }	                
 	                rs.close();
+		        	statement.close();
 	            }	           
 	            db.freeConnection(conn);
 	        } catch (SQLException e) {                 

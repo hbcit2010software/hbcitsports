@@ -178,7 +178,7 @@ public class GetPlayerDAO {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -234,7 +234,7 @@ public class GetPlayerDAO {
 			while(rs.next()){
 				sportsname = rs.getString(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch(Exception e){
 			e.getStackTrace();
 		    System.out.println(e.getMessage());
@@ -256,7 +256,7 @@ public class GetPlayerDAO {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			//System.out.println("getSportID"+e.getMessage());
@@ -311,6 +311,7 @@ public class GetPlayerDAO {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 statement.executeUpdate(); 
             }
+            //statement.close();
             db.freeConnection(conn);  
             }catch (SQLException e) {                  	
             e.printStackTrace(); } 
@@ -332,7 +333,7 @@ public class GetPlayerDAO {
 			while( rs.next() ){
 				flag = rs.getInt(1); 
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -354,7 +355,7 @@ public class GetPlayerDAO {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -378,7 +379,7 @@ public class GetPlayerDAO {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -401,7 +402,7 @@ public class GetPlayerDAO {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -421,7 +422,7 @@ public class GetPlayerDAO {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -454,7 +455,7 @@ public class GetPlayerDAO {
 				}
 				
 			}	
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -475,7 +476,7 @@ public class GetPlayerDAO {
 			while(rs.next()){
 				registend = rs.getString(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch(Exception e){
 			e.getStackTrace();
 		    System.out.println(e.getMessage());
@@ -510,13 +511,13 @@ public class GetPlayerDAO {
 					list.add(itemnames);
 					
 				}
-				System.out.println("aaaa"+list.size());
-				
+				//System.out.println("aaaa"+list.size());
+				db.freeConnection(rs,pstmt,conn);
 			}catch( Exception e){
 				e.getStackTrace();
 				System.out.println(e.getMessage());
 			}
-			db.freeConnection(conn);
+			//db.freeConnection(conn);
 			return list;
 		}
 		
@@ -540,10 +541,11 @@ public class GetPlayerDAO {
 					list.add(itemnames);
 					
 				}
+				db.freeConnection(rs,pstmt,conn);
 			}catch( Exception e){
 				e.getStackTrace();
 			}
-			db.freeConnection(conn);
+			//db.freeConnection(conn);
 			return list;
 		}
 		/**
@@ -571,11 +573,12 @@ public class GetPlayerDAO {
 				itemnames.setGroupname(rs.getString(2));
 				list.add(itemnames);
 				}
+				db.freeConnection(rs,pstmt,conn);
 			}catch( Exception e){
 				e.getStackTrace();
 				System.out.println(e.getMessage());
 			}
-			db.freeConnection(conn);
+			//db.freeConnection(conn);
 			return list;
 		}
 			
@@ -599,10 +602,11 @@ public class GetPlayerDAO {
 						list.add(itemnames);
 						
 					}
+					db.freeConnection(rs,pstmt,conn);
 				}catch( Exception e){
 					e.getStackTrace();
 				}
-				db.freeConnection(conn);
+				//db.freeConnection(conn);
 				return list;
 			}
 			/**
@@ -629,11 +633,12 @@ public class GetPlayerDAO {
 					itemnames.setGroupname(rs.getString(2));
 					list.add(itemnames);
 					}
+					db.freeConnection(rs,pstmt,conn);
 				}catch( Exception e){
 					e.getStackTrace();
 					System.out.println(e.getMessage());
 				}
-				db.freeConnection(conn);
+				//db.freeConnection(conn);
 				return list;
 			}
 				
@@ -656,10 +661,11 @@ public class GetPlayerDAO {
 							log.debug("查询结果："+itemnames.getGroupname());
 							list.add(itemnames);
 						}
+						db.freeConnection(rs,pstmt,conn);
 					}catch( Exception e){
 						e.getStackTrace();
 					}
-					db.freeConnection(conn);
+					//db.freeConnection(conn);
 					return list;
 				}
 				
@@ -691,6 +697,7 @@ public class GetPlayerDAO {
 			        				
 			        		}
 			        	}
+			        	rs.close();
 			        	pStatement.close();
 			            db.freeConnection(conn);
 			        }catch (SQLException e) {                 
@@ -731,6 +738,7 @@ public class GetPlayerDAO {
 			        		count2++;
 			        	}
 			        	//log.debug("???????????????????????"+count);
+			        	rs.close();
 			        	pStatement.close();
 			            db.freeConnection(conn);
 			        }catch (SQLException e) {                 
@@ -770,6 +778,7 @@ public class GetPlayerDAO {
 			        		count2++;
 			        	}
 			        	//log.debug("???????????????????????"+count);
+			        	rs.close();
 			        	pStatement.close();
 			            db.freeConnection(conn);
 			        }catch (SQLException e) {                 
@@ -807,6 +816,7 @@ public class GetPlayerDAO {
 			        				
 			        		}
 			        	}
+			        	rs.close();
 			        	pStatement.close();
 			            db.freeConnection(conn);
 			        }catch (SQLException e) {                 
@@ -847,6 +857,7 @@ public class GetPlayerDAO {
 			        		count2++;
 			        	}
 			        	//log.debug("???????????????????????"+count);
+			        	rs.close();
 			        	pStatement.close();
 			            db.freeConnection(conn);
 			        }catch (SQLException e) {                 
@@ -884,6 +895,7 @@ public class GetPlayerDAO {
 			        				
 			        		}
 			        	}
+			        	rs.close();
 			        	pStatement.close();
 			            db.freeConnection(conn);
 			        }catch (SQLException e) {                 

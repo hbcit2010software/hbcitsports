@@ -34,6 +34,7 @@ public class DaHuiJiLvDao {
                      
                 }
                 rs.close();
+                ps.close();
             }
             db.freeConnection(conn);
         } catch (SQLException e) {                 
@@ -68,6 +69,7 @@ public class DaHuiJiLvDao {
                      
                 }
                 rs.close();
+                ps.close();
             }
             db.freeConnection(conn);
         } catch (SQLException e) {                 

@@ -40,7 +40,7 @@ public class UpdateOfficialSetDAO {
 			    			retuValue = true;
 			    			}
 		         }
-		         db.freeConnection(conn);
+		         db.freeConnection(psmt,conn);
 		     } catch (SQLException e) {                 
 		         e.printStackTrace();       
 		     }       

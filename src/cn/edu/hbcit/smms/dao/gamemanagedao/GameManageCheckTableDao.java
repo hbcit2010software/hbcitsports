@@ -70,6 +70,7 @@ public class GameManageCheckTableDao {
                     }
                 }
                 rs.close();
+                statement.close();
             }
             db.freeConnection(conn);
         } catch (SQLException e) { 
@@ -111,6 +112,7 @@ public class GameManageCheckTableDao {
                     }
                 }
                 rs.close();
+                statement.close();
             }
             db.freeConnection(conn);
         } catch (SQLException e) {  
@@ -144,6 +146,7 @@ public class GameManageCheckTableDao {
                   
                 }
                 rs.close();
+                statement.close();
             }
             db.freeConnection(conn);
         } catch (SQLException e) {
@@ -259,7 +262,8 @@ public class GameManageCheckTableDao {
 		                }
 	                	
 	                }
-	            db.freeConnection(conn);
+	                statement.close();
+	                db.freeConnection(conn);
 	        } catch (SQLException e) {  
 	        	log.debug(e.getMessage());
 	            e.printStackTrace();     
@@ -328,7 +332,7 @@ public class GameManageCheckTableDao {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			 db.freeConnection(conn);
+			 db.freeConnection(rs,pstmt,conn);
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			e.printStackTrace();
@@ -358,6 +362,8 @@ public class GameManageCheckTableDao {
 				str = rs.getString("itemtype");
 				
 			}
+			rs.close();
+			statement.close();
 			 db.freeConnection(conn);
 		} catch (Exception e) {
 			log.debug(e.getMessage());
@@ -415,6 +421,7 @@ public class GameManageCheckTableDao {
 						num += pstmt1.executeUpdate();
 						//System.out.println("num="+num+",runway[i]="+runway[i]);
 					}
+					rs.close();
 					pstmt1.close();
 				
 				
@@ -448,7 +455,9 @@ public class GameManageCheckTableDao {
 						num += pstmt1.executeUpdate();
 						//System.out.println("num="+num+",runway[i]="+runway[i]);
 					}
-				
+				rs.close();
+				pstmt1.close();
+				pstmt.close();
 				db.freeConnection(conn);
 			} catch (Exception e) {
 				log.debug(e.getMessage());
@@ -516,6 +525,8 @@ public class GameManageCheckTableDao {
 				flag = rs.getInt(1);
 				//System.out.println("flag="+flag);
 			}
+			rs.close();
+			pstmt.close();
 			 db.freeConnection(conn);
 		} catch (Exception e) {
 			log.debug(e.getMessage());
@@ -558,6 +569,8 @@ public class GameManageCheckTableDao {
 			if( rs.next()){
 				finalitemid = rs.getInt(1);
 			}
+			rs.close();
+			pstmt.close();
 			db.freeConnection(conn);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -586,6 +599,8 @@ public class GameManageCheckTableDao {
 				flag = true;
 			}
 			}
+			rs.close();
+			pstmt.close();
 			db.freeConnection(conn);
 		}catch(NullPointerException e){
 			
@@ -617,6 +632,9 @@ public class GameManageCheckTableDao {
 			if(rss.next()){
 				return true;//有数据
 			}
+			rs.close();
+			pstmt.close();
+			db.freeConnection(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -638,6 +656,8 @@ public class GameManageCheckTableDao {
 			pstmt.setString(1, finalitemname);
 			pstmt.setInt(2, loginDAO.selectCurrentSportsId());
 			pstmt.executeUpdate();
+			pstmt.close();
+			db.freeConnection(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
