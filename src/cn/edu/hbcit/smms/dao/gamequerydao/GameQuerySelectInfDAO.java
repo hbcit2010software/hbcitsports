@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.pojo.QueryRegistitemToItems;
 import cn.edu.hbcit.smms.pojo.QuerySeInfoData;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 /*
  * Copyright(C) 2004, XXXXXXXX.
@@ -132,7 +133,7 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 	}
 }else if(breakrecord.equals("1")){                      //如果选择了破纪录执行此语句
 	selectInf.append("SELECT DISTINCT t_record.playername,t_player.playernum,t_group.groupname," +
-			"t_record.departname,t_item.itemname,t_record.score,t_position.position,recordlevel" +
+			"t_record.departname,t_item.itemname,t_record.score,t_position.position,recordlevel,t_item.itemtype" +
 			" FROM  t_record " +
 			" JOIN t_item ON t_record.itemid = t_item.id" +
 			" JOIN t_player ON  t_record.playername = t_player.playername" +
@@ -171,6 +172,7 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 	try{
 		stmt = conn.createStatement();
 		rs = stmt.executeQuery(sql);
+		UtilTools ut = new UtilTools();
 		while( rs.next()){
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("playername", rs.getString(1));
@@ -178,7 +180,7 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 			jsonobj.put("groupname", rs.getString(3));
 			jsonobj.put("departshortname", rs.getString(4));
 			jsonobj.put("itemname", rs.getString(5));
-			jsonobj.put("score", rs.getString(6));
+			jsonobj.put("score", ut.coverToTrackScore(rs.getString(6), rs.getString(9)));
 			jsonobj.put("position", rs.getString(7));
 			String rec=null;
 			if(rs.getString(8).equals("")){
@@ -200,7 +202,7 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 	}else if(breakrecord.equals("0")&&0 != item ||breakrecord.equals("0")&&!itemtype.equals("0")){//如果未选中破纪录选择了项目名称
 		if(itemtype.equals("3")){
 			//项目类型为接力的成绩
-			selectInf.append("SELECT DISTINCT t_department.departshortname,t_finalitem.finalitemname,t_position.score,t_position.position,t_match.recordlevel" +
+			selectInf.append("SELECT DISTINCT t_department.departshortname,t_finalitem.finalitemname,t_position.score,t_position.position,t_match.recordlevel,t_item.itemtype" +
 					" FROM t_position" +
 					" JOIN t_player ON t_position.playerid = t_player.id" +
 					" JOIN t_group ON t_group.id = t_player.groupid" +
@@ -213,7 +215,7 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 					" JOIN t_item ON t_group2item.itemid = t_item.id"+
 					" WHERE");
 		}else{
-		selectInf.append("SELECT DISTINCT t_player.playername,t_player.playernum,groupname,t_department.departshortname,t_finalitem.finalitemname"+
+		selectInf.append("SELECT DISTINCT t_player.playername,t_player.playernum,groupname,t_department.departshortname,t_finalitem.finalitemname,t_item.itemtype"+
 				 " FROM t_position"+
 				 " JOIN t_player ON t_position.playerid = t_player.id"+
 				 " JOIN t_group ON t_group.id = t_player.groupid"+
@@ -251,6 +253,7 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 		conn = db.getConn();
 	QueryRegistitemToItems qrti = new QueryRegistitemToItems();
 	log.debug(sql);
+	UtilTools ut = new UtilTools();
 	try{
 		stmt = conn.createStatement();
 		rs = stmt.executeQuery(sql);
@@ -260,7 +263,8 @@ public JSONArray selectInQuestion(int sportsid,String playername,int departname,
 				jsonobj.put("size", 5);
 				jsonobj.put("departshortname", rs.getString(1));
 				jsonobj.put("finalitemname", rs.getString(2));
-				jsonobj.put("score", rs.getString(3));
+				log.debug("接力的成绩查询："+ut.coverToTrackScore(rs.getString(3), rs.getString(6)));
+				jsonobj.put("score", ut.coverToTrackScore(rs.getString(3), rs.getString(6)));
 				jsonobj.put("position", rs.getString(4));
 				String rec = "";
 				if(rs.getString(5).equals("2")){

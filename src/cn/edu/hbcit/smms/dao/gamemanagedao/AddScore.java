@@ -64,20 +64,24 @@ public class AddScore {
 					if( "2".equals(itemType)){
 						if( !("0.00".equals(score) || "0.00.00".equals(score) || "00.00.00".equals(score))){
 							if( this.isScoreMax(score, recorescore)){
-								if( recorelevel == "1"){	//破省记录
+								if( "1".equals(recorelevel)){	//破省记录
 									level = "1";
+								}else{
+									level = "0";	//破院记录
 								}
-								level = "0";	//破院记录
+								
 							}
 						}
 						
 					}else{
 						if( !("0.00".equals(score) || "0.00.00".equals(score) || "00.00.00".equals(score))){
 							if( this.isScoreMin(score, recorescore)){
-								if( recorelevel == "1"){	//破省记录
+								if( "1".equals(recorelevel) ){	//破省记录
 									level = "1";
+									log.debug(score+"破纪录了："+recorescore+" 级别："+recorelevel);
+								}else{
+									level = "0";	//破院记录
 								}
-								level = "0";	//破院记录
 							}
 						}
 					}
@@ -581,6 +585,7 @@ public class AddScore {
 			while( rs.next() ){
 				list.add(rs.getString(1));
 				list.add(rs.getString(2));
+				log.debug("t_record表中"+rs.getString(1)+"的破纪录的级别"+rs.getString(2));
 			}
 			rs.close();
 			pstmt.close();
@@ -902,13 +907,15 @@ public class AddScore {
 		String[] scorea = score.split("\\.");
 		String[] recordScorea = recordScore.split("\\.");
 		boolean flag = false;
-		System.out.println( scorea.length);
+		//System.out.println( scorea.length);
 		for( int i = 0 ; i < scorea.length ; i++ ){
 			System.out.println( Integer.parseInt( scorea[i]) +"==="+ Integer.parseInt( recordScorea[i]));
 			if( Integer.parseInt( scorea[i]) < Integer.parseInt( recordScorea[i])){
-				flag = true;break;
+				flag = true;
+				break;
 			}else if( Integer.parseInt( scorea[i]) > Integer.parseInt( recordScorea[i])){
 				flag =  false;
+				break;
 			}
 		}
 		return flag;

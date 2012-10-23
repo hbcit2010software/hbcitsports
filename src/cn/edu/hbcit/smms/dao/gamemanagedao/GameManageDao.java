@@ -199,7 +199,7 @@ public class GameManageDao {
 					gm.setDepartname(rs.getString("departname"));
 					if(rs.getInt("foul") == 0)
 					{
-						gm.setFoul("——");
+						gm.setFoul("否");
 					}
 					else{
 						gm.setFoul("违纪");
@@ -216,7 +216,7 @@ public class GameManageDao {
 					else
 					{
 						
-							gm.setRecordlevel("——");
+							gm.setRecordlevel("否");
 					}
 					gm.setMatchid(rs.getInt("id"));
 					athleteList.add(gm);					
@@ -563,7 +563,7 @@ public class GameManageDao {
 					gm.setScore(rs.getString("score"));
 					if(rs.getInt("recordlevel") == 2)
 					{
-						gm.setRecordlevel("——");
+						gm.setRecordlevel("否");
 					}
 					else if(rs.getInt("recordlevel") == 0)
 					{
