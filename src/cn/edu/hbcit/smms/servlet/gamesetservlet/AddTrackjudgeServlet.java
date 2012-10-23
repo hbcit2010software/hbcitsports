@@ -102,8 +102,8 @@ public class AddTrackjudgeServlet extends HttpServlet {
        // System.out.println(trackjudge_rollcall_3);
         //System.out.println(startingpoint_1);
        // System.out.println(startingpoint_2);
-       System.out.println(startingpoint_3);
-        System.out.println(timejudge_1);
+     //  System.out.println(startingpoint_3);
+     //   System.out.println(timejudge_1);
        // System.out.println(timejudge_2);
        // System.out.println(timejudge_3);
         //System.out.println(endpoint_1);

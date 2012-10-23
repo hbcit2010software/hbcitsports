@@ -54,7 +54,7 @@ public class RecordSelectByNameTimeServlet extends HttpServlet {
  
 		int recordId =  Integer.parseInt(request.getParameter("recordId"));
 		   
-		System.out.println(recordId);
+		//System.out.println(recordId);
 		 
 		 
 		RecordServices bs = new RecordServices();

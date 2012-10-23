@@ -203,7 +203,7 @@ public class ApplyInfomationServlet extends HttpServlet {
 		int flag = 0;
 		
 		String[] allstr = request.getParameterValues("hide");//获取页面上所有隐藏文本框的字符串
-		System.out.println("upDateInfo"+allstr[0]);
+		//System.out.println("upDateInfo"+allstr[0]);
 		int flag1 = 0;
 		String username = (String)session.getAttribute("username");//获取用户名
 		flag1 = player.getDepartid(username);//根据用户名获取部门id
@@ -252,7 +252,7 @@ public class ApplyInfomationServlet extends HttpServlet {
 		int sp2dpid = player.getSp2dpid(flag1);//获取当前部门id及运动会的id
 		String playernum = request.getParameter("playernum");//获取号码簿
 		int flag = 0;
-		System.out.println("sp2dpid:"+sp2dpid+"playernum:"+playernum);
+		//System.out.println("sp2dpid:"+sp2dpid+"playernum:"+playernum);
 		flag = gas.infoDelete(sp2dpid, playernum);
 		if(flag!=0){
 			session.setAttribute("msg","删除成功！");

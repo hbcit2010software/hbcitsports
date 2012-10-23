@@ -61,7 +61,7 @@ public class PrintAllMarkSerlvet extends HttpServlet {
 			throws ServletException, IOException {
 
 
-		System.out.println("printServlet============");
+		//System.out.println("printServlet============");
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-control", "no-cache");
 		response.setDateHeader("Expires", 0);

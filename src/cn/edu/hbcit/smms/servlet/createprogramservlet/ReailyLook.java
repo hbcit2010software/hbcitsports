@@ -60,7 +60,7 @@ public class ReailyLook extends HttpServlet {
 		nextFlag = cpgg.slectFidRGnum(finalId);
 		ArrayList group = cpgg.selectRelGroup(finalId);
 		ArrayList players = cpgg.slectRelayInfo(finalId);
-		System.out.println(players.size());
+		//System.out.println(players.size());
 		ArrayList allPlayers = new ArrayList();
 		int count = 0;
 		if (nextFlag != null && group != null && players != null){
@@ -82,7 +82,7 @@ public class ReailyLook extends HttpServlet {
     			glk.setGroupNum(aa);
     			glk.setPlayers(temp);
     			glk.setNextFlag(nfg);
-    			System.out.println(aa + " " + temp + "  "  + nfg);
+    			//System.out.println(aa + " " + temp + "  "  + nfg);
     			allPlayers.add(glk);
     		}
 		}

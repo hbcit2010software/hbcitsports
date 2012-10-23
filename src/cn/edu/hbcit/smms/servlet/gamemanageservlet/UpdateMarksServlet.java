@@ -67,12 +67,12 @@ public class UpdateMarksServlet extends HttpServlet {
 		String depName = request.getParameter("depName");
 		String finalsm = request.getParameter("finalsm");
 		String finaltm = request.getParameter("finaltm");
-		System.out.println("fuckmlgbsbyou------------"+depName+finalsm+finaltm);
+		//System.out.println("fuckmlgbsbyou------------"+depName+finalsm+finaltm);
 		
 		QueryMark qm = new QueryMark();
 		boolean flag = false;
 		flag = qm.updateMark(depName, Integer.parseInt(finalsm), Integer.parseInt(finaltm));
-		System.out.print(flag);
+		//System.out.print(flag);
 		if(flag==true){
 		out.print("success");}
 		out.flush();

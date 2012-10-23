@@ -83,7 +83,7 @@ public class UpdatePlayerDAO {
         }catch (SQLException e) {                 
             log.error("添加运动员失败！");
     		log.error(e.getMessage());
-    		System.out.println(e);       
+    		//System.out.println(e);       
         }
         return flag;
 	}
@@ -117,7 +117,7 @@ public class UpdatePlayerDAO {
 				String playerName = myPlayer[1].trim();//运动员姓名
 				boolean playerSex = true;
 				int groupid = Integer.parseInt(myPlayer[2]);//组别的id
-				System.out.println(groupid);
+				//System.out.println(groupid);
 				String sql1 = "select groupsex from t_group where id="+groupid;//根据组别的id查出性别
 				pStatement = conn.prepareStatement(sql1);
 				rs = pStatement.executeQuery();
@@ -163,7 +163,7 @@ public class UpdatePlayerDAO {
         }catch (SQLException e) {                 
             log.error("添加运动员失败！");
     		log.error(e.getMessage());
-    		System.out.println(e);       
+    		//System.out.println(e);       
 		}
 		return flag;
 	}

@@ -79,17 +79,17 @@ public class GameManageUpdateMatchByPlayerNum extends HttpServlet {
 		String recordlevel = request.getParameter("recordlevel");
 		String matchid = request.getParameter("matchid");
 		String playerid = request.getParameter("playerid");
-		System.out.println("GameManageUpdateMatchByPlayerNum:"+playerNum+"-"+score+"-"+foul+"-"+recordlevel+"-"+matchid+"playerid======="+playerid);
+		//System.out.println("GameManageUpdateMatchByPlayerNum:"+playerNum+"-"+score+"-"+foul+"-"+recordlevel+"-"+matchid+"playerid======="+playerid);
 		GameManageServices gm = new GameManageServices();
 		
 		String finalItemName = gm.finalItemName(Integer.parseInt(matchid));
-		System.out.println("GameManageUpdateMatchByPlayerNum:finalItemName="+finalItemName+"-");
+		//System.out.println("GameManageUpdateMatchByPlayerNum:finalItemName="+finalItemName+"-");
 		String groupName = gm.groupName(Integer.parseInt(matchid));
-		System.out.println("GameManageUpdateMatchByPlayerNum:groupName="+groupName+"-");
+		//System.out.println("GameManageUpdateMatchByPlayerNum:groupName="+groupName+"-");
 		
 		boolean flag = false;
 	    flag = gm.updateMatch(Integer.parseInt(matchid),score,Integer.parseInt(foul),Integer.parseInt(recordlevel));
-	    System.out.println("GameManageUpdateMatchByPlayerNum:flag="+flag+"-");
+	   // System.out.println("GameManageUpdateMatchByPlayerNum:flag="+flag+"-");
 	    
 		LoginDAO ld = new LoginDAO();
 		int sportsid = ld.selectCurrentSportsId();
@@ -97,15 +97,15 @@ public class GameManageUpdateMatchByPlayerNum extends HttpServlet {
 		//**********************更改t_position中指定数据***********************/
 		AddScore aScore = new AddScore();
 		int  finalItemType = Integer.parseInt(aScore.getFinalitemType(finalItemName));
-		System.out.println("GameManageUpdateMatchByPlayerNum:finalItemType="+finalItemType+"-");
+		//System.out.println("GameManageUpdateMatchByPlayerNum:finalItemType="+finalItemType+"-");
 		if(finalItemType !=1){
 			gm.deletePositionPlayer(finalItemName, sportsid, Integer.parseInt(matchid));//先根据指定参数删除t_position中数据
 			aScore.getGpItPlayerMessage(finalItemName, sportsid, groupName);//根据指定参数向t_position数据
 			
 			//更改t_position(积分)同时更改t_record表中记录
-			System.out.println("GameManageUpdateMatchByPlayerNum:playerid="+playerid+"-"+"matchid:"+matchid);
+			//System.out.println("GameManageUpdateMatchByPlayerNum:playerid="+playerid+"-"+"matchid:"+matchid);
 			gm.deleteRecordPlayer( Integer.parseInt(playerid),Integer.parseInt(matchid));
-			System.out.println("GameManageUpdateMatchByPlayerNum:==========================================");
+			//System.out.println("GameManageUpdateMatchByPlayerNum:==========================================");
 			aScore.getIntegral(finalItemName, groupName);
 		}      
         if(flag)

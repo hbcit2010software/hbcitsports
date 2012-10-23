@@ -80,7 +80,7 @@ public class GameManageCheckTablePrintScanServlet extends HttpServlet {
 		String finalitemname = tools.toUTF8(request.getParameter("finalitemname"));
 		String finalitemtype = tools.toUTF8( request.getParameter("finalitemtype"));
 		String groupname = new String(request.getParameter("groupname").getBytes("ISO-8859-1"),"UTF-8");
-		System.out.println(groupname);
+		//System.out.println(groupname);
 		GameManageCheckTableServices gs = new GameManageCheckTableServices();
 		int a = 0;
 		String file = request.getSession().getServletContext().getRealPath("/")+"word/";

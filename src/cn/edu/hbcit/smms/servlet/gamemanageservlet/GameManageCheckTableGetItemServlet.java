@@ -83,7 +83,7 @@ public class GameManageCheckTableGetItemServlet extends HttpServlet {
 			String groupid = request.getParameter("groupid");
 			ArrayList itemList = new ArrayList();
 			GameManageCheckTableServices gm = new GameManageCheckTableServices();
-			System.out.println("groupid="+groupid);
+		//	System.out.println("groupid="+groupid);
 			if(!groupid.equals("")){
 				    itemList = gm.getItemList(Integer.parseInt(groupid));
 					buffer.append("{");
@@ -133,11 +133,11 @@ public class GameManageCheckTableGetItemServlet extends HttpServlet {
 		int a = 0;
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		System.out.println("---------------------------+finalitemname+finalitemtype");
+		//System.out.println("---------------------------+finalitemname+finalitemtype");
 		String finalitemname = new String(request.getParameter("itemname").getBytes("ISO-8859-1"),"utf-8");
 		
 		String finalitemtype = new String(request.getParameter("itemtype").getBytes("ISO-8859-1"),"utf-8");
-		System.out.println("---------------------------"+finalitemname+finalitemtype);
+		//System.out.println("---------------------------"+finalitemname+finalitemtype);
 		GameManageCheckTableServices gm = new GameManageCheckTableServices();
 		if(gm.getdate(finalitemname, finalitemtype)){
 			

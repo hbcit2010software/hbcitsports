@@ -78,16 +78,16 @@ public class GameManageCheckTablePrintScanDao {
 	        context.setFirstLineIndent(20);   
 	        document.add(context);   
 	        //设置Table表格,创建一个三列的表格   
-	       System.out.println("document.add(context):"+finalitemname);
+	      // System.out.println("document.add(context):"+finalitemname);
 	        
-	        System.out.println(itemtype+"============");
+	       // System.out.println(itemtype+"============");
 	        JSONArray array = gmctd.getItemPlayerMessageAllTeam(finalitemname, itemtype);
-	        System.out.println("array="+array.getJSONArray(0).size());
+	       // System.out.println("array="+array.getJSONArray(0).size());
 	        JSONArray array1 = new JSONArray();
 	        if(array.isEmpty()){
 	        	flag = false;
 	        }else{
-	        	System.out.println(array.size()+"=====");
+	       // 	System.out.println(array.size()+"=====");
 	         if(itemtype1.equals("2")){
 	        	 
 	        	 for(int i = 0; i < array.size() ;i++ ){

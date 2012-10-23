@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.pojo.GameManagePoJo;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 /**
  *  
@@ -111,14 +112,14 @@ public class GameManageDao {
 				pstmt.setInt(2, sportsid);
 				rs = pstmt.executeQuery();
 				int c = rs.getMetaData().getColumnCount();
-				System.out.println("rs.getRow()=============="+rs.getRow());
+				//System.out.println("rs.getRow()=============="+rs.getRow());
 				while(rs.next())
 				{
 					GameManagePoJo gm = new GameManagePoJo();
 					gm.setItemid(rs.getInt("id"));
 					gm.setItemname(rs.getString("finalitemname"));
-					System.out.println("dafadfasf"+rs.getInt("id"));
-					System.out.println("asdfasdfas"+rs.getString("finalitemname"));
+					//System.out.println("dafadfasf"+rs.getInt("id"));
+					//System.out.println("asdfasdfas"+rs.getString("finalitemname"));
 					finalItemList.add(gm);
 					for(int i=1;i<=c;i++){
                     	log.debug(rs.getObject(i));
@@ -160,7 +161,7 @@ public class GameManageDao {
 					" ORDER BY t_match.score+0 ASC ";
 			if(!conn.equals(" "))
 			{
-				System.out.println("getAthleteList:"+itemType+"=============");
+				//System.out.println("getAthleteList:"+itemType+"=============");
 				if(itemType.equals("2"))
 				{
 					pstmt = conn.prepareStatement(sql1);					
@@ -177,7 +178,7 @@ public class GameManageDao {
 				pstmt.setInt(2, sportsid);
 				rs = pstmt.executeQuery();
 				int c = rs.getMetaData().getColumnCount();
-				System.out.println("rs.getRow()=============="+rs.getRow());
+				//System.out.println("rs.getRow()=============="+rs.getRow());
 				
 				while(rs.next())
 				   {					
@@ -238,7 +239,7 @@ public class GameManageDao {
      */
 	public ArrayList<GameManagePoJo> getAth(int matchid,int finalItemId)
 	{
-		System.out.println("matchid==="+matchid);
+		//System.out.println("matchid==="+matchid);
 		DBConn db = new DBConn();
 		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		try{
@@ -266,7 +267,7 @@ public class GameManageDao {
 				
 				while(rs.next())
 				   {	
-					System.out.println("playerid=============="+rs.getInt("playerid"));
+					//System.out.println("playerid=============="+rs.getInt("playerid"));
 					GameManagePoJo gm = new GameManagePoJo();
 					if(!itemtype.equals("3")){
 					gm.setPlayernum(rs.getString("playernum"));
@@ -395,7 +396,7 @@ public class GameManageDao {
 			rs = pstmt.executeQuery();
 			if(rs.next()){
 				finalItemName = rs.getString(1);
-				System.out.println("finalItemName========="+finalItemName);
+				//System.out.println("finalItemName========="+finalItemName);
 			}
 		}catch (Exception e) {
 			log.debug(e);
@@ -419,7 +420,7 @@ public class GameManageDao {
 			rs = pstmt.executeQuery();
 			if(rs.next()){
 				groupName = rs.getString(1);
-				System.out.println("groupName========="+groupName);
+				//System.out.println("groupName========="+groupName);
 			}
 		}catch (Exception e) {
 			log.debug(e);
@@ -467,7 +468,7 @@ public class GameManageDao {
 			pstmt.setInt(3, recordlevel);
 			pstmt.setInt(4, matchid);
 			int i = pstmt.executeUpdate();
-			System.out.println("删除影响行数i="+i);
+			//System.out.println("删除影响行数i="+i);
 			if(i>0)
 			{
 				flag = true;
@@ -480,7 +481,7 @@ public class GameManageDao {
 	
 	public void deleteRecordPlayer(int playerid,int matchid){
 		DBConn db = new DBConn();
-		System.out.println("GameManageDao:playerid=============="+matchid);
+		//System.out.println("GameManageDao:playerid=============="+matchid);
 		try{
 			conn = db.getConn();
 			String sql = "DELETE FROM t_record WHERE playerid=? AND itemid=(SELECT itemid FROM t_group2item WHERE t_group2item.id= " +
@@ -504,6 +505,7 @@ public class GameManageDao {
 	{
 		    DBConn db = new DBConn();
 		    ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
+		    UtilTools ut = new UtilTools();
 		    try{
 		    	conn = db.getConn();
 				String sql1 = "SELECT t_player.playernum,t_player.playername,t_player.playersex,t_match.score,t_match.foul,t_match.id,t_match.recordlevel,t_department.departname  FROM t_match  "+ 
@@ -526,7 +528,7 @@ public class GameManageDao {
                 "ORDER BY t_match.score+0 ASC ";
 				if(!conn.equals(" "))
 				{
-					System.out.println(itemType+"=============");
+					//System.out.println(itemType+"=============");
 					if(itemType.equals("2"))
 					{
 						pstmt = conn.prepareStatement(sql1);					
@@ -558,9 +560,9 @@ public class GameManageDao {
 						{ 
 							gm.setPlayersex("男");
 						}
-						}
+					}
 					
-					gm.setScore(rs.getString("score"));
+					gm.setScore(ut.coverToTrackScore(rs.getString("score"), itemType));//成绩格式转化
 					if(rs.getInt("recordlevel") == 2)
 					{
 						gm.setRecordlevel("否");

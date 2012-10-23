@@ -353,7 +353,7 @@ public class RecordDAO {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			 
 			 ps.setInt(1, itemId);
-			 System.out.println("hhhhhhhhhhhhhhhhh"+itemId);
+			// System.out.println("hhhhhhhhhhhhhhhhh"+itemId);
 			 ps.setInt(2,plaSex);
 			 ps.setString(3,sor);
 			 ps.setString(4,plaName);

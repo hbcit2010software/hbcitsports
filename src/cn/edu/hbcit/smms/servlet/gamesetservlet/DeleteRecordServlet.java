@@ -55,7 +55,7 @@ public class DeleteRecordServlet extends HttpServlet {
 	 
 		int recordId = Integer.parseInt(request.getParameter("recordId").trim());
 		  
-		 System.out.println(recordId);
+		// System.out.println(recordId);
 		  
 		if (re.deleteRecord(recordId)) {
 

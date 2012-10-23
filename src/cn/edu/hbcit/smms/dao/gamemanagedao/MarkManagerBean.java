@@ -38,7 +38,7 @@ public class MarkManagerBean {
 	        		statement = conn.createStatement();  
 	                rs = statement.executeQuery("select id,departname from t_department");
 	                while(rs.next()){
-	                	System.out.println("rs="+rs.getInt(1)+",rs2="+rs.getString(2));
+	                	//System.out.println("rs="+rs.getInt(1)+",rs2="+rs.getString(2));
 	                    Department pj = new Department();
 	                    pj.setId(rs.getInt(1));
 	                    pj.setDepartmentName(rs.getString(2));
@@ -69,7 +69,7 @@ public class MarkManagerBean {
 	                Statement statement = conn.createStatement(); 
 	                ResultSet rs = statement.executeQuery("select id,itemname from t_item");
 	                while(rs.next()){	 
-	                	System.out.println("rs="+rs.getInt(1));
+	                	//System.out.println("rs="+rs.getInt(1));
 	                	ManageItemPJ  pj= new ManageItemPJ();
 	                    pj.setId(rs.getInt(1));
 	                    pj.setItemname(rs.getString(2));	                   

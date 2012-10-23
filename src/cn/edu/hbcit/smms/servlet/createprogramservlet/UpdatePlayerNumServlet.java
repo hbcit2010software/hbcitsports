@@ -84,7 +84,7 @@ public class UpdatePlayerNumServlet extends HttpServlet {
 		String[] runway = runwayInfo.split(";");
 
 		int flag = aByHand.updatePlayerRunway(finalitemid, teamnum, playId, runway);
-		System.out.println(flag);
+		//System.out.println(flag);
 		if( flag != 0){
 			out.print("success");
 			

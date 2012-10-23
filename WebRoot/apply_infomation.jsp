@@ -47,7 +47,7 @@ if(request.getAttribute("itemInfo")!=null){
 if(request.getAttribute("itemList")!=null&&request.getAttribute("groupList")!=null){
 	ArrayList itemlist = (ArrayList)request.getAttribute("itemList");
 	ArrayList grouplist = (ArrayList)request.getAttribute("groupList");
-	System.out.println(itemlist.size());
+	//System.out.println(itemlist.size());
 	int[] itemid = new int[itemlist.size()];
 	String[] itemtypes = new String[itemlist.size()];
 	//var itemSix = new Array();

@@ -59,7 +59,7 @@ public class SelectCertainRecordServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjj");
+		//System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjj");
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-control", "no-cache");
 		response.setDateHeader("Expires", 0);
@@ -78,7 +78,7 @@ public class SelectCertainRecordServlet extends HttpServlet {
 			recTime=recTime.substring(0, 7);
 			flag = true;
 		}
-		System.out.println("NNNNN"+recTime); 
+		//System.out.println("NNNNN"+recTime); 
 		RecordServices bs = new RecordServices();
 		ArrayList adminList=new ArrayList();
 		//int itemId = bs.getItemId(itemName);

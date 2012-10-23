@@ -61,7 +61,8 @@ public class GameQueryDAO {
 				db.freeConnection(conn);
 			}catch( Exception e){
 				e.getStackTrace();
-				System.out.println(e.getMessage());
+				//System.out.println(e.getMessage());
+				
 			}
 			return list;
 		}
@@ -90,7 +91,7 @@ public class GameQueryDAO {
 			db.freeConnection(conn);
 		}catch( Exception e){
 			e.getStackTrace();
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return list;
 	}
@@ -119,7 +120,7 @@ public class GameQueryDAO {
 			db.freeConnection(conn);
 		}catch( Exception e){
 			e.getStackTrace();
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return list;
 	}
@@ -153,7 +154,7 @@ public class GameQueryDAO {
 			db.freeConnection(conn);
 		}catch( Exception e){
 			e.getStackTrace();
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return list;
 	}

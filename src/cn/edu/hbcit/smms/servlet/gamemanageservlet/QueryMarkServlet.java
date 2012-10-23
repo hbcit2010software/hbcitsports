@@ -72,7 +72,7 @@ public class QueryMarkServlet extends HttpServlet {
 		List<QueryMarkPoJo> teacherMarkList = qms.getTeacherMark(depNameList);
 		List<QueryMarkPoJo> studentsFinalMarkList = qms.getStudentsFinalMark(depNameList);
 		List<QueryMarkPoJo> teacherFinalMarkList = qms.getTeacherFinalMark(depNameList);
-		System.out.println("QueryMarkServlet:depNameList--studentsMarkList--teacherMarkList--teacherFinalMarkList"+depNameList.size()+teacherMarkList.size()+studentsFinalMarkList.size()+teacherFinalMarkList.size());
+		//System.out.println("QueryMarkServlet:depNameList--studentsMarkList--teacherMarkList--teacherFinalMarkList"+depNameList.size()+teacherMarkList.size()+studentsFinalMarkList.size()+teacherFinalMarkList.size());
 		list1.add(depNameList);
 		list2.add(studentsMarkList);
 		list3.add(teacherMarkList);
@@ -83,7 +83,7 @@ public class QueryMarkServlet extends HttpServlet {
 		session.setAttribute("list3", list3);
 		session.setAttribute("list4", list4);
 		session.setAttribute("list5", list5);
-		System.out.println(studentsFinalMarkList.size());
+		//System.out.println(studentsFinalMarkList.size());
 		response.sendRedirect("../mark.jsp");
 		
 	}

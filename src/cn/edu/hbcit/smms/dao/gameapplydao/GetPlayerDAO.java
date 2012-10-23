@@ -121,10 +121,9 @@ public class GetPlayerDAO {
 					list.add(num);
 					
 				}
-				db.freeConnection(conn);
+				db.freeConnection(rs,pstmt,conn);
 			}catch( Exception e){
-				e.getStackTrace();
-				System.out.println(e.getMessage());
+				log.error(e.getMessage());
 			}
 			return list;
 		}
@@ -151,10 +150,9 @@ public class GetPlayerDAO {
 					list.add(num);
 					
 				}
-				db.freeConnection(conn);
+				db.freeConnection(rs,pstmt,conn);
 			}catch( Exception e){
-				e.getStackTrace();
-				System.out.println(e.getMessage());
+				log.error(e.getMessage());
 			}
 			return list;
 		}
@@ -214,12 +212,11 @@ public class GetPlayerDAO {
 				//log.debug(itemname.getItemid()+"))))"+itemname.getItemname());
 				list.add(itemname);
 			}
-			
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
-			e.getStackTrace();
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 		}
-		db.freeConnection(conn);
+		
 		return list;
 	} 
 /**

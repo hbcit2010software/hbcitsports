@@ -62,7 +62,7 @@ public class QueryMark {
 				  QueryMarkPoJo qm = new QueryMarkPoJo();
 				  qm.setDepName(rs.getString(1));
 				  depNameList.add(qm);
-				  System.out.println("dep========="+depNameList.size());
+				 // System.out.println("dep========="+depNameList.size());
 			  }			  
 		  }catch (Exception e) {
 			log.debug(e);
@@ -96,7 +96,7 @@ public class QueryMark {
 				       qm.setStudetsMarks(rs.getInt(1));
 				 
 				       studentsMarkList.add(qm);
-				  System.out.println("getStudetsMarks========"+qm.getStudetsMarks());
+				//  System.out.println("getStudetsMarks========"+qm.getStudetsMarks());
 			  }}
 		  }catch (Exception e) {
 			e.printStackTrace();
@@ -130,7 +130,7 @@ public class QueryMark {
 				       qm.setTeacherMarks(rs.getInt(1));
 				 
 				       teacherMarkList.add(qm);
-				  System.out.println("markList========"+qm.getStudetsMarks());
+				//  System.out.println("markList========"+qm.getStudetsMarks());
 			  }}
 		  }catch (Exception e) {
 			e.printStackTrace();
@@ -161,7 +161,7 @@ public class QueryMark {
 				       qm.setFinalStudentsSum(rs.getInt(1));
 				       
 				  studentsMarkFinalList.add(qm);
-				  System.out.println("markFinalList========="+qm.getFinalStudentsSum());
+				//  System.out.println("markFinalList========="+qm.getFinalStudentsSum());
 			  }}
 		  }catch (Exception e) {
 			e.printStackTrace();
@@ -183,7 +183,7 @@ public class QueryMark {
 			   "WHERE sp2dpid IN (SELECT t_sports2department.id FROM t_sports2department WHERE t_sports2department.departid=" +
 			   "(SELECT id FROM t_department WHERE t_department.departname=?))";
 			  pstmt = conn.prepareStatement(sql);
-			  System.out.println("==============++++"+depNameList.size());
+			 // System.out.println("==============++++"+depNameList.size());
 			for(QueryMarkPoJo queryMarkPoJo:depNameList){
 			  pstmt.setString(1, queryMarkPoJo.getDepName());
 			  rs = pstmt.executeQuery();
@@ -193,7 +193,7 @@ public class QueryMark {
 				       qm.setFinalTeacherSum(rs.getInt(1));
 				       
 				       teacherMarkFinalList.add(qm);
-				  System.out.println("markFinalList========="+qm.getTeacherMarks());
+				//  System.out.println("markFinalList========="+qm.getTeacherMarks());
 			  }}
 		  }catch (Exception e) {
 			e.printStackTrace();
@@ -229,7 +229,7 @@ public class QueryMark {
 		  }catch (Exception e) {
 			log.debug(e);
 		}
-		  System.out.println("flag========="+flag);
+		//  System.out.println("flag========="+flag);
 		  return flag;
 	  }
 	  
@@ -248,7 +248,7 @@ public class QueryMark {
 
 		  LoginDAO ld = new LoginDAO();
 		  int sportsid = ld.selectCurrentSportsId();
-		  System.out.println(sportsid);
+		 // System.out.println(sportsid);
 		  String sportsname = "";
           try{
 			  
@@ -256,10 +256,10 @@ public class QueryMark {
 			  pstmt = conn.prepareStatement("select sportsname from t_sports where id=?");
 			  pstmt.setInt(1, sportsid);
 			  rs = pstmt.executeQuery();
-			  System.out.println(rs.next());
+			//  System.out.println(rs.next());
 			  if(rs.next()){
 				  sportsname = rs.getString(1);
-				  System.out.println(rs.getString(1));
+				//  System.out.println(rs.getString(1));
 				}
 				
 		        Document document = new Document(PageSize.A4);   
@@ -361,7 +361,7 @@ public class QueryMark {
 				 }
 				 qamp.setRecordlevel("省记录");
 				 studentsMarksList.add(qamp);
-				  System.out.println("dep========="+studentsMarksList.size());
+				 // System.out.println("dep========="+studentsMarksList.size());
 			  }		
 			  conn.close();
 		  }catch (Exception e) {
@@ -413,7 +413,7 @@ public class QueryMark {
 				 }
 				 qamp.setRecordlevel("省记录");
 				 teacherMarksList.add(qamp);
-				  System.out.println("dep========="+teacherMarksList.size());
+				//  System.out.println("dep========="+teacherMarksList.size());
 			  }	
 			  conn.close();
 		  }catch (Exception e) {
@@ -433,7 +433,7 @@ public class QueryMark {
   
 		LoginDAO ld = new LoginDAO();
 		  int sportsid = ld.selectCurrentSportsId();
-		  System.out.println(sportsid);
+		  //System.out.println(sportsid);
 		  String sportsname = "";
         try{
 			  
@@ -441,10 +441,10 @@ public class QueryMark {
 			  pstmt = conn.prepareStatement("select sportsname from t_sports where id=?");
 			  pstmt.setInt(1, sportsid);
 			  rs = pstmt.executeQuery();
-			  System.out.println(rs.next());
+			 // System.out.println(rs.next());
 			  while(rs.next()){
 				  sportsname = rs.getString(1);
-				  System.out.println(rs.getString(1));
+				//  System.out.println(rs.getString(1));
 				}
 				
 			  
@@ -484,16 +484,16 @@ public class QueryMark {
 		        table.addCell(new Cell("积分"));
 		        table.addCell(new Cell("名次"));
 		        table.addCell(new Cell("破纪录"));
-		        System.out.println("QueryMarks:depNameList==========="+depNameList.size());
+		     //   System.out.println("QueryMarks:depNameList==========="+depNameList.size());
 		        for(int i = 0;i<depNameList.size();i++)
 		        {
 		        	
-		        	System.out.println("QueryMarks:depNameList.get(i)==========="+depNameList.get(i));
+		        	//System.out.println("QueryMarks:depNameList.get(i)==========="+depNameList.get(i));
 		        	QueryMarkPoJo qm = (QueryMarkPoJo)depNameList.get(i);
 		        	 List<QueryAllMarksPlayerMsg> studentsMarksList = (List<QueryAllMarksPlayerMsg>)getStudentsMarks(qm.getDepName());
-		        	 System.out.println("QueryMarks:studentsMarksList==========="+studentsMarksList.size());
+		        	// System.out.println("QueryMarks:studentsMarksList==========="+studentsMarksList.size());
 		        	 List<QueryAllMarksPlayerMsg> teacherMarksList = (List<QueryAllMarksPlayerMsg>)getTeacherMarks(qm.getDepName());
-		        	 System.out.println("QueryMarks:teacherMarksList==========="+studentsMarksList.size());
+		        	// System.out.println("QueryMarks:teacherMarksList==========="+studentsMarksList.size());
 		        	 for(int j = 0;j<studentsMarksList.size();j++){
 		        		 QueryAllMarksPlayerMsg allMarksPlayerMsg = studentsMarksList.get(j);
 		        		 Cell cell1 = new Cell("学生");

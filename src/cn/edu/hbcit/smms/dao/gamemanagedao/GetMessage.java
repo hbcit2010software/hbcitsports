@@ -25,7 +25,7 @@ public class GetMessage {
 	 * @return	JSONArray
 	 */
 	public JSONArray getPlayerMessageOnlyTeam( String finalitemname , String teamnum ,String itemtype ,Connection conn , String scoreFormat){
-		System.out.println("finalitemname="+finalitemname);
+		//System.out.println("finalitemname="+finalitemname);
 		String sql = "SELECT playernum,playername,score,runway FROM t_player JOIN " +
 				"t_match t_match ON t_match.playerid = t_player.id " +
 				"WHERE finalitemid IN (SELECT id FROM t_finalitem WHERE finalitemname = ?  AND sportsid = ?) " +
@@ -36,7 +36,7 @@ public class GetMessage {
 		
 		JSONArray list = new JSONArray();
 		if( itemtype.equals("3") ){
-			System.out.println("itemType="+itemtype);
+			//System.out.println("itemType="+itemtype);
 			try {
 				pstmt = conn.prepareStatement(sqlrelay);
 				pstmt.setString(1, finalitemname);
@@ -103,7 +103,7 @@ public class GetMessage {
 		try {
 			String itemtype = getItemType(finalitemname);		//项目的类型田赛     竞赛    接力
 			list.add(itemtype);		//添加项目类型
-			System.out.println("itemtype="+itemtype);
+			//System.out.println("itemtype="+itemtype);
 			
 			String scoreFormt = getFormat(finalitemname);
 			conn = dbc.getConn();

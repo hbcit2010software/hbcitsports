@@ -77,7 +77,7 @@ public class GameManageCreateWordOfAthleteInfServle extends HttpServlet {
 		
 		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		String finalItemId = request.getParameter("finalItemId");		
-		System.out.print("-------------------------finalItemsss"+finalItemId);
+		//System.out.print("-------------------------finalItemsss"+finalItemId);
 		GameManageServices gm = new GameManageServices();
 		String itemType = gm.getItemType(Integer.parseInt(finalItemId));
 		athleteList = gm.createWordOfAthleteInf(Integer.parseInt(finalItemId),itemType);
@@ -106,7 +106,7 @@ public class GameManageCreateWordOfAthleteInfServle extends HttpServlet {
 		            }
 		      StringBuffer buffer = new StringBuffer();
 		      String fileName1 = fileName + "成绩单.doc";
-		      System.out.println(file+fileName1);
+		      //System.out.println(file+fileName1);
 		        buffer.append("{");
 				buffer.append("\"contents\":[");
 				buffer.append("{");

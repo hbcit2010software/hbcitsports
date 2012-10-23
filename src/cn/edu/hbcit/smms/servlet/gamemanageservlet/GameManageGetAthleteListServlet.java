@@ -71,7 +71,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 		StringBuffer buffer = new StringBuffer();
 		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		String finalItemId = request.getParameter("finalItemId");
-		System.out.println("finalItemId==================="+finalItemId);
+		//System.out.println("finalItemId==================="+finalItemId);
 		
 		GameManageServices gm = new GameManageServices();
 		String infNull = " ";
@@ -81,7 +81,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 			athleteList = gm.getAthleteList(Integer.parseInt(finalItemId),itemType);		    
 		    buffer.append("{");
 			buffer.append("\"contents\":[");
-		    System.out.println("(servlet)athleteList<<<<<<<<<<<"+athleteList.size());
+		    //System.out.println("(servlet)athleteList<<<<<<<<<<<"+athleteList.size());
 		    
 		    for(int i = 0;i<athleteList.size();i++)
 		    {
@@ -101,7 +101,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 				buffer.append("\"departname\":\"" + pj.getDepartname() + "\",");
 				
 				buffer.append("\"matchid\":\"" + pj.getMatchid() + "\"");
-				System.out.println("Departname==============================="+pj.getDepartname());
+				//System.out.println("Departname==============================="+pj.getDepartname());
 				buffer.append("}");
 		    	
 		    }
@@ -146,13 +146,13 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String matchid = request.getParameter("matchid");
 		String finalItemId = request.getParameter("finalItemId");
-		System.out.println("(servlet)finalItemId<<<<<<<<<<<"+finalItemId);
+		//System.out.println("(servlet)finalItemId<<<<<<<<<<<"+finalItemId);
 		GameManageDao gm = new GameManageDao();
 		ArrayList<GameManagePoJo> athleteList = new ArrayList<GameManagePoJo>();
 		athleteList = gm.getAth(Integer.parseInt(matchid),Integer.parseInt(finalItemId));
 		 buffer.append("{");
 			buffer.append("\"contents\":[");
-		    System.out.println("(servlet)athleteList<<<<<<<<<<<"+athleteList.size());
+		   // System.out.println("(servlet)athleteList<<<<<<<<<<<"+athleteList.size());
 		    
 		    for(int i = 0;i<athleteList.size();i++)
 		    {
@@ -172,7 +172,7 @@ public class GameManageGetAthleteListServlet extends HttpServlet {
 				buffer.append("\"departname\":\"" + pj.getDepartname() + "\",");
 				buffer.append("\"playerid\":\"" + pj.getPlayerid() + "\",");
 				buffer.append("\"matchid\":\"" + pj.getMatchid() + "\"");
-				System.out.println("Departname==============================="+pj.getDepartname());
+			//	System.out.println("Departname==============================="+pj.getDepartname());
 				buffer.append("}");
 		    	
 		    }

@@ -95,7 +95,7 @@ public class WordDemoServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id".trim()));
 		WordDemoService wDemo = new WordDemoService();
 		String filePath = request.getSession().getServletContext().getRealPath("/")+"word/"; //生成的路径
-		System.out.println(filePath);
+		//System.out.println(filePath);
 		session.setAttribute("filePath", filePath);
 
 		

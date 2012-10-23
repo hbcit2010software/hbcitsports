@@ -49,7 +49,7 @@ public class AlterRecordServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 
 		request.setCharacterEncoding("utf-8");
-		System.out.println("qqqqqqqqqqqq");
+		//System.out.println("qqqqqqqqqqqq");
 		RecordServices re = new RecordServices();
 		 
 		PrintWriter out = response.getWriter();

@@ -68,7 +68,7 @@
     <%
        String depName = "";
        depName = new String(request.getParameter("depName").getBytes("ISO-8859-1"),"UTF-8");
-       System.out.println(depName);
+       //System.out.println(depName);
       %>
                          当前更改部门：<input id="depName" type="text" style="border:0" readonly value="<%=depName%>"><br/>
                         学生最终成绩：<input id="finalusm" type="text"/><br/>

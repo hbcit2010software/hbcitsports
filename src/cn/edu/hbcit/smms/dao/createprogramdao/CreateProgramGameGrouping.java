@@ -1036,7 +1036,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 			Connection conn = db.getConn();
 			String select = " SELECT DISTINCT t_match.teamnum FROM t_match JOIN t_player ON  " +
 					"t_match.playerid = t_player.id WHERE t_match.finalitemid = ? ORDER BY t_match.teamnum";
-			System.out.println(conn);
+			//System.out.println(conn);
 			ps = conn.prepareStatement(select);
 			ps.setInt(1, finalitemid);
 			rs = ps.executeQuery();
@@ -1083,7 +1083,7 @@ public HashMap selectPlayerIdD2SId(int sportId){
 				
 				trackp.setPlayerNum(rs.getString(1));
 				trackp.setTeamnum(rs.getInt(2));
-				System.out.println(rs.getString(1));
+				//System.out.println(rs.getString(1));
 				for(int i=1;i<=c;i++){
                 	log.debug(rs.getObject(i));
                 }

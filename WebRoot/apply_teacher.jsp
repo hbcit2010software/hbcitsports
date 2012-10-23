@@ -90,7 +90,7 @@ var cover = "cover";
 var add = 0;
 var number = 0;
 //number = <%=begin%>;
-var itemids = new Array(<%for(int i=0;i<itemid.length;i++){System.out.println(itemid[i]); out.print(itemid[i]);if(i!=itemid.length-1)out.print(","); }   %>);
+var itemids = new Array(<%for(int i=0;i<itemid.length;i++){/*System.out.println(itemid[i]);*/ out.print(itemid[i]);if(i!=itemid.length-1)out.print(","); }   %>);
 var itemtypes = new Array(<%for(int i=0;i<itemtype.length;i++){out.print(itemtype[i]);if(i!=itemtype.length-1)out.print(","); }   %>);
 
 //**************8
