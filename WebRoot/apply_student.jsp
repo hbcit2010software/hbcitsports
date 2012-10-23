@@ -192,7 +192,7 @@ function addRow(obj)
         newTd0.innerHTML = '<td><div align="center"><lable><input type="hidden" name="hide" id="'+cover+'"><input type=text size="4" readonly="true" id="num_'+sample+'" name="num_'+sample+'"  value='+playerNum[number]+'></lable></div></td>'; 
 		newTd1.innerHTML = '<td><div align="center"><input type="text" size="6" name="name_'+sample+'" id="name_'+sample+'"></div></td>'; 
 		newTd2.innerHTML = '<td align="center" valign="middle"><div align="center" style="font-size:12px;">'+
-		'<input type="radio" name="sex_'+sample+'" value="true" checked="checked" onchange="checkSex(this);">男&nbsp;'+
+		'<input type="radio" name="sex_'+sample+'" value="true" checked="checked" onchange="checkSex(this);">男'+
 		'<input type="radio" name="sex_'+sample+'" value="false"onchange="checkSex(this);">女</div></td>';
          var i = 3;
          for(i = 3;i <= <%=num+2%>; i++){
@@ -333,6 +333,7 @@ function selGroup(){
 -->
 </style>
 </head>
+<body>
   <form action="${pageContext.request.contextPath }/servlet/UpdatePlayerServlet" method="post" onSubmit="return submitCheck();">
     <table id="stuentApply" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
       <tr class="tableTitle">
