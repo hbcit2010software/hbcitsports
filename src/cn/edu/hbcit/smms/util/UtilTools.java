@@ -89,9 +89,12 @@ public class UtilTools {
 	 * @param score
 	 * @return
 	 */
-	public String coverToTrackScore(String score){
-
-		if(score != null){
+	public String coverToTrackScore(String score, String itemtype){
+		/*
+		 * 如果是径赛或接力项目，才转换成绩格式
+		 * 项目类型：1径赛；2田赛；3接力
+		 */
+		if(score != null && !itemtype.equals("2")){
 			StringBuffer result = new StringBuffer();
 			String[] tempArray = score.split("\\.");
 			log.debug(score+"分割的数组长度:"+tempArray.length);
@@ -115,7 +118,7 @@ public class UtilTools {
 				result.append(tempArray[2]);
 			}else if(sumDot == 3){
 				result.append(tempArray[0]);
-				result.append(",");
+				result.append(":");
 				result.append(tempArray[1]);
 				result.append("'");
 				result.append(tempArray[2]);
@@ -125,7 +128,7 @@ public class UtilTools {
 			log.debug(score+"成绩格式转换后为："+result.toString());
 			return result.toString();
 		}else{
-			return null;
+			return score;
 		}
 				
 		//return result;

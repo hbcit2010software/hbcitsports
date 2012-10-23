@@ -37,28 +37,28 @@ public class DBTest {
 	 * @author 李玮
 	 * @version 1.00  2012/6/4  新建
 	 */
-	public void getQuery() {
-		DBConn db = new DBConn();
-        try {
-            Connection conn = db.getConn();
-            if(conn != null){
-                Statement statement = conn.createStatement(); 
-                ResultSet rs = statement.executeQuery("select * from tptitle"); 
-                int c = rs.getMetaData().getColumnCount();
-                while(rs.next()){
-                    System.out.println(); 
-                    for(int i=1;i<=c;i++){
-                    	log.debug(rs.getObject(i));
-                        //System.out.print(rs.getObject(i));
-                    }
-                }
-                rs.close();
-            }
-            db.freeConnection(conn);
-        } catch (SQLException e) {                 
-            e.printStackTrace();       
-        }       
-      
-    }
+//	public void getQuery() {
+//		DBConn db = new DBConn();
+//        try {
+//            Connection conn = db.getConn();
+//            if(conn != null){
+//                Statement statement = conn.createStatement(); 
+//                ResultSet rs = statement.executeQuery("select * from tptitle"); 
+//                int c = rs.getMetaData().getColumnCount();
+//                while(rs.next()){
+//                    System.out.println(); 
+//                    for(int i=1;i<=c;i++){
+//                    	log.debug(rs.getObject(i));
+//                        //System.out.print(rs.getObject(i));
+//                    }
+//                }
+//                rs.close();
+//            }
+//            db.freeConnection(conn);
+//        } catch (SQLException e) {                 
+//            e.printStackTrace();       
+//        }       
+//      
+//    }
 	
 }
