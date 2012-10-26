@@ -1,16 +1,14 @@
-<%@page language="java" import="java.net.URLEncoder,java.io.*,java.net.URLDecoder" contentType="application/x-msdownload" pageEncoding="gb2312"%>   
-<!-- ´ËÒ³ÃæÓÃÓÚÏÂÔØÊ±ÊµÏÖ£¬Ê¹ÓÃÎÄ¼şÁ÷·½Ê½ÏÂÔØ×ÊÔ´        -->
-<!-- ĞŞ¸Äbug  ÁõÈ»       2012/09/09       -->
+<%@page language="java" import="java.net.URLEncoder,java.io.*,java.net.URLDecoder" contentType="application/x-msdownload" pageEncoding="utf-8"%>   
+<!-- æ­¤é¡µé¢ç”¨äºä¸‹è½½æ—¶å®ç°ï¼Œä½¿ç”¨æ–‡ä»¶æµæ–¹å¼ä¸‹è½½èµ„æº        -->
+<!-- ä¿®æ”¹bug  åˆ˜ç„¶       2012/09/09       -->
 <%    
-		  //¹ØÓÚÎÄ¼şÏÂÔØÊ±²ÉÓÃÎÄ¼şÁ÷Êä³öµÄ·½Ê½´¦Àí£º    
-		  //¼ÓÉÏresponse.reset()£¬²¢ÇÒËùÓĞµÄ£¥>ºóÃæ²»Òª»»ĞĞ£¬°üÀ¨×îºóÒ»¸ö£»    
+		  //å…³äºæ–‡ä»¶ä¸‹è½½æ—¶é‡‡ç”¨æ–‡ä»¶æµè¾“å‡ºçš„æ–¹å¼å¤„ç†ï¼š    
+		  //åŠ ä¸Šresponse.reset()ï¼Œå¹¶ä¸”æ‰€æœ‰çš„ï¼…>åé¢ä¸è¦æ¢è¡Œï¼ŒåŒ…æ‹¬æœ€åä¸€ä¸ªï¼›    
 		   
-		  response.reset();//¿ÉÒÔ¼ÓÒ²¿ÉÒÔ²»¼Ó    
+		  response.reset();//å¯ä»¥åŠ ä¹Ÿå¯ä»¥ä¸åŠ     
 		  response.setContentType("application/x-download");    
 		  String file = (String)request.getParameter("file");
 		  String fileName = URLDecoder.decode((String)request.getParameter("fileName"),"UTF-8");
-		  System.out.println("111....."+file);
-          System.out.println("222....."+fileName);
           if(file !=null && fileName !=null){
 		  String filedownload = file + fileName;    
 		  String filedisplay =  new String(fileName.getBytes("gb2312"), "iso8859-1");;        
@@ -32,7 +30,7 @@
 		  }    
 		//      
 		outp.flush();    
-		//Òª¼ÓÒÔÏÂÁ½¾ä»°£¬·ñÔò»á±¨´í    
+		//è¦åŠ ä»¥ä¸‹ä¸¤å¥è¯ï¼Œå¦åˆ™ä¼šæŠ¥é”™    
 		//java.lang.IllegalStateException: getOutputStream() has already been called for //this response      
 		out.clear();    
 		out = pageContext.pushBody();    
@@ -49,7 +47,7 @@
 		  in.close();    
 		  in = null;    
 		  }    
-		//ÕâÀï²»ÄÜ¹Ø±Õ      
+		//è¿™é‡Œä¸èƒ½å…³é—­      
 		//if(outp != null)    
 		  //{    
 		  //outp.close();    

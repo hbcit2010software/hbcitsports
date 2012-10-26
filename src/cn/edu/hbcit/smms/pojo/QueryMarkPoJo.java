@@ -10,6 +10,7 @@ public class QueryMarkPoJo {
 	private String depName;//系别名称
 	private int finalStudentsSum;//学生最终积分
 	private int finalTeacherSum;//教工最终积分
+	private int departid;
 
 	public int getStudetsMarks() {
 		return studetsMarks;
@@ -47,6 +48,12 @@ public class QueryMarkPoJo {
 	}
 	public void setDepName(String depName) {
 		this.depName = depName;
+	}
+	public int getDepartid() {
+		return departid;
+	}
+	public void setDepartid(int departid) {
+		this.departid = departid;
 	}
 
 }

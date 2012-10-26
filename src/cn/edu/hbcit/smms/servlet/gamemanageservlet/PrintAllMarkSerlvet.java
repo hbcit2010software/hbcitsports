@@ -3,6 +3,8 @@ package cn.edu.hbcit.smms.servlet.gamemanageservlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.edu.hbcit.smms.pojo.MarkPojo;
 import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.QueryMarkServices;
 
@@ -62,20 +65,36 @@ public class PrintAllMarkSerlvet extends HttpServlet {
 
 
 		System.out.println("printServlet============");
+		request.setCharacterEncoding("utf-8");
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-control", "no-cache");
 		response.setDateHeader("Expires", 0);
 		response.setContentType("text/html;utf-8");
 		response.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();	
-		
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString()); 
+			
 		QueryMarkServices qms = new QueryMarkServices();
-		List<QueryMarkPoJo> depNameList = qms.getDepName();
-		
-		String filePath = request.getSession().getServletContext().getRealPath("/");
-
+		String filePath = request.getSession().getServletContext().getRealPath("/")+"excel/";
+		String sportsName = qms.getSportsName();
+		//filePath = filePath + "河北工院"+sportsName+"成绩单.xls";
+		ArrayList depNameList = new ArrayList();
+		depNameList = qms.selectDep(sportsId);
+		ArrayList boyItemList = new ArrayList();
+		boyItemList = qms.selectItem(sportsId, 1);
+		ArrayList girlItemList = new ArrayList();
+		girlItemList = qms.selectItem(sportsId, 0);
+		String boyGroup = "男子组";
+		String girlGroup = "女子组";
+		HashMap boyMarkMap = null;
+		boyMarkMap = qms.selectMarkMap(sportsId, 1);
+		boyMarkMap = qms.selectMarkMap(sportsId, 1, boyMarkMap);
+		HashMap girlMarkMap = null;
+		girlMarkMap = qms.selectMarkMap(sportsId, 0);
+		girlMarkMap = qms.selectMarkMap(sportsId, 0, boyMarkMap);
 		try{
-			qms.printAllPlayerMarksMessage(filePath, depNameList);
+			qms.generateExcel2003(filePath, depNameList, boyItemList, sportsName, boyGroup, boyMarkMap, girlItemList, girlGroup, girlMarkMap);
 
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -85,7 +104,7 @@ public class PrintAllMarkSerlvet extends HttpServlet {
 		buffer.append("\"contents\":[");
 		buffer.append("{");
 		buffer.append("\"file\":\"" + URLEncoder.encode(filePath,"UTF-8") + "\",");
-	    buffer.append("\"fileName1\":\"" + "总积分表.doc" + "\"");
+	    buffer.append("\"fileName\":\"" + ("河北工院"+sportsName+"成绩单.xls" )+ "\"");
 	    buffer.append("}");
 	    buffer.append("]");
 		buffer.append("}");

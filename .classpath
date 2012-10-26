@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/itext-rtf-2.1.4.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jspsmart.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/date4j.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.8.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

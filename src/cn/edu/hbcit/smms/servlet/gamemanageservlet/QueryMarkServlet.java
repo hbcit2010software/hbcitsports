@@ -60,30 +60,23 @@ public class QueryMarkServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		
 		HttpSession session = request.getSession();
-		ArrayList list1 = new ArrayList();
-		ArrayList list2 = new ArrayList();
-		ArrayList list3 = new ArrayList();
-		ArrayList list4 = new ArrayList();
-		ArrayList list5 = new ArrayList();
-		QueryMarkServices qms = new QueryMarkServices();
-		List<QueryMarkPoJo> depNameList = qms.getDepName();
-		List<QueryMarkPoJo> studentsMarkList = qms.getStudentsMark(depNameList);
-		List<QueryMarkPoJo> teacherMarkList = qms.getTeacherMark(depNameList);
-		List<QueryMarkPoJo> studentsFinalMarkList = qms.getStudentsFinalMark(depNameList);
-		List<QueryMarkPoJo> teacherFinalMarkList = qms.getTeacherFinalMark(depNameList);
-		System.out.println("QueryMarkServlet:depNameList--studentsMarkList--teacherMarkList--teacherFinalMarkList"+depNameList.size()+teacherMarkList.size()+studentsFinalMarkList.size()+teacherFinalMarkList.size());
-		list1.add(depNameList);
-		list2.add(studentsMarkList);
-		list3.add(teacherMarkList);
-		list4.add(studentsFinalMarkList);
-		list5.add(teacherFinalMarkList);
-		session.setAttribute("list1", list1);
-		session.setAttribute("list2", list2);
-		session.setAttribute("list3", list3);
-		session.setAttribute("list4", list4);
-		session.setAttribute("list5", list5);
-		System.out.println(studentsFinalMarkList.size());
+		QueryMarkServices qm = new QueryMarkServices();
+		boolean flag = qm.selectAllMarks();
+		if(flag == false){
+			int i = qm.insertAllStuMarks();
+			if(i>0){
+				int j = qm.updateAllTeasMarks();
+			}
+			
+		}
+		
+	    ArrayList allMarkInfo = qm.allMarkInfo();
+	    ArrayList allTeachInfo = qm.allTeachMarkInfo();
+	    System.out.println(allMarkInfo.size()+"11111111111111111111111111111111");
+	    session.setAttribute("allMarkInfo", allMarkInfo);
+	    session.setAttribute("allTeachInfo", allTeachInfo);
 		response.sendRedirect("../mark.jsp");
 		
 	}
