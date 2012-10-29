@@ -20,6 +20,7 @@ import org.apache.poi.hssf.util.CellRangeAddress;
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
 import cn.edu.hbcit.smms.pojo.MarkPojo;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 import com.lowagie.text.DocumentException;
 
@@ -535,6 +536,8 @@ public class QueryMark {
 			ArrayList girlItemList, String girlGroup, HashMap girlMarkMap) {
 		log.debug("男子组积分map：" +boyMarkMap);
 		log.debug("女子组积分map：" +boyMarkMap);
+		ArrayList boySumMark = new ArrayList();
+		ArrayList girlSumMark = new ArrayList();
 		// 先创建工作簿对象
 		HSSFWorkbook workbook2003 = new HSSFWorkbook();
 		// 创建工作表对象并命名
@@ -610,6 +613,7 @@ public class QueryMark {
 					key = key + ";" + tempDep[1];
 					//log.debug("男key：" +key);
 					//log.debug("真假：" +boyMarkMap.containsKey(key));
+					UtilTools ut = new UtilTools();
 					if (boyMarkMap.containsKey(key)) {
 						log.debug("男key：" +key);
 						String[] value = boyMarkMap.get(key).toString().split(";");
@@ -619,13 +623,15 @@ public class QueryMark {
 						//log.debug("itCount**************************************");
 						//log.debug("itCount"+itCount);
 						HSSFCell nullCell2 = row.createCell(itCount);
-						nullCell2.setCellValue(value[1]);
+						nullCell2.setCellValue(ut.coverToTrackScore(value[1], tempItem[2]));
+						//nullCell2.setCellValue(value[1]);
 						itCount++;
 						//log.debug("itCount"+itCount);
 						HSSFCell nullCell3 = row.createCell(itCount);
 						int mark = Integer.parseInt(value[2].trim());
 						nullCell3.setCellValue(mark);
 						markTotal += mark;
+						narkSum += mark;
 						itCount++;
 						//log.debug("itCount"+itCount);
 					} else {
@@ -640,7 +646,7 @@ public class QueryMark {
 						itCount++;
 						//log.debug("itCount"+itCount);
 					}
-					narkSum += markTotal;	
+					//narkSum += markTotal;	
 				}	
 				HSSFCell hejiCell2 = row.createCell(itCount);
 				hejiCell2.setCellValue(markTotal);
@@ -649,7 +655,8 @@ public class QueryMark {
 				if (rowNum == 8){
 					HSSFCell zongfenCell2 = row.createCell(itCount);
 					//log.debug("rowNum:总分："+rowNum);
-					zongfenCell2.setCellValue(narkSum+"");
+					//zongfenCell2.setCellValue(narkSum);
+					boySumMark.add(narkSum+"");
 				}else{
 					HSSFCell zongfenCell2 = row.createCell(itCount);
 				}
@@ -664,6 +671,10 @@ public class QueryMark {
 			for (int itemNum = 0; itemNum < boyItemList.size(); itemNum++){
 				boySheet.addMergedRegion(new CellRangeAddress((1+(depNum*9)), (1+(depNum*9)), (3+itemNum*3), (5+itemNum*3)));
 			}//合并项目
+			HSSFRow markSumRow = boySheet.getRow((2+(depNum*9)));
+			HSSFCell markSumCell = markSumRow.getCell((4+(boyItemList.size())*3));
+			log.debug("男子总分单元格:"+markSumCell);
+			markSumCell.setCellValue(boySumMark.get(depNum).toString());
 			boySheet.addMergedRegion(new CellRangeAddress((2+(depNum*9)), (9+(depNum*9)), (4+(boyItemList.size())*3), (4+(boyItemList.size())*3)));//合并总分
 		}
 		HSSFSheet girlSheet = workbook2003.createSheet(girlGroup + "分数统计");
@@ -730,6 +741,7 @@ public class QueryMark {
 					key = key + ";" + tempDep[1];
 					//log.debug("女key：" +key);
 					//log.debug("真假：" +boyMarkMap.containsKey(key));
+					UtilTools ut = new UtilTools();
 					if (girlMarkMap.containsKey(key)) {
 						String[] value = girlMarkMap.get(key).toString().split(";");
 						//log.debug("value[]:"+value);
@@ -737,12 +749,13 @@ public class QueryMark {
 						eitemCell.setCellValue(value[0]);
 						itCount++;
 						HSSFCell nullCell2 = row.createCell(itCount);
-						nullCell2.setCellValue(value[1]);
+						nullCell2.setCellValue(ut.coverToTrackScore(value[1], tempItem[2]));
 						itCount++;
 						HSSFCell nullCell3 = row.createCell(itCount);
 						int mark = Integer.parseInt(value[2].trim());
 						nullCell3.setCellValue(mark);
 						markTotal += mark;
+						narkSum += mark;
 						itCount++;
 					} else {
 						HSSFCell eitemCell = row.createCell(itCount);
@@ -752,7 +765,7 @@ public class QueryMark {
 						HSSFCell nullCell3 = row.createCell(itCount);
 						itCount++;
 					}
-					narkSum += markTotal;
+					//narkSum += markTotal;
 				}
 				HSSFCell hejiCell2 = row.createCell(itCount);
 				hejiCell2.setCellValue(markTotal);
@@ -760,7 +773,9 @@ public class QueryMark {
 				
 				if (rowNum == 8){
 					HSSFCell zongfenCell2 = row.createCell(itCount);
-					zongfenCell2.setCellValue(narkSum+"");
+					girlSumMark.add(narkSum+"");
+					//zongfenCell2.setCellValue("lllllllllllll");
+					//zongfenCell2.setCellValue(narkSum);
 				}else{
 					HSSFCell zongfenCell2 = row.createCell(itCount);
 				}
@@ -774,6 +789,10 @@ public class QueryMark {
 			for (int itemNum = 0; itemNum < girlItemList.size(); itemNum++){
 				girlSheet.addMergedRegion(new CellRangeAddress((1+(depNum*9)), (1+(depNum*9)), (3+itemNum*3), (5+itemNum*3)));
 			}//合并项目
+			HSSFRow markSumRow = girlSheet.getRow((2+(depNum*9)));
+			HSSFCell markSumCell = markSumRow.getCell((4+(girlItemList.size())*3));
+			log.debug("女子总分单元格:"+markSumCell);
+			markSumCell.setCellValue(girlSumMark.get(depNum).toString());
 			girlSheet.addMergedRegion(new CellRangeAddress((2+(depNum*9)), (9+(depNum*9)), (4+(girlItemList.size())*3), (4+(girlItemList.size())*3)));//合并总分
 		}
 		// 生成文件
@@ -835,7 +854,7 @@ public class QueryMark {
 	 */
 	public ArrayList selectItem(int sportsId,int sex){
 		ArrayList itemList = new ArrayList();
-		String sql = "SELECT t_item.itemname,t_item.id FROM t_item JOIN t_group2item " +
+		String sql = "SELECT t_item.itemname,t_item.id,t_item.itemtype FROM t_item JOIN t_group2item " +
 				"ON t_item.id = t_group2item.itemid JOIN t_group2sports ON t_group2sports.id = t_group2item.gp2spid " +
 				"JOIN t_group ON t_group.id = t_group2sports.groupid WHERE t_group2sports.sportsid=? " +
 				"AND t_group2item.matchtype <> 0 AND t_group.groupsex=? AND t_group.grouptype=1";
@@ -848,7 +867,7 @@ public class QueryMark {
 	            statement.setInt(2, sex);
 	            rs = statement.executeQuery(); 
 	            while(rs.next()){
-	            	String temp = rs.getString(1)+";"+rs.getInt(2);
+	            	String temp = rs.getString(1)+";"+rs.getInt(2)+";"+rs.getString(3);
 	            	itemList.add(temp);
 	            }
 	            
@@ -872,7 +891,7 @@ public class QueryMark {
 		String sql = "SELECT t_group2item.itemid,t_position.position,t_sports2department.departid,t_player.playername,t_position.score,t_position.marks"
 		+ " FROM t_position JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id"
 		+ " JOIN t_player ON t_position.playerid = t_player.id"
-		+ " JOIN t_sports2department ON t_player.sp2dpid = t_sports2department.sportsid"
+		+ " JOIN t_sports2department ON t_player.sp2dpid = t_sports2department.id"
 		+ " JOIN t_group2item ON t_finalitem.gp2itid = t_group2item.id"
 		+ " JOIN t_group2sports ON t_group2item.gp2spid = t_group2sports.id"
 		+ " JOIN t_group ON t_group.id = t_group2sports.groupid"
