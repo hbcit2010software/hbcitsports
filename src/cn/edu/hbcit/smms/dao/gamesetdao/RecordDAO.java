@@ -14,6 +14,7 @@ import cn.edu.hbcit.smms.dao.databasedao.DBTest;
 import cn.edu.hbcit.smms.pojo.Admin;
 import cn.edu.hbcit.smms.pojo.Item;
 import cn.edu.hbcit.smms.pojo.Record;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 public class RecordDAO {
 	protected final Logger log = Logger.getLogger(RecordDAO.class.getName());
@@ -352,7 +353,7 @@ public class RecordDAO {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			 
 			 ps.setInt(1, itemId);
-			 System.out.println("hhhhhhhhhhhhhhhhh"+itemId);
+			// System.out.println("hhhhhhhhhhhhhhhhh"+itemId);
 			 ps.setInt(2,plaSex);
 			 ps.setString(3,sor);
 			 ps.setString(4,plaName);
@@ -467,8 +468,9 @@ public class RecordDAO {
 	 */
 	public ArrayList selectLastRecords(ArrayList itemIdList, int sex){
 		ArrayList list = new ArrayList();
+		UtilTools ut = new UtilTools();
 		conn = db.getConn();
-		String sql = "SELECT t_record.id,t_record.itemid,t_item.itemname,t_record.sex,t_record.score,t_record.departname,t_record.sportsname,t_record.playername,t_record.recordtime,t_record.recordlevel FROM t_record,t_item WHERE t_record.itemid=t_item.id AND t_record.itemid=? AND t_record.sex=?  ORDER BY t_record.recordtime DESC LIMIT 1";
+		String sql = "SELECT t_record.id,t_record.itemid,t_item.itemname,t_record.sex,t_record.score,t_record.departname,t_record.sportsname,t_record.playername,t_record.recordtime,t_record.recordlevel,t_item.itemtype FROM t_record,t_item WHERE t_record.itemid=t_item.id AND t_record.itemid=? AND t_record.sex=?  ORDER BY t_record.recordtime DESC LIMIT 1";
 		try {
 			pStatement = conn.prepareStatement(sql);
 			for(int i=0; i<itemIdList.size(); i++){
@@ -481,12 +483,14 @@ public class RecordDAO {
 					record.setItemid(rs.getInt(2));
 					record.setItemname(rs.getString(3));
 					record.setSex(rs.getInt(4));
-					record.setScore(rs.getString(5));
+					//record.setScore(rs.getString(5));
+					record.setScore(ut.coverToTrackScore(rs.getString(5), rs.getString(11)));
 					record.setDepartname(rs.getString(6));
 					record.setSportsname(rs.getString(7));
 					record.setPlayername(rs.getString(8));
 					record.setRecordtime(rs.getString(9));
 					record.setRecordlevel(rs.getString(10));
+					record.setItemtype(rs.getString(11));
 					list.add(record);
 				}
 			}
@@ -495,6 +499,7 @@ public class RecordDAO {
 		} catch (Exception e) {
 			log.error("获取最新运动会记录失败！");
 			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return list;
 	}
@@ -517,6 +522,47 @@ public class RecordDAO {
 		} catch (Exception e) {
 			log.error("获取所有项目ID失败！");
 			log.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	/**
+	 * 查询历届的运动会记录（按性别区分）
+	 * 李玮 2012-10-23
+	 * @param sex
+	 * @return ArrayList
+	 */
+	public ArrayList selectAllRecords(int sex){
+		ArrayList list = new ArrayList();
+		UtilTools ut = new UtilTools();
+		conn = db.getConn();
+		String sql = "SELECT t_record.id,t_record.itemid,t_item.itemname,t_record.sex,t_record.score,t_record.departname,t_record.sportsname,t_record.playername,t_record.recordtime,t_record.recordlevel,t_item.itemtype FROM t_record,t_item WHERE t_record.itemid=t_item.id AND t_record.sex=?  ORDER BY t_record.itemid,t_record.recordtime DESC ";
+		try {
+			pStatement = conn.prepareStatement(sql);
+				pStatement.setInt(1, sex);
+				rs = pStatement.executeQuery();
+				while (rs.next()) {
+					Record record = new Record();
+					record.setId(rs.getInt(1));
+					record.setItemid(rs.getInt(2));
+					record.setItemname(rs.getString(3));
+					record.setSex(rs.getInt(4));
+					//record.setScore(rs.getString(5));
+					record.setScore(ut.coverToTrackScore(rs.getString(5), rs.getString(11)));
+					record.setDepartname(rs.getString(6));
+					record.setSportsname(rs.getString(7));
+					record.setPlayername(rs.getString(8));
+					record.setRecordtime(rs.getString(9));
+					record.setRecordlevel(rs.getString(10));
+					record.setItemtype(rs.getString(11));
+					list.add(record);
+				}
+
+			db.freeConnection(rs,pStatement,conn);
+		} catch (Exception e) {
+			log.error("获取历届运动会记录失败！");
+			log.error(e.getMessage());
+			//e.printStackTrace();
 		}
 		return list;
 	}

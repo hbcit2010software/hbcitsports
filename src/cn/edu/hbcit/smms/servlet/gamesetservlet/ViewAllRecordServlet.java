@@ -1,23 +1,40 @@
+/**
+* Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
+*
+* 模块名称：     
+* 子模块名称：   
+*
+* 备注：
+*
+* 修改历史：
+* 2012-10-23	0.1		李玮		新建
+*/
 package cn.edu.hbcit.smms.servlet.gamesetservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.edu.hbcit.smms.pojo.Admin;
- 
 import cn.edu.hbcit.smms.services.gamesetservices.RecordServices;
 
-public class AlterRecordServlet extends HttpServlet {
+/**
+ * 显示所有历届记录类
+ * 简要说明:
+ * @author 李玮
+ * @version 1.00  2012-10-23下午11:37:33	新建
+ */
 
-	/**修改创纪录内容
+public class ViewAllRecordServlet extends HttpServlet {
+
+	/**
 	 * Constructor of the object.
 	 */
-	public AlterRecordServlet() {
+	public ViewAllRecordServlet() {
 		super();
 	}
 
@@ -42,44 +59,7 @@ public class AlterRecordServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setHeader("Pragma", "No-cache");
-		response.setHeader("Cache-control", "no-cache");
-		response.setDateHeader("Expires", 0);
-		response.setContentType("text/html;utf-8");
-		response.setCharacterEncoding("utf-8");
-
-		request.setCharacterEncoding("utf-8");
-		//System.out.println("qqqqqqqqqqqq");
-		RecordServices re = new RecordServices();
-		 
-		PrintWriter out = response.getWriter();
-
-		 
-		
-		String plaName = request.getParameter("plaName").trim();
-	 
-		String sportsName1 = request.getParameter("sportsName1").trim();
-		String recTime = request.getParameter("recTime").trim().substring(0, 7);
-		String recLevel = request.getParameter("recLevel").trim();
-		String sor = request.getParameter("sor").trim();
-		String depName = request.getParameter("depName").trim();
-		int recordId = Integer.parseInt(request.getParameter("recordId").trim());
-		//String itemName = request.getParameter("itemName").trim();
-		int plaSex = Integer.parseInt(request.getParameter("plaSex").trim());
-		 
- 
-		//int newItemId = re.getItemId(itemName);
-
-
-		if (re.updateRecord(plaName,sportsName1, recTime, recLevel, plaSex, sor, depName, recordId)
-				){
-			out.println("success");
-			}
-		else{
-			out.println("error");
-		}
-		out.flush();
-		out.close(); 
+		this.doPost(request, response);
 	}
 
 	/**
@@ -95,7 +75,15 @@ public class AlterRecordServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doGet(request, response);
+		response.setContentType("text/html");
+		RecordServices record = new RecordServices();
+		ArrayList list_man = new ArrayList();
+		ArrayList list_woman = new ArrayList();
+		list_man = record.selectAllRecords(1);  //1：男
+		list_woman = record.selectAllRecords(0);  //2：女
+		request.setAttribute("man", list_man);
+		request.setAttribute("woman", list_woman);
+		request.getRequestDispatcher("/set_recordall.jsp").forward(request, response);
 	}
 
 	/**

@@ -86,9 +86,9 @@ public class AddScoreServlet extends HttpServlet {
 		
 		String finalitemType = ass.getFinalitemType(item);
 		int num = 0 ;
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>finalitemType="+finalitemType);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>finalitemType="+finalitemType);
 		if( !"1".equals(finalitemType)){
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>finalitemType="+finalitemType);
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>finalitemType="+finalitemType);
 			num = ass.getIntegral(item, group);		//积分添加是否成功
 		}
 		

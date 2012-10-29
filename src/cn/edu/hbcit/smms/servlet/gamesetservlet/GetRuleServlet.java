@@ -98,6 +98,7 @@ DELIMITER ;
 		
 		rule = ss.selectRule(sportsId);
 		request.setAttribute("rule", rule);
+		request.setAttribute("isAlreadyRegist", ss.isAlreadyRegist(sportsId));//是否已经有单位报名
 		request.getRequestDispatcher("/set_rule.jsp").forward(request, response);
 	}
 

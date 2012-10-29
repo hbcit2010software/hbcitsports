@@ -70,6 +70,7 @@ public class GameManageCheckTableDao {
                     }
                 }
                 rs.close();
+                statement.close();
             }
             db.freeConnection(conn);
         } catch (SQLException e) { 
@@ -87,7 +88,7 @@ public class GameManageCheckTableDao {
 	* @return itemList
 	 */
 	public ArrayList getItemList(int groupid){
-		System.out.println("getItemList-->groupid="+groupid);
+		//System.out.println("getItemList-->groupid="+groupid);
 		int sportsid = loginDAO.selectCurrentSportsId();
 		DBConn db = new DBConn();
 		ArrayList itemlist=new ArrayList();
@@ -111,6 +112,7 @@ public class GameManageCheckTableDao {
                     }
                 }
                 rs.close();
+                statement.close();
             }
             db.freeConnection(conn);
         } catch (SQLException e) {  
@@ -144,6 +146,7 @@ public class GameManageCheckTableDao {
                   
                 }
                 rs.close();
+                statement.close();
             }
             db.freeConnection(conn);
         } catch (SQLException e) {
@@ -163,7 +166,7 @@ public class GameManageCheckTableDao {
 	 */
 	
 	public JSONArray getOneItemPlayerMessageByTeam( String itemname ,String finalitemtype ,int teamnum ){
-			System.out.println("finalitemtype="+finalitemtype);
+			//System.out.println("finalitemtype="+finalitemtype);
 			DBConn db = new DBConn();
 			JSONArray alllist = new JSONArray();
 			Connection conn = null;
@@ -172,7 +175,7 @@ public class GameManageCheckTableDao {
 			String matchtype = gmctd.getMatchType(itemname);		//获取比赛类型       1：径赛，2：田赛，3：接力
 			if( finalitemtype.equals("1") || finalitemtype.equals("3")  ){		//预赛、预决赛
 				if( matchtype.equals("1") || matchtype.equals("2")){				//竞赛、田赛
-					System.out.println("matchtype="+matchtype);
+					//System.out.println("matchtype="+matchtype);
 					sql = "SELECT t_match.teamnum,t_player.playernum,t_player.playername,t_match.runway FROM " +
 					"t_match JOIN t_player ON t_player.id=t_match.playerid WHERE " +
 					"t_match.finalitemid in (SELECT id FROM t_finalitem WHERE finalitemname in " +
@@ -185,7 +188,7 @@ public class GameManageCheckTableDao {
 				} 
 			}else{//决赛
 				
-				System.out.println("finalitemtype="+finalitemtype);
+				//System.out.println("finalitemtype="+finalitemtype);
 					if( matchtype.equals("1") || matchtype.equals("2") ){		//竞赛、田赛
 						sql = "SELECT t_match.teamnum,t_player.playernum,t_player.playername,t_match.runway FROM " +
 								"t_match JOIN t_player ON t_player.id=t_match.playerid WHERE " +
@@ -259,7 +262,8 @@ public class GameManageCheckTableDao {
 		                }
 	                	
 	                }
-	            db.freeConnection(conn);
+	                statement.close();
+	                db.freeConnection(conn);
 	        } catch (SQLException e) {  
 	        	log.debug(e.getMessage());
 	            e.printStackTrace();     
@@ -283,8 +287,8 @@ public class GameManageCheckTableDao {
 			GameManageCheckTableDao gmctd = new GameManageCheckTableDao();
 			int promotionnum = 0;
 			promotionnum = gmctd.getPromotionnum(finalitemname);//项目规定的晋级数
-			System.out.println("promotionnum="+promotionnum);
-			System.out.println("isFinalScoreEmpty(finalitemname)="+isFinalScoreEmpty(finalitemname));
+			//System.out.println("promotionnum="+promotionnum);
+			//System.out.println("isFinalScoreEmpty(finalitemname)="+isFinalScoreEmpty(finalitemname));
 			if( this.isFinalScoreEmpty(finalitemname)){
 				deleteFinalScore(finalitemname);
 				//updateFinalMatch(finalitemname ,promotionnum);//设置决赛赛道
@@ -296,7 +300,7 @@ public class GameManageCheckTableDao {
 			
 		}
 		flag = getItemTeamnumber(finalitemname);//获得项目的小组数
-		System.out.println("flag="+flag);
+		//System.out.println("flag="+flag);
 		for( int i = 0 ; i < flag ; i++){
 			JSONArray list = new JSONArray();
 			list = getOneItemPlayerMessageByTeam(finalitemname, itemtype,i+1);
@@ -314,7 +318,7 @@ public class GameManageCheckTableDao {
 	* @exception 例外的类型 意义注释
 	 */
 	public int getItemTeamnumber( String finalitemname ){
-		System.out.println("finalitemname="+finalitemname);
+		//System.out.println("finalitemname="+finalitemname);
 		String sql = "SELECT COUNT(DISTINCT(teamnum)) FROM t_match WHERE finalitemid " +
 		"IN ( SELECT id FROM t_finalitem WHERE finalitemname = ? )";
 		DBConn db = new DBConn();
@@ -328,7 +332,7 @@ public class GameManageCheckTableDao {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			 db.freeConnection(conn);
+			 db.freeConnection(rs,pstmt,conn);
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			e.printStackTrace();
@@ -358,6 +362,8 @@ public class GameManageCheckTableDao {
 				str = rs.getString("itemtype");
 				
 			}
+			rs.close();
+			statement.close();
 			 db.freeConnection(conn);
 		} catch (Exception e) {
 			log.debug(e.getMessage());
@@ -389,7 +395,7 @@ public class GameManageCheckTableDao {
 		int finalitemid = getFinalitemid(finalitemname);	//finalitemid
 		int num = 0;
 		int[] runway = gmctd.getFinalRunWay(c);//赛道分配
-		System.out.println("runway="+runway.length);
+		//System.out.println("runway="+runway.length);
 		DBConn db = new DBConn();
 		conn = db.getConn();
 		if( "1".equals(matchType) || "3".equals(matchType) ){
@@ -404,17 +410,18 @@ public class GameManageCheckTableDao {
 				pstmt.setInt(4, b);
 				rs = pstmt.executeQuery();
 				pstmt1 = conn.prepareStatement(sql);
-				System.out.println("qwerqweqweqweqweqweq");
+				//System.out.println("qwerqweqweqweqweqweq");
 					for( int i = 0 ; i < runway.length ; i++ ){
-						System.out.println("runway="+runway[i]);
+						//System.out.println("runway="+runway[i]);
 						rs.next();
 						pstmt1.setInt(1, a);
 						pstmt1.setInt(2, runway[i]);
 						pstmt1.setInt(3, rs.getInt(1));
 						pstmt1.setInt(4, finalitemid);
 						num += pstmt1.executeUpdate();
-						System.out.println("num="+num+",runway[i]="+runway[i]);
+						//System.out.println("num="+num+",runway[i]="+runway[i]);
 					}
+					rs.close();
 					pstmt1.close();
 				
 				
@@ -446,9 +453,11 @@ public class GameManageCheckTableDao {
 						pstmt1.setInt(3, rs.getInt(1));
 						pstmt1.setInt(4, finalitemid);
 						num += pstmt1.executeUpdate();
-						System.out.println("num="+num+",runway[i]="+runway[i]);
+						//System.out.println("num="+num+",runway[i]="+runway[i]);
 					}
-				
+				rs.close();
+				pstmt1.close();
+				pstmt.close();
 				db.freeConnection(conn);
 			} catch (Exception e) {
 				log.debug(e.getMessage());
@@ -498,7 +507,7 @@ public class GameManageCheckTableDao {
 	* @exception 例外的类型 意义注释
 	 */
 	public int getPromotionnum( String finalitemname ){
-		System.out.println("getPromotionnum-->finalitemname="+finalitemname);
+		//System.out.println("getPromotionnum-->finalitemname="+finalitemname);
 		String sql = "SELECT promotionnum FROM t_finalitem " +
 				"WHERE gp2itid IN ( SELECT gp2itid FROM t_finalitem WHERE finalitemname = ? ) AND (finalitemtype = '3' OR finalitemtype = '1')";
 		DBConn db = new DBConn();
@@ -512,16 +521,18 @@ public class GameManageCheckTableDao {
 			rs = pstmt.executeQuery();
 			//System.out.println("rs="+rs.next());
 			if( rs.next() ){
-				System.out.println("rs=");
+				//System.out.println("rs=");
 				flag = rs.getInt(1);
-				System.out.println("flag="+flag);
+				//System.out.println("flag="+flag);
 			}
+			rs.close();
+			pstmt.close();
 			 db.freeConnection(conn);
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			e.printStackTrace();
 		}
-		System.out.println("rs="+flag);
+		//System.out.println("rs="+flag);
 		return flag; 	
 		
 	}
@@ -558,6 +569,8 @@ public class GameManageCheckTableDao {
 			if( rs.next()){
 				finalitemid = rs.getInt(1);
 			}
+			rs.close();
+			pstmt.close();
 			db.freeConnection(conn);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -586,6 +599,8 @@ public class GameManageCheckTableDao {
 				flag = true;
 			}
 			}
+			rs.close();
+			pstmt.close();
 			db.freeConnection(conn);
 		}catch(NullPointerException e){
 			
@@ -617,6 +632,9 @@ public class GameManageCheckTableDao {
 			if(rss.next()){
 				return true;//有数据
 			}
+			rs.close();
+			pstmt.close();
+			db.freeConnection(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -638,6 +656,8 @@ public class GameManageCheckTableDao {
 			pstmt.setString(1, finalitemname);
 			pstmt.setInt(2, loginDAO.selectCurrentSportsId());
 			pstmt.executeUpdate();
+			pstmt.close();
+			db.freeConnection(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

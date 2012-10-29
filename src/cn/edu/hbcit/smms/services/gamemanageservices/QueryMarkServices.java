@@ -39,18 +39,7 @@ public class QueryMarkServices {
 		 return new QueryMark().selectAllMarks();
 	 }
 	 
-	 public ArrayList<MarkPojo> getDep(){
-		 return new QueryMark().getDep();
-	 }
-	 
-	 public ArrayList<MarkPojo> getItem(){
-		 return new QueryMark().getItem();
-	 }
-	 
-	 public String getSportsName(){
-		 return new QueryMark().getSportsName();
-	 }
-	 
+	
 	 /**
 	  * 生成积分表
 	  * @param file 保存路径

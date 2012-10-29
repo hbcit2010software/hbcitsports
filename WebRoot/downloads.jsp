@@ -12,8 +12,8 @@
     response.setContentType("application/x-download");
     String file =(String) session.getAttribute("file");
     String nihao = new String(request.getParameter("nihao").getBytes("ISO-8859-1"),"UTF-8");
-    System.out.println("nihao=============="+nihao);
-    System.out.println("file=============="+file);
+   // System.out.println("nihao=============="+nihao);
+    //System.out.println("file=============="+file);
       
       //nihao = URLEncoder.encode(nihao,"utf-8");
       response.addHeader("Content-Disposition","attachment;filename=" + new String(nihao.getBytes("UTF-8"),"ISO-8859-1")+".doc");
@@ -36,7 +36,7 @@
       }
       catch(Exception e)
       {
-          System.out.println("Error!");
+         // System.out.println("Error!");
           e.printStackTrace();
       }
       finally

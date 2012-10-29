@@ -81,7 +81,7 @@ public class PrintAllMarkSerlvet extends HttpServlet {
 		log.debug("当前运动会id："+sportsId);
 		QueryMarkServices qms = new QueryMarkServices();
 		String filePath1 = request.getSession().getServletContext().getRealPath("/")+"excel/";
-		String sportsName = qms.getSportsName();
+		String sportsName = session.getAttribute("currSportsName").toString();
 		String filePath = filePath1 + "河北工院"+sportsName+"成绩单.xls";
 		ArrayList depNameList = new ArrayList();
 		depNameList = qms.selectDep(sportsId);

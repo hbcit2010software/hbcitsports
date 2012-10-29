@@ -77,7 +77,7 @@
        matchid = new String(request.getParameter("matchid").getBytes("ISO-8859-1"),"UTF-8");
        playerid= new String(request.getParameter("playerid").getBytes("ISO-8859-1"),"UTF-8");
        //System.out.println(playernum+playername+playersex+score+foul+recordlevel+departname);
-       System.out.println(recordlevel);
+      // System.out.println(recordlevel);
       %>
        <table align="center">
        

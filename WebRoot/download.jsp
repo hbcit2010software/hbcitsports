@@ -9,6 +9,7 @@
 		  response.setContentType("application/x-download");    
 		  String file = (String)request.getParameter("file");
 		  String fileName = URLDecoder.decode((String)request.getParameter("fileName"),"UTF-8");
+
           if(file !=null && fileName !=null){
 		  String filedownload = file + fileName;    
 		  String filedisplay =  new String(fileName.getBytes("gb2312"), "iso8859-1");;        
@@ -37,7 +38,7 @@
 		}    
 		  catch(Exception e)    
 		  {    
-		  System.out.println("Error!");    
+		  //System.out.println("Error!");    
 		  e.printStackTrace();    
 		  }    
 		  finally    

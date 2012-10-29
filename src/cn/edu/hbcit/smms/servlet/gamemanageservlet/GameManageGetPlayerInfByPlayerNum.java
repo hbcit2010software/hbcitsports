@@ -82,7 +82,7 @@ public class GameManageGetPlayerInfByPlayerNum extends HttpServlet {
 				buffer.append("\"foul\":\"" + pj.getFoul2() + "\",");
 				buffer.append("\"recordlevel\":\"" + pj.getRecordlevel2() + "\",");
 				buffer.append("\"departname\":\"" + pj.getDepartname() + "\"");
-				System.out.println("Departname==============================="+pj.getDepartname());
+				//System.out.println("Departname==============================="+pj.getDepartname());
 				buffer.append("}");
 		     }
 		    buffer.append("]");

@@ -79,11 +79,11 @@ public class GameManageCheckTableGetScanServlet extends HttpServlet {
 		StringBuffer buffer = new StringBuffer();
 		String finalitemname = utilTools.toUTF8(request.getParameter("itemname"));
 		String itemtype = request.getParameter("itemtype");
-		System.out.println("itemtype="+itemtype);
+		//System.out.println("itemtype="+itemtype);
 		JSONArray itemList = new JSONArray();
 		GameManageCheckTableServices gm = new GameManageCheckTableServices();
 		if(!itemtype.equals("")){
-			System.out.println("itemtype+itemtype="+itemtype);
+			//System.out.println("itemtype+itemtype="+itemtype);
 			    itemList = gm.getItemPlayerMessageAllTeam(finalitemname, itemtype);				
 				buffer.append(itemList);
 				out.println(buffer);

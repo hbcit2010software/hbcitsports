@@ -65,8 +65,8 @@ public class SelectTeamleaderServlet extends HttpServlet {
 		int sportsid = Integer.parseInt(id);
 		String departid = request.getParameter("departname");
 		int depart = Integer.parseInt(departid);
-		System.out.println(sportsid);
-		System.out.println(depart);
+		//System.out.println(sportsid);
+		//System.out.println(depart);
 		GameQueryServices gqs = new GameQueryServices();
 		JSONArray jsonarray = new JSONArray();
 		jsonarray = gqs.SelectTeamLeader(sportsid, depart);

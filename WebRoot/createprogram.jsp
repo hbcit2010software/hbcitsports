@@ -6,13 +6,13 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>赛事预览页面</title>
 		<link href="css/subcss.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
-		<link type="text/css" href="css/themes/base/jquery.ui.all.css" rel="stylesheet" />
-	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
-	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
-	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
-	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
-	<link type="text/css" href="css/demos.css" rel="stylesheet" />
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+		<link type="text/css" href="${pageContext.request.contextPath }/css/themes/base/jquery.ui.all.css" rel="stylesheet" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.tabs.js"></script>
+	<link type="text/css" href="${pageContext.request.contextPath }/css/demos.css" rel="stylesheet" />
 	<script type="text/javascript">
 	$(function() {
 		$("#tabs").tabs();
@@ -80,7 +80,7 @@ font-size:16px;}
 		<td>
          <table width="100%" height="19"  border="0" cellpadding="0" cellspacing="0" >
 			<tr>
-				<td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
+				<td width="6%" height="19" valign="bottom"><div align="center"><img src="${pageContext.request.contextPath }/images/tb.gif" width="14" height="14" /></div></td>
                 <td width="94%" valign="bottom"><span class="pageTitle">秩序册管理-->赛事预览</span></td>
 			</tr>
 		</table> 

@@ -73,7 +73,7 @@ public class FileLook extends HttpServlet {
     					break;
     				}
     				temp.add(players.get(count));
-    				System.out.println();
+    				//System.out.println();
     				count++;
     				if((count != 0) && ((count + 1) % 8 ==0)){
     					break;
@@ -87,9 +87,9 @@ public class FileLook extends HttpServlet {
 		}
 		String[] qq = new String[flag];
 		//System.out.println("田赛的行数" + qq.length );
-		for (int i = 0; i < allPlayers.size(); i++){
-			System.out.println("第"+ i +"行运动员" + allPlayers.get(i) );
-		}
+//		for (int i = 0; i < allPlayers.size(); i++){
+//			System.out.println("第"+ i +"行运动员" + allPlayers.get(i) );
+//		}
 		//System.out.println("田赛的行数" + qq.length );
 		session.setAttribute("filelook", allPlayers);
 		response.sendRedirect("../fildlook.jsp");

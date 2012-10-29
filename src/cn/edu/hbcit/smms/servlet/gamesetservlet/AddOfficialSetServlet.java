@@ -96,8 +96,8 @@ public class AddOfficialSetServlet extends HttpServlet {
         //System.out.println(secretariat_2);
        // System.out.println(secretariat_3);
        // System.out.println(secretariat_4);
-        System.out.println(secretariat_5);
-        System.out.println(secretariat_6);
+       // System.out.println(secretariat_5);
+       // System.out.println(secretariat_6);
         //System.out.println(secretariat_7);
         //System.out.println(arbitration);
         OfficialSetService officialsetService=new OfficialSetService();

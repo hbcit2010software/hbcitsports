@@ -49,6 +49,8 @@ public class AdjustByHandDao {
                 }
 				list.add(gRunway);
 			}
+			rs.close();
+			ps.close();
 			db.freeConnection(conn);
 
 		} catch (Exception ex) {
@@ -79,7 +81,7 @@ public class AdjustByHandDao {
 			ps.setInt(3, Integer.parseInt(playerid[i]));
 			ps.setInt(4, finalitemid);
 			flag += ps.executeUpdate();
-			db.freeConnection(conn);
+			db.freeConnection(rs,ps,conn);
 			}
 
 		} catch (Exception ex) {
@@ -115,7 +117,7 @@ public class AdjustByHandDao {
                 }
 				list.add(gRunway);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,ps,conn);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

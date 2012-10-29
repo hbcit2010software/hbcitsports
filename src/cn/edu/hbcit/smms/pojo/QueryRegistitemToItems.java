@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 /*
  * Copyright(C) 2004, XXXXXXXX.
@@ -86,23 +87,27 @@ public class QueryRegistitemToItems {
 	 * */
 	public JSONArray getScores( String playernum){
 		JSONArray jsonarray = new JSONArray();
-			String sql = " SELECT DISTINCT t_position.score,t_position.finalitemid"+
-			" FROM t_position" +
-			" JOIN t_player ON t_position.playerid = t_player.id"+
-			" WHERE t_player.playernum =?" +
-			" ORDER BY t_position.finalitemid IN(SELECT DISTINCT t_finalitem.id" +
-			" FROM t_position " +
-			" JOIN t_player ON t_position.playerid = t_player.id" +
-			" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id" +
-			" WHERE t_player.playernum = ? )";
+		UtilTools ut = new UtilTools();
+			String sql = " SELECT DISTINCT t_position.score,t_position.finalitemid,t_item.itemtype" +
+					" FROM t_position,t_finalitem,t_group2item,t_item,t_player " +
+					" WHERE t_finalitem.id = t_position.finalitemid " +
+					" AND t_group2item.id = t_finalitem.gp2itid " +
+					" AND t_item.id = t_group2item.itemid " +
+					" AND t_position.playerid = t_player.id " +
+					" AND t_player.playernum =? " +
+					" ORDER BY t_position.finalitemid IN(SELECT DISTINCT t_finalitem.id " +
+					" FROM t_position  " +
+					" JOIN t_player ON t_position.playerid = t_player.id " +
+					" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id"+ 
+					" WHERE t_player.playernum = ? )";
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, playernum);
-				pstmt.setString(2, playernum);
+				pstmt.setString(2, playernum); 
 				rs = pstmt.executeQuery();
 				while(rs.next()){
-					jsonarray.add(rs.getString(1));
+					jsonarray.add(ut.coverToTrackScore(rs.getString(1), rs.getString(3)));
 				}
 				rs.close();
 				pstmt.close();
@@ -212,11 +217,15 @@ public class QueryRegistitemToItems {
 	 * */
 	public JSONArray getScore( String playernum ,String item){
 		JSONArray jsonarray = new JSONArray();
-			String sql = "SELECT DISTINCT t_position.score" +
-					" FROM t_position " +
-					" JOIN t_player ON t_position.playerid = t_player.id" +
-					" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id" +
-					" WHERE t_player.playernum = ? AND t_finalitem.finalitemname LIKE \"%\"?\"%\"";
+			String sql = "SELECT DISTINCT t_position.score,t_item.itemtype" +
+					" FROM t_position,t_finalitem,t_group2item,t_item,t_player" +
+					" WHERE t_finalitem.id = t_position.finalitemid " +
+					" AND t_group2item.id = t_finalitem.gp2itid " +
+					" AND t_item.id = t_group2item.itemid " +
+					" AND t_position.playerid = t_player.id" +
+					" AND t_player.playernum = ? AND t_finalitem.finalitemname LIKE \"%\"?\"%\"";
+			UtilTools ut = new UtilTools();
+			log.debug("非接力SQL："+sql);
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
@@ -224,7 +233,8 @@ public class QueryRegistitemToItems {
 				pstmt.setString(2, item);
 				rs = pstmt.executeQuery();
 				while(rs.next()){
-					jsonarray.add(rs.getString(1));
+					log.debug("模糊查询结果："+ut.coverToTrackScore(rs.getString(1), rs.getString(2)));
+					jsonarray.add(ut.coverToTrackScore(rs.getString(1), rs.getString(2)));
 				}
 				rs.close();
 				pstmt.close();

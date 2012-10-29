@@ -83,6 +83,7 @@ public class FieldjudgeDAO {
 			    			retuValue = true;
 			    			}
 		         }
+			     psmt.close();
 		         db.freeConnection(conn);
 		     } catch (SQLException e) {                 
 		         e.printStackTrace();       

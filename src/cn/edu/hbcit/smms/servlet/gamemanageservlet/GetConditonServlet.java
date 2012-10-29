@@ -79,7 +79,7 @@ public class GetConditonServlet extends HttpServlet {
 		response.setContentType("text/html");
 		String actino = request.getParameter("action");
 		
-		System.out.println("action="+actino);
+		//System.out.println("action="+actino);
 		
 		if( actino.equals("allcond")){
 			this.selectAllCondition(request, response);
@@ -112,7 +112,7 @@ public class GetConditonServlet extends HttpServlet {
 		response.setContentType("text/html");
 		HttpSession sn = request.getSession();		//获得session对象
 		ArrayList list = new ArrayList();
-		System.out.println("sportsid="+sportsid);
+		//System.out.println("sportsid="+sportsid);
 		list = gcs.getAllGP(sportsid);
 		log.debug(list);
 		sn.setAttribute("conditionlist", list);
@@ -135,7 +135,7 @@ public class GetConditonServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String groupname = tools.toUTF8( request.getParameter("option") );
-		System.out.println("sportsid="+sportsid+",groupname="+groupname);
+		//System.out.println("sportsid="+sportsid+",groupname="+groupname);
 		JSONArray list = gcs.selectItemsByGroup(groupname, sportsid);
 		log.debug(list);
 		out.println(list);

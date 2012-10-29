@@ -998,7 +998,7 @@ public class WordGameBeforInfoDao {
 					List gameDateInfoList = (List)getGameDateInfo.get("gameInfoList");
 					for( int i = 0; i < gameDateList.size(); i++){
 			        	String gameDate = (String)gameDateList.get(i);
-			        	System.out.println(gameDate);
+			        	//System.out.println(gameDate);
 			        	Cell cellDayAMTrack = new Cell(new Paragraph(gameDate+"上午",new Font(Font.NORMAL, 18,
 								Font.BOLD, new Color(0, 0, 0))));
 			        	cellDayAMTrack.setColspan(3);
@@ -1018,7 +1018,7 @@ public class WordGameBeforInfoDao {
 			        		GameDatePlanPojo dp = (GameDatePlanPojo) gameDateInfoList.get(j);
 			        		if(gameDate.equals(((GameDatePlanPojo) gameDateInfoList.get(j)).getFinalDate())==true){
 			        		    String time =dp.getTime();
-			        		    System.out.println(time);
+			        		    //System.out.println(time);
 			        		    if(time != null && !time.equals("")){
 			        			int time1 =Integer.parseInt(time.substring(0, time.lastIndexOf(":")));
 			        			if(dp.getItemType().equals("1") && (time1 >= 0 && time1 <= 12)){

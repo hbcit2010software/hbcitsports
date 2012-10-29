@@ -1,4 +1,4 @@
-package cn.edu.hbcit.smms.servlet.gamesetservlet;
+package cn.edu.hbcit.smms.servlet.gamemanageservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,16 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.edu.hbcit.smms.pojo.Admin;
- 
-import cn.edu.hbcit.smms.services.gamesetservices.RecordServices;
+import cn.edu.hbcit.smms.dao.gamemanagedao.QueryMark;
 
-public class AlterRecordServlet extends HttpServlet {
+public class UpdateMarksServlet extends HttpServlet {
 
-	/**修改创纪录内容
+	/**
 	 * Constructor of the object.
 	 */
-	public AlterRecordServlet() {
+	public UpdateMarksServlet() {
 		super();
 	}
 
@@ -42,44 +40,7 @@ public class AlterRecordServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setHeader("Pragma", "No-cache");
-		response.setHeader("Cache-control", "no-cache");
-		response.setDateHeader("Expires", 0);
-		response.setContentType("text/html;utf-8");
-		response.setCharacterEncoding("utf-8");
-
-		request.setCharacterEncoding("utf-8");
-		//System.out.println("qqqqqqqqqqqq");
-		RecordServices re = new RecordServices();
-		 
-		PrintWriter out = response.getWriter();
-
-		 
-		
-		String plaName = request.getParameter("plaName").trim();
-	 
-		String sportsName1 = request.getParameter("sportsName1").trim();
-		String recTime = request.getParameter("recTime").trim().substring(0, 7);
-		String recLevel = request.getParameter("recLevel").trim();
-		String sor = request.getParameter("sor").trim();
-		String depName = request.getParameter("depName").trim();
-		int recordId = Integer.parseInt(request.getParameter("recordId").trim());
-		//String itemName = request.getParameter("itemName").trim();
-		int plaSex = Integer.parseInt(request.getParameter("plaSex").trim());
-		 
- 
-		//int newItemId = re.getItemId(itemName);
-
-
-		if (re.updateRecord(plaName,sportsName1, recTime, recLevel, plaSex, sor, depName, recordId)
-				){
-			out.println("success");
-			}
-		else{
-			out.println("error");
-		}
-		out.flush();
-		out.close(); 
+		this.doPost(request, response);
 	}
 
 	/**
@@ -95,7 +56,27 @@ public class AlterRecordServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doGet(request, response);
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-control", "no-cache");
+		response.setDateHeader("Expires", 0);
+		response.setContentType("text/html;utf-8");
+		response.setCharacterEncoding("utf-8");
+		
+		PrintWriter out = response.getWriter();
+		
+		String depName = request.getParameter("depName");
+		String finalsm = request.getParameter("finalsm");
+		String finaltm = request.getParameter("finaltm");
+		//System.out.println("fuckmlgbsbyou------------"+depName+finalsm+finaltm);
+		
+		QueryMark qm = new QueryMark();
+		boolean flag = false;
+		//flag = qm.updateMark(depName, Integer.parseInt(finalsm), Integer.parseInt(finaltm));
+		//System.out.print(flag);
+		if(flag==true){
+		out.print("success");}
+		out.flush();
+		out.close();
 	}
 
 	/**

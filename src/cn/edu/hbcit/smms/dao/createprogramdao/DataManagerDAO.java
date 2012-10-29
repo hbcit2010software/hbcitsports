@@ -55,6 +55,7 @@ public class DataManagerDAO {
             if(conn != null){
                 PreparedStatement statement = conn.prepareStatement(sql);
                 result = statement.executeUpdate(); 
+                statement.close();
             }
             db.freeConnection(conn);  
             }catch (SQLException e) {                 
@@ -79,6 +80,7 @@ public class DataManagerDAO {
 	                statement.setInt(1, sportsid);
 	                statement.executeUpdate(); 
 	                log.debug("删除赛事分组信息");
+	                statement.close();
 	            }
 	            db.freeConnection(conn);  
 	            }catch (SQLException e) {                 
@@ -120,6 +122,7 @@ public class DataManagerDAO {
                 	flaGirl.put(flaid, finalg);
                     }
                 rs.close();
+                statement.close();
                }
         
             db.freeConnection(conn);  
@@ -160,6 +163,7 @@ public class DataManagerDAO {
                 	flaBoy.put(flaid, finalg);
                     }
                 rs.close();
+                statement.close();
                }
         
             db.freeConnection(conn);  
@@ -188,6 +192,7 @@ public class DataManagerDAO {
                 	itemType = rs.getString(1);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -217,6 +222,7 @@ public class DataManagerDAO {
             	   pnums.add(players.get(playid));
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -246,6 +252,7 @@ public class DataManagerDAO {
             	   players.put(playerId, playerNum);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -275,6 +282,7 @@ public class DataManagerDAO {
             	   gname = rs.getString("groupname");
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -304,6 +312,7 @@ public class DataManagerDAO {
             	   pnums.add(players.get(pid));
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -333,6 +342,7 @@ public class DataManagerDAO {
             	   pnums.add(players.get(playid));
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -362,6 +372,7 @@ public class DataManagerDAO {
             	   department.put(depId, shortName);
                   }
                rs.close();
+               statement.close();
             }
         
             db.freeConnection(conn);  
@@ -392,6 +403,7 @@ public class DataManagerDAO {
              	   groupnum.add(group);
                    }
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -421,6 +433,7 @@ public class DataManagerDAO {
              	   groupnum.add(group);
                    }
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -458,6 +471,7 @@ public class DataManagerDAO {
                 //trackInfo.add(pn);
                 //trackInfo.add(rw);
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -495,6 +509,7 @@ public class DataManagerDAO {
                // trackInfo.add(pn);
                // trackInfo.add(rw);
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -525,6 +540,7 @@ public class DataManagerDAO {
                 }
                 
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -554,6 +570,7 @@ public class DataManagerDAO {
                 }
                 
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -606,7 +623,7 @@ public class DataManagerDAO {
 			Connection conn = db.getConn();
 			String select = " SELECT DISTINCT t_match.teamnum FROM t_match JOIN t_player ON  " +
 					"t_match.playerid = t_player.id WHERE t_match.finalitemid = ? ORDER BY t_match.teamnum";
-			System.out.println(conn);
+			//System.out.println(conn);
 			ps = conn.prepareStatement(select);
 			ps.setInt(1, finalitemid);
 			rs = ps.executeQuery();
@@ -653,7 +670,7 @@ public class DataManagerDAO {
 				
 				trackp.setPlayerNum(rs.getString(1));
 				trackp.setTeamnum(rs.getInt(2));
-				System.out.println(rs.getString(1));
+				//System.out.println(rs.getString(1));
 				for(int i=1;i<=c;i++){
                 	log.debug(rs.getObject(i));
                 }
@@ -695,6 +712,7 @@ public class DataManagerDAO {
                 }
                 
                 rs.close();
+                statement.close();
             }
         
             db.freeConnection(conn);  
@@ -728,6 +746,7 @@ public class DataManagerDAO {
                  }
                  
                  rs.close();
+                 statement.close();
              }
          
              db.freeConnection(conn);  
@@ -753,7 +772,7 @@ public class DataManagerDAO {
                   PreparedStatement statement = conn.prepareStatement(sql);
                   statement.setInt(1, finalitemid);
                   statement.executeUpdate();
-                  
+                  statement.close();
               }
           
               db.freeConnection(conn);  
@@ -777,7 +796,7 @@ public class DataManagerDAO {
     	 		"JOIN t_group2sports ON t_group.id = t_group2sports.groupid " +
     	 		"JOIN t_group2item ON t_group2sports.id = t_group2item.gp2spid " +
     	 		"JOIN t_item ON t_group2item.itemid = t_item.id " +
-    	 		"WHERE t_group2sports.sportsid = ? AND t_item.itemtype = ?";
+    	 		"WHERE t_group2sports.sportsid = ? AND t_item.itemtype = ? AND t_group2item.matchtype <> 0";
  		 try {
              Connection conn = db.getConn();
              if(conn != null){

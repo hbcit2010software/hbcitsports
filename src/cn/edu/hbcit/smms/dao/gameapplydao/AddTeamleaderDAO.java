@@ -49,10 +49,12 @@ public class AddTeamleaderDAO {
 	         pStatement.setInt(4, sportsId);
 	         pStatement.setInt(5, departId);
 	         flag = pStatement.executeUpdate();
+	         pStatement.close();
+	         conn.close();
 		 }catch (SQLException e) { 
 			 log.debug("添加失败！");
 	    	 log.debug(e.getMessage());
-	    	 System.out.println(e);       
+	    	 //System.out.println(e);       
 		 }
 		 return flag;
 		
@@ -73,10 +75,11 @@ public class AddTeamleaderDAO {
 			while( rs.next() ){
 				flag = rs.getInt(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pStatement,conn);
 		}catch( Exception e){
-			e.getStackTrace();
-			System.out.println(e.getMessage());
+			log.debug(e.getMessage());
+			//e.getStackTrace();
+			//System.out.println(e.getMessage());
 		}
 		return flag;
 	}

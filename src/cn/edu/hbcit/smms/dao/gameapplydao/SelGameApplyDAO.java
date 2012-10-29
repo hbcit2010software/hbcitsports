@@ -77,7 +77,7 @@ public class SelGameApplyDAO {
 			while( rs.next() ){
 				departName = rs.getString(1);
 			}
-			db.freeConnection(conn);
+			db.freeConnection(rs,pStatement,conn);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -169,6 +169,9 @@ public class SelGameApplyDAO {
 				item.setItemtype(rs.getString(3));
 				itemList.add(item);
 			}
+			rs.close();
+			pStatement.close();
+			db.freeConnection(conn);
 		}catch(SQLException e){
 			e.printStackTrace();
 		}

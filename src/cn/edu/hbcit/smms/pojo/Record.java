@@ -28,6 +28,7 @@ public class Record {
 	private String playername;
 	private String recordtime;
 	private String recordlevel;
+	private String itemtype;
 	/**
 	 * @return the id
 	 */
@@ -147,5 +148,11 @@ public class Record {
 	 */
 	public void setRecordlevel(String recordlevel) {
 		this.recordlevel = recordlevel;
+	}
+	public String getItemtype() {
+		return itemtype;
+	}
+	public void setItemtype(String itemtype) {
+		this.itemtype = itemtype;
 	}
 }

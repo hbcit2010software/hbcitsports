@@ -56,12 +56,11 @@ public class GameQueryDAO {
 					snd.setSportsname(rs.getString(2));
 					list.add(snd);
 				}
-				rs.close();
-				pstmt.close();
-				db.freeConnection(conn);
+				db.freeConnection(rs,pstmt,conn);
 			}catch( Exception e){
 				e.getStackTrace();
-				System.out.println(e.getMessage());
+				//System.out.println(e.getMessage());
+				
 			}
 			return list;
 		}
@@ -85,12 +84,10 @@ public class GameQueryDAO {
 				snd.setDepartname(rs.getString(2));
 				list.add(snd);
 			}
-			rs.close();
-			pstmt.close();
-			db.freeConnection(conn);
+			db.freeConnection(rs,pstmt,conn);
 		}catch( Exception e){
 			e.getStackTrace();
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return list;
 	}
@@ -119,7 +116,7 @@ public class GameQueryDAO {
 			db.freeConnection(conn);
 		}catch( Exception e){
 			e.getStackTrace();
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return list;
 	}
@@ -153,7 +150,7 @@ public class GameQueryDAO {
 			db.freeConnection(conn);
 		}catch( Exception e){
 			e.getStackTrace();
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return list;
 	}

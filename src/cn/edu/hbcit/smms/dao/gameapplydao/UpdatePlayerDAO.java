@@ -47,7 +47,7 @@ public class UpdatePlayerDAO {
 	        	while(rs.next()){
 					flag = rs.getInt(1);
 	        	}
-	        	db.freeConnection(conn);
+	        	db.freeConnection(rs,pStatement,conn);
 	     }catch(SQLException e){
 	    	 e.printStackTrace();
 	     }
@@ -83,7 +83,7 @@ public class UpdatePlayerDAO {
         }catch (SQLException e) {                 
             log.error("添加运动员失败！");
     		log.error(e.getMessage());
-    		System.out.println(e);       
+    		//System.out.println(e);       
         }
         return flag;
 	}
@@ -117,7 +117,7 @@ public class UpdatePlayerDAO {
 				String playerName = myPlayer[1].trim();//运动员姓名
 				boolean playerSex = true;
 				int groupid = Integer.parseInt(myPlayer[2]);//组别的id
-				System.out.println(groupid);
+				//System.out.println(groupid);
 				String sql1 = "select groupsex from t_group where id="+groupid;//根据组别的id查出性别
 				pStatement = conn.prepareStatement(sql1);
 				rs = pStatement.executeQuery();
@@ -158,12 +158,12 @@ public class UpdatePlayerDAO {
 					}
 				pStatement.close();
 			}
-			conn.close();
+			//conn.close();
 			db.freeConnection(conn);
         }catch (SQLException e) {                 
             log.error("添加运动员失败！");
     		log.error(e.getMessage());
-    		System.out.println(e);       
+    		//System.out.println(e);       
 		}
 		return flag;
 	}
@@ -184,90 +184,93 @@ public class UpdatePlayerDAO {
 		HashMap pageInfo = new HashMap(); //前台的信息，<组别+项目id，项目人数>
 		StringBuffer addSql = new StringBuffer(); //添加sql语句
 		int addCount = 0;
-		for (int i = 0; i < pageString.length; i++){
-//			log.debug("pageString["+i+"]**********"+pageString[i]);
-//			
-//			log.debug("pageString[i].length()**********"+pageString[i].length());
-//			log.debug("****真真假假******"+(pageString.length < 4 || pageString[1] == null || pageString[1].trim().equals("") || pageString[3] == null 
-//					|| pageString[3].trim().equals("")));
-			String[] plarerInfo = pageString[i].trim().split(",");
-			if (plarerInfo.length < 4 || plarerInfo[1] == null || plarerInfo[1].trim().equals("") || plarerInfo[3] == null 
-					|| plarerInfo[3].trim().equals("")){
-				errorInfo.add("号码为"+ plarerInfo[0]+ "运动员报名信息不完整，报名不成功");
-				continue;
-			}
-			String playerNum = plarerInfo[0].trim();
-			String playerName = plarerInfo[1].trim();
-			String playerSex1 = plarerInfo[2].trim();
-			log.debug("运动员性别："+playerSex1);
-			//int newsex = Integer.parseInt(playerSex);
-			int playerSex = 0;
-			if (playerSex1.trim().equals("true")){
-				playerSex = 1;
-			}
-			log.debug("运动员性别："+playerSex);
-			int group = Integer.parseInt(sex.get((playerSex+"").trim()).toString().trim());
-			log.debug("运动员组别别id："+group);
-			String[] playerItem = plarerInfo[3].trim().split(";");
-			boolean flag = false;
-			String pitem = "";
-			log.debug("运动员所报项目个数："+playerItem.length);
-			for (int j = 0; j < playerItem.length; j++){
-				String[] item1 = playerItem[j].trim().split("#");
-				String key = (playerSex +""+ item1[0]).trim();
-				if (pageInfo.containsKey(key)){
-					int number = Integer.parseInt(pageInfo.get(key).toString());
-					int newNmuber = number + 1;
-					int oldNumber = 0;
-					if (dataInfo.containsKey(key)){
-						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
-					}
-					if (newNmuber + oldNumber > perNum){
-						flag = true;
-					}
-				}else{
-					int oldNumber = 0;
-					if (dataInfo.containsKey(key)){
-						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
-						if (oldNumber >= perNum){
+		if(pageString.length >= 0){
+			for (int i = 0; i < pageString.length; i++){
+//				log.debug("pageString["+i+"]**********"+pageString[i]);
+//				
+//				log.debug("pageString[i].length()**********"+pageString[i].length());
+//				log.debug("****真真假假******"+(pageString.length < 4 || pageString[1] == null || pageString[1].trim().equals("") || pageString[3] == null 
+//						|| pageString[3].trim().equals("")));
+				String[] plarerInfo = pageString[i].trim().split(",");
+				if (plarerInfo.length < 4 || plarerInfo[1] == null || plarerInfo[1].trim().equals("") || plarerInfo[3] == null 
+						|| plarerInfo[3].trim().equals("")){
+					errorInfo.add("号码为"+ plarerInfo[0]+ "运动员报名信息不完整，报名不成功");
+					continue;
+				}
+				String playerNum = plarerInfo[0].trim();
+				String playerName = plarerInfo[1].trim();
+				String playerSex1 = plarerInfo[2].trim();
+				log.debug("运动员性别："+playerSex1);
+				//int newsex = Integer.parseInt(playerSex);
+				int playerSex = 0;
+				if (playerSex1.trim().equals("true")){
+					playerSex = 1;
+				}
+				log.debug("运动员性别："+playerSex);
+				int group = Integer.parseInt(sex.get((playerSex+"").trim()).toString().trim());
+				log.debug("运动员组别别id："+group);
+				String[] playerItem = plarerInfo[3].trim().split(";");
+				boolean flag = false;
+				String pitem = "";
+				log.debug("运动员所报项目个数："+playerItem.length);
+				for (int j = 0; j < playerItem.length; j++){
+					String[] item1 = playerItem[j].trim().split("#");
+					String key = (playerSex +""+ item1[0]).trim();
+					if (pageInfo.containsKey(key)){
+						int number = Integer.parseInt(pageInfo.get(key).toString());
+						int newNmuber = number + 1;
+						int oldNumber = 0;
+						if (dataInfo.containsKey(key)){
+							oldNumber = Integer.parseInt(dataInfo.get(key).toString());
+						}
+						if (newNmuber + oldNumber > perNum){
 							flag = true;
 						}
-					}	
+					}else{
+						int oldNumber = 0;
+						if (dataInfo.containsKey(key)){
+							oldNumber = Integer.parseInt(dataInfo.get(key).toString());
+							if (oldNumber >= perNum){
+								flag = true;
+							}
+						}	
+					}
+				}
+				if (flag == false){
+					 for (int playerItemNum = 0; playerItemNum < playerItem.length; playerItemNum++){
+						 String[] item1 = playerItem[playerItemNum].trim().split("#");
+						 String key = (playerSex +""+ item1[0]).trim();
+						 if (pageInfo.containsKey(key)){
+							 int newNum = Integer.parseInt(pageInfo.get(key).toString().trim())+1;
+							 pageInfo.put(key, newNum+"");
+						 }else{
+							 pageInfo.put(key, "1");
+						 }
+						 
+					 }
+					 for (int j = 0; j < playerItem.length; j++){
+						    if (j > 0){
+						    	pitem += ";";
+						    }
+							String[] item1 = playerItem[j].trim().split("#");
+							pitem += item1[0];
+					 }
+					 String temp = "UPDATE t_player SET playername='"+playerName+"',playersex="
+					 +playerSex+",groupid="+group+",playertype="+1+",registitem='"+pitem+"' WHERE playernum='"+playerNum+"' AND sp2dpid="+sp2dpid;
+					 if (addCount > 0){
+						 addSql.append("#");
+					 }
+					 addSql.append(temp);
+					 addCount++;
+				 }else{
+					    errorInfo.add("姓名为"+ playerName+ "运动员所报项目中有超出限制的项目，报名不成功");
 				}
 			}
-			if (flag == false){
-				 for (int playerItemNum = 0; playerItemNum < playerItem.length; playerItemNum++){
-					 String[] item1 = playerItem[playerItemNum].trim().split("#");
-					 String key = (playerSex +""+ item1[0]).trim();
-					 if (pageInfo.containsKey(key)){
-						 int newNum = Integer.parseInt(pageInfo.get(key).toString().trim())+1;
-						 pageInfo.put(key, newNum+"");
-					 }else{
-						 pageInfo.put(key, "1");
-					 }
-					 
-				 }
-				 for (int j = 0; j < playerItem.length; j++){
-					    if (j > 0){
-					    	pitem += ";";
-					    }
-						String[] item1 = playerItem[j].trim().split("#");
-						pitem += item1[0];
-				 }
-				 String temp = "UPDATE t_player SET playername='"+playerName+"',playersex="
-				 +playerSex+",groupid="+group+",playertype="+1+",registitem='"+pitem+"' WHERE playernum='"+playerNum+"' AND sp2dpid="+sp2dpid;
-				 if (addCount > 0){
-					 addSql.append("#");
-				 }
-				 addSql.append(temp);
-				 addCount++;
-			 }else{
-				    errorInfo.add("姓名为"+ playerName+ "运动员所报项目中有超出限制的项目，报名不成功");
-			}
+			
+			addInfo.add(addSql);
+			addInfo.add(errorInfo);
 		}
 		
-		addInfo.add(addSql);
-		addInfo.add(errorInfo);
 		return addInfo;
 	}
 
@@ -287,85 +290,88 @@ public class UpdatePlayerDAO {
 		HashMap pageInfo = new HashMap(); //前台的信息，<组别+项目id，项目人数>
 		StringBuffer addSql = new StringBuffer(); //添加sql语句
 		int addCount = 0;
-		for (int i = 0; i < pageString.length; i++){
-//			log.debug("pageString["+i+"]**********"+pageString[i]);
-//			
-//			log.debug("pageString[i].length()**********"+pageString[i].length());
-//			log.debug("****真真假假******"+(pageString.length < 4 || pageString[1] == null || pageString[1].trim().equals("") || pageString[3] == null 
-//					|| pageString[3].trim().equals("")));
-			String[] plarerInfo = pageString[i].trim().split(",");
-			if (plarerInfo.length < 4 || plarerInfo[1] == null || plarerInfo[1].trim().equals("") || plarerInfo[3] == null 
-					|| plarerInfo[3].trim().equals("")){
-				errorInfo.add("号码为"+ plarerInfo[0]+ "运动员报名信息不完整，报名不成功");
-				continue;
-			}
-			String playerNum = plarerInfo[0].trim();
-			String playerName = plarerInfo[1].trim();
-			int groupid = Integer.parseInt(plarerInfo[2].trim());
-			//log.debug("运动员性别："+playerSex1);
-			//int newsex = Integer.parseInt(playerSex);
-			int playerSex = Integer.parseInt(group.get((groupid+"").trim()).toString().trim());
-			//log.debug("运动员组别别id："+group);
-			String[] playerItem = plarerInfo[3].trim().split(";");
-			boolean flag = false;
-			String pitem = "";
-			log.debug("运动员所报项目个数："+playerItem.length);
-			for (int j = 0; j < playerItem.length; j++){
-				String[] item1 = playerItem[j].trim().split("#");
-				String key = (groupid +""+ item1[0]).trim();
-				if (pageInfo.containsKey(key)){
-					int number = Integer.parseInt(pageInfo.get(key).toString());
-					int newNmuber = number + 1;
-					int oldNumber = 0;
-					if (dataInfo.containsKey(key)){
-						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
-					}
-					if (newNmuber + oldNumber > perNum){
-						flag = true;
-					}
-				}else{
-					int oldNumber = 0;
-					if (dataInfo.containsKey(key)){
-						oldNumber = Integer.parseInt(dataInfo.get(key).toString());
-						if (oldNumber >= perNum){
+		if(pageString.length >= 0){
+			for (int i = 0; i < pageString.length; i++){
+//				log.debug("pageString["+i+"]**********"+pageString[i]);
+//				
+//				log.debug("pageString[i].length()**********"+pageString[i].length());
+//				log.debug("****真真假假******"+(pageString.length < 4 || pageString[1] == null || pageString[1].trim().equals("") || pageString[3] == null 
+//						|| pageString[3].trim().equals("")));
+				String[] plarerInfo = pageString[i].trim().split(",");
+				if (plarerInfo.length < 4 || plarerInfo[1] == null || plarerInfo[1].trim().equals("") || plarerInfo[3] == null 
+						|| plarerInfo[3].trim().equals("")){
+					errorInfo.add("号码为"+ plarerInfo[0]+ "运动员报名信息不完整，报名不成功");
+					continue;
+				}
+				String playerNum = plarerInfo[0].trim();
+				String playerName = plarerInfo[1].trim();
+				int groupid = Integer.parseInt(plarerInfo[2].trim());
+				//log.debug("运动员性别："+playerSex1);
+				//int newsex = Integer.parseInt(playerSex);
+				int playerSex = Integer.parseInt(group.get((groupid+"").trim()).toString().trim());
+				//log.debug("运动员组别别id："+group);
+				String[] playerItem = plarerInfo[3].trim().split(";");
+				boolean flag = false;
+				String pitem = "";
+				log.debug("运动员所报项目个数："+playerItem.length);
+				for (int j = 0; j < playerItem.length; j++){
+					String[] item1 = playerItem[j].trim().split("#");
+					String key = (groupid +""+ item1[0]).trim();
+					if (pageInfo.containsKey(key)){
+						int number = Integer.parseInt(pageInfo.get(key).toString());
+						int newNmuber = number + 1;
+						int oldNumber = 0;
+						if (dataInfo.containsKey(key)){
+							oldNumber = Integer.parseInt(dataInfo.get(key).toString());
+						}
+						if (newNmuber + oldNumber > perNum){
 							flag = true;
 						}
-					}	
+					}else{
+						int oldNumber = 0;
+						if (dataInfo.containsKey(key)){
+							oldNumber = Integer.parseInt(dataInfo.get(key).toString());
+							if (oldNumber >= perNum){
+								flag = true;
+							}
+						}	
+					}
+				}
+				if (flag == false){
+					 for (int playerItemNum = 0; playerItemNum < playerItem.length; playerItemNum++){
+						 String[] item1 = playerItem[playerItemNum].trim().split("#");
+						 String key = (groupid +""+ item1[0]).trim();
+						 if (pageInfo.containsKey(key)){
+							 int newNum = Integer.parseInt(pageInfo.get(key).toString().trim())+1;
+							 pageInfo.put(key, newNum+"");
+						 }else{
+							 pageInfo.put(key, "1");
+						 }
+						 
+					 }
+					 for (int j = 0; j < playerItem.length; j++){
+						    if (j > 0){
+						    	pitem += ";";
+						    }
+							String[] item1 = playerItem[j].trim().split("#");
+							pitem += item1[0];
+					 }
+					 String temp = "UPDATE t_player SET playername='"+playerName+"',playersex="
+					 +playerSex+",playertype="+0+",groupid="+groupid+",registitem='"+pitem+"' WHERE playernum='"+playerNum+"' AND sp2dpid="+sp2dpid;
+					 if (addCount > 0){
+						 addSql.append("#");
+					 }
+					 addSql.append(temp);
+					 addCount++;
+				 }else{
+					    errorInfo.add("姓名为"+ playerName+ "运动员所报项目中有超出限制的项目，报名不成功");
 				}
 			}
-			if (flag == false){
-				 for (int playerItemNum = 0; playerItemNum < playerItem.length; playerItemNum++){
-					 String[] item1 = playerItem[playerItemNum].trim().split("#");
-					 String key = (groupid +""+ item1[0]).trim();
-					 if (pageInfo.containsKey(key)){
-						 int newNum = Integer.parseInt(pageInfo.get(key).toString().trim())+1;
-						 pageInfo.put(key, newNum+"");
-					 }else{
-						 pageInfo.put(key, "1");
-					 }
-					 
-				 }
-				 for (int j = 0; j < playerItem.length; j++){
-					    if (j > 0){
-					    	pitem += ";";
-					    }
-						String[] item1 = playerItem[j].trim().split("#");
-						pitem += item1[0];
-				 }
-				 String temp = "UPDATE t_player SET playername='"+playerName+"',playersex="
-				 +playerSex+",playertype="+0+",groupid="+groupid+",registitem='"+pitem+"' WHERE playernum='"+playerNum+"' AND sp2dpid="+sp2dpid;
-				 if (addCount > 0){
-					 addSql.append("#");
-				 }
-				 addSql.append(temp);
-				 addCount++;
-			 }else{
-				    errorInfo.add("姓名为"+ playerName+ "运动员所报项目中有超出限制的项目，报名不成功");
-			}
+			
+			addInfo.add(addSql);
+			addInfo.add(errorInfo);
 		}
 		
-		addInfo.add(addSql);
-		addInfo.add(errorInfo);
 		return addInfo;
 	}
 	/**
@@ -397,6 +403,7 @@ public class UpdatePlayerDAO {
         			}
         		}
         	}
+        	rs.close();
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
@@ -435,6 +442,7 @@ public class UpdatePlayerDAO {
         			}
         		}
         	}
+        	rs.close();
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
@@ -462,6 +470,7 @@ public class UpdatePlayerDAO {
         		String key = (sex + "").trim();
         		group.put(key, id+"");
         	}
+        	rs.close();
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
@@ -490,6 +499,7 @@ public class UpdatePlayerDAO {
         		String value = (sex + "").trim();
         		group.put((id+"").trim(), value);
         	}
+        	rs.close();
         	pStatement.close();
             db.freeConnection(conn);
         }catch (SQLException e) {                 
@@ -514,13 +524,14 @@ public class UpdatePlayerDAO {
 	        	log.debug("????????????????"+flag);
 	        	log.debug("????????????????sql:"+newSql[i]);
 	        	pStatement.close();
+	        	db.freeConnection(conn);
 	        	log.error("添加运动员第"+(i+1)+"条运动员信息成功");
 	        }catch (SQLException e) {                 
 	            log.error("添加运动员失败！");
 	    		log.error(e.getMessage());   
 	        }
 		}
-		db.freeConnection(conn);
+		
         return flag;
 	}
 	 /**

@@ -24,16 +24,27 @@ import cn.edu.hbcit.smms.pojo.MarkPojo;
 import com.lowagie.text.DocumentException;
 
 public class QueryMark {
+	
+	  protected final Logger log = Logger.getLogger(QueryMark.class.getName());
+		
+	  DBConn dbc = new DBConn();
+	  LoginDAO ld = new LoginDAO();
+	  int sportsid = ld.selectCurrentSportsId();
+	  PreparedStatement pstmt = null;
+	  ResultSet rs = null;
+	  Connection conn = null;
+	  
+	
+	  
+	 
+	  
+	
+	  
 
-	protected final Logger log = Logger.getLogger(QueryMark.class.getName());
-
-	DBConn dbc = new DBConn();
-	LoginDAO ld = new LoginDAO();
-	int sportsid = ld.selectCurrentSportsId();
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	Connection conn = null;
-
+	  
+	
+	  
+	 
 	/**
 	 * 获取学生男子组总积分
 	 * 
@@ -365,15 +376,7 @@ public class QueryMark {
 		return allTeasMarks;
 	}
 
-	/*
-	 * public ArrayList selectTeachMark(){ ArrayList teachMarkResult = new
-	 * ArrayList(); try{
-	 * 
-	 * String sql = "select "
-	 * 
-	 * }catch(Exception e){ e.printStackTrace(); } dbc.freeConnection(conn);
-	 * return teachMarkResult; }
-	 */
+	
 	/**
 	 * 向mark表中更新教工数据
 	 * 
@@ -502,220 +505,14 @@ public class QueryMark {
 		return allMarkInfo;
 	}
 
-	/**
-	 * 根据t_mark表中纪录排序部门，并取出所有部门
-	 * 
-	 * @return depName
-	 */
-	public ArrayList<MarkPojo> getDep() {
+	
 
-		ArrayList<MarkPojo> depList = new ArrayList<MarkPojo>();
-		try {
-			conn = dbc.getConn();
-			String sql = "SELECT DISTINCT departname FROM t_department "
-					+ "JOIN t_sports2department ON t_sports2department.departid=t_department.id "
-					+ "JOIN t_mark ON t_mark.sp2dpid=t_sports2department.id "
-					+ "ORDER BY t_mark.stusum";
+	
+	
 
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			System.out.println("QueryMark:rs.getRow()=====" + rs.getRow());
-			while (rs.next()) {
-				MarkPojo mp = new MarkPojo();
-				mp.setDepartName(rs.getString(1));
-				depList.add(mp);
 
-			}
-			System.out.println("dep=========" + depList.size());
-			conn.close();
-		} catch (Exception e) {
-			log.debug(e);
-		}
-		return depList;
-	}
 
-	/**
-	 * 获取本届运动会项目
-	 * 
-	 * @return itemList
-	 */
-	public ArrayList<MarkPojo> getItem() {
-
-		ArrayList<MarkPojo> itemList = new ArrayList<MarkPojo>();
-		try {
-			conn = dbc.getConn();
-			String sql = "SELECT id,itemname FROM t_item";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			System.out.println("QueryMark:rs.getRow()=====" + rs.getRow());
-			while (rs.next()) {
-				MarkPojo mp = new MarkPojo();
-				mp.setItemName(rs.getString("itemname"));
-				mp.setItemId(rs.getInt("id"));
-				itemList.add(mp);
-
-			}
-			System.out.println("dep=========" + itemList.size());
-			conn.close();
-		} catch (Exception e) {
-			log.debug(e);
-		}
-		return itemList;
-	}
-
-	/**
-	 * 根据部门获取学生个人姓名|成绩|积分 MarkPojo中封装了学生信息的字段
-	 * 
-	 * @return studentsMarksList
-	 */
-	public ArrayList<MarkPojo> getStudentsMarks(String depName) {
-		ArrayList<MarkPojo> studentsMarksList = new ArrayList<MarkPojo>();
-		try {
-			conn = dbc.getConn();
-			String sql = "SELECT t_player.playername,t_position.score,t_position.marks,t_item.id,t_position.position FROM t_position  "
-					+ "JOIN t_player ON t_player.id=t_position.playerid  "
-					+ "JOIN t_sports2department ON t_sports2department.id=t_player.sp2dpid  "
-					+ "JOIN t_department ON t_department.id=t_sports2department.departid  "
-					+ "JOIN t_finalitem ON t_finalitem.id=t_position.finalitemid "
-					+ " JOIN t_group2item ON t_group2item.id=t_finalitem.gp2itid  "
-					+ "JOIN t_item ON t_item.id=t_group2item.itemid  "
-					+ "WHERE t_department.departname=? AND t_player.playertype=1 AND t_position.marks IS NOT NULL AND t_position.marks!=0";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, depName);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				MarkPojo mp = new MarkPojo();
-				mp.setStuInf(rs.getString("playername") + "|"
-						+ rs.getString("score") + "|" + rs.getInt("marks")); // 学生信息：姓名|分数|积分
-				// mp.setStuName(rs.getString("playername"));
-				// mp.setStuScore(rs.getString("score"));
-				// mp.setStuMark(rs.getInt("marks"));
-				// mp.setItemName(rs.getString("itemname"));
-				mp.setItemId(rs.getInt("id"));
-				mp.setPosition(rs.getInt("position"));
-				studentsMarksList.add(mp);
-
-				System.out
-						.println("QueryMark:根据部门查询出的学生信息playername|score|marks:"
-								+ rs.getString("playername")
-								+ "|"
-								+ rs.getString("score")
-								+ "|"
-								+ rs.getInt("marks"));
-			}
-			conn.close();
-		} catch (Exception e) {
-			log.debug(e);
-		}
-		return studentsMarksList;
-	}
-
-	/**
-	 * 获取当前运动会名称
-	 * 
-	 * @return
-	 */
-	public String getSportsName() {
-		String sportsName = null;
-		System.out.println("QueryMark:sportsid=" + sportsid);
-		try {
-			conn = dbc.getConn();
-			String sql = "SELECT sportsname FROM t_sports WHERE id=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, sportsid);
-			rs = pstmt.executeQuery();
-			//System.out.println("QueryMark:s.getRow()=====" + rs.getRow());
-			if (rs.next()) {
-				sportsName = rs.getString("sportsname");
-				//System.out
-						//.println("QueryMark:sportsName========================");
-				//System.out.println("QueryMark:sportsName" + rs.getString(1));
-			}
-			// conn.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return sportsName;
-	}
-
-	/**
-	 * 打印总积分表
-	 * 
-	 * @param file
-	 *            --------->文件保存路径
-	 * @param depNameList
-	 *            --------->参赛部门
-	 * @param itemList
-	 *            --------->比赛项目
-	 * @throws DocumentException
-	 * @throws IOException
-	 */
-	/*
-	 * public void printAllPlayerMarksMessage(String file,ArrayList<MarkPojo>
-	 * depNameList,ArrayList<MarkPojo> itemList)throws DocumentException,
-	 * IOException{ String sportsname = this.getSportsName();
-	 * 
-	 * try{ //生成积分单 Document document = new Document(PageSize.B4);
-	 * //建立一个书写器，与document对象关联 RtfWriter2.getInstance(document, new
-	 * FileOutputStream(file + "河北工院" + sportsname + "成绩单.doc"));
-	 * document.open(); //设置中文字体 BaseFont bfChinese =
-	 * BaseFont.createFont("STSongStd-Light"
-	 * ,"UniGB-UCS2-H",BaseFont.NOT_EMBEDDED); //标题字体风格 Font titleFont = new
-	 * Font(bfChinese,12,Font.BOLD); //正文字体风格 Font contextFont = new
-	 * Font(bfChinese,10,Font.NORMAL); Paragraph title = new
-	 * Paragraph(sportsname+"学生成绩单"); //设置标题格式对齐方式
-	 * title.setAlignment(Element.ALIGN_CENTER); title.setFont(titleFont);
-	 * document.add(title);
-	 * 
-	 * //设置Table表格,创建一个5列的表格 Table table = new Table(itemList.size()+2); //int
-	 * width[] = {20,15,15,15,20,15};//设置每列宽度比例 //table.setWidths(width);
-	 * table.setWidth(100);//占页面宽度比例
-	 * table.setAlignment(Element.ALIGN_CENTER);//居中
-	 * table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中
-	 * table.setAutoFillEmptyCells(true);//自动填满 table.setBorderWidth(1);//边框宽度
-	 * 
-	 * System.out.println("MarkPojo:depNameList.size()"+depNameList.size());
-	 * for(MarkPojo dmp:depNameList) { int posi = 1;
-	 * System.out.println("MarkPojo:dmp.getDepartName"+dmp.getDepartName());
-	 * ArrayList<MarkPojo> studentsMarksList =
-	 * this.getStudentsMarks(dmp.getDepartName());
-	 * 
-	 * 
-	 * 
-	 * System.out.println("QueryMark:studentsMarkslist:"+studentsMarksList.size()
-	 * ); Cell cell1 = new Cell(dmp.getDepartName());
-	 * cell1.setVerticalAlignment(Element.ALIGN_CENTER);
-	 * cell1.setVerticalAlignment(Element.ALIGN_MIDDLE); cell1.setRowspan(9);
-	 * table.addCell(cell1);
-	 * 
-	 * table.addCell(new Cell("项目")); for(MarkPojo imp:itemList){
-	 * table.addCell(new Cell(imp.getItemName())); } //table.addCell(new
-	 * Cell("合计"));
-	 * 
-	 * if(studentsMarksList.size()>0){ for(int row = 1;row<=8;row++){
-	 * table.addCell(new Cell(row+"")); for(MarkPojo imp:itemList){ //MarkPojo
-	 * imp = (MarkPojo)itemList.get(item); Cell cell = new Cell("");
-	 * for(MarkPojo smp:studentsMarksList){ //循环判断运动员是否在此项目中
-	 * 
-	 * if(smp.getItemId()==imp.getItemId() && smp.getPosition()==row){
-	 * //cell.add(smp.getStuInf()); cell = new Cell(smp.getStuInf()); }
-	 * }table.addCell(cell);}} }else{ for(int row = 1;row<=8;row++){
-	 * table.addCell(new Cell(row+"")); for(int item =
-	 * 1;item<=itemList.size();item++){
-	 * 
-	 * //table.addCell(new Cell((posi++)+"")); table.addCell(new Cell("")); }} }
-	 * Cell cell2 = new Cell("");
-	 * cell2.setVerticalAlignment(Element.ALIGN_CENTER);
-	 * cell2.setVerticalAlignment(Element.ALIGN_MIDDLE); cell2.setRowspan(8);
-	 * table.addCell(cell2);
-	 * 
-	 * }
-	 * 
-	 * document.add(table); document.close();
-	 * 
-	 * }catch (Exception e) { log.debug(e); } }
-	 */
+	
 //以下是韩鑫鹏生成学生积分表方法
 	/**
 	 * 打印总积分表
@@ -751,6 +548,7 @@ public class QueryMark {
 						+ "成绩单");
 			} else {
 				HSSFCell denameCell = topRow.createCell(i);
+
 			}
 		}
 		boySheet.addMergedRegion(new CellRangeAddress(0, 0, 0, ((boyItemList.size()) * 3 + 5)));
