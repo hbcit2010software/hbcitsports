@@ -5,10 +5,10 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>赛事预览页面</title>
-		<link href="css/subcss.css" rel="stylesheet" type="text/css" />
+		<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 		<link type="text/css" href="${pageContext.request.contextPath }/css/themes/base/jquery.ui.all.css" rel="stylesheet" />
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.4.2.js"></script>
+<!--	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.4.2.js"></script>-->
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.tabs.js"></script>

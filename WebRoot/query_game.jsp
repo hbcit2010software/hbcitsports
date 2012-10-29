@@ -5,16 +5,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script type="text/javascript" src="text.js" charset="UTF-8"></script>
+<!--<script type="text/javascript" src="text.js" charset="UTF-8"></script>-->
 <title>综合查询</title>
 <link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-<link href="css/subcss.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
-<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
-<script type="text/javascript" src="js/jquery_gamequery.js"></script> 
+<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<!--<script type="text/javascript" src="js/jquery-1.7.2.js"></script>-->
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery_gamequery.js"></script> 
 <script type="text/javascript">
 //隔行变色
 	$(document).ready(function(){

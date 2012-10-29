@@ -8,7 +8,7 @@
 	<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 	<link type="text/css" href="${pageContext.request.contextPath }/css/themes/base/jquery.ui.all.css" rel="stylesheet" />
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.4.2.js"></script>
+	
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.tabs.js"></script>

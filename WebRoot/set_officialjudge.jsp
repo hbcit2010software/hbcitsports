@@ -7,15 +7,15 @@
 	
 	<title>jQuery UI Tabs - Default functionality</title>
 	<link href="${pageContext.request.contextPath }/css/subcss.css" type="text/css" rel="stylesheet" />
-	<script type="text/javascript" src="${pageContext.request.contextPath }/jjs/jquery-1.6.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 	<link type="text/css" href="css/themes/base/jquery.ui.all.css" rel="stylesheet" />
-	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
-	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
-	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
-	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
+	<!--<script type="text/javascript" src="js/jquery-1.4.2.js"></script>-->
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.tabs.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
-	<link type="text/css" href="css/demos.css" rel="stylesheet" />
+	<link type="text/css" href="${pageContext.request.contextPath }/css/demos.css" rel="stylesheet" />
 	
 	<script type="text/javascript">
 	$(function() {
@@ -449,7 +449,7 @@ font-size:16px;}
 					</tr>
 				</table>      
 	</div>
-	<div id="tabs-3" style="height:100%;">
+	<div id="tabs-3">
 	<table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 	<tr class="tableTitle">
                    <td colspan="4" align="right" style="color:red;fontsize:12px;">
@@ -570,7 +570,7 @@ font-size:16px;}
 	    }
 	    </script>
 	</div>
-	<div id="tabs-4" style="height:100%;">
+	<div id="tabs-4">
 		<table width="55%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb" align="center">
 		<tr class="tableTitle">
                    <td  colspan="4" align="right" style="color:red;fontsize:12px;"><font>

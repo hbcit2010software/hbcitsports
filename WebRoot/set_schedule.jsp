@@ -8,7 +8,8 @@
 <link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" media="all" type="text/css" href="${pageContext.request.contextPath }/css/jquery-ui.css"/>
 <link rel="stylesheet" media="all" type="text/css" href="${pageContext.request.contextPath }/css/jquery-ui-timepicker-addon.css"/>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
+<!--<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.7.2.js"></script>-->
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-ui-sliderAccess.js"></script>
@@ -143,7 +144,7 @@ if(request.getAttribute("msg") != null){
           </select>
         </div></td>
         <!-- 时间选择控件 -->
-        <script type="text/javascript">$(function(){$('#example${finalItem.id}').timepicker({});});</script>
+        <script type="text/javascript">$(function(){$('#example${finalItem.id}').timepicker({stepMinute:5});});</script>
         <td><div><input readonly="readonly" name="example${countItem.count }" type="text" id="example${finalItem.id}" value="${finalItem.time}" size="10"  style="text-align:center"/></div></td>
         <td><div>
         <c:if test="${finalItem.promotionnum eq 0}">
