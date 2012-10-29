@@ -120,7 +120,8 @@ public class GameGroupingUtil {
 		int flag1 = t_name.indexOf("1500");
     	int flag2 = t_name.indexOf("5000");
     	int flag3 = t_name.indexOf("马拉松");
-    	if ( flag1 >= 0 && flag2 >= 0 && flag3 >= 0){
+    	int flag4 = t_name.indexOf("3000");
+    	if ( flag1 >= 0 || flag2 >= 0 || flag3 >= 0 || flag4>=0){
     		flag = true;
     	}
 		return flag;

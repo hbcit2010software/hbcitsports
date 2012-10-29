@@ -74,7 +74,7 @@ public class QueryMarkServlet extends HttpServlet {
 		
 	    ArrayList allMarkInfo = qm.allMarkInfo();
 	    ArrayList allTeachInfo = qm.allTeachMarkInfo();
-	    System.out.println(allMarkInfo.size()+"11111111111111111111111111111111");
+	    //System.out.println(allMarkInfo.size()+"11111111111111111111111111111111");
 	    session.setAttribute("allMarkInfo", allMarkInfo);
 	    session.setAttribute("allTeachInfo", allTeachInfo);
 		response.sendRedirect("../mark.jsp");

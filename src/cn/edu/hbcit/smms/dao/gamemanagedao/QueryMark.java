@@ -736,6 +736,8 @@ public class QueryMark {
 	public void generateExcel2003(String file, ArrayList depNameList,
 			ArrayList boyItemList, String sportsname, String boyGroup, HashMap boyMarkMap,
 			ArrayList girlItemList, String girlGroup, HashMap girlMarkMap) {
+		log.debug("男子组积分map：" +boyMarkMap);
+		log.debug("女子组积分map：" +boyMarkMap);
 		// 先创建工作簿对象
 		HSSFWorkbook workbook2003 = new HSSFWorkbook();
 		// 创建工作表对象并命名
@@ -756,7 +758,7 @@ public class QueryMark {
 		for (int deNum = 0; deNum < depNameList.size(); deNum++) {
 			int narkSum = 0;
 			String depName = depNameList.get(deNum).toString().split(";")[0];
-			log.debug("系别："+depNameList.get(deNum).toString().split(";")[0]);
+			//log.debug("系别："+depNameList.get(deNum).toString().split(";")[0]);
 			HSSFRow row1 = boySheet.createRow(rowCount);
 			rowCount++;
 			HSSFCell denameCell = row1.createCell(0);
@@ -766,7 +768,7 @@ public class QueryMark {
 			HSSFCell nullCell = row1.createCell(2);
 			// 创建项目表格
 			int itemCount = 3;
-			log.debug(boyItemList);
+			//log.debug(boyItemList);
 			for (int cellNum = 0; cellNum < boyItemList.size(); cellNum++) {
 				
 				HSSFCell eitemCell = row1.createCell(itemCount);
@@ -807,44 +809,51 @@ public class QueryMark {
 					key = key + ";" + rowNum;
 					String[] tempDep = depNameList.get(deNum).toString().trim()
 							.split(";");
-					key = key + "" + tempDep[1];
+					key = key + ";" + tempDep[1];
+					//log.debug("男key：" +key);
+					//log.debug("真假：" +boyMarkMap.containsKey(key));
 					if (boyMarkMap.containsKey(key)) {
+						log.debug("男key：" +key);
 						String[] value = boyMarkMap.get(key).toString().split(";");
 						HSSFCell eitemCell = row.createCell(itCount);
 						eitemCell.setCellValue(value[0]);
 						itCount++;
-						log.debug("itCount**************************************");
-						log.debug("itCount"+itCount);
+						//log.debug("itCount**************************************");
+						//log.debug("itCount"+itCount);
 						HSSFCell nullCell2 = row.createCell(itCount);
 						nullCell2.setCellValue(value[1]);
 						itCount++;
-						log.debug("itCount"+itCount);
+						//log.debug("itCount"+itCount);
 						HSSFCell nullCell3 = row.createCell(itCount);
 						int mark = Integer.parseInt(value[2].trim());
 						nullCell3.setCellValue(mark);
 						markTotal += mark;
 						itCount++;
-						log.debug("itCount"+itCount);
+						//log.debug("itCount"+itCount);
 					} else {
 						HSSFCell eitemCell = row.createCell(itCount);
 						itCount++;
-						log.debug("itCount**************************************");
-						log.debug("itCount"+itCount);
+						//log.debug("itCount**************************************");
+						//log.debug("itCount"+itCount);
 						HSSFCell nullCell2 = row.createCell(itCount);
 						itCount++;
-						log.debug("itCount"+itCount);
+						//log.debug("itCount"+itCount);
 						HSSFCell nullCell3 = row.createCell(itCount);
 						itCount++;
-						log.debug("itCount"+itCount);
+						//log.debug("itCount"+itCount);
 					}
 					narkSum += markTotal;	
 				}	
 				HSSFCell hejiCell2 = row.createCell(itCount);
 				hejiCell2.setCellValue(markTotal);
 				itCount++;
-				HSSFCell zongfenCell2 = row.createCell(itCount);
+				
 				if (rowNum == 8){
-					zongfenCell2.setCellValue(narkSum);
+					HSSFCell zongfenCell2 = row.createCell(itCount);
+					//log.debug("rowNum:总分："+rowNum);
+					zongfenCell2.setCellValue(narkSum+"");
+				}else{
+					HSSFCell zongfenCell2 = row.createCell(itCount);
 				}
 			}
 		}
@@ -920,9 +929,12 @@ public class QueryMark {
 					key = key + ";" + rowNum;
 					String[] tempDep = depNameList.get(deNum).toString().trim()
 							.split(";");
-					key = key + "" + tempDep[1];
-					if (boyMarkMap.containsKey(key)) {
+					key = key + ";" + tempDep[1];
+					//log.debug("女key：" +key);
+					//log.debug("真假：" +boyMarkMap.containsKey(key));
+					if (girlMarkMap.containsKey(key)) {
 						String[] value = girlMarkMap.get(key).toString().split(";");
+						//log.debug("value[]:"+value);
 						HSSFCell eitemCell = row.createCell(itCount);
 						eitemCell.setCellValue(value[0]);
 						itCount++;
@@ -950,7 +962,7 @@ public class QueryMark {
 				
 				if (rowNum == 8){
 					HSSFCell zongfenCell2 = row.createCell(itCount);
-					zongfenCell2.setCellValue(narkSum);
+					zongfenCell2.setCellValue(narkSum+"");
 				}else{
 					HSSFCell zongfenCell2 = row.createCell(itCount);
 				}
@@ -1100,6 +1112,7 @@ public class QueryMark {
 	 * @return HashMap
 	 */
 	public HashMap selectMarkMap(int sportsId,int sex,HashMap markMap ){
+		HashMap newmarkMap = markMap;
 		String sql = "SELECT t_group2item.itemid,t_position.position,t_department.id,t_department.departshortname,t_position.score,t_position.marks"
 		+" FROM t_position JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id"
 		+" JOIN t_department ON t_position.playerid = t_department.id"
@@ -1112,24 +1125,28 @@ public class QueryMark {
 		+" AND t_group.groupsex = ? AND t_item.itemtype = 3";
 		try {
 	        Connection myconn = dbc.getConn();
+	        log.debug("myconn"+myconn);
 	        if(myconn != null){
 	        	ResultSet rs = null;
 	            PreparedStatement statement = myconn.prepareStatement(sql);
+	            log.debug("sql"+sql);
 	            statement.setInt(1, sportsId);
 	            statement.setInt(2, sex);
 	            rs = statement.executeQuery(); 
 	            while(rs.next()){
 	            	String key = (rs.getInt(1)+";"+rs.getInt(2)+";"+rs.getInt(3)).trim();
 	            	String value = (rs.getString(4)+";"+rs.getString(5)+";"+rs.getInt(6)).trim();
-	            	markMap.put(key, value);
+	            	log.debug("key："+key);
+	            	log.debug("value："+value);
+	            	newmarkMap.put(key, value);
 	            }
 	            
 	            rs.close();
 	            statement.close();
-	           }
+	        }
 	        dbc.freeConnection(myconn);  
-	        }catch (SQLException e) {                 
+	    }catch (SQLException e) {                 
 	        e.printStackTrace(); } 
-			return markMap;
+		return newmarkMap;
 	}
 }

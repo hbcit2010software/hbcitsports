@@ -13,12 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
+import cn.edu.hbcit.smms.dao.gamemanagedao.QueryMark;
 import cn.edu.hbcit.smms.pojo.MarkPojo;
 import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.QueryMarkServices;
 
 public class PrintAllMarkSerlvet extends HttpServlet {
 
+	protected final Logger log = Logger.getLogger(PrintAllMarkSerlvet.class.getName());
 	/**
 	 * Constructor of the object.
 	 */
@@ -74,11 +78,11 @@ public class PrintAllMarkSerlvet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString()); 
-			
+		log.debug("当前运动会id："+sportsId);
 		QueryMarkServices qms = new QueryMarkServices();
-		String filePath = request.getSession().getServletContext().getRealPath("/")+"excel/";
+		String filePath1 = request.getSession().getServletContext().getRealPath("/")+"excel/";
 		String sportsName = qms.getSportsName();
-		//filePath = filePath + "河北工院"+sportsName+"成绩单.xls";
+		String filePath = filePath1 + "河北工院"+sportsName+"成绩单.xls";
 		ArrayList depNameList = new ArrayList();
 		depNameList = qms.selectDep(sportsId);
 		ArrayList boyItemList = new ArrayList();
@@ -90,9 +94,11 @@ public class PrintAllMarkSerlvet extends HttpServlet {
 		HashMap boyMarkMap = null;
 		boyMarkMap = qms.selectMarkMap(sportsId, 1);
 		boyMarkMap = qms.selectMarkMap(sportsId, 1, boyMarkMap);
+		log.debug("男子积分map："+boyMarkMap);
 		HashMap girlMarkMap = null;
 		girlMarkMap = qms.selectMarkMap(sportsId, 0);
-		girlMarkMap = qms.selectMarkMap(sportsId, 0, boyMarkMap);
+		girlMarkMap = qms.selectMarkMap(sportsId, 0, girlMarkMap);
+		log.debug("女子积分map："+girlMarkMap);
 		try{
 			qms.generateExcel2003(filePath, depNameList, boyItemList, sportsName, boyGroup, boyMarkMap, girlItemList, girlGroup, girlMarkMap);
 
@@ -103,7 +109,7 @@ public class PrintAllMarkSerlvet extends HttpServlet {
 		buffer.append("{");
 		buffer.append("\"contents\":[");
 		buffer.append("{");
-		buffer.append("\"file\":\"" + URLEncoder.encode(filePath,"UTF-8") + "\",");
+		buffer.append("\"file\":\"" + URLEncoder.encode(filePath1,"UTF-8") + "\",");
 	    buffer.append("\"fileName\":\"" + ("河北工院"+sportsName+"成绩单.xls" )+ "\"");
 	    buffer.append("}");
 	    buffer.append("]");

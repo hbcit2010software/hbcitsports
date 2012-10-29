@@ -64,8 +64,9 @@ public class TrackGameLook extends HttpServlet {
 		int flag1 = itenName.indexOf("1500");
     	int flag2 = itenName.indexOf("5000");
     	int flag3 = itenName.indexOf("马拉松");
+    	int flag4 = itenName.indexOf("3000");
     	
-    	if ( flag1 >= 0 || flag2 >= 0 || flag3 >= 0){  //判断是否为长跑
+    	if ( flag1 >= 0 || flag2 >= 0 || flag3 >= 0 || flag4>= 0){  //判断是否为长跑
     		Map trackMap = cpgg.getTrack1500(finalId);
     		List track1500teamnum = (List)trackMap.get("track1500teamnum");
     		log.debug("150000000000000000:"+track1500teamnum.size());

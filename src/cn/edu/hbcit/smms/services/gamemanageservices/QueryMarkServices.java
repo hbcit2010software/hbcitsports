@@ -105,6 +105,6 @@ public class QueryMarkServices {
 		 * @return HashMap
 		 */
 		public HashMap selectMarkMap(int sportsId,int sex,HashMap markMap ){
-			return new QueryMark().selectMarkMap(sportsId, sex);
+			return new QueryMark().selectMarkMap(sportsId, sex,markMap);
 		}
 }
