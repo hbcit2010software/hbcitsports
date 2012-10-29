@@ -133,7 +133,7 @@
   </tr>
   <tr>
     <td align="right">破记录时间：</td>
-    <td><input name="registend" class="Wdate" type="text" id="registend" onClick="WdatePicker({dateFmt:'yyyy-MM'})"></td>
+    <td><input readonly="readonly" name="registend" class="Wdate" type="text" id="registend" onClick="WdatePicker({dateFmt:'yyyy-MM'})"></td>
   </tr>
     <tr>
     <td align="right" width="150">记录级别：</td>

@@ -566,4 +566,32 @@ public class RecordDAO {
 		}
 		return list;
 	}
+	/**
+	 * 获取所有项目及格式
+	 * @return
+	 */
+	public ArrayList selectItemAndScoreFormat(){
+		ArrayList list = new ArrayList();
+		UtilTools ut = new UtilTools();
+		conn = db.getConn();
+		String sql = "SELECT t_item.id,t_item.itemname,t_scoreformat.reg FROM t_scoreformat,t_item WHERE t_item.scoreformatid=t_scoreformat.id ORDER BY t_item.itemname ASC ";
+		try {
+			pStatement = conn.prepareStatement(sql);
+			rs = pStatement.executeQuery();
+			while (rs.next()) {
+				Item item = new Item();
+				item.setItemid(rs.getInt(1));
+				item.setItemname(rs.getString(2));
+				item.setFormat(rs.getString(3));
+				list.add(item);
+			}
+
+			db.freeConnection(rs,pStatement,conn);
+		} catch (Exception e) {
+			log.error("获取所有项目及格式失败！");
+			log.error(e.getMessage());
+			//e.printStackTrace();
+		}
+		return list;
+	}
 }

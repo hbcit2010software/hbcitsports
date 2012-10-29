@@ -7,6 +7,7 @@ public class Item {
 	private int itemid;
 	private String itemname;
 	private String itemtype;
+	private String format;
 	public String getItemtype() {
 		return itemtype;
 	}
@@ -55,6 +56,18 @@ public class Item {
 	 */
 	public void setItemid(int itemid) {
 		this.itemid = itemid;
+	}
+	/**
+	 * @return the format
+	 */
+	public String getFormat() {
+		return format;
+	}
+	/**
+	 * @param format the format to set
+	 */
+	public void setFormat(String format) {
+		this.format = format;
 	}
 
 }

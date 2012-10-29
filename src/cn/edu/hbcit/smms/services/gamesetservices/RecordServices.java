@@ -197,4 +197,11 @@ public class RecordServices {
 	public ArrayList selectAllRecords(int sex){
 		return re.selectAllRecords(sex);
 	}
+	/**
+	 * 获取所有项目及格式
+	 * @return
+	 */
+	public ArrayList selectItemAndScoreFormat(){
+		return re.selectItemAndScoreFormat();
+	}
 }
