@@ -55,7 +55,8 @@ public class QueryRegistitemToItems {
 			" FROM t_position " +
 			" JOIN t_player ON t_position.playerid = t_player.id"+
 			" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id"+ 
-			" WHERE t_player.playernum = ?";
+			" WHERE t_player.playernum = ?" +
+			" ORDER BY t_position.finalitemid";
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
@@ -95,16 +96,17 @@ public class QueryRegistitemToItems {
 					" AND t_item.id = t_group2item.itemid " +
 					" AND t_position.playerid = t_player.id " +
 					" AND t_player.playernum =? " +
-					" ORDER BY t_position.finalitemid IN(SELECT DISTINCT t_finalitem.id " +
-					" FROM t_position  " +
-					" JOIN t_player ON t_position.playerid = t_player.id " +
-					" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id"+ 
-					" WHERE t_player.playernum = ? )";
+					" ORDER BY t_finalitem.id" ;
+//					" ORDER BY t_position.finalitemid IN(SELECT DISTINCT t_finalitem.id " +
+//					" FROM t_position  " +
+//					" JOIN t_player ON t_position.playerid = t_player.id " +
+//					" JOIN t_finalitem ON t_position.finalitemid = t_finalitem.id"+ 
+//					" WHERE t_player.playernum = ? )";
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, playernum);
-				pstmt.setString(2, playernum); 
+				//pstmt.setString(2, playernum); 
 				rs = pstmt.executeQuery();
 				while(rs.next()){
 					jsonarray.add(ut.coverToTrackScore(rs.getString(1), rs.getString(3)));
@@ -126,7 +128,8 @@ public class QueryRegistitemToItems {
 			String sql = "SELECT DISTINCT t_position.position"+
 			" FROM t_position" +
 			" JOIN t_player ON t_position.playerid = t_player.id"+
-			" WHERE t_player.playernum =?";
+			" WHERE t_player.playernum =?" +
+			" ORDER BY t_position.finalitemid";
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
@@ -154,7 +157,8 @@ public class QueryRegistitemToItems {
 			String sql = "SELECT DISTINCT t_match.recordlevel FROM t_match " +
 					" JOIN t_finalitem ON t_finalitem.id = t_match.finalitemid" +
 					" JOIN t_player ON t_player.id = t_match.playerid" +
-					" WHERE t_finalitem.finalitemname=? AND t_player.playernum=?";
+					" WHERE t_finalitem.finalitemname=? AND t_player.playernum=?" +
+					" ORDER BY t_finalitem.id";
 			try{
 				conn = db.getConn();
 				pstmt = conn.prepareStatement(sql);
@@ -167,7 +171,7 @@ public class QueryRegistitemToItems {
 					if(rs.getString(1).equals("0")){
 						 rel = "<font color='red'>院</font>";
 					}else if(rs.getString(1).equals("1")){
-						 rel = "<font color='bule'>省</font>";
+						 rel = "<font color='blue'>省</font>";
 					}else if(rs.getString(1).equals("2")){
 						 rel = "无";
 					}
@@ -294,7 +298,7 @@ public class QueryRegistitemToItems {
 					if(rs.getString(1).equals("0")){
 						 rel = "<font color='red'>院</font>";
 					}else if(rs.getString(1).equals("1")){
-						 rel = "<font color='blue'>院</font>";
+						 rel = "<font color='blue'>省</font>";
 					}else if(rs.getString(1).equals("2")){
 						 rel = "无";
 					}

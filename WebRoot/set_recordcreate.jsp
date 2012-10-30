@@ -59,27 +59,57 @@
 			//
 			if($('#depart').val() == "")
 			{
-				Dialog.alert("请填写选手姓名!");
+				Dialog.alert("请填写系部姓名!");
 				return false;
 			}
 			//
 			if(reg.test($('#depart').val()))
 			{
-				Dialog.alert("选手姓名中请不要包含半角单引号或双引号!");
+				Dialog.alert("系部名称中请不要包含半角单引号或双引号!");
+				return false;
+			}
+			//
+			if($('#sportsname').val() == "")
+			{
+				Dialog.alert("请填写运动会名称!");
+				return false;
+			}
+			//
+			if(reg.test($('#sportsname').val()))
+			{
+				Dialog.alert("运动会名称中请不要包含半角单引号或双引号!");
+				return false;
+			}
+			//
+			if($('#scoretime').val() == "")
+			{
+				Dialog.alert("请填写运动会举办时间!");
+				return false;
+			}
+			//
+			if($('#scoretime').val() == "none")
+			{
+				Dialog.alert("请填写记录的级别!");
+				return false;
+			}
+			//
+			if($('#item').val() == "none")
+			{
+				Dialog.alert("请选择比赛项目!");
 				return false;
 			}
 			//ajax提交
 			$.ajax({
-			url :"${pageContext.request.contextPath }/servlet/AddSportsServlet",
+			url :"${pageContext.request.contextPath }/servlet/AddRecordServlet",
 			type : 'post',
-			data : 'spname='+$('#spname').val()+'&begin='+$('#begin').val()+'&end='+$('#end').val()+'&registend='+$('#registend').val()+'&address='+$('#address').val(),
+			data : 'item='+$('#item').val()+'&sex='+$('#sex').val()+'&score='+$('#score').val()+'&playername='+$('#playername').val()+'&depart='+$('#depart').val()+'&sportsname='+$('#sportsname').val()+'&scoretime='+$('#scoretime').val()+'&level='+$('#level').val(),
 			success :function(mm){
 					var revalue=mm.replace(/\r\n/g,'');
 					if(revalue=="error"){
-						Dialog.alert("添加新运动会失败!",function(){window.location.reload();});
+						Dialog.alert("添加新记录失败!",function(){window.location.reload();});
 					}
 					if(revalue=="success"){
-						Dialog.alert("添加新运动会成功!",function(){window.location.reload();});
+						Dialog.alert("添加新记录成功!",function(){window.location.reload();});
 					}
 				}
 			});
@@ -127,7 +157,12 @@
   </tr>
   <tr>
     <td align="right">选手性别：</td>
-    <td><input type="radio" name="sex" id="sexman" value="1" checked="checked" />男&nbsp;<input type="radio" name="sex" id="sexwoman" value="0" />女</td>
+    <td>
+    <select name="sex" id="sex">
+      <option value="1">男</option>
+      <option value="0">女</option>
+    </select>
+    </td>
   </tr>
   <tr>
     <td align="right">比赛成绩：</td>
@@ -152,7 +187,7 @@
     <tr>
     <td align="right" width="150">记录级别：</td>
     <td>
-    <select name="level">
+    <select name="level" id="level">
       <option value="none">-请选择级别-</option>
       <option value="0">院级</option>
       <option value="1">省级</option>

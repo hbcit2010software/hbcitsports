@@ -3,11 +3,12 @@ package cn.edu.hbcit.smms.services.gamesetservices;
 import java.util.ArrayList;
 
 import cn.edu.hbcit.smms.dao.gamesetdao.RecordDAO;
+import cn.edu.hbcit.smms.util.UtilTools;
 
 public class RecordServices {
 
 	RecordDAO re = new RecordDAO();
-
+	UtilTools ut = new UtilTools();
 	/**
 	 * 查询所有记录
 	 * 
@@ -108,12 +109,12 @@ public class RecordServices {
 	 * @return retuValue
 	 * @version 1.00 2012/6/15 新建
 	 */
-	public boolean addRecord(String plaName, String sportsName1,
-			String recTime, String recLevel, int plaSex, String sor,
-			String depName, int iteId) {
-		return re.addRecord(plaName, sportsName1, recTime, recLevel, plaSex,
-				sor, depName, iteId);
-	}
+//	public boolean addRecord(String plaName, String sportsName1,
+//			String recTime, String recLevel, int plaSex, String sor,
+//			String depName, int iteId) {
+//		return re.addRecord(plaName, sportsName1, recTime, recLevel, plaSex,
+//				sor, depName, iteId);
+//	}
 
 	/**
 	 * 修改记录
@@ -203,5 +204,25 @@ public class RecordServices {
 	 */
 	public ArrayList selectItemAndScoreFormat(){
 		return re.selectItemAndScoreFormat();
+	}
+	/**
+	 * 手动插入新赛事记录
+	 * @param itemid
+	 * @param sex
+	 * @param score
+	 * @param playername
+	 * @param departname
+	 * @param sportsname
+	 * @param recordtime
+	 * @param recordlevel
+	 * @return
+	 * 2012-10-30 by LeeWei
+	 */
+	public boolean addRecord(String itemid, String sex, String score, String playername, String departname, String sportsname, String recordtime, String recordlevel){
+		if(ut.isNumeric(itemid) && ut.isNumeric(sex)){
+			return re.addRecord(Integer.parseInt(itemid), Integer.parseInt(sex), score, playername, departname, sportsname, recordtime, recordlevel);
+		}else{
+			return false;
+		}
 	}
 }

@@ -150,7 +150,7 @@ function selectdata()
 				        inhtml += "<td width='10%' height='20'><div align='center'><span>"+jsonarray[i].playernum+"</span></div></td>";
 				        inhtml += "<td width='15%' height='20' ><div align='center'><span>"+jsonarray[i].groupname+"</span></div></td>";
 				        inhtml += "<td width='14%' height='20' ><div align='center'><span>"+jsonarray[i].departshortname+"</span></div></td>";
-				        var reg = /[,]/;
+				        var reg = /[,]/g;
 			        	var str = jsonarray[i].itemname+"";
 			        	var str1= str.replace(reg,"<br>");
 				        inhtml += "<td width='16%' height='20' ><div align='center'><span>"+str1+"</span></div></td>";

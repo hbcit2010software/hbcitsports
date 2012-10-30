@@ -339,41 +339,41 @@ public class RecordDAO {
 	 * @author 于德水
 	 * @version 1.00  2012/6/15  新建
 	 */
-	public boolean addRecord(String plaName,String sportsName1,String recTime,String recLevel,int plaSex,String sor, String depName, int itemId) {
-		
-		boolean retuValue = false;
-		DBConn db = new DBConn();
-		
-			
-		try {
-			 
-			Connection conn = db.getConn();
-			String sql = "insert into t_record (itemid ,sex, score, playername, "+
-			"departname, sportsname, recordtime, recordlevel) values(?,?,?,?,?,?,?,?)";
-			PreparedStatement ps = conn.prepareStatement(sql);
-			 
-			 ps.setInt(1, itemId);
-			// System.out.println("hhhhhhhhhhhhhhhhh"+itemId);
-			 ps.setInt(2,plaSex);
-			 ps.setString(3,sor);
-			 ps.setString(4,plaName);
-			 ps.setString(5,depName);
-			 ps.setString(6,sportsName1);
-			 ps.setString(7,recTime);
-			 ps.setString(8,recLevel);
-			int s = ps.executeUpdate();
-			if(s==1)
-			{
-			retuValue = true;
-			}
-			ps.close();
-			db.freeConnection(conn);
-		} catch (SQLException e) {                 
-            e.printStackTrace();       
-        }
-		
-		return retuValue;
-	}
+//	public boolean addRecord(String plaName,String sportsName1,String recTime,String recLevel,int plaSex,String sor, String depName, int itemId) {
+//		
+//		boolean retuValue = false;
+//		DBConn db = new DBConn();
+//		
+//			
+//		try {
+//			 
+//			Connection conn = db.getConn();
+//			String sql = "insert into t_record (itemid ,sex, score, playername, "+
+//			"departname, sportsname, recordtime, recordlevel) values(?,?,?,?,?,?,?,?)";
+//			PreparedStatement ps = conn.prepareStatement(sql);
+//			 
+//			 ps.setInt(1, itemId);
+//			// System.out.println("hhhhhhhhhhhhhhhhh"+itemId);
+//			 ps.setInt(2,plaSex);
+//			 ps.setString(3,sor);
+//			 ps.setString(4,plaName);
+//			 ps.setString(5,depName);
+//			 ps.setString(6,sportsName1);
+//			 ps.setString(7,recTime);
+//			 ps.setString(8,recLevel);
+//			int s = ps.executeUpdate();
+//			if(s==1)
+//			{
+//			retuValue = true;
+//			}
+//			ps.close();
+//			db.freeConnection(conn);
+//		} catch (SQLException e) {                 
+//            e.printStackTrace();       
+//        }
+//		
+//		return retuValue;
+//	}
 	
 	/**
 	 * 修改记录
@@ -593,5 +593,44 @@ public class RecordDAO {
 			//e.printStackTrace();
 		}
 		return list;
+	}
+	
+	/**
+	 * 手动插入新赛事记录
+	 * @param itemid
+	 * @param sex
+	 * @param score
+	 * @param playername
+	 * @param departname
+	 * @param sportsname
+	 * @param recordtime
+	 * @param recordlevel
+	 * @return
+	 */
+	public boolean addRecord(int itemid, int sex, String score, String playername, String departname, String sportsname, String recordtime, String recordlevel) {
+		int rst = 0;
+		boolean flag = false;
+		conn = db.getConn();
+		String sql = "INSERT INTO t_record (itemid,sex,score,playername,departname,sportsname,recordtime,recordlevel) VALUES(?,?,?,?,?,?,?,?)";
+		try {
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1,itemid);
+			pStatement.setInt(2,sex);
+			pStatement.setString(3, score);
+			pStatement.setString(4, playername);
+			pStatement.setString(5, departname);
+			pStatement.setString(6, sportsname);
+			pStatement.setString(7, recordtime);
+			pStatement.setString(8, recordlevel);
+			rst = pStatement.executeUpdate();
+			if(rst > 0){
+				flag = true;
+			 }
+			db.freeConnection(pStatement,conn);
+		} catch (SQLException e) {                 
+			log.error("插入新记录失败！");
+			log.error(e.getMessage());
+        }   
+		return flag;
 	}
 }

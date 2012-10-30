@@ -41,36 +41,7 @@ public class AddRecordServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setHeader("Pragma", "No-cache");
-		response.setHeader("Cache-control", "no-cache");
-		response.setDateHeader("Expires", 0);
-		response.setContentType("text/html;utf-8");
-		response.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-		request.setCharacterEncoding("utf-8");
-		
-		
-		String plaName = request.getParameter("plaName").trim();
-		String sportsName = request.getParameter("sportsName").trim();
-		String recTime = request.getParameter("recTime").trim();
-		String recLevel = request.getParameter("recLevel").trim();
-		String sor = request.getParameter("sor").trim();
-		String depName = request.getParameter("depName").trim();
-		String itemName = request.getParameter("itemName").trim();
-		int plaSex = Integer.parseInt(request.getParameter("plaSex").trim());
-
-		RecordServices re = new RecordServices();
-		int itemId = Integer.parseInt(itemName);
-		if(re.addRecord(plaName, sportsName, recTime, recLevel, plaSex, sor, depName, itemId)){
-		
-			out.println("success");
-		}			
-		else{
-			out.println("error");
-		}
-		out.flush();
-		out.close();
+		this.doPost(request, response);
 		}
 	 
 
@@ -87,8 +58,33 @@ public class AddRecordServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doGet(request, response);
-	}
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		request.setCharacterEncoding("utf-8");
+		
+		
+		String itemid = request.getParameter("item").trim();
+		String sex = request.getParameter("sex").trim();
+		String score = request.getParameter("score").trim();
+		String playername = request.getParameter("playername").trim();
+		String departname = request.getParameter("depart").trim();
+		String sportsname = request.getParameter("sportsname").trim();
+		String recordtime = request.getParameter("scoretime").trim();
+		String recordlevel = request.getParameter("level").trim();
+		
+		RecordServices re = new RecordServices();
+		boolean flag = false;
+		flag = re.addRecord(itemid, sex, score, playername, departname, sportsname, recordtime, recordlevel);
+		if(flag){
+			out.print("success");
+		}			
+		else{
+			out.print("error");
+		}
+		out.flush();
+		out.close();
+		}
+	
 
 	/**
 	 * Initialization of the servlet. <br>
