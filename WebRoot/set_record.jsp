@@ -25,7 +25,7 @@
 			diag.Width = 400;
 			diag.Height = 280;
 			diag.Title = "添加新记录";
-			diag.URL = "${pageContext.request.contextPath }/set_sportscreate.jsp";
+			diag.URL = "${pageContext.request.contextPath }/servlet/ViewCreateRecordServlet";
 			diag.OKEvent = function(){
 				window.location.reload();
 				//diag.close();

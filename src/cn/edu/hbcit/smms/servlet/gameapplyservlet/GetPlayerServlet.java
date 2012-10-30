@@ -6,6 +6,9 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
+
+import hirondelle.date4j.DateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -73,18 +76,20 @@ public class GetPlayerServlet extends HttpServlet {
 		GetPlayerService itemName  = new GetPlayerService();
 		GetPlayerService spn = new GetPlayerService();
 		//
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
-		Date registedTime = null;
-		try{
-		      registedTime = format.parse(spn.getRegistend());
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		Date date = new Date();
-		
+		//SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+		//Date registedTime = null;
+//		try{
+//		      registedTime = format.parse(spn.getRegistend());
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+		//Date date = new Date();
+		DateTime now = DateTime.now(TimeZone.getTimeZone("GMT+8:00"));
+		DateTime registedTime = new DateTime(spn.getRegistend());
 		//String dateTime = format.format(date);
 		//System.out.println("date============="+date+"registedTime========"+registedTime);
-		if(date.getDate()>registedTime.getDate()){
+		if(now.gt(registedTime)){
+		//if(date.getDate()>registedTime.getDate()){
 			session.setAttribute("msg","报名日期已过！！！");
 			response.sendRedirect("../apply_playershow.jsp");
 		}else{

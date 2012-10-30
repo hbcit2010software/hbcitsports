@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>set_recordcreate.jsp</title>
 <link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
@@ -35,12 +36,12 @@
 			
 		</style>
         <script language="JavaScript">
-        function addSports()
+        function addScore()
 		{
 			var reg=/["']/;
-			if($('#spname').val() == "")
+			if($('#score').val() == "")
 			{
-				Dialog.alert("请填写运动会名称!");
+				Dialog.alert("请填写比赛成绩!");
 				return false;
 			}
 			//
@@ -101,50 +102,83 @@
 				}
 			});
 		}
+		//
+		function checkFormat(obj){
+			var regValue = document.getElementById("item").value;
+			var reg;
+			if(regValue != "none"){
+				reg = eval(document.getElementById("hidd_"+regValue).value);
+			}else{
+				Dialog.alert("请选择比赛项目!");
+				obj.value = "";
+				return false;
+			}
+			//alert(reg);
+			if(obj.value != ""){
+				if(!reg.test(obj.value)){
+					Dialog.alert("您输入的成绩格式错误!");
+					obj.value = "";
+					return false;
+				}
+			}
+			
+		}
         </script>
 </head>
 
 <body style="margin-top:30px">
-
+<%--生成项目对应的格式--%>
+<c:forEach var="myitem" items="${itemlist}">
+      	<input type="hidden" id="hidd_${myitem.itemid}" value="${myitem.format}"/>
+</c:forEach>
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="2" style="border-collapse: collapse" bordercolor="#C0C0C0">
   <tr>
     <td align="right" width="150">比赛项目：</td>
     <td>
-    <select name="">
-      <option value="1">啊啊啊</option>
+    <select name="item" id="item">
+      <option value="none">-请选择项目-</option>
+      <c:forEach var="myitem" items="${itemlist}">
+      	<option value="${myitem.itemid }">${myitem.itemname}</option>
+      </c:forEach>
     </select>
     </td>
   </tr>
   <tr>
+    <td align="right">选手性别：</td>
+    <td><input type="radio" name="sex" id="sexman" value="1" checked="checked" />男&nbsp;<input type="radio" name="sex" id="sexwoman" value="0" />女</td>
+  </tr>
+  <tr>
     <td align="right">比赛成绩：</td>
-    <td><input name="begin" type="text" id="begin"></td>
+    <td><input name="score" type="text" id="score" onblur="checkFormat(this);"></td>
   </tr>
   <tr>
     <td align="right">选手姓名：</td>
-    <td><input name="end" type="text" id="end" ></td>
+    <td><input name="playername" type="text" id="playername" ></td>
   </tr>
   <tr>
     <td align="right">系别：</td>
-    <td><input name="registend" type="text" id="registend" ></td>
+    <td><input name="depart" type="text" id="depart" ></td>
   </tr>
   <tr>
     <td align="right">运动会名称：</td>
-    <td><input name="registend" type="text" id="registend"></td>
+    <td><input name="sportsname" type="text" id="sportsname"></td>
   </tr>
   <tr>
     <td align="right">破记录时间：</td>
-    <td><input readonly="readonly" name="registend" class="Wdate" type="text" id="registend" onClick="WdatePicker({dateFmt:'yyyy-MM'})"></td>
+    <td><input readonly="readonly" name="scoretime" class="Wdate" type="text" id="scoretime" onClick="WdatePicker({dateFmt:'yyyy-MM'})"></td>
   </tr>
     <tr>
     <td align="right" width="150">记录级别：</td>
     <td>
-    <select name="">
-      <option value="1">啊啊啊</option>
+    <select name="level">
+      <option value="none">-请选择级别-</option>
+      <option value="0">院级</option>
+      <option value="1">省级</option>
     </select>
     </td>
   </tr>
   <tr>
-    <td colspan="2" align="center"><input name="" type="button" value="确认添加" onclick="addSports();"/></td>
+    <td colspan="2" align="center"><input name="" type="button" value="确认添加" onclick="addScore();"/></td>
   </tr>
 </table>
 </body>

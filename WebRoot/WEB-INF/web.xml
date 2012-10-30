@@ -851,6 +851,13 @@
     <servlet-name>ViewAllRecordServlet</servlet-name>
     <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.ViewAllRecordServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>Liwei Created</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ViewCreateRecordServlet</servlet-name>
+    <servlet-class>cn.edu.hbcit.smms.servlet.gamesetservlet.ViewCreateRecordServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -1451,6 +1458,10 @@
   <servlet-mapping>
     <servlet-name>ViewAllRecordServlet</servlet-name>
     <url-pattern>/servlet/ViewAllRecordServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewCreateRecordServlet</servlet-name>
+    <url-pattern>/servlet/ViewCreateRecordServlet</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>
