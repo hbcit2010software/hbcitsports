@@ -367,9 +367,8 @@ function selGroup(){
 </head>
   
   <body>
- 
-   <form  action="${pageContext.request.contextPath }/servlet/UpdatePlayerTeacherServlet" method="post" onSubmit="return submitCheck();">
-  
+ <%--  <form  action="${pageContext.request.contextPath }/servlet/UpdatePlayerTeacherServlet" method="post" onSubmit="return submitCheck();">--%>
+  <form  action="${pageContext.request.contextPath }/servlet/UpdatePlayerTeacherServlet" method="post" onSubmit="return submitCheck();">
     <table id="stuentApply" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" class="stripe_tb">
       <tr class="tableTitle">
         <td height="20" colspan="50" ><div align="center">

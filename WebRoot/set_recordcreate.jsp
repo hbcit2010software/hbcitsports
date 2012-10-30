@@ -45,45 +45,27 @@
 				return false;
 			}
 			//
-			if(reg.test($('#spname').val()))
+			if($('#playername').val() == "")
 			{
-				Dialog.alert("运动会名称中请不要包含半角单引号或双引号!");
+				Dialog.alert("请填写选手姓名!");
 				return false;
 			}
 			//
-			if($('#begin').val() == "")
+			if(reg.test($('#playername').val()))
 			{
-				Dialog.alert("请填写运动会起始时间!");
+				Dialog.alert("选手姓名中请不要包含半角单引号或双引号!");
 				return false;
 			}
 			//
-			if($('#end').val() == "")
+			if($('#depart').val() == "")
 			{
-				Dialog.alert("请填写运动会结束时间!");
+				Dialog.alert("请填写选手姓名!");
 				return false;
 			}
 			//
-			if($('#end').val() < $('#begin').val())
+			if(reg.test($('#depart').val()))
 			{
-				Dialog.alert("运动会结束时间不能早于起始时间!");
-				return false;
-			}
-			//
-			if($('#registend').val() == "")
-			{
-				Dialog.alert("请填写运动会报名截止时间!");
-				return false;
-			}
-			//
-			if($('#begin').val() < $('#registend').val())
-			{
-				Dialog.alert("运动会报名截止时间不能晚于运动会起始时间!");
-				return false;
-			}
-			//
-			if($('#address').val() == "")
-			{
-				Dialog.alert("请填写运动会举办地点!");
+				Dialog.alert("选手姓名中请不要包含半角单引号或双引号!");
 				return false;
 			}
 			//ajax提交
