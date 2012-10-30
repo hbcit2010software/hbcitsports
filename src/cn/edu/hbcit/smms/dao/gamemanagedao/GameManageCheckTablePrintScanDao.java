@@ -26,6 +26,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;   
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONArray;
 
 import cn.edu.hbcit.smms.services.gamemanageservices.GameManageCheckTableServices;
@@ -42,6 +44,7 @@ import com.lowagie.text.Table;
 import com.lowagie.text.pdf.BaseFont;   
 import com.lowagie.text.rtf.RtfWriter2;  
 public class GameManageCheckTablePrintScanDao {
+	protected final Logger log = Logger.getLogger(GameManageCheckTablePrintScanDao.class.getName());
 	 public boolean createDocContext(String file,String finalitemname,String itemtype,String groupname)throws DocumentException, IOException{ 
 		 GameManageCheckTableDao gmctd = new GameManageCheckTableDao();
 		 String itemtype1 = gmctd.getMatchType(finalitemname) ;
@@ -168,7 +171,12 @@ public class GameManageCheckTablePrintScanDao {
 	 	            table.addCell(new Cell("备注"));
 	 	         for(int j = 0;j < array1.size();j++ ){
 	 	        	JSONArray array2 = array1.getJSONArray(j);
-	 	        	   table.addCell(new Cell(Integer.toString(array2.getInt(3))));
+	 	        	log.debug("array2.get(0)"+array2.get(0));
+	 	        	log.debug("array2.get(1)"+array2.get(1));
+	 	        	log.debug("array2.get(2)"+array2.get(2));
+	 	        	   table.addCell(new Cell(Integer.toString(array2.getInt(2))));
+	 	        	   //liwei 2012-10-30修改
+	 	        	 // table.addCell(new Cell(Integer.toString(array2.getInt(3))));
 	 	        	   table.addCell(new Cell(array2.getString(0)));   
 		    	       table.addCell(new Cell(array2.getString(1)));   
 		    	       table.addCell(new Cell());

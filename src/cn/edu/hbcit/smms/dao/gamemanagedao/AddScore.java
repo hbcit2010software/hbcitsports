@@ -288,6 +288,7 @@ public class AddScore {
 						list.add(Integer.toString(rs2.getInt(1)));		//playerid
 						list.add(rs2.getString(2));		//score
 						list.add(Integer.toString(rs2.getInt(3)));		//finalitemid
+						log.debug("晋级的人员信息：playerid;score;finalitemid"+rs2.getInt(1)+";"+rs2.getString(2)+";"+rs2.getInt(3));
 						alllist.add(list);
 					}
 			rs2.close();

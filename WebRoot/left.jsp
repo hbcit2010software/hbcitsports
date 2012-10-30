@@ -233,7 +233,7 @@ body {
    </c:if>
     <li> <a class="head">版本信息</a>
       <ul>
-        <li><a href="#" target="rightFrame">关于本系统</a></li>
+        <li><a href="about.jsp" target="rightFrame">关于本系统</a></li>
       </ul>
     </li>
   </ul>

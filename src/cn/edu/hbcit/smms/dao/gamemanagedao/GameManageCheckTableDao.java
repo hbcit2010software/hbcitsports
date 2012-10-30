@@ -300,6 +300,7 @@ public class GameManageCheckTableDao {
 			
 		}
 		flag = getItemTeamnumber(finalitemname);//获得项目的小组数
+		log.debug("获得项目的小组数："+flag);
 		//System.out.println("flag="+flag);
 		for( int i = 0 ; i < flag ; i++){
 			JSONArray list = new JSONArray();
