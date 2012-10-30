@@ -35,11 +35,18 @@
     </table></td>
   </tr>
   <tr>
-    <td width="640" height="400" style="background-image:url(${pageContext.request.contextPath }/pic/welcome.jpg); background-repeat:no-repeat; background-position:center;">
+    <td width="640" height="400">
     <!--内嵌表格begin-->
-    <!--
-    <div align="center"><img src="${pageContext.request.contextPath }/pic/welcome.jpg" width="640" height="400" /></div>
-    -->
+    
+    <div align="left" style="font-size:12px; margin:10px;">
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;“SMMS运动会管理系统”是一款基于Java语言开发的B/S架构系统，旨在为各学校的运动会管理提供一种在线解决方案。本系统受河北工业职业技术学院思想政治与公共体育教学部委托，作为计算机技术系2010级软件技术专业第四学期Java Web实训项目，由2010级软件技术专业10名同学开发完成。 </p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;本系统分为赛前设置、赛事报名、秩序册管理、赛中设置、综合查询、系统管理等六大模块，开发周期由2012年5月至2012年11月。截至2012年11月，总代码量达到65000行左右。</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;主要开发人员包括：韩鑫鹏、袁仕杰、吕志瑶、田小英、吴国法、陈系晶、刘然、杨椿华、姚瑶、陈丹凤</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;本系统开发使用了JSP、MySQL、Proxool、Jquery、ajax等技术，项目代码已托管到github：https://github.com/hbcit2010software/hbcitsports</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;部分开发人员在项目验收会上：吕志瑶（前排左一）、田小英（前排左二）、陈系晶（前排左三）、姚瑶（前排左四）、袁仕杰（后排右四）、刘然（后排右三）、韩鑫鹏（后排右二）、吴国法（后排右一）</p>
+      <p align="center"><img src="pic/about.jpg" width="640" height="360" /></p>
+    </div>
+    
     <!--内嵌表格end-->
     </td>
   </tr>
