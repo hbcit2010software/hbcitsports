@@ -44,7 +44,7 @@ function alter() {
 			var  endpoint_4=$('#endpoint_4').val();
 			var  endpoint_5=$('#endpoint_5').val();
 			
-			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	        if(!tempStr.test(chiefjudge_1)){
 		      Dialog.alert("总裁判长包含特殊字符，请以英文逗号进行分隔");
 	        }else if(!tempStr.test(chiefjudge_2)){
@@ -297,7 +297,7 @@ body {
 				<tr class="tableContent" >
 				<td colspan="3">
 				<input type="button" name="button" id="button" value="保存修改" onClick="alter()">
-				<input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllItemServlet'">
+				<input type="button" value="返回" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllItemServlet'">
 			  </tr>
 			</table>
 			</td>

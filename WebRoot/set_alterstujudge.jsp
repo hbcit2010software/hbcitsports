@@ -5,7 +5,6 @@
 <html>
 	<head>
 <link href="css/subcss.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
@@ -83,13 +82,13 @@ function uadateJudge(obj) {
 					<td>${item[3]}</td>
 					<td>${item[4]}</td>
 					<td>
-						<a href="#" id="${item[1]}" onclick="uadateJudge(this)">修改</a>
+						<a href="#" id="${item[1]}" onClick="uadateJudge(this)">修改</a>
 					</td>
 				</tr> 
 				
 	</c:forEach>
 	<tr class="tableContent" >
-	<td colspan="5" align="center"><input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/set_officialjudge.jsp'"></td>
+	<td colspan="5" align="center"><input type="button" value="返回" onClick="window.location.href='${pageContext.request.contextPath }/set_officialjudge.jsp'"></td>
 	</tr>
 </table>
     

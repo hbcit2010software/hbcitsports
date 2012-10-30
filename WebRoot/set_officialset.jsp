@@ -28,7 +28,7 @@ function alterpws()
 			var  secretariat_7=$('#secretariat_7').val();
 			var  arbitration=$('#arbitration').val();
 			
-			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	        if(!tempStr.test(presidium)){
 		      Dialog.alert("大会主席团包含特殊字符，请以英文逗号进行分隔");
 	        }else if(!tempStr.test(org_committee_1)){
@@ -228,8 +228,8 @@ body {
 					</tr>
 						<tr class="tableContent" >
 					<td colspan="3" >
-					 <input type="button" name="button" id="button" value="提交" onclick="alterpws()">
-  <input type="button" value="修改" onclick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllOfficialBySportsidServlet?sportsid==sportsid}'">
+					 <input type="button" name="button" id="button" value="提交" onClick="alterpws()">
+  <input type="button" value="修改" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllOfficialBySportsidServlet?sportsid==sportsid}'">
 					</td>
 					</tr>
 			</table>

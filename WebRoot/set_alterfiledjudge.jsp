@@ -5,7 +5,6 @@
 <html>
 	<head>
 	 <link href="css/subcss.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 		<script language="javascript" type="text/javascript"
 			src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 			<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
@@ -21,7 +20,7 @@ function alter() {
 			var  fieldjudge_5=$('#fieldjudge_5').val();
 			var  fieldjudge_6=$('#fieldjudge_6').val();
 			
-			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	        if(!tempStr.test(fieldjudge)){
 		      Dialog.alert("田赛裁判长包含特殊字符，请以英文逗号进行分隔");
 	        }else if(!tempStr.test(fieldjudge_1)){
@@ -168,7 +167,7 @@ body {
 					<tr  class="tableContent" >
 					<td colspan="3">
 				<input type="button" name="button" id="button" value="保存修改" onClick="alter()">
-				<input type="button" value="返回" onclick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllItemServlet'">
+				<input type="button" value="返回" onClick="window.location.href='${pageContext.request.contextPath }/servlet/SelectAllItemServlet'">
 					</td>
 					</tr>
                 </c:forEach>

@@ -18,7 +18,7 @@ function alterUser(obj) {
 	var tel = $("#tel").val();
 	var member = $('#member').val();
 	
-	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	    	if(!tempStr.test(contact)){
 		      Dialog.alert("系部联系人包含特殊字符，请以英文逗号进行分隔");
 	        }
@@ -106,7 +106,7 @@ body {
 						
 					</td>
 					<td >
-						<a href="#" id="${stu[0]}" onclick="alterUser(this)">保存</a>
+						<a href="#" id="${stu[0]}" onClick="alterUser(this)">保存</a>
 					</td>
 				</tr>
 				</c:forEach>

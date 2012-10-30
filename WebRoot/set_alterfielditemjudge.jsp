@@ -18,7 +18,7 @@ function alterUser(obj) {
 	var judge_2 = $("#judge_2").val();
 	var judge_3 = $('#judge_3').val();
 	
-	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	    	if(!tempStr.test(judge_1)){
 		      Dialog.alert("项目裁判长包含特殊字符，请以英文逗号进行分隔");
 	        }

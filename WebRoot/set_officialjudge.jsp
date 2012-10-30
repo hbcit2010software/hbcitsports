@@ -55,7 +55,7 @@ $(document).ready(function() {
 			var  endpoint_4=$('#endpoint_4').val();
 			var  endpoint_5=$('#endpoint_5').val();
 			
-			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	        if(!tempStr.test(chiefjudge_1)){
 		      Dialog.alert("总裁判长包含特殊字符，请以英文逗号进行分隔");
 	        }else if(!tempStr.test(chiefjudge_2)){
@@ -125,7 +125,7 @@ $(document).ready(function() {
 			var  fieldjudge_5=$('#fieldjudge_5').val();
 			var  fieldjudge_6=$('#fieldjudge_6').val();
 			
-			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+			var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	        if(!tempStr.test(fieldjudge)){
 		      Dialog.alert("田赛裁判长包含特殊字符，请以英文逗号进行分隔");
 	        }else if(!tempStr.test(fieldjudge_1)){
@@ -489,7 +489,7 @@ font-size:16px;}
 	    	var num1 = <%=judNum %>;
 	    	var insertString = "INSERT INTO t_fieldjudge(gp2itid,judge_1,judge_2,judge_3) values ";
 	    	
-	    	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	    	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	    	for(var i=0;i<num1;i++){
 	    		if (i>0){
 	    			insertString = insertString+",";
@@ -616,7 +616,7 @@ font-size:16px;}
 		
 	    	var num1 = <%=num %>;
 	    	var insertString = "INSERT INTO t_stujudge(sp2dpid,contact,tel,member) VALUES ";
-	    	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$/;
+	    	var tempStr = /^([\u4e00-\u9fa5]{1,},){0,}([\u4e00-\u9fa5]{1,})$|^\s*$/;
 	    	var phoneStr = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
 	    	for(var i=0;i<num1;i++){
 	    		if (i>0){
