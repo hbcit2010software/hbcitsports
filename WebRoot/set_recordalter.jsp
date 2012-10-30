@@ -38,6 +38,7 @@
         <script language="JavaScript">
         function addScore()
 		{
+			var recordId = document.getElementById("recordid").value;
 			var reg=/["']/;
 			if($('#score').val() == "")
 			{
@@ -100,16 +101,16 @@
 			}
 			//ajax提交
 			$.ajax({
-			url :"${pageContext.request.contextPath }/servlet/AddRecordServlet",
+			url :"${pageContext.request.contextPath }/servlet/UpdateRecordServlet",
 			type : 'post',
-			data : 'item='+$('#item').val()+'&sex='+$('#sex').val()+'&score='+$('#score').val()+'&playername='+$('#playername').val()+'&depart='+$('#depart').val()+'&sportsname='+$('#sportsname').val()+'&scoretime='+$('#scoretime').val()+'&level='+$('#level').val(),
+			data : 'item='+$('#item').val()+'&sex='+$('#sex').val()+'&score='+$('#score').val()+'&playername='+$('#playername').val()+'&depart='+$('#depart').val()+'&sportsname='+$('#sportsname').val()+'&scoretime='+$('#scoretime').val()+'&level='+$('#level').val()+'&id='+recordId,
 			success :function(mm){
 					var revalue=mm.replace(/\r\n/g,'');
 					if(revalue=="error"){
-						Dialog.alert("添加新记录失败!",function(){window.location.reload();});
+						Dialog.alert("更新记录失败!",function(){window.location.reload();});
 					}
 					if(revalue=="success"){
-						Dialog.alert("添加新记录成功!",function(){window.location.reload();});
+						Dialog.alert("更新记录成功!",function(){window.location.reload();});
 					}
 				}
 			});
@@ -144,6 +145,7 @@
       	<input type="hidden" id="hidd_${myitem.itemid}" value="${myitem.format}"/>
 </c:forEach>
 <c:forEach var="record" items="${recordlist}">
+<input type="hidden" id="recordid" value="${record.id}" />
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="2" style="border-collapse: collapse" bordercolor="#C0C0C0">
   <tr>
     <td align="right" width="150">比赛项目：</td>

@@ -390,40 +390,40 @@ public class RecordDAO {
 	 * @author 于德水
 	 * @version 1.00  2012/6/15  新建
 	 */
-	public boolean updateRecord(String plaName, String sportsName1,String newRecTime,String recLevel,int plaSex,String sor, String depName, int recordId)
-	{
-		
-		boolean retuValue = false;
-		DBConn db = new DBConn();
-		
-		try {
-			
-			Connection conn = db.getConn();
-			String sql = "update t_record  set sex = ?, score = ?,"+
-			" playername = ?, departname = ?, sportsname = ?, recordtime = ?, recordlevel = ? where id = ?";
-			PreparedStatement ps = conn.prepareStatement(sql);
-			 
-			 ps.setInt(1,plaSex);
-			 ps.setString(2,sor);
-			 ps.setString(3,plaName);
-			 ps.setString(4,depName);
-			 ps.setString(5,sportsName1);
-			 ps.setString(6,newRecTime);
-			 ps.setString(7,recLevel);
-			 ps.setInt(8,recordId);
-
-			int s = ps.executeUpdate();
-			if(s==1)
-			{
-			retuValue = true;
-			}
-			ps.close();
-			db.freeConnection(conn);
-		} catch (SQLException e) {                 
-            e.printStackTrace();       
-        }   
-		return retuValue;
-	}
+//	public boolean updateRecord(String plaName, String sportsName1,String newRecTime,String recLevel,int plaSex,String sor, String depName, int recordId)
+//	{
+//		
+//		boolean retuValue = false;
+//		DBConn db = new DBConn();
+//		
+//		try {
+//			
+//			Connection conn = db.getConn();
+//			String sql = "update t_record  set sex = ?, score = ?,"+
+//			" playername = ?, departname = ?, sportsname = ?, recordtime = ?, recordlevel = ? where id = ?";
+//			PreparedStatement ps = conn.prepareStatement(sql);
+//			 
+//			 ps.setInt(1,plaSex);
+//			 ps.setString(2,sor);
+//			 ps.setString(3,plaName);
+//			 ps.setString(4,depName);
+//			 ps.setString(5,sportsName1);
+//			 ps.setString(6,newRecTime);
+//			 ps.setString(7,recLevel);
+//			 ps.setInt(8,recordId);
+//
+//			int s = ps.executeUpdate();
+//			if(s==1)
+//			{
+//			retuValue = true;
+//			}
+//			ps.close();
+//			db.freeConnection(conn);
+//		} catch (SQLException e) {                 
+//            e.printStackTrace();       
+//        }   
+//		return retuValue;
+//	}
 	
 	/**
 	 * 删除记录
@@ -668,5 +668,69 @@ public class RecordDAO {
 			//e.printStackTrace();
 		}
 		return list;
+	}
+	/**
+	 * 更新运动会记录
+	 * @param id
+	 * @param itemid
+	 * @param sex
+	 * @param score
+	 * @param playername
+	 * @param departname
+	 * @param sportsname
+	 * @param recordtime
+	 * @param recordlevel
+	 * @return
+	 */
+	public boolean updateRecord(int id, int itemid, int sex, String score, String playername, String departname, String sportsname, String recordtime, String recordlevel) {
+		int rst = 0;
+		boolean flag = false;
+		conn = db.getConn();
+		String sql = "UPDATE t_record SET itemid=?,sex=?,score=?,playername=?,departname=?,sportsname=?,recordtime=?,recordlevel=? WHERE id=?";
+		try {
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1,itemid);
+			pStatement.setInt(2,sex);
+			pStatement.setString(3, score);
+			pStatement.setString(4, playername);
+			pStatement.setString(5, departname);
+			pStatement.setString(6, sportsname);
+			pStatement.setString(7, recordtime);
+			pStatement.setString(8, recordlevel);
+			pStatement.setInt(9,id);
+			rst = pStatement.executeUpdate();
+			if(rst > 0){
+				flag = true;
+			 }
+			db.freeConnection(pStatement,conn);
+		} catch (SQLException e) {                 
+			log.error("更新记录失败！");
+			log.error(e.getMessage());
+        }   
+		return flag;
+	}
+	/**
+	 * 删除赛事记录
+	 * @param id
+	 * @return
+	 */
+	public boolean removeRecord(int id) {
+		int rst = 0;
+		boolean flag = false;
+		conn = db.getConn();
+		String sql = "DELETE FROM t_record WHERE id=?";
+		try {
+			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1,id);
+			rst = pStatement.executeUpdate();
+			if(rst > 0){
+				flag = true;
+			 }
+			db.freeConnection(pStatement,conn);
+		} catch (SQLException e) {                 
+			log.error("删除记录失败！");
+			log.error(e.getMessage());
+        }   
+		return flag;
 	}
 }

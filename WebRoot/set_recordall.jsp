@@ -49,6 +49,23 @@
 			diag.okButton.value="结果刷新";
 			diag.cancelButton.value="关闭";
 	}
+	//
+	function delRecord(id){
+	$.ajax({
+		url :"${pageContext.request.contextPath }/servlet/RemoveRecordServlet",
+		type : 'get',
+		data : 'id='+id,
+		success :function(mm){
+				var revalue=mm.replace(/\r\n/g,'');
+				if(revalue=="error"){
+					Dialog.alert("删除记录失败！",function(){window.location.reload();});
+				}
+				if(revalue=="success"){
+					Dialog.alert("删除记录成功！",function(){window.location.reload();});
+				}
+			}
+		});
+	}
 </script>
 <style>
 

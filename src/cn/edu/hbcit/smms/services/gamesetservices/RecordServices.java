@@ -140,12 +140,12 @@ public class RecordServices {
 	 * @return boolean
 	 * @version 1.00 2012/6/15 新建
 	 */
-	public boolean updateRecord(String plaName, String sportsName1,
-			String newRecTime, String recLevel, int plaSex, String sor,
-			String depName, int recordId) {
-		return re.updateRecord(plaName, sportsName1, newRecTime, recLevel,
-				plaSex, sor, depName, recordId);
-	}
+//	public boolean updateRecord(String plaName, String sportsName1,
+//			String newRecTime, String recLevel, int plaSex, String sor,
+//			String depName, int recordId) {
+//		return re.updateRecord(plaName, sportsName1, newRecTime, recLevel,
+//				plaSex, sor, depName, recordId);
+//	}
 
 	/**
 	 * 删除记录
@@ -235,6 +235,38 @@ public class RecordServices {
 			return re.selectRecordsById(Integer.parseInt(id));
 		}else{
 			return null;
+		}
+	}
+	/**
+	 * 更新运动会记录
+	 * @param id
+	 * @param itemid
+	 * @param sex
+	 * @param score
+	 * @param playername
+	 * @param departname
+	 * @param sportsname
+	 * @param recordtime
+	 * @param recordlevel
+	 * @return
+	 */
+	public boolean updateRecord(String id, String itemid, String sex, String score, String playername, String departname, String sportsname, String recordtime, String recordlevel){
+		if(ut.isNumeric(itemid) && ut.isNumeric(sex) && ut.isNumeric(id)){
+			return re.updateRecord(Integer.parseInt(id), Integer.parseInt(itemid), Integer.parseInt(sex), score, playername, departname, sportsname, recordtime, recordlevel);
+		}else{
+			return false;
+		}
+	}
+	/**
+	 * 删除赛事记录
+	 * @param id
+	 * @return
+	 */
+	public boolean removeRecord(String id){
+		if(ut.isNumeric(id)){
+			return re.removeRecord(Integer.parseInt(id));
+		}else{
+			return false;
 		}
 	}
 }
