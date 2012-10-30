@@ -183,7 +183,7 @@ body {
 	<li> <a class="head">赛事报名</a>
       <ul>
       	<li><a href="servlet/GetItemGroupServlet" target="rightFrame">报名规则</a></li>
-        <li><a href="servlet/CheckTimeServlet" target="rightFrame">领队报名</a></li>
+        <li><a href="apply_teamleader.jsp" target="rightFrame">领队报名</a></li>
         <li><a href="servlet/GetItemGroupServlet" target="rightFrame">参赛报名</a></li>
         <li><a href="servlet/ApplyInfomationServlet?action=doPost" target="rightFrame">报名情况查询</a></li>
       </ul>
