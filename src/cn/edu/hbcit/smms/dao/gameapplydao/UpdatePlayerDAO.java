@@ -524,14 +524,14 @@ public class UpdatePlayerDAO {
 	        	log.debug("????????????????"+flag);
 	        	log.debug("????????????????sql:"+newSql[i]);
 	        	pStatement.close();
-	        	db.freeConnection(conn);
+	        	
 	        	log.error("添加运动员第"+(i+1)+"条运动员信息成功");
 	        }catch (SQLException e) {                 
 	            log.error("添加运动员失败！");
 	    		log.error(e.getMessage());   
 	        }
 		}
-		
+		db.freeConnection(conn);
         return flag;
 	}
 	 /**
