@@ -225,4 +225,16 @@ public class RecordServices {
 			return false;
 		}
 	}
+	/**
+	 * 获取指定ID的运动会记录
+	 * @param id
+	 * @return
+	 */
+	public ArrayList selectRecordsById(String id){
+		if(ut.isNumeric(id)){
+			return re.selectRecordsById(Integer.parseInt(id));
+		}else{
+			return null;
+		}
+	}
 }

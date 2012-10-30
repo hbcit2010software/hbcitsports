@@ -8,10 +8,11 @@
 	<link href="${pageContext.request.contextPath }/css/subcss.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.6.min.js"></script>
 	<link type="text/css" href="${pageContext.request.contextPath }/css/themes/base/jquery.ui.all.css" rel="stylesheet" />
-	
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ui.tabs.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/zDialog_inner.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/zDrag.js"></script>
 	<link type="text/css" href="${pageContext.request.contextPath }/css/demos.css" rel="stylesheet" />
 	<script type="text/javascript">
 	$(function() {
@@ -28,6 +29,26 @@
 			 $(".stripe_tb tr:even").addClass("alt"); //给class为stripe_tb的表格的偶数行添加class值为alt
 			
 		});
+		
+		//
+	function updateRecord(id){
+		var diag = new Dialog();
+			diag.Top =20;
+			diag.Width = 400;
+			diag.Height = 250;
+			diag.Title = "修改运动会记录信息";
+			diag.URL = "${pageContext.request.contextPath }/servlet/ViewUpdateRecordServlet?id="+id;
+			diag.OKEvent = function(){
+				window.location.reload();
+				//diag.close();
+			};
+			diag.ShowCloseButton=false;
+			diag.MessageTitle = "修改运动会记录提示：";
+			diag.Message = "填完各项内容后不要忘记先\"确认修改\"，然后才可关闭窗口";
+			diag.show();
+			diag.okButton.value="结果刷新";
+			diag.cancelButton.value="关闭";
+	}
 </script>
 <style>
 
@@ -128,7 +149,11 @@ font-size:16px;}
         </c:if>
         </td>
         <td>${temp.recordtime}</td>
-        <td>修改 | 删除</td>
+        <td>
+        <a href="javascript:void(0);" onclick="Dialog.confirm('提示：您确认要修改“${temp.playername}”的记录吗？',function(){updateRecord(${temp.id});});">修改</a>
+         | 
+         <a href="javascript:void(0);" onclick="Dialog.confirm('提示：您确认要删除“${temp.playername}”的记录吗？',function(){delRecord(${temp.id});});">删除</a>
+         </td>
       </tr>
      </c:forEach>
     </table>
@@ -167,7 +192,11 @@ font-size:16px;}
         </c:if>
         </td>
         <td>${temp.recordtime}</td>
-        <td>修改 | 删除</td>
+        <td>
+        <a href="javascript:void(0);" onclick="Dialog.confirm('提示：您确认要修改“${temp.playername}”的记录吗？',function(){updateRecord(${temp.id});});">修改</a>
+         | 
+         <a href="javascript:void(0);" onclick="Dialog.confirm('提示：您确认要删除“${temp.playername}”的记录吗？',function(){delRecord(${temp.id});});">删除</a>
+         </td>
       </tr>
      </c:forEach>
     </table>

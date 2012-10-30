@@ -633,4 +633,40 @@ public class RecordDAO {
         }   
 		return flag;
 	}
+	/**
+	 * 获取指定ID的运动会记录
+	 * @param id
+	 * @return
+	 */
+	public ArrayList selectRecordsById(int id){
+		ArrayList list = new ArrayList();
+		UtilTools ut = new UtilTools();
+		conn = db.getConn();
+		String sql = "SELECT t_record.id,t_record.itemid,t_record.sex,t_record.score,t_record.playername,t_record.departname,t_record.sportsname,t_record.recordtime,t_record.recordlevel FROM t_record WHERE t_record.id=?";
+		try {
+			pStatement = conn.prepareStatement(sql);
+				pStatement.setInt(1, id);
+				rs = pStatement.executeQuery();
+				while (rs.next()) {
+					Record record = new Record();
+					record.setId(rs.getInt(1));
+					record.setItemid(rs.getInt(2));
+					record.setSex(rs.getInt(3));
+					record.setScore(rs.getString(4));
+					record.setPlayername(rs.getString(5));
+					record.setDepartname(rs.getString(6));
+					record.setSportsname(rs.getString(7));
+					record.setRecordtime(rs.getString(8));
+					record.setRecordlevel(rs.getString(9));
+					list.add(record);
+				}
+
+			db.freeConnection(rs,pStatement,conn);
+		} catch (Exception e) {
+			log.error("获取指定ID的运动会记录失败！");
+			log.error(e.getMessage());
+			//e.printStackTrace();
+		}
+		return list;
+	}
 }

@@ -1,14 +1,13 @@
 /**
- * Copyright(C) 2012, liwei.
- *
- * 模块名称：	
- * 子模块名称：	
- *
- * 备注：
- *
- * 修改历史：
- * 时间			版本号		姓名			修改内容
- * 2012-10-30		V1.0		李玮		新建
+* Copyright(C) 2012, 河北工业职业技术学院计算机系2010软件专业.
+*
+* 模块名称：     
+* 子模块名称：   
+*
+* 备注：
+*
+* 修改历史：
+* 2012-10-30	0.1		李玮		新建
 */
 package cn.edu.hbcit.smms.servlet.gamesetservlet;
 
@@ -24,20 +23,18 @@ import javax.servlet.http.HttpServletResponse;
 import cn.edu.hbcit.smms.services.gamesetservices.RecordServices;
 
 /**
- * 显示新建赛事记录页面类
- *
- * 本类的简要描述：
- *
- * @author Administrator
- * @version 1.00  2012-10-30 新建类
+ * 显示记录修改页面类
+ * 简要说明:
+ * @author 李玮
+ * @version 1.00  2012-10-30下午08:24:26	新建
  */
 
-public class ViewCreateRecordServlet extends HttpServlet {
+public class ViewUpdateRecordServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public ViewCreateRecordServlet() {
+	public ViewUpdateRecordServlet() {
 		super();
 	}
 
@@ -79,11 +76,16 @@ public class ViewCreateRecordServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
+		ArrayList record = new ArrayList();
+		ArrayList item = new ArrayList();
 		RecordServices rs = new RecordServices();
-		ArrayList list = new ArrayList();
-		list = rs.selectItemAndScoreFormat();//获取item的id和对应格式
-		request.setAttribute("itemlist", list);
-		request.getRequestDispatcher("/set_recordcreate.jsp").forward(request, response);
+		String id = request.getParameter("id");
+		record = rs.selectRecordsById(id);		//获取运动会记录
+		item = rs.selectItemAndScoreFormat();	//获取项目列表
+		request.setAttribute("itemlist", item);
+		request.setAttribute("recordlist", record);
+		request.getRequestDispatcher("/set_recordalter.jsp").forward(request, response);
+		
 	}
 
 	/**
