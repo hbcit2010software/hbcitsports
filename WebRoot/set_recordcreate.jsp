@@ -87,7 +87,7 @@
 				return false;
 			}
 			//
-			if($('#scoretime').val() == "none")
+			if($('#level').val() == "none")
 			{
 				Dialog.alert("请填写记录的级别!");
 				return false;
