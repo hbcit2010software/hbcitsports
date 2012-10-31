@@ -89,6 +89,7 @@ public class GameGroupingDAO {
 				}
 			}else{
 				ArrayList playersPailei = new ArrayList();
+				playersPailei = mud.arrayListRandom(playersPailei);
 				playersPailei = mud.plaSortByDep(eItemPlayers, pla2dep, departments, pernums);
 				log.debug("径赛运动员排列前id"+eItemPlayers.size());
 				log.debug("径赛运动员排列后id"+playersPailei);
