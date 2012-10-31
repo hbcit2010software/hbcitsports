@@ -176,6 +176,51 @@ public class GameGroupingUtil {
 	}
 	
 	/**
+	 * HashMap 据值取键
+	 * @param map 被取键的map
+	 * @param flag 取值的标志
+	 * @param kNum 要选取数组(键分离后的)的索引，若没有则是设置为负数
+	 * @param pla2dep 运动员vs部门map
+	 * @return ArrayList
+	 */
+	public ArrayList getKeyByValue(HashMap map, String flag, int kNum, HashMap pla2dep){
+		ArrayList arrayList = new ArrayList();
+		HashMap dep2planum = new HashMap();
+		ArrayList tempList = new ArrayList();
+		Iterator iteTemp = map.keySet().iterator();
+		if (map.containsValue(flag)){
+			//if (kNum >= 0){
+				while (iteTemp.hasNext()){
+					String tempKey = iteTemp.next().toString().trim();
+					if (map.get(tempKey).toString().equals(flag.trim())){
+						String[] temp = tempKey.split(";");
+						tempList.add(temp[kNum]);
+						String depid = pla2dep.get(temp[kNum].trim()).toString().trim();
+						if (dep2planum.containsKey(temp[kNum].trim())){
+							int num = Integer.parseInt(dep2planum.get(depid).toString().trim());
+							num++;
+							dep2planum.put(depid, num+"");
+						}else{
+							dep2planum.put(depid, 1+"");
+						}
+					}
+				}	
+			//}
+//			if (kNum < 0){
+//				while (iteTemp.hasNext()){
+//					String tempKey = iteTemp.next().toString().trim();
+//					if (map.get(tempKey).toString().equals(flag.trim())){
+//						tempList.add(tempKey);
+//					}
+//				}	
+//			}
+		}
+		
+		arrayList.add(tempList);
+		arrayList.add(dep2planum);
+		return arrayList;
+	}
+	/**
 	 * HashMap 据键取值 
 	 * @param map 被取值的map
 	 * @param flagKey 要取的键的值
@@ -303,17 +348,71 @@ public class GameGroupingUtil {
      * @param perNum 项目各系限报人数
      * @return ArrayList
      */
-	public ArrayList plaSortByDep(ArrayList players, HashMap pla2dep, ArrayList departmentid, int perNum){
+	public ArrayList plaSortByDep(ArrayList players, HashMap pla2dep, ArrayList departmentid, int perNum, int[] group, HashMap dep2planum){
 		ArrayList arrayList = new ArrayList();
-		for (int pernum = 0; pernum < perNum; pernum++){
+		int groupNum = group.length;
+		int plaCount = 0;
+		int leaveGroup = groupNum;
+		int groupCount = 0;
+		int sumPla = players.size();
+		while(players.size()>0){
 			for (int depid = 0; depid < departmentid.size(); depid++){
 				String str = departmentid.get(depid).toString().trim();
-				if (pla2dep.containsValue(departmentid.get(depid))){
+				if (pla2dep.containsValue(str)){
 					for (int plaid = 0; plaid < players.size(); plaid++){
 						String str1 = pla2dep.get(players.get(plaid)).toString().trim();
 						if (str1.equals(str)){
 							arrayList.add(players.get(plaid));
 							players.remove(plaid);
+							plaCount ++;
+							if (plaCount - group[groupCount] == 0){
+								groupCount++;
+								leaveGroup--;
+								plaCount = 0;
+							}
+							int nowEPlaNum = Integer.parseInt(dep2planum.get(str1).toString().trim())-1;
+							if (leaveGroup>0){
+								try {
+								if (nowEPlaNum/leaveGroup > 1){//如果除以剩下的组数大于1
+									if (nowEPlaNum/leaveGroup > 2){ //如果除以剩下的组数大于2
+										for (int plaNum = 0; plaNum < players.size(); plaNum++){
+											String str11 = pla2dep.get(players.get(plaNum)).toString().trim();
+											if (str11.equals(str)){
+												arrayList.add(players.get(plaNum));
+												players.remove(plaNum);
+												plaCount ++;
+												if (plaCount - group[groupCount] == 0){
+													groupCount++;
+													leaveGroup--;
+													plaCount = 0;
+												}
+											}
+											if (plaNum == 1){
+												break;
+											}
+										}
+									}else{
+										for (int plaNum = 0; plaNum < players.size(); plaNum++){
+											String str11 = pla2dep.get(players.get(plaNum)).toString().trim();
+											if (str11.equals(str)){
+												arrayList.add(players.get(plaNum));
+												players.remove(plaNum);
+												plaCount ++;
+												if (plaCount - group[groupCount] == 0){
+													groupCount++;
+													leaveGroup--;
+													plaCount = 0;
+												}
+											}
+										}
+									}
+								}
+							}catch(Exception e){
+								e.printStackTrace();
+							}
+							}
+							
+							
 							break;
 						}
 					}

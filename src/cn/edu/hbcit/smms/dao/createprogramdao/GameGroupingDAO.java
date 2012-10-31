@@ -41,7 +41,10 @@ public class GameGroupingDAO {
 		for (int traItemNum = 0; traItemNum < trackItems.size(); traItemNum++){
 			
 			ArrayList eItemPlayers = new ArrayList();
-			eItemPlayers = mud.getKeyByValue(player2item, trackItems.get(traItemNum).toString().trim(), 1);
+			ArrayList eItemPlayersAgo = new ArrayList();
+			eItemPlayersAgo = mud.getKeyByValue(player2item, trackItems.get(traItemNum).toString().trim(), 1, pla2dep);
+			eItemPlayers = (ArrayList)eItemPlayersAgo.get(0);
+			HashMap dep2planum = (HashMap)eItemPlayersAgo.get(1);
 			String[] groupid2itemid = trackItems.get(traItemNum).toString().trim().split(";");
 			String itemName = "";
 			itemName = mud.getValueByKey(item2finalitem, groupid2itemid[1], -1);
@@ -89,11 +92,12 @@ public class GameGroupingDAO {
 				}
 			}else{
 				ArrayList playersPailei = new ArrayList();
-				playersPailei = mud.arrayListRandom(playersPailei);
-				playersPailei = mud.plaSortByDep(eItemPlayers, pla2dep, departments, pernums);
+				//playersPailei = mud.arrayListRandom(playersPailei);
+				int[] group = mud.trackGrouping(eItemPlayers.size());
 				log.debug("径赛运动员排列前id"+eItemPlayers.size());
-				log.debug("径赛运动员排列后id"+playersPailei);
-				int[] group = mud.trackGrouping(playersPailei.size());
+				playersPailei = mud.plaSortByDep(eItemPlayers, pla2dep, departments, pernums, group, dep2planum);
+				log.debug("径赛运动员排列前id"+eItemPlayers.size());
+				log.debug("径赛运动员排列后id"+playersPailei.size());
 				//mud.sqlTrack(addSql, group, playersPailei, finalitemid, acount);
 				
 				log.debug("径赛sql连接players的长度是：" + playersPailei.size());
