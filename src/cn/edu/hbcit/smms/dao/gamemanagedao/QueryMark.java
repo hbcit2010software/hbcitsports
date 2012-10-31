@@ -12,10 +12,12 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.usermodel.CellStyle;
 
 import cn.edu.hbcit.smms.dao.databasedao.DBConn;
 import cn.edu.hbcit.smms.dao.logindao.LoginDAO;
@@ -568,6 +570,13 @@ public class QueryMark {
 		HSSFWorkbook workbook2003 = new HSSFWorkbook();
 		// 创建工作表对象并命名
 		HSSFSheet boySheet = workbook2003.createSheet(boyGroup + "分数统计");
+		//设置单元格格式
+		HSSFCellStyle boyCellStyle = workbook2003.createCellStyle();
+		boyCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+		boyCellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+		boyCellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+		boyCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+		boyCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 居中
 		// 创建表头
 		HSSFRow topRow = boySheet.createRow(0);
 		for (int i = 0; i < ((boyItemList.size()) * 3 + 5); i++) {
@@ -575,9 +584,11 @@ public class QueryMark {
 				HSSFCell denameCell = topRow.createCell(i);
 				denameCell.setCellValue("河北工院" + sportsname + "" + boyGroup
 						+ "成绩单");
+				denameCell.setCellStyle(boyCellStyle);
 			} else {
 				HSSFCell denameCell = topRow.createCell(i);
-
+				denameCell.setCellStyle(boyCellStyle);
+				
 			}
 		}
 		boySheet.addMergedRegion(new CellRangeAddress(0, 0, 0, ((boyItemList.size()) * 3 + 5)));
@@ -589,32 +600,40 @@ public class QueryMark {
 			HSSFRow row1 = boySheet.createRow(rowCount);
 			rowCount++;
 			HSSFCell denameCell = row1.createCell(0);
+			denameCell.setCellStyle(boyCellStyle);
 			denameCell.setCellValue(depName);
 			HSSFCell itnameCell = row1.createCell(1);
+			itnameCell.setCellStyle(boyCellStyle);
 			itnameCell.setCellValue("项目");
 			HSSFCell nullCell = row1.createCell(2);
+			nullCell.setCellStyle(boyCellStyle);
 			// 创建项目表格
 			int itemCount = 3;
 			//log.debug(boyItemList);
 			for (int cellNum = 0; cellNum < boyItemList.size(); cellNum++) {
 				
 				HSSFCell eitemCell = row1.createCell(itemCount);
+				eitemCell.setCellStyle(boyCellStyle);
 				String[] tempItem = boyItemList.get(cellNum).toString().split(";");
 				eitemCell.setCellValue(tempItem[0]);
 				//log.debug(tempItem[0]);
 				itemCount++;
 				//log.debug("itemCount"+itemCount);
 				HSSFCell nullCell2 = row1.createCell(itemCount);
+				nullCell2.setCellStyle(boyCellStyle);
 				itemCount++;
 				//log.debug("itemCount"+itemCount);
 				HSSFCell nullCell3 = row1.createCell(itemCount);
+				nullCell3.setCellStyle(boyCellStyle);
 				itemCount++;
 				//log.debug("itemCount"+itemCount);
 			}
 			HSSFCell hejiCell = row1.createCell(itemCount);
+			hejiCell.setCellStyle(boyCellStyle);
 			hejiCell.setCellValue("合计");
 			itemCount++;
 			HSSFCell sumCell = row1.createCell(itemCount);
+			sumCell.setCellStyle(boyCellStyle);
 			sumCell.setCellValue("总分");
 			// 创建学生姓名、成绩、积分等单元格
 			
@@ -622,12 +641,15 @@ public class QueryMark {
 				int markTotal = 0;
 				HSSFRow row = boySheet.createRow(rowCount);
 				HSSFCell nullCell1 = row.createCell(0);
+				nullCell1.setCellStyle(boyCellStyle);
 				rowCount++;
 				HSSFCell mingciCell1 = row.createCell(1);
+				mingciCell1.setCellStyle(boyCellStyle);
 				if (rowNum == 1) {
 					mingciCell1.setCellValue("名次");
 				}
 				HSSFCell dijiCell1 = row.createCell(2);
+				dijiCell1.setCellStyle(boyCellStyle);
 				dijiCell1.setCellValue(rowNum);
 				int itCount = 3;
 				for (int cellNum = 0; cellNum < boyItemList.size(); cellNum++) {
@@ -644,16 +666,19 @@ public class QueryMark {
 						log.debug("男key：" +key);
 						String[] value = boyMarkMap.get(key).toString().split(";");
 						HSSFCell eitemCell = row.createCell(itCount);
+						eitemCell.setCellStyle(boyCellStyle);
 						eitemCell.setCellValue(value[0]);
 						itCount++;
 						//log.debug("itCount**************************************");
 						//log.debug("itCount"+itCount);
 						HSSFCell nullCell2 = row.createCell(itCount);
+						nullCell2.setCellStyle(boyCellStyle);
 						nullCell2.setCellValue(ut.coverToTrackScore(value[1], tempItem[2]));
 						//nullCell2.setCellValue(value[1]);
 						itCount++;
 						//log.debug("itCount"+itCount);
 						HSSFCell nullCell3 = row.createCell(itCount);
+						nullCell3.setCellStyle(boyCellStyle);
 						int mark = Integer.parseInt(value[2].trim());
 						nullCell3.setCellValue(mark);
 						markTotal += mark;
@@ -662,13 +687,17 @@ public class QueryMark {
 						//log.debug("itCount"+itCount);
 					} else {
 						HSSFCell eitemCell = row.createCell(itCount);
+						eitemCell.setCellStyle(boyCellStyle);
 						itCount++;
+						
 						//log.debug("itCount**************************************");
 						//log.debug("itCount"+itCount);
 						HSSFCell nullCell2 = row.createCell(itCount);
+						nullCell2.setCellStyle(boyCellStyle);
 						itCount++;
 						//log.debug("itCount"+itCount);
 						HSSFCell nullCell3 = row.createCell(itCount);
+						nullCell3.setCellStyle(boyCellStyle);
 						itCount++;
 						//log.debug("itCount"+itCount);
 					}
@@ -676,6 +705,7 @@ public class QueryMark {
 				}	
 				HSSFCell hejiCell2 = row.createCell(itCount);
 				hejiCell2.setCellValue(markTotal);
+				hejiCell2.setCellStyle(boyCellStyle);
 				itCount++;
 				
 				if (rowNum == 8){
@@ -683,8 +713,10 @@ public class QueryMark {
 					//log.debug("rowNum:总分："+rowNum);
 					//zongfenCell2.setCellValue(narkSum);
 					boySumMark.add(narkSum+"");
+					zongfenCell2.setCellStyle(boyCellStyle);
 				}else{
 					HSSFCell zongfenCell2 = row.createCell(itCount);
+					zongfenCell2.setCellStyle(boyCellStyle);
 				}
 			}
 		}
@@ -711,8 +743,10 @@ public class QueryMark {
 				HSSFCell denameCell = girlTopRow.createCell(i);
 				denameCell.setCellValue("河北工院" + sportsname + "" + girlGroup
 						+ "成绩单");
+				denameCell.setCellStyle(boyCellStyle);
 			} else {
 				HSSFCell denameCell = girlTopRow.createCell(i);
+				denameCell.setCellStyle(boyCellStyle);
 			}
 		}
 		girlSheet.addMergedRegion(new CellRangeAddress(0, 0, 0, ((girlItemList.size()) * 3 + 5)));
@@ -724,25 +758,33 @@ public class QueryMark {
 			girlRowCount++;
 			HSSFCell denameCell = row1.createCell(0);
 			denameCell.setCellValue(depName);
+			denameCell.setCellStyle(boyCellStyle);
 			HSSFCell itnameCell = row1.createCell(1);
 			itnameCell.setCellValue("项目");
+			itnameCell.setCellStyle(boyCellStyle);
 			HSSFCell nullCell = row1.createCell(2);
+			nullCell.setCellStyle(boyCellStyle);
 			// 创建项目表格
 			int itemCount = 3;
 			for (int cellNum = 0; cellNum < girlItemList.size(); cellNum++) {
 				HSSFCell eitemCell = row1.createCell(itemCount);
 				eitemCell.setCellValue(girlItemList.get(cellNum).toString().split(";")[0]);
+				eitemCell.setCellStyle(boyCellStyle);
 				itemCount++;
 				HSSFCell nullCell2 = row1.createCell(itemCount);
+				nullCell2.setCellStyle(boyCellStyle);
 				itemCount++;
 				HSSFCell nullCell3 = row1.createCell(itemCount);
+				nullCell3.setCellStyle(boyCellStyle);
 				itemCount++;
 			}
 			HSSFCell hejiCell = row1.createCell(itemCount);
 			hejiCell.setCellValue("合计");
+			hejiCell.setCellStyle(boyCellStyle);
 			itemCount++;
 			HSSFCell sumCell = row1.createCell(itemCount);
 			sumCell.setCellValue("总分");
+			sumCell.setCellStyle(boyCellStyle);
 			// 创建学生姓名、成绩、积分等单元格
 			for (int rowNum = 1; rowNum <= 8; rowNum++) {
 
@@ -750,12 +792,15 @@ public class QueryMark {
 				HSSFRow row = girlSheet.createRow(girlRowCount);
 				girlRowCount++;
 				HSSFCell nullCell1 = row.createCell(0);
+				nullCell1.setCellStyle(boyCellStyle);
 				HSSFCell mingciCell1 = row.createCell(1);
+				mingciCell1.setCellStyle(boyCellStyle);
 				if (rowNum == 1) {
 					mingciCell1.setCellValue("名次");
 				}
 				HSSFCell dijiCell1 = row.createCell(2);
 				dijiCell1.setCellValue(rowNum);
+				dijiCell1.setCellStyle(boyCellStyle);
 				int itCount = 3;
 				for (int cellNum = 0; cellNum < girlItemList.size(); cellNum++) {
 					String[] tempItem = girlItemList.get(cellNum).toString().trim()
@@ -773,37 +818,46 @@ public class QueryMark {
 						//log.debug("value[]:"+value);
 						HSSFCell eitemCell = row.createCell(itCount);
 						eitemCell.setCellValue(value[0]);
+						eitemCell.setCellStyle(boyCellStyle);
 						itCount++;
 						HSSFCell nullCell2 = row.createCell(itCount);
 						nullCell2.setCellValue(ut.coverToTrackScore(value[1], tempItem[2]));
+						nullCell2.setCellStyle(boyCellStyle);
 						itCount++;
 						HSSFCell nullCell3 = row.createCell(itCount);
 						int mark = Integer.parseInt(value[2].trim());
 						nullCell3.setCellValue(mark);
+						nullCell3.setCellStyle(boyCellStyle);
 						markTotal += mark;
 						narkSum += mark;
 						itCount++;
 					} else {
 						HSSFCell eitemCell = row.createCell(itCount);
+						eitemCell.setCellStyle(boyCellStyle);
 						itCount++;
 						HSSFCell nullCell2 = row.createCell(itCount);
+						nullCell2.setCellStyle(boyCellStyle);
 						itCount++;
 						HSSFCell nullCell3 = row.createCell(itCount);
+						nullCell3.setCellStyle(boyCellStyle);
 						itCount++;
 					}
 					//narkSum += markTotal;
 				}
 				HSSFCell hejiCell2 = row.createCell(itCount);
 				hejiCell2.setCellValue(markTotal);
+				hejiCell2.setCellStyle(boyCellStyle);
 				itCount++;
 				
 				if (rowNum == 8){
 					HSSFCell zongfenCell2 = row.createCell(itCount);
 					girlSumMark.add(narkSum+"");
+					zongfenCell2.setCellStyle(boyCellStyle);
 					//zongfenCell2.setCellValue("lllllllllllll");
 					//zongfenCell2.setCellValue(narkSum);
 				}else{
 					HSSFCell zongfenCell2 = row.createCell(itCount);
+					zongfenCell2.setCellStyle(boyCellStyle);
 				}
 			}
 		}
