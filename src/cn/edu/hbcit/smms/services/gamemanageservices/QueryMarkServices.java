@@ -20,23 +20,57 @@ import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
 public class QueryMarkServices {
 
 
+	/**
+	 * 将所有的学生组的积分和名次拼成字符串
+	 * 
+	 * @return
+	 */
+
 	 public ArrayList allMarkInfo(){
 		 return new QueryMark().allMarkInfo();
 	 }
-	 
+		/**
+		 * 将所有的教工的积分和名次拼成字符串
+		 * 
+		 * @return
+		 */
 	 public ArrayList allTeachMarkInfo(){
 		 return new QueryMark().allTeachMarkInfo();
 	 }
-	
+	 /**
+		 * 向mark表中插入数据
+		 * 
+		 * @param sportsid
+		 * @return
+		 */
 	 public int insertAllStuMarks(){
 		 return new QueryMark().insertAllStuMarks();
 	 }
+	 /**
+		 * 向mark表中更新教工数据
+		 * 
+		 * @param sportsid
+		 * @return
+		 */
 	 
 	 public int updateAllTeasMarks(){
 		 return new QueryMark().updateAllTeasMarks();
 	 }
+	 /**
+		 * 查询 mark表中是否存在当前运动会的记录
+		 * 
+		 * @return
+		 */
+
 	 public boolean selectAllMarks(){
 		 return new QueryMark().selectAllMarks();
+	 }
+	    /**
+		 * 若t_marks表中已存在当前运动会的积分信息,如有修改则执行更新操作
+		 * @return
+		 */
+	 public int updateMarks(){
+		 return new QueryMark().updateMarks();
 	 }
 	 
 	

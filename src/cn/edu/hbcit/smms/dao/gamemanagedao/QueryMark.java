@@ -216,7 +216,7 @@ public class QueryMark {
 	}
 
 	/**
-	 * 查询 mark表中是否存在记录
+	 * 查询 mark表中是否存在当前运动会的记录
 	 * 
 	 * @return
 	 */
@@ -234,10 +234,36 @@ public class QueryMark {
 			if (rs.next()) {
 				flag = true;
 			}
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		dbc.freeConnection(conn);
+		return flag;
+	}
+	
+	/**
+	 * 若t_marks表中已存在当前运动会的积分信息,如有修改则执行更新操作
+	 * @return
+	 */
+	
+	public int updateMarks(){
+		ArrayList allStuMarks = this.getAllStusMarks();
+		int flag = 0;
+		try{
+			conn = dbc.getConn();
+			for(int i = 0; i < allStuMarks.size(); i++){
+				MarkPojo mp = (MarkPojo) allStuMarks.get(i);
+				String sql = "update t_mark set stusum=? where sp2dpid=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1,mp.getAllStuMarks());
+				pstmt.setInt(2, mp.getSport2departId());
+				flag = pstmt.executeUpdate();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return flag;
 	}
 

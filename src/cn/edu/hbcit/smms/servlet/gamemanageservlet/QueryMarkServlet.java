@@ -64,12 +64,14 @@ public class QueryMarkServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		QueryMarkServices qm = new QueryMarkServices();
 		boolean flag = qm.selectAllMarks();
-		if(flag == false){
+		if(flag == false){                  //若t_mark表中没有记录,则插入学生总积分,若学生积分插入成功,则更新教工积分
 			int i = qm.insertAllStuMarks();
 			if(i>0){
-				int j = qm.updateAllTeasMarks();
+				 qm.updateAllTeasMarks();
 			}
 			
+		}else{
+			qm.updateMarks();    //若t_mark表中已经有记录,则更新
 		}
 		
 	    ArrayList allMarkInfo = qm.allMarkInfo();

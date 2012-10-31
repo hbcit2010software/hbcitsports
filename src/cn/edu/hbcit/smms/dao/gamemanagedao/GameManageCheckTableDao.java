@@ -300,7 +300,6 @@ public class GameManageCheckTableDao {
 			
 		}
 		flag = getItemTeamnumber(finalitemname);//获得项目的小组数
-		log.debug("获得项目的小组数："+flag);
 		//System.out.println("flag="+flag);
 		for( int i = 0 ; i < flag ; i++){
 			JSONArray list = new JSONArray();
@@ -402,7 +401,7 @@ public class GameManageCheckTableDao {
 		if( "1".equals(matchType) || "3".equals(matchType) ){
 			String sql1 = "SELECT playerid FROM t_match WHERE finalitemid IN ( SELECT id FROM t_finalitem WHERE gp2itid IN ( " +
 					"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ? AND sportsid = ? ) " +
-					"AND finalitemtype = '1' AND (t_match.foul=0 OR t_match.foul IS NULL)) ORDER BY score+0 DESC LIMIT ?,?";
+					"AND finalitemtype = '1' AND (t_match.foul=0 OR t_match.foul IS NULL)) ORDER BY score+0  LIMIT ?,?";
 			try {
 				pstmt = conn.prepareStatement(sql1);
 				pstmt.setString(1, finalitemname);
@@ -435,7 +434,7 @@ public class GameManageCheckTableDao {
 		}if("2".equals(matchType)){
 			String sql1 = "SELECT playerid FROM t_match WHERE finalitemid IN ( SELECT id FROM t_finalitem WHERE gp2itid IN ( " +
 					"SELECT gp2itid FROM t_finalitem WHERE finalitemname = ? AND sportsid = ? ) " +
-					"AND finalitemtype = '1' AND (t_match.foul=0 OR t_match.foul IS NULL)) ORDER BY score+0 LIMIT ?,?";
+					"AND finalitemtype = '1' AND (t_match.foul=0 OR t_match.foul IS NULL)) ORDER BY score+0 DESC LIMIT ?,?";
 			
 			try {
 				pstmt = conn.prepareStatement(sql1);
