@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.edu.hbcit.smms.dao.gamemanagedao.QueryMark;
 import cn.edu.hbcit.smms.pojo.QueryMarkPoJo;
 import cn.edu.hbcit.smms.services.gamemanageservices.QueryMarkServices;
 
@@ -60,8 +61,14 @@ public class QueryMarkServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		
 		HttpSession session = request.getSession();
+		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString()); 
+		QueryMark qm1 = new QueryMark();
+		
+		
+		////////////////以上为添加积分
+		
+		
 		QueryMarkServices qm = new QueryMarkServices();
 		boolean flag = qm.selectAllMarks();
 		if(flag == false){                  //若t_mark表中没有记录,则插入学生总积分,若学生积分插入成功,则更新教工积分

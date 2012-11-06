@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -1046,4 +1047,133 @@ public class QueryMark {
 	        e.printStackTrace(); } 
 		return newmarkMap;
 	}
+	
+	/**
+	 * 
+	* 方法说明	查询记录
+	* 方法补充说明
+	* @param 参数名 参数类型 参数意义注释
+	* @return 返回值的类型 意义注释
+	* @exception 例外的类型 意义注释
+	 */
+	public HashMap selectRecord( int sex){
+		HashMap recordMap = new HashMap();
+		String sql = "SELECT * FROM t_record WHERE sex=?";
+		try {
+	        Connection myconn = dbc.getConn();
+	        log.debug("myconn"+myconn);
+	        if(myconn != null){
+	        	ResultSet rs = null;
+	            PreparedStatement statement = myconn.prepareStatement(sql);
+	            statement.setInt(0, sex);
+	            rs = statement.executeQuery(); 
+	            while(rs.next()){
+	            	String key = (rs.getInt(2)+";"+rs.getString(10)).trim();
+	            	String value = rs.getString(4);
+	            	recordMap.put(key, value);
+	            }
+	            rs.close();
+	            statement.close();
+	        }
+	        dbc.freeConnection(myconn);  
+	    }catch (SQLException e) {                 
+	        e.printStackTrace(); } 
+		return recordMap;
+	}
+	/**
+	 * 
+	* 方法说明	根据运动会id/性别 查询晋级数量
+	* 方法补充说明
+	* @param 参数名 参数类型 参数意义注释
+	* @return 返回值的类型 意义注释
+	* @exception 例外的类型 意义注释
+	 */
+	public HashMap selectNum(int sex,int sportsid ){
+		HashMap recordMap = new HashMap();
+		String sql = "SELECT * FROM t_finalitem WHERE gp2itid IN (SELECT id FROM t_group2item WHERE gp2spid IN (SELECT id FROM t_group2sports WHERE groupid IN (SELECT id FROM t_group WHERE groupsex=?))) AND sportsid = ? ORDER BY promotionnum";
+		try {
+	        Connection myconn = dbc.getConn();
+	        log.debug("myconn"+myconn);
+	        if(myconn != null){
+	        	ResultSet rs = null;
+	            PreparedStatement statement = myconn.prepareStatement(sql);
+	            statement.setInt(1, sportsid);
+	            statement.setInt(0, sex);
+	            rs = statement.executeQuery(); 
+	            int count = 0;
+	            while(rs.next()){
+	            	if (count == 0){
+	            		recordMap.put("number1", rs.getInt(8)+"");
+	            	}
+	            	String key = rs.getInt(1)+"";
+	            	String value = rs.getInt(8)+"";
+	            	recordMap.put(key, value);
+	            }
+	            rs.close();
+	            statement.close();
+	        }
+	        dbc.freeConnection(myconn);  
+	    }catch (SQLException e) {                 
+	        e.printStackTrace(); } 
+		return recordMap;
+	}
+	
+	/**
+	 * 
+	* 方法说明	根据运动会id/性别 查询比赛成绩
+	* 方法补充说明
+	* @param 参数名 参数类型 参数意义注释
+	* @return 返回值的类型 意义注释
+	* @exception 例外的类型 意义注释
+	 */
+	public String[][] selectSecore(int sex,int sportsid,HashMap map ){
+		String[][] scores = new String[map.size()-1][Integer.parseInt(map.get("number1").toString())+3];
+		String sql = "SELECT t_match.finalitemid,t_item.id,t_item.itemtype,t_match.playerid,t_match.score " +
+				"FROM t_match JOIN t_finalitem ON t_finalitem.id=t_match.finalitemid JOIN t_group2item ON " +
+				"t_group2item.id = t_finalitem.gp2itid JOIN t_item ON t_item.id = t_group2item.itemid JOIN " +
+				"t_group2sports ON t_group2sports.id=t_group2item.gp2spid " +
+				"JOIN t_group ON t_group2sports.groupid = t_group.id WHERE " +
+				"t_finalitem.sportsid=? AND t_group.groupsex=?";
+		try {
+	        Connection myconn = dbc.getConn();
+	        log.debug("myconn"+myconn);
+	        if(myconn != null){
+	        	ResultSet rs = null;
+	            PreparedStatement statement = myconn.prepareStatement(sql);
+	            statement.setInt(0, sportsid);
+	            statement.setInt(1, sex);
+	            rs = statement.executeQuery();
+	            Iterator temp = map.keySet().iterator();
+	            int count1=0;
+	            if(temp.hasNext()){
+	            	rs.beforeFirst();
+	            	int fid = Integer.parseInt(temp.next().toString());
+	            	if (count1 != 0){
+	            		int count = 3;
+	            		scores[count1][0] = fid+"";
+	            		while(rs.next()){
+	            			if(rs.getInt(1) == fid){
+	            				scores[count1][1] = rs.getInt(2)+"";
+	    			            scores[count1][2] = rs.getInt(3)+"";
+	    			            scores[count1][count] = rs.getInt(4)+";"+rs.getString(5);
+	    				        count++;
+	            			}
+	            			
+	            		}
+//		            	for(int i = 0; i < (map.size()-1);i++){
+//		            		
+//			            }
+	            	}
+	            	count1++;
+	            }
+	            
+	            rs.close();
+	            statement.close();
+	        }
+	        dbc.freeConnection(myconn);  
+	    }catch (SQLException e) {                 
+	        e.printStackTrace(); } 
+		return scores;
+	}
+	
 }
