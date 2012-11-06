@@ -1068,7 +1068,7 @@ public class QueryMark {
 	            statement.setInt(0, sex);
 	            rs = statement.executeQuery(); 
 	            while(rs.next()){
-	            	String key = (rs.getInt(2)+";"+rs.getString(10)).trim();
+	            	String key = (rs.getString(3)+";"+rs.getInt(2)+";"+rs.getString(10)).trim();
 	            	String value = rs.getString(4);
 	            	recordMap.put(key, value);
 	            }
@@ -1147,8 +1147,9 @@ public class QueryMark {
 	            int count1=0;
 	            if(temp.hasNext()){
 	            	rs.beforeFirst();
-	            	int fid = Integer.parseInt(temp.next().toString());
-	            	if (count1 != 0){
+	            	String old = temp.next().toString();
+	            	int fid = Integer.parseInt(old);
+	            	if (old != "number1"){
 	            		int count = 3;
 	            		scores[count1][0] = fid+"";
 	            		while(rs.next()){
@@ -1176,4 +1177,46 @@ public class QueryMark {
 		return scores;
 	}
 	
+	public ArrayList manageMark(HashMap num,String[][] score,HashMap record,int[] mark,int[] recordmark,String sex){
+		ArrayList result = new ArrayList();
+		Iterator temp = num.keySet().iterator();
+		//int count1=0;
+        if(temp.hasNext()){
+        	String fid = temp.next().toString();
+        	if(fid != "number1"){
+        		int value = Integer.parseInt(num.get(fid).toString());
+        		for(int j = 0; j<score.length;j++){
+        			if (score[j][0]==fid){
+        				
+        				for (int i = 3; i<(value+3);i++){
+	            			int newmark = mark[i];
+	            			Iterator temp2 = record.keySet().iterator(); 
+	            			String score2 = score[j][i];
+	            			while(temp2.hasNext()){
+	            				String[] value2 = temp2.next().toString().split(";");
+	            				if(value2[0].equals(sex) && value2[1].equals(score[j][1])){
+	            					if(value2[2].equals("0")){
+	            						newmark += recordmark[0];
+	            					}
+	            				}
+	            			}
+	            			Iterator temp3 = record.keySet().iterator(); 
+	            			while(temp3.hasNext()){
+	            				String[] value2 = temp3.next().toString().split(";");
+	            				if(value2[0].equals(sex) && value2[1].equals(score[j][1])){//还未调用比较大小的方法
+	            					if(value2[2].equals("1")){
+	            						newmark += recordmark[1];
+	            					}
+	            				}
+	            			}
+	            			String sql = "";
+	            			result.add(sql);
+        				}
+        				
+        			}
+        		}
+        	}
+        }
+        return result;
+	}
 }
