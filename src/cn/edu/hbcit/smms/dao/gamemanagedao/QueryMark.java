@@ -1191,28 +1191,52 @@ public class QueryMark {
         				for (int i = 3; i<(value+3);i++){
 	            			int newmark = mark[i];
 	            			Iterator temp2 = record.keySet().iterator(); 
-	            			String score2 = score[j][i];
+	            			String[] score2 = score[j][i].split(";");
+	            			AddScore as = new AddScore();
 	            			while(temp2.hasNext()){
 	            				String[] value2 = temp2.next().toString().split(";");
 	            				if(value2[0].equals(sex) && value2[1].equals(score[j][1])){
 	            					if(value2[2].equals("0")){
-	            						newmark += recordmark[0];
+	            						String key = sex+";"+value2[1]+";"+"0";
+	            						String sscore = record.get(key).toString();
+	            						if(score[j][0].equals("2")){
+	            							if(as.isScoreMax(score2[1], sscore)){
+		            							newmark += recordmark[0];
+		            						}
+	            						}else{
+	            							if(as.isScoreMin(score2[1], sscore)){
+		            							newmark += recordmark[0];
+		            						}
+	            						}
+	            						
+	            						
 	            					}
 	            				}
 	            			}
-	            			Iterator temp3 = record.keySet().iterator(); 
+	            			Iterator temp3 = record.keySet().iterator();
 	            			while(temp3.hasNext()){
 	            				String[] value2 = temp3.next().toString().split(";");
 	            				if(value2[0].equals(sex) && value2[1].equals(score[j][1])){//还未调用比较大小的方法
-	            					if(value2[2].equals("1")){
-	            						newmark += recordmark[1];
+	            					if(value2[2].equals("1") ){
+	            						if(value2[2].equals("0")){
+		            						String key = sex+";"+value2[1]+";"+"0";
+		            						String sscore = record.get(key).toString();
+		            						if(score[j][0].equals("2")){
+		            							if(as.isScoreMax(score2[1], sscore)){
+			            							newmark += recordmark[0];
+			            						}
+		            						}else{
+		            							if(as.isScoreMin(score2[1], sscore)){
+			            							newmark += recordmark[0];
+			            						}
+		            						}
+		            					}
 	            					}
 	            				}
 	            			}
-	            			String sql = "";
+	            			String sql = "UPDATE t_position SET marks="+newmark+" WHERE finalitemid="+(Integer.parseInt(fid))+" AND playerid="+(Integer.parseInt(score2[0]));
 	            			result.add(sql);
         				}
-        				
         			}
         		}
         	}
