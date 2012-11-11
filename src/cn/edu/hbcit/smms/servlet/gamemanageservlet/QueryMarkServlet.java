@@ -64,7 +64,13 @@ public class QueryMarkServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int sportsId = Integer.parseInt(session.getAttribute("currSportsId").toString()); 
 		QueryMark qm1 = new QueryMark();
-		
+		ArrayList items = qm1.selectGroup2Item(1, sportsId);
+		String marks = qm1.selectJifen(sportsId);
+		ArrayList boySql = qm1.getMarkSql(items, marks, sportsId);
+		qm1.updateBySql(boySql);
+		ArrayList gitems = qm1.selectGroup2Item(1, sportsId);
+		ArrayList gSql = qm1.getMarkSql(gitems, marks, sportsId);
+		qm1.updateBySql(gSql);
 		
 		////////////////以上为添加积分
 		

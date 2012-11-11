@@ -1048,7 +1048,7 @@ public class QueryMark {
 		return newmarkMap;
 	}
 	
-	/**
+	/************************************************
 	 * 
 	* 方法说明	查询记录
 	* 方法补充说明
@@ -1090,7 +1090,7 @@ public class QueryMark {
 	 */
 	public HashMap selectNum(int sex,int sportsid ){
 		HashMap recordMap = new HashMap();
-		String sql = "SELECT * FROM t_finalitem WHERE gp2itid IN (SELECT id FROM t_group2item WHERE gp2spid IN (SELECT id FROM t_group2sports WHERE groupid IN (SELECT id FROM t_group WHERE groupsex=?))) AND sportsid = ? ORDER BY promotionnum";
+		String sql = "SELECT * FROM t_finalitem WHERE gp2itid IN (SELECT id FROM t_group2item WHERE gp2spid IN (SELECT id FROM t_group2sports WHERE groupid IN (SELECT id FROM t_group WHERE groupsex=?))) AND sportsid = ? ORDER BY promotionnum finalitemtype<>3";
 		try {
 	        Connection myconn = dbc.getConn();
 	        log.debug("myconn"+myconn);
@@ -1177,6 +1177,14 @@ public class QueryMark {
 		return scores;
 	}
 	
+	/**
+	 * 返回积分更新sql语句
+	* 方法说明	
+	* 方法补充说明
+	* @param 参数名 参数类型 参数意义注释
+	* @return 返回值的类型 意义注释
+	* @exception 例外的类型 意义注释
+	 */
 	public ArrayList manageMark(HashMap num,String[][] score,HashMap record,int[] mark,int[] recordmark,String sex){
 		ArrayList result = new ArrayList();
 		Iterator temp = num.keySet().iterator();
@@ -1243,4 +1251,203 @@ public class QueryMark {
         }
         return result;
 	}
+	/**
+	 * ***********************插入积分方法**********************************
+	 */
+	/**
+	 * 根据性别、运动会id查询本届运动会有的项目
+	 */
+	public ArrayList selectGroup2Item(int sex,int sportsid ){
+		ArrayList items = new ArrayList();
+		String sql = "SELECT t_group2item.id,t_item.itemtype  FROM t_group2item JOIN t_group2sports" +
+				" ON t_group2sports.id = t_group2item.gp2spid JOIN t_group ON t_group2sports.groupid = " +
+				"t_group.id JOIN t_item ON t_group2item.itemid=t_item.id WHERE t_group2sports.sportsid = ? " +
+				"AND t_group.groupsex=? AND t_group.grouptype=1";
+		try {
+	        Connection myconn = dbc.getConn();
+	        //log.debug("myconn"+myconn);
+	        if(myconn != null){
+	        	ResultSet rs = null;
+	            PreparedStatement statement = myconn.prepareStatement(sql);
+	            statement.setInt(0, sportsid);
+	            statement.setInt(1, sex);
+	            rs = statement.executeQuery(); 
+	            int count = 0;
+	            while(rs.next()){
+	            	items.add(rs.getInt(1)+";"+rs.getString(2));
+	            }
+	            rs.close();
+	            statement.close();
+	        }
+	        dbc.freeConnection(myconn);  
+	    }catch (SQLException e) {                 
+	        e.printStackTrace(); } 
+		return items;
+	}
+	
+	/**
+	 * 根据group2itemid查询晋级数量
+	* 方法说明	
+	* 方法补充说明
+	* @param 参数名 参数类型 参数意义注释
+	* @return 返回值的类型 意义注释
+	* @exception 例外的类型 意义注释
+	 */
+	public int selectJinjishuliang(int gp2itid,int sportsid ){
+		int num = 0;
+		String sql = "SELECT promotionnum FROM t_finalitem WHERE gp2itid=? AND finalitemtype<>3  AND sportsid=?";
+		try {
+	        Connection myconn = dbc.getConn();
+	        //log.debug("myconn"+myconn);
+	        if(myconn != null){
+	        	ResultSet rs = null;
+	            PreparedStatement statement = myconn.prepareStatement(sql);
+	            statement.setInt(1, sportsid);
+	            statement.setInt(0, gp2itid);
+	            rs = statement.executeQuery(); 
+	            int count = 0;
+	            while(rs.next()){
+	            	num=rs.getInt(1);
+	            }
+	            rs.close();
+	            statement.close();
+	        }
+	        dbc.freeConnection(myconn);  
+	    }catch (SQLException e) {                 
+	        e.printStackTrace(); } 
+		return num;
+	}
+	
+	//查询积分分配
+	public String selectJifen(int sportsid ){
+		String num = "";
+		String sql = "SELECT mark FROM t_rule WHERE sportsid = ?";
+		try {
+	        Connection myconn = dbc.getConn();
+	        //log.debug("myconn"+myconn);
+	        if(myconn != null){
+	        	ResultSet rs = null;
+	            PreparedStatement statement = myconn.prepareStatement(sql);
+	            statement.setInt(0, sportsid);;
+	            rs = statement.executeQuery(); 
+	            int count = 0;
+	            while(rs.next()){
+	            	num = rs.getString(1);
+	            }
+	            rs.close();
+	            statement.close();
+	        }
+	        dbc.freeConnection(myconn);  
+	    }catch (SQLException e) {                 
+	        e.printStackTrace(); } 
+	    
+		return num;
+	}
+	
+	//返回更新积分sql语句
+	public ArrayList getMarkSql(ArrayList items, String markShare , int sid){
+		
+		ArrayList sql = new ArrayList();
+		String[] marks = markShare.split(",");
+		for (int i = 0;i<items.size();i++){
+			
+			String[] item = items.get(i).toString().split(";");
+			int jinjiNum = selectJinjishuliang(Integer.parseInt(item[0]),sid );
+			
+			if (item[1].equals("2")) {
+				String sql1 = "SELECT finalitemid,playerid FROM t_match WHERE finalitemid" +
+						" IN (SELECT id FROM t_finalitem WHERE gp2itid = ? AND finalitemtype<>1) ORDER BY score desc LIMIT ?";
+				try {
+			        Connection myconn = dbc.getConn();
+			        //log.debug("myconn"+myconn);
+			        if(myconn != null){
+			        	ResultSet rs = null;
+			            PreparedStatement statement = myconn.prepareStatement(sql1);
+			            statement.setInt(1, Integer.parseInt(item[0]));
+			            statement.setInt(2,jinjiNum);
+			            rs = statement.executeQuery(); 
+			            int count = 0;
+			            while(rs.next()){
+
+			            	int mark = 0;
+			            	
+			            	if(count>jinjiNum){
+			            		mark = 0;
+			            	}else{
+			            		mark = Integer.parseInt(marks[count]);
+			            	}
+			            	String temp = "UPDATE t_position SET marks="+mark+" WHERE finalitemid="+rs.getInt(1)+" AND playerid="+rs.getInt(2);
+			            	sql.add(temp);
+			            	count++;
+			            }
+			            rs.close();
+			            statement.close();
+			        }
+			        dbc.freeConnection(myconn);  
+			    }catch (SQLException e) {                 
+			        e.printStackTrace(); } 
+				
+			}else{
+					String sql1 = "SELECT finalitemid,playerid FROM t_match WHERE finalitemid" +
+							" IN (SELECT id FROM t_finalitem WHERE gp2itid = ? AND finalitemtype<>1) ORDER BY score LIMIT ?";
+					try {
+				        Connection myconn = dbc.getConn();
+				        //log.debug("myconn"+myconn);
+				        if(myconn != null){
+				        	ResultSet rs = null;
+				            PreparedStatement statement = myconn.prepareStatement(sql1);
+				            statement.setInt(1, Integer.parseInt(item[0]));
+				            statement.setInt(2,jinjiNum);
+				            rs = statement.executeQuery(); 
+				            int count = 0;
+				            while(rs.next()){
+				            	
+				            	int mark = 0;
+				            	
+				            	if(count>jinjiNum){
+				            		mark = 0;
+				            	}else{
+				            		mark = Integer.parseInt(marks[count]);
+				            	}
+				            	String temp = "UPDATE t_position SET marks="+mark+" WHERE finalitemid="+rs.getInt(1)+" AND playerid="+rs.getInt(2);
+				            	sql.add(temp);
+				            	count++;
+				            }
+				            rs.close();
+				            statement.close();
+				        }
+				        dbc.freeConnection(myconn);  
+				    }catch (SQLException e) {                 
+				        e.printStackTrace(); } 
+					
+				
+			}
+		}
+		return sql;
+	}
+	
+	/**
+	 * 根据sql语句修改分组情况
+	 * @param sql
+	 */
+	public void updateBySql(ArrayList sql){
+        try {
+            Connection conn = dbc.getConn();
+            if(conn != null){
+                
+                for (int i = 0; i < sql.size(); i++){
+                	String temp = sql.get(i).toString();
+                	PreparedStatement statement = conn.prepareStatement(temp);
+                	statement.executeUpdate(); 
+                	statement.close();
+                }
+                
+            }
+            dbc.freeConnection(conn);  
+            }catch (SQLException e) {                 
+            	
+            e.printStackTrace(); } 
+            
+	}
+	
 }

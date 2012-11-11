@@ -8,7 +8,7 @@
                 <driver-class>com.mysql.jdbc.Driver</driver-class>
                 <driver-properties>
                         <property name="user" value="root" />
-                        <property name="password" value="root" />
+                        <property name="password" value="" />
                 </driver-properties>
                 <maximum-connection-count>100</maximum-connection-count>
                 <minimum-connection-count>10</minimum-connection-count>
